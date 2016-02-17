@@ -1,0 +1,48 @@
+<?php $quote2sales=Mage::helper('quote2sales')->getClassObject(); ?>
+<table  summary='Items Quoted' bgcolor="#f6f6f6" border="0" style="margin-top:2em; border-collapse:collapse;" width="100%" >
+<?php
+foreach ($this->getItems() as $item): ?>
+        <tbody>
+            <tr><td  style="font-size:12px; font-weight:bold;padding:5px 0px 6px 9px;  line-height:1em;width:30%">Item Name</td>
+                <td  style="font-size:12px; font-weight:bold; padding:5px 9px 6px 0px;  line-height:1em;"> : </td>
+                <td style="padding-left:5px;width:60%"><?php echo $item->getItemName(); ?></td>
+            </tr>
+            <tr><td  style="font-size:12px; font-weight:bold; padding:5px 0px 6px 9px;  line-height:1em;width:30%">SKU</td>
+                <td  style="font-size:12px; font-weight:bold; padding:5px 9px 6px 0px;  line-height:1em;"> : </td>
+                <td style="padding-left:5px;width:60%"><?php echo $item->getSku(); ?></td>
+            </tr>
+            <tr><td  style="font-size:12px; font-weight:bold; padding:5px 0px 6px 9px;  line-height:1em;width:30%">When Needed</td>
+                <td  style="font-size:12px; font-weight:bold; padding:5px 9px 6px 0px;  line-height:1em;"> : </td>
+                <td style="padding-left:5px;width:60%"><?php echo $item->getWhenNeed(); ?></td>
+            </tr>
+            <tr><td  style="font-size:12px; font-weight:bold; padding:5px 0px 6px 9px;  line-height:1em;width:30%">Frequency</td>
+                <td  style="font-size:12px; font-weight:bold; padding:5px 9px 6px 0px;  line-height:1em;"> : </td>
+                <td style="padding-left:5px;width:60%"><?php echo $item->getFrequency(); ?></td>
+            </tr>
+            <tr><td  style="font-size:12px; font-weight:bold; padding:5px 0px 6px 9px; line-height:1em;width:30%">Quantity</td>
+                <td  style="font-size:12px; font-weight:bold; padding:5px 9px 6px 0px;  line-height:1em;"> : </td>
+                <td style="padding-left:5px;width:60%"><?php echo $item->getQty(); ?></td>
+            </tr>
+            <tr><td  style="font-size:12px; font-weight:bold; padding:5px 0px 6px 9px;  line-height:1em;width:30%">Target Price</td>
+                <td  style="font-size:12px; font-weight:bold; padding:5px 9px 6px 0px;  line-height:1em;"> : </td>
+                <td style="padding-left:5px;width:60%"><?php echo Mage::helper('core')->currency($item->getTargetPrice(), true, false); ?></td>
+            </tr>
+            <tr><td  style="font-size:12px; font-weight:bold; padding:5px 0px 6px 9px;  line-height:1em;width:30%">Comment</td>
+                <td  style="font-size:12px; font-weight:bold; padding:5px 9px 6px 0px;  line-height:1em;"> : </td>
+                <td style="padding-left:5px;width:60%"><?php echo $item->getComment(); ?></td>
+            </tr>
+            <tr><td  style="font-size:12px; font-weight:bold; padding:5px 0px 6px 9px;  line-height:1em;width:30%">Comment</td>
+                <td  style="font-size:12px; font-weight:bold; padding:5px 9px 6px 0px;  line-height:1em;"> : </td>
+                <td style="padding-left:5px;width:60%">
+                    <?php if($item->getStatus()==$quote2sales::QUOTE_PRODUCT_STATUS_ACTIVE){$color='green';
+                        $status=Mage::helper('quote2sales')->getQuoteProductStatus($quote2sales::QUOTE_PRODUCT_STATUS_ACTIVE);
+                    }else{$color='red';
+                        $status=Mage::helper('quote2sales')->getQuoteProductStatus($quote2sales::QUOTE_PRODUCT_STATUS_DOES_NOT_EXIST);
+                    } ?>
+                    <span style="color:<?php echo $color ?>"><?php echo $status ?></span>
+                </td>
+            </tr>
+            <tr><td colspan="3"><hr/></td></tr>
+        </tbody>
+<?php endforeach; ?>
+</table>

@@ -1,0 +1,135 @@
+.yt-menu-nav{
+	float:right;
+}
+#nav {
+	float: left;
+	margin: 0;
+	padding: 0;
+	width: 100%;
+	border-bottom:1px solid #ddd;
+	background-color:#fff;
+}
+#nav > li.level0{
+	border-left: 1px solid #ddd;
+	border-right: 1px solid #ddd;
+}
+/************** ALL LEVELS  *************/
+
+#nav li.over {
+	z-index: 999;
+}
+#nav a, #nav a:hover,
+#nav a:active, #nav a:focus {
+	display: block;
+	text-decoration: none;
+}
+#nav span {
+	display: block;
+	cursor: pointer;
+	white-space: nowrap;
+}
+#nav li ul span {
+	white-space: normal;
+	padding: 0;
+}
+
+/************ 0 LEVEL  ***************/
+#nav > li {
+	float: left;
+	position: relative;
+	width:100%;
+}
+.yt-menu-nav > #nav > li > a > span{
+	font-size:108.3%;
+		/*color: #444;*/
+	line-height:23px;
+	padding:9px 0;
+}
+.yt-menu-nav > #nav > li.active > a > span,
+.yt-menu-nav > #nav > li > a:hover > span{
+	color:#fff;
+}
+.yt-menu-nav #nav li.parent > a{
+	position:relative;
+}
+.yt-menu-nav > #nav > li > a{
+	padding:0 20px;
+	display:inline-block;
+	width:100%;
+}
+.yt-menu-nav #nav li.parent > a:after {
+    position:absolute;
+	background:url(../images/ico-menu-parent.png);
+	width:15px;
+	height:15px;
+	top:13px;
+	right:10px;
+	content:"";
+}	
+.yt-menu-nav #nav li.parent.active > a:after,
+.yt-menu-nav #nav li.parent > a:hover:after {
+	background:url(../images/ico-menu-parent-w.png);
+}
+
+
+/************ 2ND LEVEL ************/
+#nav ul {
+	position: absolute;
+	min-width:220px;
+	padding: 0;
+	top: 0px;
+	left: -10000px;
+	margin: 0;
+	z-index:1;
+}
+#nav  ul.level0 {
+}
+#nav ul li {
+	float: none;
+	background: none;
+}
+
+
+
+/*------------------show menu-------------------*/
+#nav li > ul { 
+	background: #fff;
+	-ms-box-shadow: 2px 0px 6px 0px rgba(0, 0, 0, 0.3);
+	-o-box-shadow: 2px 0px 6px 0px rgba(0, 0, 0, 0.3);
+	-moz-box-shadow: 2px 0px 6px 0px rgba(0, 0, 0, 0.3);
+	-webkit-box-shadow: 2px 0px 6px 0px rgba(0, 0, 0, 0.3);
+	box-shadow: 2px 0px 6px 0px rgba(0, 0, 0, 0.3);
+}
+
+#nav > li.over > ul { 
+   top: 0px;
+   left: 100%;
+}
+
+#nav > li > ul li { 
+	position: relative;
+	border-bottom:1px solid #ddd;
+}
+#nav li ul li a{
+	padding:14px 30px ;
+	line-height:100%;
+	white-space:nowrap;
+}
+#nav li.active > a,
+#nav li ul li a:hover{
+	color:#fff;
+}
+#nav li li li.over li a,
+#nav li li li.active li a 
+#nav li.active li li.over li a,
+#nav li.active li li.active li a {
+	color: #fff;
+} 	
+#nav li.over > ul li.over > ul { 
+	top: 0px; 
+	left: 220px; 
+}
+#nav li.over ul ul { 
+	left: -10000px; 
+}
+

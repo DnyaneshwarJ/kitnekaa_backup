@@ -1,0 +1,17 @@
+<?php
+$shopp_lists = $this->getShoppingLists();
+?>
+<?php
+if (count($shopp_lists) > 0) {
+    foreach ($shopp_lists as $list) { ?>
+        <label class="kit_sllist">
+            <input type="radio" class="opt_sl_name" name="opt_sl_name"
+                   value="<?php echo $list->getListId() ?>"
+                   data-slname="<?php echo $list->getListName() ?>"/><span><?php echo $list->getListName() ?></span>
+        </label>
+    <?php }
+} else { ?>
+    <label class="kit_files">
+        <span>No List Available</span>
+    </label>
+<?php } ?>

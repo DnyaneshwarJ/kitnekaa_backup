@@ -1,0 +1,17 @@
+===== 2.4.0 =====
+  * CE 1.9.2.2 compatibility
+  * Added default message for 'Notify Customer On Availability' vacation mode
+
+===== 2.1.0 =====
+  * Central translations file
+
+===== 2.0.0 =====
+  * Major release
+
+===== 1.0.2 =====
+  * Added automatically exit 'Notify Customer On Availability' mode
+
+===== 1.0.1 =====
+  * Added use vacation status instead of disabled to eliminate further enable of actually disabled products
+
+===== 1.0 - Initial release =====

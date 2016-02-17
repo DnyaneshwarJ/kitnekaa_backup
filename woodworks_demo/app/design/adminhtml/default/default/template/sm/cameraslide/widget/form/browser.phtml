@@ -1,0 +1,49 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: Vu Van Phan
+ * Date: 03-02-2015
+ * Time: 15:27
+ */
+//var_dump($this->getElement()->getHtmlId());
+//die();
+?>
+<tr>
+    <td class="label">
+        <label for="<?php echo $this->getElement()->getHtmlId() ?>"><?php echo $this->getElement()->getLabel() ?></label>
+    </td>
+    <td class="value">
+        <input
+            id="<?php echo $this->getElement()->getHtmlId() ?>"
+            name="<?php echo $this->getElement()->getName() ?>"
+            value="<?php echo $this->getElement()->getValue() ?>"
+            title="<?php echo $this->getElement()->getTitle() ?>"
+            onclick="<?php echo $this->getElement()->getData('onclick') ?>"
+            onchange="<?php echo $this->getElement()->getData('onchange') ?>"
+            <?php if($this->getElement()->getData('readonly') == true): ?>
+                readonly
+            <?php endif ?>
+            type="text"
+            class="input-text"
+            style="width: 218px; vertical-align: top;"
+        />
+        <?php echo $this->getChildHtml('browsersBtn') ?>
+        <?php echo $this->getChildHtml('clearBtn') ?>
+        <?php if($note = $this->getElement()->getData('note')): ?>
+            <p class="note" id="note_delay">
+                <span><?php echo $note ?></span>
+            </p>
+        <?php endif ?>
+    </td>
+</tr>
+<script type="text/javascript">
+    window.on_<?php echo $this->getElement()->getHtmlId() ?>_clear_click = function()
+    {
+        var target = $('<?php echo $this->getElement()->getHtmlId() ?>');
+        if(target)
+        {
+            target.value = '';
+            if(fireEvent)fireEvent(target, 'change');
+        }
+    }
+</script>

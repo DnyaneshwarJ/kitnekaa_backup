@@ -1,0 +1,6 @@
+<?php
+
+class Unirgy_DropshipTierShipping_Block_Vendor_V2_SimpleCondRates_Subrows extends Unirgy_Dropship_Block_Adminhtml_SystemConfigFormField_FieldContainer
+{
+
+}

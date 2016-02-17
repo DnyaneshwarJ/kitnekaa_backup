@@ -1,0 +1,134 @@
+<?php
+$is_ajax = Mage::app()->getRequest()->getPost('is_ajax');
+if (!Mage::getSingleton('customer/session')->isLoggedIn() && !$is_ajax) {
+    ?>
+    <div id="login-popup" class="login-popup" style="display: none">
+        <div class="login-popup-inner">
+                <div class="login-popup-title">Required Login</div>
+                <ul class="messages" id="ajax-login-errors" style="display: none;">
+                    <li class="error-msg">
+                        <ul>
+                            <li><span>An error occurred, please try again later.</span></li>
+                        </ul>
+                    </li>
+                </ul>
+
+            <div id="loading_min_login" style="display:none;margin-bottom: 10px; text-align: center;">
+                <img class="v-middle" alt=""
+                     src="<?php echo $this->getSkinUrl('sm/cartpro/images/ajax-loader-tr.gif') ?>"/>
+                <span><?php echo $this->__('Processing...'); ?></span>
+            </div>
+            <form action="<?php echo Mage::getUrl('customer/account/loginPost/') ?>" id="frm-kit-min-login">
+
+                <div class="iteminput">
+                    <input class="required-entry validate-email in-min-login" placeholder="* Email Address" name="login[username]" title="Email Address"
+                           value="" id="email" type="text" />
+                </div>
+                <div class="iteminput">
+                    <input name="login[password]" class="required-entry validate-password in-min-login" id="pass" title="Password"
+                           placeholder="* Password"
+                           type="password" />
+                </div>
+                <div class="itemBtn">
+                    <a class="notAddToLink" href="<?php echo Mage::getBaseUrl(); ?>customer/account/login/">Register with us</a>
+                    <input type="hidden" value="" id="last-obj"/>
+                    <input type="hidden" value="1" name="is_ajax"/>
+                    <button class="button btn-min-login" title="Login" type="button"><span><span>Login</span></span>
+                    </button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+
+    <script>
+        jQuery(document).ready(function ($) {
+            $("#login-popup").hide();
+            $('.btn-min-login').on('click',function (e) {
+                var validator = new Validation('frm-kit-min-login');
+                if(validator.validate()) {
+                    var last_obj_id = $("#last-obj").val();
+
+                    $("#loading_min_login").show();
+                    jQuery.ajax({
+                        url: '<?php echo Mage::getUrl('customer/account/loginPost/') ?>',
+                        type: 'POST',
+                        //cache: false,
+                        //timeout: 3000,
+                        data: $("#frm-kit-min-login").serialize(),
+                        success: function (response) {
+                            var data = jQuery.parseJSON(response);
+                            //alert(data.success);
+                           /* if (data.success) {
+                                jQuery.ajax({
+                                    url: '<?php echo Mage::getUrl('customer/account/ajaxLoginSuccess') ?>',
+                                    type: 'POST',
+                                    success: function (response) {
+
+                                        $('.show-login-popup').html(response);
+                                        var data = jQuery.parseJSON(response);
+                                        //alert(data.success);
+                                        if (data.success) {
+                                            $(".ifnotlogin").hide();
+                                            $(".iflogin").show();
+                                            showAjaxSuccessMsg(data.msg);
+                                            $("#" + last_obj_id).trigger('click');
+                                        }
+                                        else {
+                                            showMinLoginErrorMsg(data.msg);
+                                        }
+
+                                        $("#loading_min_login").hide();
+                                    }
+                                });
+                            }*/
+
+                          if (data.success) {
+                                $(".ifnotlogin").hide();
+                                $(".iflogin").show();
+                                showAjaxSuccessMsg(data.msg);
+                                $("#" + last_obj_id).trigger('click');
+                            }
+                            else {
+                              showAjaxErrorMsg(data.msg);
+                            }
+
+                            $("#loading_min_login").hide();
+                        }
+                    });
+                }
+            });
+
+            $('.show-login-popup').on('click',function (e) {
+                //e.defaultPrevented();
+                e.stopPropagation();
+                $("#last-obj").val($(this).data('id'));
+                $("#login-popup").show();
+                $(this).append($("#login-popup"));
+                //$(".ifnotlogin").hide();
+                //$(".iflogin").show();
+
+            });
+            $(document.body).on('click',function (e) {
+                $("#login-popup").hide();
+            });
+            $('.login-popup').on('click',function (e) {
+                e.stopPropagation();
+            });
+
+            $('.in-min-login').on('keyup',function (e) {
+                e.which = e.which || e.keyCode;
+                if(e.which == 13) {
+                    $('.btn-min-login').click();
+                }
+            });
+
+        });
+        function showMinLoginErrorMsg(msg) {
+            jQuery("#ajax-login-errors").show();
+            jQuery("#ajax-login-errors").find('span').html(msg);
+            jQuery("#ajax-login-errors").delay(3000).fadeOut(1000);
+        }
+    </script>
+
+<?php } ?>

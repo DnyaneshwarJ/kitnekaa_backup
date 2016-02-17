@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <UnirgyCustom_DropshipQuote2sale>
+            <active>true</active>
+            <codePool>local</codePool>
+            <depends>
+                <Unirgy_Dropship />
+            </depends>
+            <depends>
+                <Kitnekaa_Quote2SalesCustom />
+            </depends>
+        </UnirgyCustom_DropshipQuote2sale>
+    </modules>
+</config>

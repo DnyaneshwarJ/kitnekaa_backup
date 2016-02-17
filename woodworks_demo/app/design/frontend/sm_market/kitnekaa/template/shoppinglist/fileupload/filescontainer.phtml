@@ -1,0 +1,43 @@
+<?php $list_item_id=$this->getData('list_item_id'); ?>
+<ul class="messages" style="display: none" id="file_error_msg">
+    <li class="error-msg">
+        <ul>
+            <li><span>No Products available in Shopping List! </span>
+            </li>
+        </ul>
+    </li>
+</ul>
+    <div>
+        <form action="<?php echo Mage::getBaseUrl() . 'shoppinglist/index/uploadShopFiles' ?>" method="post" name="frm_shop_files" id="frm_shop_files" enctype="multipart/form-data">
+            <input type="hidden" value="<?php echo $list_item_id ?>" name="list_item_id" id="list_item_id"/>
+
+            <?php $list_attachmts=$this->getShoppingAttachments($list_item_id);
+            $i=1;
+            ?>
+            <?php foreach($list_attachmts as $la){ ?>
+            <label class="kit_files">
+                <span><a href="<?php echo Mage::helper('shoppinglist')->getAttachmentUrl().$la->getFileName(); ?>" target="_blank"><?php echo $la->getFileName() ?></a></span>
+                <a title="Remove Item" class="icon-remove btn-remove btn-remove2 remov_file_btn" onclick="removeAttachment('<?php echo $list_item_id ?>','<?php echo $la->getFileId()  ?>')"></a>
+            </label>
+            <?php $i++; } ?>
+            <?php for($k=$i;$k<=3;$k++){ ?>
+                <input type="file" name="shop_files[]" class="input-text <?php echo $k==3?'required-image-pdf':'' ?>"/>
+            <?php } ?>
+            <?php if(count($list_attachmts)<3){ ?>
+                <div>Allowed types ( .jpg, .jpeg, .png, .gif, .bmp and .pdf ) </div>
+                <button type="button" onclick="uploadFiles()" class="shop-quote kit_popup_btn" id="btn_shop_upload">UPLOAD</button>
+            <?php } ?>
+        </form>
+    </div>
+
+
+<script type="text/javascript">
+    //<![CDATA[
+
+   /* Validation.add('required-image-pdf','Upload only image and pdf files!',function(v){
+        return  /^.*\.(jpg|JPG|png|PNG|pdf|PDF)$/i.test(v);
+    });*/
+    var theForm = new VarienForm('frm_shop_files', true);
+    //]]>
+</script>
+

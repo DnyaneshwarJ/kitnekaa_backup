@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+
+<!--suppress XmlUnboundNsPrefix -->
+<layout>
+    <default>
+        <reference name="head">
+            <action method="addJs" ifconfig="jeroenvermeulen_solarium/general/enabled">
+                <script>solr/autocomplete.js</script>
+            </action>
+        </reference>
+        
+        <reference name="header">
+    		<remove name="top.search"/>
+			<block type="kithnekaa_solr/form_mini" name="solr.form.mini" as="topSearch" template="solr/form.mini.phtml"/>
+			
+	<!--
+			<remove name="top.search">
+			<block type="solr/form_mini" name="solr.form.mini" as="topSearch" template="solr/form.mini.phtml"/>
+			-->	
+		</reference>
+		
+    </default>
+</layout>

@@ -1,0 +1,51 @@
+<?php
+$_tsHlp = Mage::helper('udtiership');
+$_yesnoOpts = Mage::getSingleton('udropship/source')->setPath('yesno')->toOptionHash();
+$store = Mage::app()->getDefaultStoreView();
+?>
+
+<div class="grid" style="width:500px">
+    <input id="<?php echo $this->getFieldName()?>" type="hidden" />
+    <table cellspacing="0" class="data" id="<?php echo $this->suffixId('cfgTable')?>" style="width:500px">
+        <col width="200" />
+        <col width="100" />
+        <col width="50" />
+        <col width="50" />
+        <thead>
+        <tr class="headings">
+            <th><?php echo Mage::helper('udropship')->__('If  Condition Up To') ?></th>
+            <th><?php echo Mage::helper('udropship')->__('Price') ?></th>
+            <th><?php echo Mage::helper('udropship')->__('Sort Order') ?></th>
+            <th><?php echo Mage::helper('udropship')->__('Action') ?></th>
+        </tr>
+        <tr id="<?php echo $this->suffixId('rowTpl')?>" style="display:none">
+            <td>
+                <input type="text" class="input-text" name="<?php echo $this->getFieldName()?>[$ROW][condition_to]" value="$CONDITION_TO" style="width:100px" />
+            </td>
+            <td>
+                <input type="text" class="input-text" name="<?php echo $this->getFieldName()?>[$ROW][price]" value="$PRICE" style="width:100px" />
+                <br /><strong>[<?php echo $store->getBaseCurrencyCode() ?>]</strong>
+            </td>
+            <td>
+                <input type="text" class="input-text" name="<?php echo $this->getFieldName()?>[$ROW][sort_order]" value="$SORT_ORDER" style="width:70px" />
+            </td>
+            <td>
+                <button type="button" class="scalable delete"><span></span></button>
+            </td>
+        </tr>
+        </thead>
+        <tfoot>
+        <tr>
+            <th colspan="4" class="a-left">
+                <div class="left"><button type="button" class="scalable add" id="<?php echo $this->suffixId('addBtn')?>"><span><?php echo Mage::helper('udropship')->__('Add Condition') ?></span></button></div>
+            </th>
+        </tr>
+        </tfoot>
+        <tbody>
+        </tbody>
+    </table>
+
+</div>
+
+<style type="text/css">
+</style>

@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<layout>
+    <adminhtml_customer_edit>
+        <reference name="customer_edit_tabs">
+            <action method="addTab">
+                <name>credit_verification</name>
+                <block>credittransfer/adminhtml_customerverification_tab</block>
+                <!--<block type="credittransfer/adminhtml_credittransfer_grid" name="test" />-->
+            </action>
+        </reference>
+     
+    </adminhtml_customer_edit>
+
+<adminhtml_credittransfer_adddocs>
+        <reference name="content">
+            <block type="core/template" name="credittransfer.docupload" template="credittransfer/customerverification/docupload.phtml"></block>
+        </reference>
+    </adminhtml_credittransfer_adddocs>
+</layout>

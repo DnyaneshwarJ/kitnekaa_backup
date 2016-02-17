@@ -1,0 +1,61 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+    <default>
+        <reference name="head">
+            <action method="addItem"><type>skin_js</type><name>js/angular.min.js</name></action>
+            <action method="addItem"><type>skin_js</type><name>js/jquery.dotdotdot.min.js</name></action>
+            <action method="addItem"><type>js</type><name>prototype/window.js</name></action>
+            <action method="addItem"><type>skin_js</type><name>js/fancybox/jquery.fancybox.pack.js</name></action>
+            <action method="addItem"><type>skin_css</type><name>css/fancybox/jquery.fancybox.css</name></action>
+            <action method="addItem"><type>skin_css</type><name>bootstrap/css/bootstrap-datetimepicker.css</name></action>
+            <action method="addItem"><type>skin_js</type><name>bootstrap/js/moment-with-locales.js</name></action>
+            <action method="addItem"><type>skin_js</type><name>bootstrap/js/bootstrap-datetimepicker.js</name></action>
+            <action method="addItem"><type>skin_css</type><name>css/intlTelInput.css</name></action>
+            <action method="addItem"><type>skin_js</type><name>js/intlTelInput.js</name></action>
+        </reference>
+        <!--<reference name="header">
+            <block type="core/template" name="kit_min_login" template="persistent/customer/form/kit_min_login.phtml" output="toHtml" />
+        </reference>-->
+        <reference name="content">
+            <block type="core/template" name="kit_ajax_msg" template="messages/ajax_messages.phtml" output="toHtml" />
+            <block type="core/template" name="kit_country_allowed" template="jsphp/js.phtml" output="toHtml" />
+            <block type="core/template" name="custom_valid_js" template="custom_validation/custom_validation_form.phtml" output="toHtml" />
+        </reference>
+        <!-- This line adds our newsletter template at the end of your site's body, remember to replace 'val' to match your folder path -->
+        <reference name="before_body_end">
+            <block type="core/template" name="company_popup" as="company_popup" template="company/company-popup.phtml" />
+        </reference>
+        <remove name="wishlist_sidebar"/>
+        <remove name="catalog.compare.sidebar1"/>
+    </default>
+    <customer_account_create>
+        <reference name="customer_form_register">
+            <action method="setTemplate"><template>persistent/customer/form/account.phtml</template></action>
+            <block type="customer/form_register" name="kit_form_register_inner" template="persistent/customer/form/register.phtml"/>
+            <block type="customer/form_login" name="kit_form_login" template="persistent/customer/form/kit_login.phtml"/>
+        </reference>
+    </customer_account_create>
+    <customer_account_login>
+        <reference name="customer_form_login">
+            <action method="setTemplate"><template>persistent/customer/form/account.phtml</template></action>
+            <block type="customer/form_register" name="kit_form_register_inner" template="persistent/customer/form/register.phtml"/>
+            <block type="customer/form_login" name="kit_form_login" template="persistent/customer/form/kit_login.phtml"/>
+        </reference>
+    </customer_account_login>
+    <customer_account_edit translate="label">
+        <reference name="customer_edit">
+            <block type="users/index" name="customer_cedit" template="company/form/company_details.phtml"/>
+        </reference>
+    </customer_account_edit>
+    <catalog_product_view translate="label">
+        <reference name="product.info">
+            <block type="udmultiprice/productVendors" name="product.vendors" as="product.vendors" template="udmultiprice/product/vendors.phtml">
+                <action method="addToParentGroup"><group>detailed_info</group></action>
+                <action method="setTitle" translate="value"><value>Select Vendor</value></action>
+            </block>
+            <block type="quote2sales/quote_index" name="quote_request_form" template="bobcares/quote2sales/request/form.phtml" >
+                <block type="core/template" name="uquote_vendor_list" template="udquote2sale/vendor/vendor_list.phtml"/>
+            </block>
+        </reference>
+    </catalog_product_view>
+</layout>

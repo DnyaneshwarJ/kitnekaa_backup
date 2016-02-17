@@ -1,0 +1,164 @@
+<?xml version="1.0"?>
+
+<config>
+	<modules>
+		<Gremlin_Ccavenue>
+			<version>1.1.0</version>
+		</Gremlin_Ccavenue>
+	</modules>
+	
+	<global>
+		<helpers>
+			<ccavenue>
+				<class>Gremlin_Ccavenue_Helper</class>
+			</ccavenue>
+		</helpers>
+		
+		<models>
+			<ccavenue>
+				<class>Gremlin_Ccavenue_Model</class>
+				<resourceModel>ccavenue_mysql4</resourceModel>
+			</ccavenue>
+			
+			<ccavenue_mysql4>
+				<class>Gremlin_Ccavenue_Model_Mysql4</class>
+				<entities>		  
+					<ccavenueredirect>
+						<table>gremlin_ccavenue_redirect</table>
+					</ccavenueredirect>		  
+					
+					<ccavenueresponse>
+						<table>gremlin_ccavenue_response</table>
+					</ccavenueresponse>
+				</entities>
+			</ccavenue_mysql4>
+		</models>
+		
+		<blocks>
+			<ccavenue>
+				<class>Gremlin_Ccavenue_Block</class>
+			</ccavenue>
+		</blocks>
+		
+		<resources>
+			<ccavenue2_setup>
+				<setup>
+					<module>Gremlin_Ccavenue</module>
+				</setup>
+				
+				<connection>
+					<use>core_setup</use>
+				</connection>
+			</ccavenue2_setup>
+			
+			<ccavenue_write>
+				<connection>
+					<use>core_write</use>
+				</connection>
+			</ccavenue_write>
+			
+			<ccavenue_read>
+				<connection>
+					<use>core_read</use>
+				</connection>
+			</ccavenue_read>
+		</resources>
+	</global>
+	
+	<default>
+		<payment>
+			<ccavenue>
+				<model>ccavenue/standard</model>
+				<active>0</active>
+				<title>CC Avenue: Credit Cards, Debit Cards, Net Banking</title>
+				<payment_action>sale</payment_action>
+				<integration_method>redirect</integration_method>
+				<test_mode>0</test_mode>
+				<merchant_id></merchant_id>
+				<access_code></access_code>
+				<encryption_key></encryption_key>
+				<allowspecific>0</allowspecific>
+				<sort_order>0</sort_order>
+			</ccavenue>
+		</payment>
+	</default>
+	
+	<frontend>
+		<routers>
+			<ccavenue>
+				<use>standard</use>
+				<args>
+					<module>Gremlin_Ccavenue</module>
+					<frontName>ccavenue</frontName>
+				</args>
+			</ccavenue>
+		</routers>
+
+		<layout>
+			<updates>
+				<gremlin_ccavenue>
+					<file>ccavenue.xml</file>
+				</gremlin_ccavenue>
+			</updates>
+		</layout>
+	</frontend>
+	
+	<admin>
+		<routers>
+			<ccavenue>
+				<use>admin</use>
+				<args>
+					<module>Gremlin_Ccavenue</module>
+					<frontName>ccavenue</frontName>
+				</args>
+			</ccavenue>
+		</routers>
+	</admin>
+	
+	<adminhtml>
+		<menu>
+			<ccavenue_logs translate="title" module="ccavenue">
+				<title>CC Avenue Logs</title>
+				<sort_order>85</sort_order>
+				<children>
+					
+					<redirect_log module="ccavenue">
+						<title>Redirect Log</title>
+						<action>ccavenue/redirectlog</action>
+					</redirect_log>
+					
+					<response_log module="ccavenue">
+						<title>Response Log</title>
+						<action>ccavenue/responselog</action>
+					</response_log>
+					
+				</children>
+			</ccavenue_logs>
+		</menu>
+	
+		<acl>
+			<resources>
+				<admin>
+					<children>
+						<ccavenue_logs translate="title" module="ccavenue">
+							<title>CC Avenue Logs</title>
+							<sort_order>85</sort_order>
+							<children>
+							
+								<redirect_log>
+									<title>Redirect Log</title>
+								</redirect_log>
+								
+								<response_log>
+									<title>Response Log</title>
+								</response_log>
+								
+							</children>
+						</ccavenue_logs>
+					</children>
+				</admin>
+			</resources>
+		</acl>
+	</adminhtml>
+
+</config>

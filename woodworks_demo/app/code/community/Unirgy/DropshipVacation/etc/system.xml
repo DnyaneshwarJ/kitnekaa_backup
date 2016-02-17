@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * Unirgy LLC
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the EULA
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://www.unirgy.com/LICENSE-M1.txt
+ *
+ * @category   Unirgy
+ * @package    Unirgy_Dropship
+ * @copyright  Copyright (c) 2008-2009 Unirgy LLC (http://www.unirgy.com)
+ * @license    http:///www.unirgy.com/LICENSE-M1.txt
+ */
+
+-->
+<config>
+    <sections>
+        <udropship>
+            <groups>
+                <customer>
+                    <fields>
+                        <vacation_message translate="label comment">
+                            <label>Vendor Vacation Message</label>
+                            <frontend_type>textarea</frontend_type>
+                            <sort_order>300</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <comment><![CDATA[NOTE: Use {{vacation_end}} code for "Vacation Ends At" date]]></comment>
+                        </vacation_message>
+                    </fields>
+                </customer>
+            </groups>
+        </udropship>
+    </sections>
+</config>

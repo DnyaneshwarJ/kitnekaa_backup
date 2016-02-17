@@ -1,0 +1,51 @@
+<?xml version="1.0"?>
+<config>
+	<acl>
+		<resources>
+			<admin>
+				<children>
+					<system>
+						<children>
+							<config>
+								<children>
+									<deal translate="title" module="deal">
+										<title>Deal</title>
+									</deal>
+								</children>
+							</config>
+						</children>
+					</system>
+					<deal translate="title" module="deal">
+						<title>Deal</title>
+						<children>
+							<deal translate="title" module="deal">
+								<title>Deal</title>
+							</deal>
+						</children>
+					</deal>
+				</children>
+			</admin>
+		</resources>
+	</acl>
+	<!-- <menu>
+		<deal translate="title" module="deal">
+			<title>SM Deals</title>
+			<sort_order>98</sort_order>
+			<depends>
+				<module>Sm_Deal</module>
+		 	</depends>
+		 	<children>
+				<deal translate="title" module="deal">
+					<title>Manage Deals</title>
+					<action>adminhtml/deal_deal</action>
+					<sort_order>0</sort_order>
+				</deal>
+				<Configuration translate="title" module="deal">
+					<title>Configuration</title>
+					<action>adminhtml/system_config/edit/section/deal</action>
+					<sort_order>1</sort_order>
+				</Configuration>
+			</children>
+		</deal>
+	</menu> -->
+</config>

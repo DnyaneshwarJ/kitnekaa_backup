@@ -1,0 +1,369 @@
+<?xml version="1.0"?>
+<config>
+    <sections>
+        <carriers>
+            <groups>
+                <udtiership translate="label" module="udropship">
+                    <label>Tier Shipping</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>210</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <active translate="label">
+                            <label>Enabled</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>1</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </active>
+
+                        <title translate="label">
+                            <label>Title</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>2</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </title>
+                        <name translate="label">
+                            <label>Method name</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>3</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </name>
+
+                        <handling_type translate="label">
+                            <label>Calculate Handling Fee</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>shipping/source_handlingType</source_model>
+                            <sort_order>7</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </handling_type>
+                        <handling_fee translate="label">
+                            <label>Handling Fee</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>8</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </handling_fee>
+
+                        <use_simple_rates translate="label">
+                            <label>Use Rates Setup</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>udtiership/source</source_model>
+                            <frontend_model>udropship/adminhtml_systemConfigFormField_dependSelect</frontend_model>
+                            <depend_fields>
+<carriers_udtiership_tiered_category_parent>0,2</carriers_udtiership_tiered_category_parent>
+<carriers_udtiership_match_subcategories>0,2</carriers_udtiership_match_subcategories>
+<carriers_udtiership_cost_calculation_type>0,2</carriers_udtiership_cost_calculation_type>
+<carriers_udtiership_additional_calculation_type>0,2</carriers_udtiership_additional_calculation_type>
+<carriers_udtiership_handling_calculation_type>0,2</carriers_udtiership_handling_calculation_type>
+<carriers_udtiership_handling_apply_method>0,2</carriers_udtiership_handling_apply_method>
+<carriers_udtiership_calculation_method>0,2</carriers_udtiership_calculation_method>
+<carriers_udtiership_rate_handling_attribute>0,2</carriers_udtiership_rate_handling_attribute>
+<carriers_udtiership_fallback_lookup>0,2</carriers_udtiership_fallback_lookup>
+<carriers_udtiership_fallback_rate_handling>0,2</carriers_udtiership_fallback_rate_handling>
+<carriers_udtiership_rates>0</carriers_udtiership_rates>
+<carriers_udtiership_simple_rates>1</carriers_udtiership_simple_rates>
+<carriers_udtiership_delivery_type>2,3,4</carriers_udtiership_delivery_type>
+<carriers_udtiership_delivery_type_selector>2,3,4</carriers_udtiership_delivery_type_selector>
+<carriers_udtiership_v2_rates>2</carriers_udtiership_v2_rates>
+<carriers_udtiership_v2_simple_rates>3</carriers_udtiership_v2_simple_rates>
+<carriers_udtiership_v2_simple_cond_rates>4</carriers_udtiership_v2_simple_cond_rates>
+                            </depend_fields>
+                            <sort_order>9</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </use_simple_rates>
+
+                        <use_customer_group translate="label">
+                            <label>Use Customer Group Condition</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>11</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </use_customer_group>
+
+                        <tiered_category_parent translate="label">
+                            <label>Parent category for tiered categories</label>
+                            <frontend_type>select</frontend_type>
+                            <frontend_model>udropship/adminhtml_systemConfigFormField_categoriesMultiSelect</frontend_model>
+                            <sort_order>15</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </tiered_category_parent>
+                        <match_subcategories translate="label">
+                            <label>Match Subcategories</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>16</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </match_subcategories>
+
+                        <allow_vendor_modify translate="label">
+                            <label>Allow Vendors modify rates from vendor portal</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>17</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </allow_vendor_modify>
+
+                        <cost_calculation_type translate="label">
+                            <label>"Cost for the first item" Calculation Type</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>udtiership/source</source_model>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </cost_calculation_type>
+                        <additional_calculation_type translate="label">
+                            <label>"Additional item cost" Calculation Type</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>udtiership/source</source_model>
+                            <sort_order>22</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </additional_calculation_type>
+                        <handling_calculation_type translate="label">
+                            <label>"Tier handling fee" Calculation Type</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>udtiership/source</source_model>
+                            <sort_order>24</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </handling_calculation_type>
+
+                        <handling_apply_method translate="label">
+                            <label>"Tier handling fee" Apply Method</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>udtiership/source</source_model>
+                            <sort_order>25</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </handling_apply_method>
+
+                        <calculation_method translate="label">
+                            <label>Rates Calculation Method</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>udtiership/source</source_model>
+                            <sort_order>28</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </calculation_method>
+
+                        <rate_cost_attribute translate="label comment">
+                            <label>Product attribute code for "Cost for the first item"</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>30</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <comment>Used to set per product rates</comment>
+                        </rate_cost_attribute>
+                        <rate_additional_attribute translate="label comment">
+                            <label>Product attribute code for "Additional item cost"</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>32</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <comment>Used to set per product rates</comment>
+                        </rate_additional_attribute>
+                        <rate_handling_attribute translate="label comment">
+                            <label>Product attribute code for "Tier handling fee"</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>34</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <comment>Used to set per product rates</comment>
+                        </rate_handling_attribute>
+
+                        <fallback_lookup translate="label">
+                            <label>Fallback lookup method</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>udtiership/source</source_model>
+                            <sort_order>41</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </fallback_lookup>
+                        <fallback_rate_cost translate="label comment">
+                            <label>Fallback Cost for the first item</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>45</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <comment>Used when there is no matched category found</comment>
+                        </fallback_rate_cost>
+                        <fallback_rate_additional translate="label comment">
+                            <label>Fallback Additional item cost</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>47</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <comment>Used when there is no matched category found</comment>
+                        </fallback_rate_additional>
+                        <fallback_rate_handling translate="label comment">
+                            <label>Fallback Tier handling fee</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>49</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <comment>Used when there is no matched category found</comment>
+                        </fallback_rate_handling>
+
+                        <rates translate="label">
+                            <label>Rates</label>
+                            <frontend_type>select</frontend_type>
+                            <frontend_model>udtiership/adminhtml_systemConfigField_rates</frontend_model>
+                            <backend_model>adminhtml/system_config_backend_serialized</backend_model>
+                            <sort_order>50</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </rates>
+
+                        <simple_rates translate="label">
+                            <label>Simple Rates</label>
+                            <frontend_type>select</frontend_type>
+                            <frontend_model>udtiership/adminhtml_systemConfigField_simpleRates</frontend_model>
+                            <backend_model>adminhtml/system_config_backend_serialized</backend_model>
+                            <sort_order>60</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </simple_rates>
+
+                        <delivery_type translate="label">
+                            <label>Delivery Types</label>
+                            <frontend_type>select</frontend_type>
+                            <frontend_model>udtiership/adminhtml_systemConfigField_v2_deliveryType</frontend_model>
+                            <backend_model>udtiership/systemConfig_backend_deliveryType</backend_model>
+                            <sort_order>69</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </delivery_type>
+
+                        <delivery_type_selector translate="label comment">
+                            <label>Configure Delivery Type Rates</label>
+                            <frontend_type>select</frontend_type>
+                            <frontend_model>udtiership/adminhtml_systemConfigField_v2_deliveryTypeSelector</frontend_model>
+                            <backend_model>udtiership/systemConfig_backend_empty</backend_model>
+                            <source_model>udtiership/source</source_model>
+                            <sort_order>70</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <comment>Select Delivery Type to load settings in V2 Rates</comment>
+                        </delivery_type_selector>
+
+                        <v2_rates translate="label">
+                            <label>V2 Rates</label>
+                            <frontend_type>select</frontend_type>
+                            <frontend_model>udtiership/adminhtml_systemConfigField_v2_rates</frontend_model>
+                            <backend_model>udtiership/systemConfig_backend_rates</backend_model>
+                            <sort_order>71</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </v2_rates>
+
+                        <v2_simple_rates translate="label">
+                            <label>V2 Simple First/Additional Rates</label>
+                            <frontend_type>select</frontend_type>
+                            <frontend_model>udtiership/adminhtml_systemConfigField_v2_simpleRates</frontend_model>
+                            <backend_model>udtiership/systemConfig_backend_simpleRates</backend_model>
+                            <sort_order>72</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </v2_simple_rates>
+
+                        <v2_simple_cond_rates translate="label">
+                            <label>V2 Simple Conditional Rates</label>
+                            <frontend_type>select</frontend_type>
+                            <frontend_model>udtiership/adminhtml_systemConfigField_v2_simpleCondRates</frontend_model>
+                            <backend_model>udtiership/systemConfig_backend_simpleCondRates</backend_model>
+                            <sort_order>73</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </v2_simple_cond_rates>
+                        
+                        <sort_order translate="label">
+                            <label>Sort order</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>100</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </sort_order>
+                        <sallowspecific translate="label">
+                            <label>Ship to applicable countries</label>
+                            <frontend_type>select</frontend_type>
+                            <sort_order>90</sort_order>
+                            <frontend_class>shipping-applicable-country</frontend_class>
+                            <source_model>adminhtml/system_config_source_shipping_allspecificcountries</source_model>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </sallowspecific>
+                        <specificcountry translate="label">
+                            <label>Ship to Specific countries</label>
+                            <frontend_type>multiselect</frontend_type>
+                            <sort_order>91</sort_order>
+                            <source_model>adminhtml/system_config_source_country</source_model>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </specificcountry>
+                        <showmethod translate="label">
+                            <label>Show method if not applicable</label>
+                            <frontend_type>select</frontend_type>
+                            <sort_order>92</sort_order>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </showmethod>
+                        <specificerrmsg translate="label">
+                            <label>Displayed Error Message</label>
+                            <frontend_type>textarea</frontend_type>
+                            <sort_order>80</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </specificerrmsg>
+                    </fields>
+                </udtiership>
+            </groups>
+        </carriers>
+    </sections>
+</config>

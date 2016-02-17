@@ -1,0 +1,195 @@
+<?php
+$_requests = $this->getRequests();
+$comment_length = $this->getCommentDisplayLength();
+$isRequestForQuoteformEnabledinConfig = Mage::getStoreConfig('quotes/quotes/enabled');
+?>
+<br>
+
+<div class="page-title title-buttons">
+    <h1><?php echo $this->__('Requests for Quotation') ?></h1>
+
+    <!-- Enabling and disabling the 'Add New Request' button using the Admin config. -->
+    <?php if ($isRequestForQuoteformEnabledinConfig): ?>
+        <button type="button" title="<?php echo $this->__('Add New Request') ?>" class="button" onclick="window.location = '<?php echo $this->getUrl('*/index/') ?>';"><span><span><?php echo $this->__('Add New Request') ?></span></span></button>
+    <?php endif; ?>
+</div>
+
+<?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
+
+<?php echo $this->getPagerHtml(); ?>
+<?php if ($_requests->getSize()): ?>
+
+    <table class="data-table" id="my-request-table">
+        <col width="1" />
+        <col width="1" />
+        <col />
+        <col width="1" />
+
+        <thead>
+            <tr>
+                <th><?php echo $this->__('Date') ?></th>
+                <th><?php echo $this->__("Contact") ?></th>
+                <th><?php echo $this->__("Quantity + Price ") ?></th>
+                <th><?php echo $this->__("Terms") ?></th>
+                <th><?php echo $this->__("Comment") ?></th>
+                <th><?php echo $this->__("Status") ?></th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php $_odd = ''; ?>
+            <?php
+
+            foreach ($_requests as $_item):
+              /*  echo "<pre>";
+            print_r($_item);
+            echo "</pre>";*/
+                $id = $_item['request_id'];
+                $comment = $_item['comment'];
+
+                $comment_visible = substr($comment, 0, $comment_length);
+                $comment_invisible = substr($comment, $comment_length);
+                $created_at = $_item["created_at"];
+                $name = $_item["name"];
+                $email = $_item["email"];
+                $phone = $_item["phone"];
+                $price = $_item["demo"];
+
+                 $paymentterms = $_item["paymentterms"];
+                 $shippingmethod = $_item["shippingmethod"];
+                 $deliverydate = $_item["deliverydate"];
+
+                $requestStatus = $_item["status"];
+                ?>
+                <tr>
+                    <td><span class="nobr"><?php echo $this->formatDate($created_at) ?></span></td>
+                    <td><?php echo $email."</br>".$name ?></td>
+                    <td><?php echo "Quantity: ".$phone."</br> Price: ".$price; ?></td>
+                    <td><?php echo "Delivery Date: " . $deliverydate."</br> Payment Terms: ".$paymentterms."</br> Shipping Method: " . $shippingmethod; ?></td>
+                    <td><?php if (strlen($comment) > $comment_length): ?>
+                            <?php echo $comment_visible ?> <a href="#" id="more<?php echo $id ?>-show" class="showLink" onclick="showHide('more<?php echo $id ?>');
+                                                return false;">See more.</a>
+                            <div id="more<?php echo $id ?>" class="more">
+                                <?php echo $comment_invisible ?>
+                                <p><a href="#" id="more<?php echo $id ?>-hide" class="hideLink" onclick="showHide('more<?php echo $id ?>');
+                                                    return false;">Hide</a></p>
+                            </div>
+                        <?php else: ?>
+                            <?php echo $comment; ?>
+                        <?php endif; ?>
+                    </td>
+                    <td  style="width: 230px;">
+                        <?php
+                        //Update status of the request in DB
+                        $requestModel = Mage::getModel('quote2sales/request');
+                        $requestData = $requestModel->getRequestData($id);
+
+                        //If tehre is no quote/order for the request then display the status as "Waiting"
+                        //Else display the status based on the quote and order
+                        if ($requestData == NULL) {
+                            echo $requestStatus;
+                        } else {
+
+                            //Fetch each quote/order data
+                            foreach ($requestData as $value) {
+
+                                $quoteId = $value['quote_id'];
+                                $orderId = $value['order_id'];
+                                $status = $value['status'];
+
+                                //If there is an order then display the status as converted to order and the link to that order
+                                //Else display the status as converted to quote and link to that quote
+                                if ($orderId != NULL && $orderId != 0) {
+                                    echo $status . " : ";
+                                    ?>
+                                    <a href="<?php echo $this->getUrl("sales/order/view", array('order_id' => $orderId)) ?>"><?php echo $this->__('View Order') ?></a>
+                                    <br/>
+                                    <?php
+                                } elseif ($quoteId != NULL && $quoteId != 0) {
+
+                                    $quote = Mage::getModel('sales/quote')->load($quoteId);
+                                    $quoteStatus = $quote->getIsActive();
+                                    $orderIncrementalId = $quote->getReservedOrderId();
+
+                                    //if the quote is converted to an order then the quote status will be 0, so fetch the order details and update the table
+                                    //Else set status from DB and also set link to the quote
+                                    if ($quoteStatus == 0) {
+                                        $order = Mage::getModel('Mage_Sales_Model_Order');
+                                        $order->loadByIncrementId($orderIncrementalId);
+                                        $orderId = $order->getEntityId();
+
+                                        //If there is an order id then update the same in DB
+                                        if ($orderId != "") {
+
+                                            //Update status of the request in DB
+                                            $requestModel = Mage::getModel('quote2sales/request');
+                                            $requestModel->addOrderId("Converted To Order", $quoteId, $orderId);
+                                            $requestModel->updateRequestStatus("Converted To Order", $id);
+                                            echo 'Converted To Order' . " : ";
+                                            ?>
+                                            <a href="<?php echo $this->getUrl("sales/order/view", array('order_id' => $orderId)) ?>"><?php echo $this->__('View Order') ?></a>
+                                            <br/>
+                                            <?php
+                                        } else {
+                                            echo $status . " : ";
+                                            ?>
+                                            <a href="<?php echo $this->getUrl("*/quote/view", array('quote_id' => $quoteId)) ?>"><?php echo $this->__('View Quote') ?></a>
+                                            <br/>
+                                            <?php
+                                        }
+                                    } else {
+                                        echo $status . " : ";
+                                        ?>
+                                        <a href="<?php echo $this->getUrl("*/quote/view", array('quote_id' => $quoteId)) ?>"><?php echo $this->__('View Quote') ?></a>
+                                        <br/>
+                                        <?php
+                                    }
+                                }
+                            }
+                        }
+                        ?>
+
+                    </td>        
+
+                </tr>
+            <?php endforeach; ?>
+        </tbody>
+    </table>
+    <script type="text/javascript">decorateTable('my-request-table');</script>
+    <?php echo $this->getPagerHtml(); ?>
+<?php else: ?>
+    <p><?php echo $this->__('You have made no requests.'); ?></p>
+<?php endif; ?>
+
+
+<div class="buttons-set">
+    <p class="back-link"><a href="<?php echo $this->escapeUrl($this->getBackUrl()) ?>"><small>&laquo; </small><?php echo $this->__('Back') ?></a></p>
+</div>
+<script type="text/javascript">
+//<![CDATA[
+    function deleteRequest(id) {
+        if (confirm('<?php echo $this->__('Are you sure you want to delete this request?') ?>')) {
+            window.location = '<?php echo $this->getUrl('quote2sales/request/delete/') ?>id/' + id;
+        }
+        return false;
+    }
+//]]>
+</script>
+<script type="text/javascript">
+<!--
+    function showHide(shID) {
+        if (document.getElementById(shID)) {
+            if (document.getElementById(shID + '-show').style.display != 'none') {
+                document.getElementById(shID + '-show').style.display = 'none';
+                document.getElementById(shID).style.display = 'block';
+            }
+            else {
+                document.getElementById(shID + '-show').style.display = 'inline';
+                document.getElementById(shID).style.display = 'none';
+            }
+        }
+    }
+//-->
+</script>
+
+
+

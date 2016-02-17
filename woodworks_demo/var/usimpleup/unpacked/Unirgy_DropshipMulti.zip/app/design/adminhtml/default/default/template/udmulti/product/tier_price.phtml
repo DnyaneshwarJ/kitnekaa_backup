@@ -1,0 +1,68 @@
+<?php
+$_mHlp = Mage::helper('udmulti');
+$_yesnoOpts = Mage::getSingleton('udropship/source')->setPath('yesno')->toOptionHash();
+$store = Mage::app()->getDefaultStoreView();
+$customerGroupIds = $_mHlp->getCustomerGroups();
+$websites = Mage::app()->getWebsites(false);
+?>
+
+<div class="grid" style="width:450px">
+    <input id="<?php echo $this->getFieldName()?>" type="hidden" />
+    <table cellspacing="0" class="data" id="<?php echo $this->suffixId('cfgTable')?>" style="width:450px">
+        <col />
+        <col />
+        <col width="50" />
+        <col width="50" />
+        <col width="50" />
+        <thead>
+        <tr class="headings">
+            <th><?php echo Mage::helper('udropship')->__('Website') ?></th>
+            <th><?php echo Mage::helper('udropship')->__('Customer Group') ?></th>
+            <th><?php echo Mage::helper('udropship')->__('QTY') ?></th>
+            <th><?php echo Mage::helper('udropship')->__('Price') ?></th>
+            <th><?php echo Mage::helper('udropship')->__('Action') ?></th>
+        </tr>
+        <tr id="<?php echo $this->suffixId('rowTpl')?>" style="display:none">
+            <td>
+                <select name="<?php echo $this->getFieldName()?>[$ROW][website_id]">
+                    <option alt="website_id" value="0"><?php echo $this->htmlEscape(Mage::helper('udropship')->__('All Websites'))?></option>
+                    <?php foreach ($websites as $website): ?>
+                        <option alt="website_id" value="<?php echo $website->getId()?>"><?php echo $this->htmlEscape($website->getName())?></option>
+                    <?php endforeach; ?>
+                </select>
+            </td>
+            <td>
+                <select name="<?php echo $this->getFieldName()?>[$ROW][customer_group_id]">
+                    <option alt="customer_group_id" value="<?php echo Mage_Customer_Model_Group::CUST_GROUP_ALL?>"><?php echo $this->htmlEscape(Mage::helper('udropship')->__('ALL GROUPS'))?></option>
+                    <?php foreach ($customerGroupIds as $cscId=>$cscLabel): ?>
+                        <option alt="customer_group_id" value="<?php echo $cscId?>"><?php echo $this->htmlEscape($cscLabel)?></option>
+                    <?php endforeach; ?>
+                </select>
+            </td>
+            <td>
+                <input type="text" class="input-text" name="<?php echo $this->getFieldName()?>[$ROW][qty]" value="$QTY" style="width:50px" /><small class="nobr"><?php echo Mage::helper('udropship')->__("and above")?></small>
+            </td>
+            <td>
+                <input type="text" class="input-text" name="<?php echo $this->getFieldName()?>[$ROW][value]" value="$VALUE" style="width:50px" />
+                <input type="hidden" name="<?php echo $this->getFieldName()?>[$ROW][value_id]" value="$VALUE_ID" />
+            </td>
+            <td>
+                <button type="button" class="scalable delete"><span></span></button>
+            </td>
+        </tr>
+        </thead>
+        <tfoot>
+        <tr>
+            <th colspan="5" class="a-left">
+                <div class="left"><button type="button" class="scalable add" id="<?php echo $this->suffixId('addBtn')?>"><span><?php echo Mage::helper('udropship')->__('Add Tier Price') ?></span></button></div>
+            </th>
+        </tr>
+        </tfoot>
+        <tbody>
+        </tbody>
+    </table>
+
+</div>
+
+<style type="text/css">
+</style>

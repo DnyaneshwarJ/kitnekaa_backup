@@ -1,0 +1,154 @@
+<?php
+/**
+ * Unirgy LLC
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the EULA
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://www.unirgy.com/LICENSE-M1.txt
+ *
+ * @category   Unirgy
+ * @package    Unirgy_Dropship
+ * @copyright  Copyright (c) 2008-2009 Unirgy LLC (http://www.unirgy.com)
+ * @license    http:///www.unirgy.com/LICENSE-M1.txt
+ */
+?>
+
+<?php
+$_hlp = Mage::helper('umicrosite');
+$_session = Mage::getSingleton('udropship/session');
+$_carriers = Mage::getSingleton('umicrosite/source')->setPath('registration_carriers')->toOptionHash();
+$_data = $_session->getRegistrationFormData(true);
+$_isQuickRegister = Mage::getStoreConfig('udropship/microsite/allow_quick_register');
+$_qrRequiredSel = $_isQuickRegister ? '' : ' validate-select';
+$_qrRequired = $_isQuickRegister ? '' : ' <span class="required">*</span>';
+$_qrRequired2 = $_isQuickRegister ? '' : ' required-entry';
+$_r = new Varien_Object();
+if ($_data) {
+    foreach ($_data as $_k=>$_v) {
+        if (!is_array($_v)) {
+            $_r->setData($_k, htmlspecialchars($_v));
+        }
+    }
+}
+if (!$_r->getCarrierCode()) {
+    $_r->setCarrierCode($this->getDefPreferedCarrier());
+}
+?>
+
+<?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
+
+<form action="<?php echo $this->getUrl('umicrosite/vendor/registerPost')?>" method="post" id="umicrosite-registration-form">
+<?php if (sizeof($_carriers)==1): ?>
+<input type="hidden" name="carrier_code" value="<?php echo key($_carriers) ?>" />
+<?php endif ?>
+<div class="login-box generic-box">
+    <div class="col-1 registered-users">
+            <div class="box-head"><h3><?php echo Mage::helper('udropship')->__('Dropship Vendor Registration') ?></h3></div>
+            <table style="width:100%"><tbody><tr><td>
+                <ul class="form-list">
+                    <li>
+                        <label for="vendor_name"><?php echo Mage::helper('udropship')->__('Business Name') ?> <span class="required">*</span></label><br />
+                        <input name="vendor_name" value="<?php echo $_r->getVendorName()?>" title="<?php echo Mage::helper('udropship')->__('Business Name') ?>" id="vendor_name" type="text" class="input-text required-entry" />
+                    </li>
+
+                    <li>
+                        <label for="telephone"><?php echo Mage::helper('udropship')->__('Phone Number') ?> <span class="required">*</span></label><br />
+                        <input name="telephone" value="<?php echo $_r->getTelephone()?>" title="<?php echo Mage::helper('udropship')->__('Phone Number') ?>" id="telephone" type="text" class="input-text required-entry" />
+                    </li>
+                    <li>
+                        <label for="email"><?php echo Mage::helper('udropship')->__('Email Address') ?> <span class="required">*</span></label><br />
+                        <input name="email" value="<?php echo $_r->getEmail()?>" title="<?php echo Mage::helper('udropship')->__('Email Address') ?>" id="email" type="text" class="input-text required-entry validate-email" />
+                    </li>
+                    <li>
+                        <label for="password"><?php echo Mage::helper('udropship')->__('Password') ?> <span class="required">*</span></label><br />
+                        <input name="password" type="password" class="input-text required-entry validate-password" id="password" />
+                    </li>
+                    <li>
+                        <label for="password_confirm"><?php echo Mage::helper('udropship')->__('Confirm Password') ?> <span class="required">*</span></label><br />
+                        <input name="password_confirm" type="password" class="input-text required-entry validate-cpassword" id="password_confirm" />
+                    </li>
+
+                    <?php if (sizeof($_carriers)>1): ?>
+                    <li>
+                        <label for="carrier_code"><?php echo Mage::helper('udropship')->__('Preferred Shipping Carrier') ?> <span class="required">*</span></label><br />
+                        <select id="carrier_code" name="carrier_code" title="<?php echo Mage::helper('udropship')->__('Preferred Shipping Carrier') ?>" class="validate-select">
+                            <option value=""><?php echo Mage::helper('udropship')->__('Please select...') ?></option>
+                            <?php foreach ($_carriers as $_code=>$_title): ?>
+                                <option value="<?php echo $_code?>" <?php if ($_r->getCarrierCode()==$_code): ?>selected="selected"<?php endif ?>><?php echo $_title ?></option>
+                            <?php endforeach ?>
+                        </select>
+                    </li>
+                    <?php endif ?>
+
+                    <li>
+                        <label for="url_key"><?php echo Mage::helper('udropship')->__('Preferred subdomain name') ?> <?php echo $_qrRequired?></label><br />
+                        <input name="url_key" value="<?php echo $_r->getUrlKey()?>" title="<?php echo Mage::helper('udropship')->__('URL Key') ?>" id="url_key" type="text" class="input-text <?php echo $_qrRequired2?> validate-urlkey" style="width:100px"/> <strong>.<?php echo $_hlp->getDomainName() ?></strong>
+                    </li>
+                    <li>
+                        <label for="comments"><?php echo Mage::helper('udropship')->__('Comments') ?></label><br />
+                        <textarea name="comments" id="comments"  title="<?php echo Mage::helper('udropship')->__('Comments') ?>"/><?php echo $_r->getComments()?></textarea>
+                    </li>
+
+                </ul>
+            </td><td>
+                <ul class="form-list">
+                    <li>
+                        <label for="vendor_attn"><?php echo Mage::helper('udropship')->__('Attention To') ?> </label><br />
+                        <input name="vendor_attn" value="<?php echo $_r->getVendorAttn()?>" title="<?php echo Mage::helper('udropship')->__('Attention To') ?>" id="vendor_attn" type="text" class="input-text" />
+                    </li>
+
+                    <li>
+                        <label for="street1"><?php echo Mage::helper('udropship')->__('Street Address') ?> <?php echo $_qrRequired?></label><br />
+                        <input name="street1" value="<?php echo $_r->getStreet1()?>" title="<?php echo Mage::helper('udropship')->__('Street Address') ?>" id="street1" type="text" class="input-text <?php echo $_qrRequired2?>" />
+                    </li>
+
+                    <li>
+                        <input name="street2" value="<?php echo $_r->getStreet2()?>" title="<?php echo Mage::helper('udropship')->__('Street Address Line 2') ?>" id="street2" type="text" class="input-text" />
+                    </li>
+                    <li>
+                        <label for="city"><?php echo Mage::helper('udropship')->__('City') ?> <?php echo $_qrRequired?></label><br />
+                        <input name="city" type="text" class="input-text <?php echo $_qrRequired2?>" id="city" value="<?php echo $_r->getCity()?>" />
+                    </li>
+                    <li>
+                        <label for="zip"><?php echo Mage::helper('udropship')->__('Zip/Postal Code') ?></label><br />
+                        <input name="zip" type="text" class="input-text" id="zip" value="<?php echo $_r->getZip()?>" />
+                    </li>
+                    <li>
+                        <label for="region_id"><?php echo Mage::helper('udropship')->__('State/Province') ?></label><br />
+                        <select id="region_id" name="region_id" title="<?php echo Mage::helper('udropship')->__('State/Province') ?>" class="<?php echo $_qrRequiredSel?>" style="display:none" defaultValue="<?php echo $_r->getRegionId()?>">
+                            <option value=""><?php echo Mage::helper('udropship')->__('Please select region, state or province') ?></option>
+                        </select>
+                        <input type="text" id="region" name="region" value="<?php echo $_r->getRegion()?>"  title="<?php echo Mage::helper('udropship')->__('State/Province') ?>" class="input-text" style="display:none" />
+                    </li>
+                    <li>
+                        <label for="country_id"><?php echo Mage::helper('udropship')->__('Country') ?> <?php echo $_qrRequired?></label><br />
+                        <?php echo $this->getCountryHtmlSelect($_r->getCountryId()) ?>
+                    </li>
+                </ul>
+                <ul class="form-list">
+                    <?php echo $this->getChildHtml('form.additional.info'); ?>
+                </ul>
+                <p class="required"><?php echo Mage::helper('udropship')->__('* Required Fields') ?></p>
+            </td></tr></tbody></table>
+        <div class="buttons-set">
+            <div><ul><li><a href="<?php echo $this->getUrl('udropship/vendor')?>" class="f-left"><?php echo Mage::helper('udropship')->__('Return to log in')?></a></li></ul></div>
+            <button class="form-button" type="submit" name="send"><span><?php echo Mage::helper('udropship')->__('Register') ?></span></button>
+        </div>
+    </div>
+</div>
+</form>
+
+<script type="text/javascript">
+    <?php if (!$_isQuickRegister): ?>
+    Validation.addAllThese([
+        ['validate-urlkey', 'Please use only letters (a-z) or numbers (0-9) in this field, first character should be a letter.', function (v) {
+                return Validation.get('IsEmpty').test(v) ||  /^[a-z]+[a-z0-9]+$/.test(v)
+        }],
+    ]);
+    <?php endif ?>
+    var dataForm = new VarienForm('umicrosite-registration-form', true);
+    new RegionUpdater('country', 'region', 'region_id', <?php echo $this->helper('directory')->getRegionJson() ?>);
+</script>

@@ -1,0 +1,109 @@
+    <div class="dashboard">
+        <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
+        <div class="box-account box-info">
+            <div class="box-head">
+                
+                <?php 
+                				$invoice_id = $this->getRequest()->getParam('id');
+                                $vtigercrmHelper = $this->helper('vtigercrm_quotation/data');
+                                $invoiceData = $vtigercrmHelper->retrieveData('7x'.$invoice_id);
+                                
+                                if($invoiceData['error']['code'] == "AUTHENTICATION_REQUIRED"){
+                                	$vtigercrmHelper->getChallenge();
+                                	$vtigercrmHelper->login('admin');
+                                	$invoiceData = $vtigercrmHelper->retrieveData('4x'.$quote_id);
+                                }
+                                
+                                if(!$invoiceData['success']){
+                                	echo "<h2>"."Invalid Invoice ID"."</h2>";
+                                }
+                                
+                                $invoiceProductData = $invoiceData['result']['LineItems'];
+                                if($invoiceProductData){
+                                	$totalPrice = 0;
+                                	echo "<h2>".$this->__('Invoice')."</h2>";
+            	?>
+            	
+            		<table class="clean-table linearize-table" id="wishlist-table">
+					    <thead>
+					        <tr class="first last">
+								<th class="customer-wishlist-item-info"></th>
+								<th class="customer-wishlist-item-quantity">Qty</th>
+								<th class="customer-wishlist-item-price">Price</th>
+								<th class="customer-wishlist-item-cart"></th>
+								<th class="customer-wishlist-item-remove"></th>
+					        </tr>
+					    </thead>
+					    <?php foreach($invoiceProductData as $invoiceProductDataValue): 
+					    		$invoiceProductDetails = $vtigercrmHelper->retrieveData($invoiceProductDataValue['productid']);
+					    		$invoiceProductDetails = $invoiceProductDetails['result'];
+					    ?>
+					    <tbody>
+					        <tr class="first last odd" id="item_1">
+					            <td class="wishlist-cell1 customer-wishlist-item-info">
+								<h3 class="product-name">
+								<?php echo $invoiceProductDetails['productname']; ?>
+								</h3>
+									
+								
+								</td>
+					            
+								<td class="wishlist-cell2 customer-wishlist-item-quantity" data-rwd-label="Qty">
+									<div class="cart-cell">
+										<div class="add-to-cart-alt">
+											<?php echo $invoiceProductDataValue['quantity']; ?>
+										</div>
+									</div>
+								</td>
+					            
+								<td class="wishlist-cell3 customer-wishlist-item-price" data-rwd-label="Price">
+								
+								<div class="cart-cell">            			
+									<div class="price-box">
+										<span class="regular-price">
+											<span class="price">₹<?php echo $invoiceProductDataValue['listprice']; $totalPrice += $invoiceProductDataValue['listprice']; ?></span>
+										</span>
+									</div>
+								</div>
+								
+								</td>
+
+					         </tr>
+					     </tbody>
+					     <?php endforeach; ?>
+					</table>
+					
+					<table border="1" style="width:100%;border-spacing:5px">
+						<tbody>
+							<tr>
+								<th colspan="4" style='padding:5px'>
+									<b>Address Details</b>
+								</th>
+							</tr>
+							<?php 
+							$address_elements = array('street', 'city', 'state', 'code', 'country', 'pobox');
+							foreach($address_elements as $address_elements_value):
+								echo "<tr>";
+								echo "<td style='padding:5px'>Billing ".$address_elements_value."</td>";
+								echo "<td style='padding:5px'>".$invoiceData['result']['bill_'.$address_elements_value]."</td>";
+								echo "<td style='padding:5px'>Shipping ".$address_elements_value."</td>";
+								echo "<td style='padding:5px'>".$invoiceData['result']['ship_'.$address_elements_value]."</td>";
+								echo "</tr>";
+							?> 
+							
+							<?php endforeach; ?>
+						</tbody>
+					</table>
+					
+					<div class="cart-cell">            			
+						<div class="price-box">
+							<span class="regular-price" id="product-price-159">
+								<span class="price">Total Price : ₹<?php echo $totalPrice; ?></span>
+							</span>
+						</div>
+					</div>
+					
+					<?php } ?>
+            </div>
+        </div>
+    </div>

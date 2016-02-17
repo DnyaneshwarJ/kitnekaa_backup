@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+	<modules>
+		<Kitnekaa_Participant>
+			<version>0.1.0</version>
+		</Kitnekaa_Participant>
+	</modules>
+	<adminhtml>
+		<!-- <layout>
+			<updates>
+				<participant>
+					<file>participant.xml</file>
+				</participant>
+			</updates>
+		</layout> -->
+		</adminhtml>
+	<global>
+		<helpers>
+			<kitnekaa_participant>
+				<class>Kitnekaa_Participant_Helper</class>
+			</kitnekaa_participant>
+		</helpers>
+		<models>
+			<kitnekaa_participant>
+				<class>Kitnekaa_Participant_Model</class>
+				<resourceModel>kitnekaa_participant_resource</resourceModel>
+			</kitnekaa_participant>
+			<kitnekaa_participant_resource>
+				<class>Kitnekaa_Participant_Model_Resource</class>
+				<entities>
+					<company>
+						<table>company_entity</table>
+					</company>
+				</entities>
+			</kitnekaa_participant_resource>
+		</models>
+		 <blocks>
+         <kitnekaa_participant>
+            <class>Kitnekaa_Participant_Block</class>
+         </kitnekaa_participant>
+      </blocks>
+		<resources>
+			<kitnekaa_participant_setup>
+				<setup>
+					<module>Kitnekaa_Participant</module>
+					<class>Mage_Core_Model_Resource_Setup</class>
+				</setup>
+				<connection>
+					<use>core_setup</use>
+				</connection>
+			</kitnekaa_participant_setup>
+		</resources>
+
+	</global>
+<frontend>
+        <routers>
+            <participant>
+                <use>standard</use>
+                <args>
+                    <module>Kitnekaa_Participant</module>
+                    <frontName>participant</frontName>
+                </args>
+            </participant>
+        </routers>
+    </frontend>
+	<admin>
+		<routers>
+			<participant_admin>
+				<use>admin</use>
+				<args>
+					<module>Kitnekaa_Participant_Adminhtml</module>
+					<frontName>admin-participant</frontName>
+				</args>
+			</participant_admin>
+
+		</routers>
+	</admin>
+
+</config>

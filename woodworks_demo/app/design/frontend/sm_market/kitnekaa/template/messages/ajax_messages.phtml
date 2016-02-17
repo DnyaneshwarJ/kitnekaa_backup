@@ -1,0 +1,28 @@
+<ul class="messages" id="ajax-errors-msg" style="display: none;">
+    <li class="error-msg">
+        <ul>
+            <li><span></span></li>
+        </ul>
+    </li>
+</ul>
+<ul class="messages" id="ajax-success-msg" style="display: none;">
+    <li class="success-msg">
+        <ul>
+            <li><span></span></li>
+        </ul>
+    </li>
+</ul>
+<script>
+    function showAjaxSuccessMsg(msg) {
+        jQuery('html, body').animate({scrollTop: 0}, 'slow');
+        jQuery("#ajax-success-msg").show();
+        jQuery("#ajax-success-msg").find('span').html(msg);
+        jQuery("#ajax-success-msg").delay(3000).fadeOut(1000);
+    }
+    function showAjaxErrorMsg(msg) {
+        jQuery('html, body').animate({scrollTop: 0}, 'slow');
+        jQuery("#ajax-errors-msg").show();
+        jQuery("#ajax-errors-msg").find('span').html(msg);
+        jQuery("#ajax-errors-msg").delay(3000).fadeOut(1000);
+    }
+</script>

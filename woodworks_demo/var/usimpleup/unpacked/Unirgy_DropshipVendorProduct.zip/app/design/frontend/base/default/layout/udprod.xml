@@ -1,0 +1,96 @@
+<?xml version="1.0"?>
+<layout>
+    <default>
+        <reference name="head">
+            <action method="addJs"><script>unirgy/domloaded.js</script></action>
+            <action method="addJs"><script>unirgy/modal.js</script></action>
+            <action method="addJs"><script>unirgy/banner_media.js</script></action>
+            <action method="addJs"><script>unirgy/slider.js</script></action>
+        </reference>
+    </default>
+    <_udprod_product_zoom>
+        <reference name="head">
+            <action method="addJs"><script>unirgy/product_media.js</script></action>
+        </reference>
+        <reference name="product.info.media">
+            <action method="setTemplate"><template>udprod/catalog/product/media.phtml</template></action>
+        </reference>
+    </_udprod_product_zoom>
+    <_udprod_product_zoom_configurable>
+        <reference name="head">
+            <action method="addJs"><script>unirgy/product.js</script></action>
+            <!--action method="addJs"><script>lightbox/lightbox.js</script></action>
+            <action method="addCss"><stylesheet>css/lightbox.css</stylesheet></action-->
+        </reference>
+        <reference name="product.info.options.configurable">
+            <action method="setTemplate"><template>udprod/catalog/product/options/configurable.phtml</template></action>
+        </reference>
+    </_udprod_product_zoom_configurable>
+
+    <_udprod_product_configurable>
+        <reference name="head">
+            <action method="addJs"><script>unirgy/product_default.js</script></action>
+        </reference>
+    </_udprod_product_configurable>
+
+    <_udprod_product_configurable_preselect>
+        <reference name="head">
+            <action method="addJs"><script>unirgy/product.js</script></action>
+        </reference>
+        <reference name="product.info.options.configurable">
+            <action method="setTemplate"><template>udprod/catalog/product/options/configurable.phtml</template></action>
+        </reference>
+    </_udprod_product_configurable_preselect>
+
+
+    <!-- VENDOR PORTAL -->
+
+    <udprod_vendor_products>
+        <update handle="udropship_vendor" />
+        <reference name="content">
+            <block type="core/template" template="unirgy/udprod/vendor/products/wrapper.phtml" name="wrapper">
+                <block type="udprod/vendor_products" template="unirgy/udprod/vendor/products/grid.phtml" name="udprod.product.grid" as="products">
+                    <block type="udropship/vendor_product_pager" name="udprod.grid.toolbar" as="toolbar">
+                        <action method="checkCompat"/>
+                    </block>
+                </block>
+            </block>
+        </reference>
+    </udprod_vendor_products>
+    <_udprod_vendor_product_edit>
+        <update handle="_udropship_uploader_js" />
+        <reference name="head">
+            <action method="addItem"><type>js_css</type><name>calendar/calendar-win2k-1.css</name></action>
+            <action method="addItem"><type>js</type><name>calendar/calendar.js</name></action>
+            <action method="addItem"><type>js</type><name>calendar/calendar-setup.js</name></action>
+
+            <action method="addJs"><script>mage/adminhtml/form.js</script></action>
+            <action method="addJs"><script>mage/adminhtml/events.js</script></action>
+            <action method="addJs"><script>mage/adminhtml/loader.js</script></action>
+            <action method="addJs"><script>mage/adminhtml/tools.js</script></action>
+            <action method="addJs"><script>mage/adminhtml/hash.js</script></action>
+            <action method="addJs"><script>mage/adminhtml/accordion.js</script></action>
+            <action method="addJs"><script>mage/adminhtml/grid.js</script></action>
+
+            <action method="addItem"><type>js</type><name>extjs/ext-tree.js</name></action>
+            <action method="addItem"><type>js</type><name>extjs/fix-defer.js</name></action>
+            <action method="addItem"><type>js</type><name>extjs/ext-tree-checkbox.js</name></action>
+            <action method="addItem"><type>js_css</type><name>extjs/resources/css/ext-all.css</name></action>
+            <action method="addItem"><type>js_css</type><name>extjs/resources/css/ytheme-magento.css</name></action>
+        </reference>
+        <reference name="content">
+            <block type="core/html_calendar" name="head.calendar" as="calendar" template="page/js/calendar.phtml"/>
+            <block type="udprod/vendor_product" template="unirgy/udprod/vendor/product/edit.phtml" name="udprod.edit">
+                <block type="udropship/categories" name="udprod.edit.categories" as="categories" />
+            </block>
+        </reference>
+    </_udprod_vendor_product_edit>
+    <udprod_vendor_productedit>
+        <update handle="udropship_vendor" />
+        <update handle="_udprod_vendor_product_edit" />
+    </udprod_vendor_productedit>
+    <udprod_vendor_productnew>
+        <update handle="udropship_vendor" />
+        <update handle="_udprod_vendor_product_edit" />
+    </udprod_vendor_productnew>
+</layout>

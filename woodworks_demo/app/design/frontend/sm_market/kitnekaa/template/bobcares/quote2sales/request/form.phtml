@@ -1,0 +1,167 @@
+<style>
+    .item-fields {
+        margin-top: 10px
+    }
+
+    .item-fields .row-part .inputfiled {
+        padding-right: 15px !important;
+    }
+
+    .item-fields label {
+        font-weight: bold !important;
+    }
+</style>
+<?php
+$_product = Mage::registry('this_product');
+$min = $_product->getMinimumOrderQuantity(); ?>
+
+<div id="messages_product_view"><?php echo $this->getMessagesBlock()->getGroupedHtml() ?></div>
+<div class="item-fields quote2sales_page">
+    <div class="page-title">
+
+        <!-- If the page displayed after rejecting a quote -->
+        <?php if ($_GET['rejectquoteid']): ?>
+            <h1><?php echo Mage::helper('quote2sales')->__('Quote rejected successfully, would you like to add new request') ?></h1>
+        <?php else: ?>
+            <h1><?php echo Mage::helper('quote2sales')->__('Request for Quote') ?></h1>
+        <?php endif; ?>
+    </div>
+
+    <div id="quote_form">
+        <div class="clearfix">
+            <form action="<?php echo Mage::getUrl('quote2sales/index/post'); ?>" id="contactForm" method="post"
+                  enctype="multipart/form-data">
+                <div class="col-sm-12 pad0">
+                    <div class="fieldset">
+                        <!--<h2 class="legend"><?php /*echo Mage::helper('quote2sales')->__('Contact Information') */ ?></h2>-->
+                        <ul class="">
+                            <li>
+                                <label for="telephone"
+                                       class="required"><em>*</em><?php echo Mage::helper('quote2sales')->__('Select Sellers') ?>
+                                </label>
+                                <?php echo $this->getChild('uquote_vendor_list')->setData('product', $_product)->toHtml(); ?>
+                            </li>
+                            <li class="row-part">
+                                <label for="qty"
+                                       class="required"><em>*</em><?php echo Mage::helper('quote2sales')->__('Quantity') ?>
+                                </label>
+
+                                <div class="input-box inputfiled">
+                                    <input name="shopp_list_items[qty][]" id="qty"
+                                           title="<?php echo Mage::helper('quote2sales')->__('Quantity') ?>"
+                                           value="<?php echo $min; ?>" class="required-entry" type="text"
+                                           maxlength="15"/>
+                                </div>
+                            </li>
+                            <li class="row-part">
+                                <label for="target_price"
+                                       class="required"><em>*</em><?php echo Mage::helper('quote2sales')->__('Target Price') ?>
+                                </label>
+
+                                <div class="input-box inputfiled">
+                                    <input name="shopp_list_items[target_price][]" id="target_price"
+                                           title="<?php echo Mage::helper('quote2sales')->__('Target Price') ?>"
+                                           value="" class=" required-entry" type="text" maxlength="15"/>
+                                </div>
+                            </li>
+
+                            <li class="row-part">
+                                <label
+                                    for="telephone"><?php echo Mage::helper('quote2sales')->__('Purchase Frequency') ?></label>
+
+                                <div class="input-box inputfiled">
+                                    <?php echo Mage::helper('quote2sales')->getFrequencyHtmlSelect('shopp_list_items[frequency][]'); ?>
+                                </div>
+                            </li>
+                            <li class="row-part">
+                                <label
+                                    for="telephone"><?php echo Mage::helper('quote2sales')->__('When Needed') ?></label>
+
+                                <div class="input-box inputfiled">
+                                    <?php echo Mage::helper('quote2sales')->getWhenNeedHtmlSelect('shopp_list_items[when_need][]'); ?>
+                                </div>
+                            </li>
+                            <li class="row-part">
+                                <label
+                                    for="telephone"><?php echo Mage::helper('quote2sales')->__('Billing Address') ?></label>
+
+                                <div class="input-box inputfiled">
+                                    <?php echo Mage::helper('quote2sales')->getAddressesHtmlSelect('request_quote[billing_address_id][]'); ?>
+                                </div>
+                            </li>
+                            <li class="row-part">
+                                <label
+                                    for="telephone"><?php echo Mage::helper('quote2sales')->__('Delivery Location') ?></label>
+
+                                <div class="input-box inputfiled">
+                                    <?php echo Mage::helper('quote2sales')->getAddressesHtmlSelect('request_quote[delivery_location][]'); ?>
+                                </div>
+                            </li>
+                            <!-- If the product wise quote request is generated -->
+
+                            <li class="wide row-part">
+                                <label for="comment"
+                                       class="required"><em>*</em><?php echo Mage::helper('quote2sales')->__('Comment') ?>
+                                </label>
+
+                                <div class="input-box inputfiled">
+
+                                    <!-- Displaying the product name if RFQ is selected from the product -->
+                                    <textarea name="shopp_list_items[comment][]" id="comment"
+                                              title="<?php echo Mage::helper('quote2sales')->__('Comment') ?>"
+                                              class="input-text required-entry" cols="5" rows="3"></textarea>
+                                    <input type="hidden" id="product_id" name="shopp_list_items[product_id][]"
+                                           value="<?php echo $_product->getId(); ?>">
+                                    <input type="hidden" id="product_id" name="shopp_list_items[sku][]"
+                                           value="<?php echo $_product->getSku(); ?>">
+                                    <input type="hidden" id="product_id" name="shopp_list_items[item_name][]"
+                                           value="<?php echo $_product->getName(); ?>">
+                                </div>
+                            </li>
+                            <li class="row-part">
+                                <label
+                                    for="document"><?php echo Mage::helper('quote2sales')->__('Upload Details') ?></label>
+                                <input type="file" name="quote_files[]" class="input-text required-image-pdf" multiple/>
+                                <span>Allowed types ( .jpg, .jpeg, .png, .gif, .bmp and .pdf ) (Optional)</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+        </div>
+        <div class="buttons-set">
+            <!-- <p class="required"><?php echo Mage::helper('quote2sales')->__('* Required Fields') ?></p> -->
+            <input type="text" name="request_quote[hideit]" id="hideit" value="" style="display:none !important;"/>
+            <button type="submit" title="<?php echo Mage::helper('quote2sales')->__('Submit') ?>" class="button">
+                <span><span><?php echo Mage::helper('quote2sales')->__('Submit') ?></span></span></button>
+        </div>
+        </form>
+    </div>
+</div>
+<script type="text/javascript">
+
+    //<![CDATA[
+    var contactForm = new VarienForm('contactForm', true);
+    //]]>
+
+    //Validation for comment field
+    Validation.add('validate-xss-comment', 'Please enter valid data.', function (v) {
+        return Validation.get('IsEmpty').test(v) || /^[a-zA-Z0-9\ \&\;\_\.\,\!\#\-\(\)\$\%\+\=\?\@\:\n\'/\"/\/\*\\]+$/.test(v);
+    });
+
+    Validation.add('validate-comment', 'Please enter valid data.', function (v) {
+        return Validation.get('IsEmpty').test(v) || /^[a-zA-Z0-9\ \@=\-.&$%?)_+*(#!,'\n\;'/\:"]+$/.test(v)
+    });
+
+    Validation.add('validate-telephone', 'Please use numbers only in this field.', function (v) {
+        return Validation.get('IsEmpty').test(v) || !/[^\d]/.test(v);
+    });
+
+    Validation.add('validate-phonenumber', 'Please use numbers only in this field.', function (v) {
+        return Validation.get('IsEmpty').test(v) || (!isNaN(parseNumber(v)) && !/^\s+$/.test(parseNumber(v)));
+    });
+
+    jQuery(window).load(function() {
+        jQuery('html, body').animate({ scrollTop: jQuery('#quote_form').offset().top-100 }, 2000);
+    });
+</script>

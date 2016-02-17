@@ -1,0 +1,394 @@
+<?php
+/*------------------------------------------------------------------------
+ # SM ListingExtend - Version 1.0.0
+ # Copyright (c) 2015 YouTech Company. All Rights Reserved.
+ # @license - Copyrighted Commercial Software
+ # Author: YouTech Company
+ # Websites: http://www.magentech.com
+-------------------------------------------------------------------------*/
+
+$list = $this->_getProducts();
+
+if (!empty($list)) {
+
+    $import_str = "";
+    $jsHelper = Mage::helper('core/js');
+    // jquery has not added yet
+    if (!defined('MAGENTECH_JQUERY') && (int)$this->_getConfig('include_jquery')) {
+        // if module allowed jquery.
+        $import_str .= $jsHelper->includeSkinScript('sm/listingextend/js/jquery-1.8.2.min.js');
+        $import_str .= $jsHelper->includeSkinScript('sm/listingextend/js/jquery-noconflict.js');
+        define('MAGENTECH_JQUERY', 1);
+    }
+    if (!defined('MAGENTECH_JQUERY_EXTRASLIDER')) {
+        $import_str .= $jsHelper->includeSkinScript('sm/listingextend/js/owl.carousel.js');
+        define('MAGENTECH_JQUERY_EXTRASLIDER', 1);
+    }
+    echo $import_str;
+
+    $count_item = count($list);
+
+    $helper = Mage::helper('listingextend/data');
+
+    $tag_id = 'sm_listingextend_' . rand() . time();
+
+    $autoPlay = $this->_getConfig('autoPlay', 1);
+
+    $slideSpeed = $this->_getConfig('slideSpeed', 2000);
+    $slideSpeed = ($autoPlay && $slideSpeed <= 0) ? 2000 : $slideSpeed;
+    $paginationSpeed = $this->_getConfig('paginationSpeed', 800);
+    $rewindSpeed = $this->_getConfig('rewindSpeed', 1000);
+    $scrollPerPage = $this->_getConfig('scrollPerPage', 1);
+    $scrollPerPage = $scrollPerPage ? 'true' : 'false';
+    $pause_hover = $this->_getConfig('pause_hover', 1);
+    $pause_hover = $pause_hover ? 'true' : 'false';
+    $mouseDrag = $this->_getConfig('mouseDrag', 1);
+    $mouseDrag = $mouseDrag ? 'true' : 'false';
+    $touchDrag = $this->_getConfig('touchDrag', 1);
+    $touchDrag = $touchDrag ? 'true' : 'false';
+
+    $autoPlay = $autoPlay ? 'true' : 'false';
+    $effect = $this->_getConfig('effect', 'fadeIn');
+
+    $nb_rows = $this->_getConfig('nb_rows', 3);
+    $nb_rows = ($nb_rows <= 0) ? 1 : $nb_rows;
+    $nb_rows = ($nb_rows >= $count_item) ? $count_item : $nb_rows;
+
+    $nb_column1 = $this->_getConfig('nb_column1', 6);
+    $nb_column2 = $this->_getConfig('nb_column2', 4);
+    $nb_column3 = $this->_getConfig('nb_column3', 2);
+    $nb_column4 = $this->_getConfig('nb_column4', 1);
+	
+	$listing_type = $this->_getConfig('listing_type');
+
+
+    ?>
+    <!-- Begin sm-listingextend -->
+    <div id="<?php echo $tag_id; ?>" class="sm-listingextend preload">
+	
+        <?php if ($this->_getConfig('pretext')) { ?>
+            <div class="pre-text"><?php echo $this->_getConfig('pretext'); ?></div>
+        <?php } ?>
+		
+        <?php if ($this->_getConfig('description')) { ?>
+			<div class="heading-description">
+				<?php $description= $this->_getConfig('description');				 
+					$_myHelper = Mage::helper('cms');
+					$_processor = $_myHelper->getBlockTemplateProcessor();
+					echo $_processor->filter($description); 		
+				?>            
+            </div>
+        <?php } ?>	
+		
+        <?php if ($this->_getConfig('title')) { ?>
+            <div class="heading-title">
+                <?php echo $this->_getConfig('title'); ?>
+            </div>
+        <?php } ?>
+		
+        <div class="extra-loading"></div>
+
+        <!-- Begin listingextend-inner -->
+        <div class="products-grid category-products listingextend-inner" data-effect="<?php echo $effect; ?>">
+            <?php
+            $count = 0;
+            foreach ($list as $_product) {
+                $count++;
+                ?>
+                <?php if ($count % $nb_rows == 1 || $nb_rows == 1) { ?>
+                    <!-- Begin item -->
+                    <div class="item-columns">
+                <?php } ?>
+                <div class="item">
+                    <div class="item-inner">
+                        <?php  if ($_product->_image) { ?>
+                            <div class="product-image">
+                                <a href="<?php echo $_product->link; ?>" title="<?php echo $_product->title ?>" <?php echo $helper->parseTarget($this->_getConfig('product_links_target')); ?>>
+                                    <img src="<?php echo $_product->_image; ?>" alt="<?php echo $_product->title ?>" title="<?php echo $_product->title ?>"/>
+                                </a>
+                            </div>						
+                        <?php } ?>
+
+                        <div class="product-info">
+                            <?php if ((int)$this->_getConfig('product_title_display', 1)) { ?>
+                                <div class="product-name">
+                                    <a href="<?php echo $_product->link; ?>" title="<?php echo $_product->title; ?>" <?php echo $helper->parseTarget($this->_getConfig('product_links_target')); ?> >
+                                        <?php echo $helper->truncate($_product->title, $this->_getConfig('product_title_maxlength', 25)); ?>
+                                    </a>
+                                </div>
+                            <?php } ?>
+
+							<?php if ((int)$this->_getConfig('product_description_display', 1) && $_product->_description != '') { ?>
+								<div class="item-description">
+									<?php echo $_product->_description; ?>
+								</div>
+							<?php } ?>
+
+							<?php if ( $listing_type == 2 ){
+							
+								$_product_price = Mage::getModel('catalog/product')->load($_product->id);?>
+								<?php if ( (int)$this->_getConfig('product_reviews_count', 1) ){ ?>
+									<div class="product-review">
+										<?php echo $this->getReviewsSummaryHtml($_product_price,'short', true, true); ?>
+									</div>
+								<?php } ?>		
+								<?php if ((int)$this->_getConfig('product_price_display', 1)) { ?>
+									<div class="product-price">
+										<?php echo $this->getPriceHtml($_product_price, true); ?>
+									</div>
+								<?php } ?>						
+								<div class="product-addto-wrap">
+									<?php if ((int)$this->_getConfig('product_addcart_display', 1)) { ?>
+										<div class="product-addcart">
+											<?php if($_product_price->isSaleable()): ?>
+												<a class="btn-cart" title="<?php echo $this->__('Add to cart') ?>" href="javascript:void(0);" onclick="setLocation('<?php echo $this->getAddToCartUrl($_product_price) ?>')">
+													<?php echo $this->__('Add to Cart') ?>
+												</a>
+											<?php else: ?>
+											<p class="availability out-of-stock">
+												<span><?php echo $this->__('Out of stock') ?> </span>
+											</p>
+											<?php endif; ?>								
+										</div>
+									<?php } ?>
+									
+									<?php if ((int)$this->_getConfig('product_addwishlist_display', 1) || (int)$this->_getConfig('product_addcompare_display', 1)) { ?>
+										<div class="wishlist-compare">
+											<?php if ( $this->helper('wishlist')->isAllow() && (int)$this->_getConfig('product_addwishlist_display', 1) ) : ?>
+											<a class="link-wishlist" href="<?php echo $this->helper('wishlist')->getAddUrl($_product_price) ?>" title="<?php echo $this->__('Add to Wishlist') ?>">
+												<?php echo $this->__('Add to Wishlist') ?>
+											</a>
+											<?php endif; ?>
+							
+											<?php if( $_compareUrl = $this->getAddToCompareUrl($_product_price) && (int)$this->_getConfig('product_addcompare_display', 1) ): ?>
+											<a class="link-compare" href="<?php echo $_compareUrl ?>" title="<?php echo $this->__('Add to Compare'); ?>">
+												<?php echo $this->__('Add to Compare') ?>
+											</a>
+											<?php endif;?>
+										</div>
+									<?php } ?>								
+								</div>	
+								
+							<?php } else {?>
+							
+								<?php if ( (int)$this->_getConfig('product_reviews_count', 1) ){ ?>
+									<div class="product-review">
+										<?php echo $this->getReviewsSummaryHtml($_product,'short', true, true); ?>
+									</div>
+								<?php } ?>		
+								<?php if ((int)$this->_getConfig('product_price_display', 1)) { ?>
+									<div class="product-price">
+										<?php echo $this->getPriceHtml($_product, true); ?>
+									</div>
+								<?php } ?>						
+								<div class="product-addto-wrap">
+									<?php if ((int)$this->_getConfig('product_addcart_display', 1)) { ?>
+										<div class="product-addcart">
+											<?php if($_product->isSaleable()): ?>
+												<a class="btn-cart" title="<?php echo $this->__('Add to cart') ?>" href="javascript:void(0);" onclick="setLocation('<?php echo $this->getAddToCartUrl($_product) ?>')">
+													<?php echo $this->__('Add to Cart') ?>
+												</a>
+											<?php else: ?>
+											<p class="availability out-of-stock">
+												<span><?php echo $this->__('Out of stock') ?> </span>
+											</p>
+											<?php endif; ?>								
+										</div>
+									<?php } ?>
+									
+									<?php if ((int)$this->_getConfig('product_addwishlist_display', 1) || (int)$this->_getConfig('product_addcompare_display', 1)) { ?>
+										<div class="wishlist-compare">
+											<?php if ( $this->helper('wishlist')->isAllow() && (int)$this->_getConfig('product_addwishlist_display', 1) ) : ?>
+											<a class="link-wishlist" href="<?php echo $this->helper('wishlist')->getAddUrl($_product) ?>" title="<?php echo $this->__('Add to Wishlist') ?>">
+												<?php echo $this->__('Add to Wishlist') ?>
+											</a>
+											<?php endif; ?>
+							
+											<?php if( $_compareUrl = $this->getAddToCompareUrl($_product) && (int)$this->_getConfig('product_addcompare_display', 1) ): ?>
+											<a class="link-compare" href="<?php echo $_compareUrl ?>" title="<?php echo $this->__('Add to Compare'); ?>">
+												<?php echo $this->__('Add to Compare') ?>
+											</a>
+											<?php endif;?>
+										</div>
+									<?php } ?>								
+								</div>
+								
+							<?php }	?>							
+                        </div>
+                    </div>
+                </div>
+                <?php if (($count % $nb_rows == 0 || $count == $count_item)) { ?>
+                    </div>
+                    <!-- End item-->
+                <?php } ?>
+            <?php } ?>
+        </div>
+        <!--End listingextend-inner -->
+        <?php if ($this->_getConfig('posttext')) { ?>
+            <div class="post-text"><?php echo $this->_getConfig('posttext'); ?></div>
+        <?php } ?>
+    </div>
+    <!-- End sm-listingextend -->
+
+    <script type="text/javascript">
+        //<![CDATA[
+        jQuery(document).ready(function ($) {
+            ;
+            (function (element) {
+                var $element = $(element),
+                    $listingextend = $('.listingextend-inner', $element),
+                    $extra_loading = $('.extra-loading', $element),
+                    _delay = <?php echo $this->_getConfig('delay',300) ?>,
+                    _duration = <?php echo $this->_getConfig('duration',600) ?>,
+                    _effect = '<?php echo $effect; ?>';
+                $(window).on('load', function () {
+                    setTimeout(function () {
+                        $extra_loading.remove();
+                        $element.removeClass('preload');
+                        runowlCarousel();
+                    }, 1000);
+
+                });
+
+                function runowlCarousel() {
+                    $listingextend.owlCarousel({
+                        itemsCustom: [
+                            [0, <?php echo $nb_column4;?>],
+                            [768, <?php echo $nb_column3?>],
+                            [992, <?php echo $nb_column2;?>],
+                            [1200, <?php echo $nb_column1;?>]
+                        ],
+						navigation: true,
+						navigationText: ["", ""],							
+						pagination: true,
+						paginationNumbers: true,				
+                        mouseDrag: <?php echo $mouseDrag; ?>,
+                        touchDrag: <?php echo $touchDrag; ?>,
+                        autoPlay:    <?php echo $autoPlay; ?>,
+                        stopOnHover: <?php echo $pause_hover;?>,
+                        scrollPerPage: <?php echo $scrollPerPage;?>,
+                        slideSpeed: <?php echo $slideSpeed;?>,
+                        paginationSpeed: <?php echo $paginationSpeed;?>,
+                        rewindSpeed: <?php echo $rewindSpeed; ?>,
+                        addClassActive: true,
+						pagenumber: true,
+                        beforeInit: function () {
+
+                        },
+                        afterInit: function () {
+
+                            var $item_active = this.$owlItems.filter('.active');
+                            if ($item_active.length > 1) {
+                                _getAnimate($item_active);
+                            } else {
+                                var $item = this.$owlItems;
+                                $item.css({'opacity': 1, 'filter': 'alpha(opacity = 100)'});
+                            }
+
+                            /*if ($('.owl-page', $element).length < 2) {
+                                $('.button-prev', $element).css('display', 'none');
+                                $('.button-next', $element).css('display', 'none');
+                            } else {
+                                $('.button-prev', $element).removeAttr('style');
+                                $('.button-next', $element).removeAttr('style');
+                            }*/
+                        },
+
+                        afterUpdate: function (e) {
+                            var $item_active = this.$owlItems.filter('.active');
+                            if ($item_active.length > 1) {
+                                _getAnimate($item_active);
+                            } else {
+                                var $item = this.$owlItems;
+                                $item.css({'opacity': 1, 'filter': 'alpha(opacity = 100)'});
+                            }
+
+                            if ($('.owl-page', $element).length < 2) {
+                                $('.button-prev', $element).css('display', 'none');
+                                $('.button-next', $element).css('display', 'none');
+                            } else {
+                                $('.button-prev', $element).removeAttr('style');
+                                $('.button-next', $element).removeAttr('style');
+                            }
+                        },
+
+                        beforeMove: function (e) {
+                            var $item_active = this.$owlItems;
+                            if ($item_active.length > 1 && $('.owl-page', $element).length > 1 && _effect != 'none') {
+                                if (1/* $.browser.msie && parseInt($.browser.version, 10) <= 9 */) {
+                                    $item_active.css({'opacity': 1, 'filter': 'alpha(opacity = 1)'});
+                                } else {
+                                    $item_active.css({
+                                        'opacity': 1,
+                                        'filter': 'alpha(opacity = 1)', '-webkit-animation': '',
+                                        '-moz-animation': '', '-o-animation': '', 'animation': '',
+                                        '-webkit-animation-delay': '', '-moz-animation-delay': '',
+                                        '-o-animation-delay': '', 'animation-delay': '', 'animation': ''
+                                    }).animate({
+                                        'opacity': 1,
+                                        'filter': 'alpha(opacity = 100)'
+                                    }, {
+                                        duration: 1000
+                                    });
+                                }
+
+                            } else {
+                                $item_active.css('opacity', 1);
+                            }
+                        },
+
+                        afterMove: function (e) {
+                            var $item_active = this.$owlItems.filter('.active');
+                            if ($item_active.length > 1) {
+                                _getAnimate($item_active);
+                            } else {
+                                var $item = this.$owlItems;
+                                $item.css({'opacity': 1, 'filter': 'alpha(opacity = 100)'});
+                            }
+                        }
+                    });
+                }
+
+                /*$('.button-prev', $element).click(function () {
+                    $listingextend.trigger('owl.prev');
+                });
+                $('.button-next', $element).click(function () {
+                    $listingextend.trigger('owl.next');
+                });*/
+
+                function _getAnimate($el) {
+                    if (_effect == 'none') return;
+                    //if ($.browser.msie && parseInt($.browser.version, 10) <= 9) return;
+                    $listingextend.removeClass('extra-animate');
+                    $el.each(function (i) {
+                        var $_el = $(this);
+                        $(this).css({
+                            '-webkit-animation': _effect + ' ' + _duration + "ms ease both",
+                            '-moz-animation': _effect + ' ' + _duration + "ms ease both",
+                            '-o-animation': _effect + ' ' + _duration + "ms ease both",
+                            'animation': _effect + ' ' + _duration + "ms ease both",
+                            '-webkit-animation-delay': +i * _delay + 'ms',
+                            '-moz-animation-delay': +i * _delay + 'ms',
+                            '-o-animation-delay': +i * _delay + 'ms',
+                            'animation-delay': +i * _delay + 'ms'
+                        }).animate({
+                            opacity: 1,
+                            filter: 'alpha(opacity = 100)'
+                        });
+                        if (i == $el.size() - 1) {
+                            $listingextend.addClass("extra-animate");
+                        }
+                    });
+                }
+
+            })('#<?php echo $tag_id; ?>');
+        });
+        //]]>
+    </script>
+
+<?php
+} else {
+    echo $this->__('Has no item to show!');
+} ?>
+
+

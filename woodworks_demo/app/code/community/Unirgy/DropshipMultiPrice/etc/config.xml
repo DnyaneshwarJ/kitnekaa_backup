@@ -1,0 +1,341 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Unirgy LLC
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the EULA
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://www.unirgy.com/LICENSE-M1.txt
+ *
+ * @category   Unirgy
+ * @package    Unirgy_DropshipMultiPrice
+ * @copyright  Copyright (c) 2008-2009 Unirgy LLC (http://www.unirgy.com)
+ * @license    http:///www.unirgy.com/LICENSE-M1.txt
+ */
+
+-->
+<config>
+    <modules>
+        <Unirgy_DropshipMultiPrice>
+            <version>2.1.0</version>
+        </Unirgy_DropshipMultiPrice>
+    </modules>
+
+    <global>
+        <models>
+            <udmultiprice>
+                <class>Unirgy_DropshipMultiPrice_Model</class>
+                <resourceModel>udmultiprice_mysql4</resourceModel>
+            </udmultiprice>
+            <udmultiprice_mysql4>
+                <class>Unirgy_DropshipMultiPrice_Model_Mysql4</class>
+            </udmultiprice_mysql4>
+        </models>
+
+        <resources>
+            <udmultiprice_setup>
+                <setup>
+                    <module>Unirgy_DropshipMultiPrice</module>
+                    <class>Unirgy_DropshipMultiPrice_Model_Setup</class>
+                </setup>
+                <connection>
+                    <use>core_setup</use>
+                </connection>
+            </udmultiprice_setup>
+            <udmultiprice_write>
+                <connection>
+                    <use>core_write</use>
+                </connection>
+            </udmultiprice_write>
+            <udmultiprice_read>
+                <connection>
+                    <use>core_read</use>
+                </connection>
+            </udmultiprice_read>
+        </resources>
+
+        <blocks>
+            <udmultiprice>
+                <class>Unirgy_DropshipMultiPrice_Block</class>
+            </udmultiprice>
+        </blocks>
+
+        <helpers>
+            <udmultiprice>
+                <class>Unirgy_DropshipMultiPrice_Helper</class>
+            </udmultiprice>
+        </helpers>
+
+        <udropship>
+            <vendor>
+                <fields>
+                    <def_product_promo_title>
+                        <label>Default Product Promo Title</label>
+                        <type>text</type>
+                        <fieldset>microsite</fieldset>
+                        <position>250</position>
+                    </def_product_promo_title>
+                </fields>
+            </vendor>
+            <product_state>
+                <new translate="label">
+                    <label>New</label>
+                    <extended>
+                        <new translate="label"><label>New</label><is_default>true</is_default></new>
+                    </extended>
+                </new>
+                <used translate="label">
+                    <label>Used</label>
+                    <extended>
+                        <used_as_new translate="label"><label>Used: As new</label></used_as_new>
+                        <used_very_good translate="label"><label>Used: Very Good</label></used_very_good>
+                        <used_good translate="label"><label>Used: Good</label></used_good>
+                        <used_just_ok translate="label"><label>Used: Just OK</label></used_just_ok>
+                    </extended>
+                </used>
+                <!--collectible translate="label">
+                    <label>Collectible</label>
+                    <extended>
+                        <collectible_as_new translate="label"><label>Collectible: As new</label></collectible_as_new>
+                        <collectible_very_good translate="label"><label>Collectible: Very Good</label></collectible_very_good>
+                        <collectible_good translate="label"><label>Collectible: Good</label></collectible_good>
+                        <collectible_just_ok translate="label"><label>Collectible: Just OK</label></collectible_just_ok>
+                    </extended>
+                </collectible-->
+            </product_state>
+        </udropship>
+
+        <template>
+            <email>
+            </email>
+        </template>
+
+        <events>
+            <catalog_product_type_prepare_lite_options>
+                <observers>
+                   <udmultiprice>
+                       <type>singleton</type>
+                       <class>udmultiprice/observer</class>
+                       <method>catalog_product_type_prepare_lite_options</method>
+                   </udmultiprice>
+               </observers>
+            </catalog_product_type_prepare_lite_options>
+            <catalog_product_type_prepare_full_options>
+                <observers>
+                   <udmultiprice>
+                       <type>singleton</type>
+                       <class>udmultiprice/observer</class>
+                       <method>catalog_product_type_prepare_full_options</method>
+                   </udmultiprice>
+               </observers>
+            </catalog_product_type_prepare_full_options>
+            <catalog_product_type_prepare_cart_options>
+                <observers>
+                    <udmultiprice>
+                        <type>singleton</type>
+                        <class>udmultiprice/observer</class>
+                        <method>catalog_product_type_prepare_cart_options</method>
+                    </udmultiprice>
+                </observers>
+            </catalog_product_type_prepare_cart_options>
+            <udropship_quote_item_setUdropshipVendor>
+                <observers>
+                    <udmultiprice>
+                        <type>singleton</type>
+                        <class>udmultiprice/observer</class>
+                        <method>udropship_quote_item_setUdropshipVendor</method>
+                    </udmultiprice>
+                </observers>
+            </udropship_quote_item_setUdropshipVendor>
+            <controller_front_init_before>
+                <observers>
+                    <udmultiprice>
+                        <type>singleton</type>
+                        <class>udmultiprice/observer</class>
+                        <method>controller_front_init_before</method>
+                    </udmultiprice>
+                </observers>
+            </controller_front_init_before>
+            <udropship_init_config_rewrites>
+                <observers>
+                    <udmultiprice>
+                        <type>singleton</type>
+                        <class>udmultiprice/observer</class>
+                        <method>udropship_init_config_rewrites</method>
+                    </udmultiprice>
+                </observers>
+            </udropship_init_config_rewrites>
+            <catalog_product_collection_apply_limitations_after>
+                <observers>
+                    <udmultiprice>
+                        <type>singleton</type>
+                        <class>udmultiprice/observer</class>
+                        <method>catalog_product_collection_apply_limitations_after</method>
+                    </udmultiprice>
+                </observers>
+            </catalog_product_collection_apply_limitations_after>
+            <catalog_product_collection_apply_limitations_before>
+                <observers>
+                    <udmultiprice>
+                        <type>singleton</type>
+                        <class>udmultiprice/observer</class>
+                        <method>catalog_product_collection_apply_limitations_after</method>
+                    </udmultiprice>
+                </observers>
+            </catalog_product_collection_apply_limitations_before>
+            <catalog_product_get_final_price>
+                <observers>
+                    <udmultiprice>
+                        <type>singleton</type>
+                        <class>udmultiprice/observer</class>
+                        <method>catalog_product_get_final_price</method>
+                    </udmultiprice>
+                </observers>
+            </catalog_product_get_final_price>
+            <sales_quote_product_add_after>
+                <observers>
+                    <udmultiprice>
+                        <type>singleton</type>
+                        <class>udmultiprice/observer</class>
+                        <method>sales_quote_product_add_after</method>
+                    </udmultiprice>
+                </observers>
+            </sales_quote_product_add_after>
+            <sales_convert_quote_item_to_order_item>
+                <observers>
+                    <udmultiprice>
+                        <type>singleton</type>
+                        <class>udmultiprice/observer</class>
+                        <method>sales_convert_quote_item_to_order_item</method>
+                    </udmultiprice>
+                </observers>
+            </sales_convert_quote_item_to_order_item>
+            <sales_quote_item_set_product>
+                <observers>
+                    <udmultiprice>
+                        <type>singleton</type>
+                        <class>udmultiprice/observer</class>
+                        <method>sales_quote_item_set_product</method>
+                    </udmultiprice>
+                </observers>
+            </sales_quote_item_set_product>
+        </events>
+
+    </global>
+
+    <frontend>
+        <routers>
+            <udmultiprice>
+                <use>standard</use>
+                <args>
+                    <module>Unirgy_DropshipMultiPrice</module>
+                    <frontName>udmultiprice</frontName>
+                </args>
+            </udmultiprice>
+        </routers>
+        <layout>
+            <updates>
+                <udmultiprice>
+                    <file>udmultiprice.xml</file>
+                </udmultiprice>
+            </updates>
+        </layout>
+        <events>
+            <catalog_product_collection_load_after>
+                <observers>
+                    <udmulti_front>
+                        <type>singleton</type>
+                        <class>udmultiprice/observer</class>
+                        <method>catalog_product_collection_load_after_front</method>
+                    </udmulti_front>
+                </observers>
+            </catalog_product_collection_load_after>
+            <catalog_product_type_prepare_lite_options>
+                <observers>
+                   <udmultiprice>
+                       <type>singleton</type>
+                       <class>udmultiprice/observer</class>
+                       <method>catalog_product_type_prepare_lite_options</method>
+                   </udmultiprice>
+               </observers>
+            </catalog_product_type_prepare_lite_options>
+            <catalog_product_type_prepare_full_options>
+                <observers>
+                   <udmultiprice>
+                       <type>singleton</type>
+                       <class>udmultiprice/observer</class>
+                       <method>catalog_product_type_prepare_full_options</method>
+                   </udmultiprice>
+               </observers>
+            </catalog_product_type_prepare_full_options>
+            <catalog_product_type_prepare_cart_options>
+                <observers>
+                    <udmultiprice>
+                        <type>singleton</type>
+                        <class>udmultiprice/observer</class>
+                        <method>catalog_product_type_prepare_cart_options</method>
+                    </udmultiprice>
+                </observers>
+            </catalog_product_type_prepare_cart_options>
+            <udropship_quote_item_setUdropshipVendor>
+                <observers>
+                    <udmultiprice>
+                        <type>singleton</type>
+                        <class>udmultiprice/observer</class>
+                        <method>udropship_quote_item_setUdropshipVendor</method>
+                    </udmultiprice>
+                </observers>
+            </udropship_quote_item_setUdropshipVendor>
+            <controller_action_layout_load_before>
+                <observers>
+                    <udmultiprice>
+                        <type>singleton</type>
+                        <class>udmultiprice/observer</class>
+                        <method>controller_action_layout_load_before</method>
+                    </udmultiprice>
+                </observers>
+            </controller_action_layout_load_before>
+            <catalog_controller_product_view>
+                <observers>
+                    <udmultiprice>
+                        <type>singleton</type>
+                        <class>udmultiprice/observer</class>
+                        <method>catalog_controller_product_view</method>
+                    </udmultiprice>
+                </observers>
+            </catalog_controller_product_view>
+        </events>
+    </frontend>
+
+    <admin>
+        <routers>
+            <udmultipriceadmin>
+                <use>admin</use>
+                <args>
+                    <module>Unirgy_DropshipMultiPrice_Adminhtml</module>
+                    <frontName>udmultipriceadmin</frontName>
+                </args>
+            </udmultipriceadmin>
+        </routers>
+    </admin>
+
+    <adminhtml>
+        <layout>
+            <updates>
+                <udmultiprice>
+                    <file>udmultiprice.xml</file>
+                </udmultiprice>
+            </updates>
+        </layout>
+        <events>
+        </events>
+    </adminhtml>
+
+    <default>
+        <udropship>
+	    </udropship>
+    </default>
+</config>

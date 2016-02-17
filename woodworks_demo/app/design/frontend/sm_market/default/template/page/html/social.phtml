@@ -1,0 +1,28 @@
+<?php 
+global $var_yttheme;
+?>
+<div class="socials-wrap">
+	<ul>
+		<?php if( $var_yttheme->getParam('show_facebook') == 1 ){ ?>
+			<li><a title="<?php echo $var_yttheme->getParam('facebook_name');?>" href="<?php echo $var_yttheme->getParam('facebook_url');?>" target="_blank" class="icon-facebook"><?php //echo $var_yttheme->getParam('facebook_name');?>
+				<!-- <span class="social-text"><?php echo $var_yttheme->getParam('facebook_name');?></span> -->
+			</a></li>
+		<?php }?>
+		<?php if( $var_yttheme->getParam('show_twitter') == 1 ){ ?>
+			<li><a title="<?php echo $var_yttheme->getParam('twitter_name');?>" href="<?php echo $var_yttheme->getParam('twitter_url');?>" target="_blank" class="icon-twitter"><?php //echo $var_yttheme->getParam('twitter_name');?></a></li>
+		<?php }?>				
+		<?php if( $var_yttheme->getParam('show_linkedin') == 1 ){ ?>
+			<li><a title="<?php echo $var_yttheme->getParam('linkedin_name');?>" href="<?php echo $var_yttheme->getParam('linkedin_url');?>" target="_blank" class="icon-linkedin"><?php //echo $var_yttheme->getParam('linkedin_name');?></a></li>
+		<?php }?>
+        <?php if( $var_yttheme->getParam('show_google') == 1 ){ ?>
+			<li><a title="<?php echo $var_yttheme->getParam('google_name');?>" href="<?php echo $var_yttheme->getParam('google_url');?>" target="_blank" class="icon-google-plus"><?php //echo $var_yttheme->getParam('google_name');?></a></li>
+		<?php }?>
+		<?php if( $var_yttheme->getParam('show_flickr') == 1 ){ ?>
+			<li><a title="<?php echo $var_yttheme->getParam('flickr_name');?>" href="<?php echo $var_yttheme->getParam('flickr_url');?>" target="_blank" class="icon-flickr"><?php //echo $var_yttheme->getParam('flickr_name');?></a></li>
+		<?php } ?>
+		<?php if( $var_yttheme->getParam('show_pinterest') == 1 ){ ?>
+			<li><a title="<?php echo $var_yttheme->getParam('pinterest_name');?>" href="<?php echo $var_yttheme->getParam('pinterest_url');?>" target="_blank" class="icon-pinterest"><?php //echo $var_yttheme->getParam('pinterest_name');?></a></li>
+		<?php }?>		
+	</ul>
+</div>    
+			

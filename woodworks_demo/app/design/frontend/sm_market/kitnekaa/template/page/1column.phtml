@@ -1,0 +1,383 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category   design_default
+ * @package    Mage
+ * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
+ * @license    http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+
+
+global $var_yttheme;
+?>
+<!DOCTYPE html>
+<html xml:lang="<?php echo $this->getLang() ?>" lang="<?php echo $this->getLang() ?>">
+<head>
+    <meta name="format-detection" content="telephone=no">
+    <?php echo $this->getChildHtml('head') ?>
+</head>
+
+<?php
+if ($var_yttheme->getParam('usebgimage') == 1 && $var_yttheme->getParam('usecustomizeimage') == 0) {
+    $bg_image = $var_yttheme->getParam('bgimage');
+}
+else {
+    $bg_image = '';
+}
+
+$hdStyles    = $var_yttheme->getParam('headerstyles');
+$classHeader = "";
+$classHome   = "";
+if ($hdStyles == 'header1') {
+    $classHeader = "header1-wrap";
+}
+elseif ($hdStyles == 'header2') {
+    $classHeader = "header2-wrap";
+}
+elseif ($hdStyles == 'header3') {
+    $classHeader = "header3-wrap";
+}
+elseif ($hdStyles == 'header4') {
+    $classHeader = "header4-wrap";
+}
+
+if (Mage::getSingleton('cms/page')->getIdentifier() == 'home-v4'
+    && Mage::app()->getFrontController()->getRequest()->getRouteName() == 'cms'
+) {
+    $classHome = "homepagev4";
+}
+
+?>
+<?php
+if (Mage::getSingleton('customer/session')->isLoggedIn()) {
+    $loginclass = "userlogin";
+}
+else {
+    $loginclass = "notlogin";
+}
+?>
+<body id="bd"
+      class="<?php echo $loginclass; ?> <?php echo $var_yttheme->template ?> <?php echo $bg_image; ?> <?php if ($var_yttheme->getParam('layoutstyle') == '2') {
+          echo "layout-boxed";
+      } ?> <?php echo $this->getBodyClass(); ?> <?php echo $classHome; ?> ">
+<?php echo $this->getChildHtml('after_body_start') ?>
+<div id="yt_wrapper">
+
+    <!-- BEGIN: Header -->
+    <div id="yt_header" class="yt-header wrap <?php echo $classHeader; ?>">
+        <?php echo $this->getChildHtml('header') ?>
+    </div>
+    <!-- END: Header -->
+
+    <!-- BEGIN: content -->
+    <div id="yt_content" class="yt-content wrap">
+        <?php $customer = Mage::getSingleton('customer/session')->getCustomer(); ?>
+        <div id="yt_main" class="yt-main col-main">
+            <div class="yt-main-inner yt-content-inner">
+                <div class="container">
+                    <div class="row">
+                        <?php if ($this->getChildHtml('breadcrumbs')) { ?>
+                            <?php echo $this->getChildHtml('breadcrumbs') ?>
+                        <?php } ?>
+                        <div class="columns-w">
+                            <?php echo $this->getChildHtml('global_notices') ?>
+                            <?php echo $this->getChildHtml('global_messages') ?>
+
+                            <?php if ($this->getChildHtml('banner-top-home')) { ?>
+                                <?php echo $this->getChildHtml('banner-top-home'); ?>
+                            <?php } ?>
+
+                            <?php echo $this->getChildHtml('content'); ?>
+
+                            <?php if (Mage::getSingleton('customer/session')->isLoggedIn()) { ?>
+                                <div class="login-myaccount tab-section">
+                                    <?php if (Mage::getSingleton('customer/session')->isLoggedIn()) { ?>
+                                        <div class="banner-policy">
+                                            <ul class="inner tab-btn">
+                                                <li data-tab="rfq-received1" class="policy policy1"><a
+                                                        href="javascript:void(0)"><span
+                                                            class="ico-policy">ico policy</span>RFQ'S received</a></li>
+                                                <li data-tab="rfq-sent" class="policy policy2"><a
+                                                        href="javascript:void(0)"><span
+                                                            class="ico-policy">ico policy</span>RFQ'S sent</a></li>
+                                                <li data-tab="orders-received" class="policy policy3"><a
+                                                        href="javascript:void(0)"><span
+                                                            class="ico-policy">ico policy</span>orders received </a>
+                                                </li>
+                                                <li data-tab="orders-placed" class="policy policy4"><a
+                                                        href="javascript:void(0)"><span
+                                                            class="ico-policy">ico policy</span>orders placed</a></li>
+                                            </ul>
+                                        </div>
+                                    <?php }
+                                    else { ?>
+                                        <!-- <div class="banner-policy">
+                                        <ul class="inner tab-btn">
+                                            <li data-tab="rfq-received" class="policy policy1"><a href="<?php /*echo Mage::getBaseUrl(); */ ?>customer/account/login/"><span class="ico-policy">ico policy</span>RFQ'S received</a></li>
+                                            <li data-tab="rfq-sent" class="policy policy2"><a href="<?php /*echo Mage::getBaseUrl(); */ ?>customer/account/login/"><span class="ico-policy">ico policy</span>RFQ'S sent</a></li>
+                                            <li data-tab="orders-received" class="policy policy3"><a href="<?php /*echo Mage::getBaseUrl(); */ ?>customer/account/login/"><span class="ico-policy">ico policy</span>orders received </a></li>
+                                            <li data-tab="orders-placed" class="policy policy4"><a href="<?php /*echo Mage::getBaseUrl(); */ ?>customer/account/login/"><span class="ico-policy">ico policy</span>orders placed</a></li>
+                                        </ul>
+                                    </div>-->
+                                    <?php } ?>
+                                    <?php if (Mage::getSingleton('customer/session')->isLoggedIn()) { ?>
+                                        <div id="rfq-received1" class="myaccount-tab-content">
+                                            <div class="myac-tab-inner">
+                                                <ul>
+                                                    <li class="my-title">DATE</li>
+                                                    <?php
+                                                    $requestModel = Mage::getModel('quote2sales/request')->getCollection()
+                                                                        ->addFieldToFilter('customer_id', $customer->getId())
+                                                                        ->addFieldToFilter('status', 'Converted To Quote')
+                                                                        ->getData();
+                                                    /* echo "<pre>";
+                                                     print_r($requestModel);
+                                                     echo "</pre>";*/
+                                                    foreach ($requestModel as $value) {
+                                                        $dataproper = explode(" ", $value['created_at']);
+                                                        ?>
+                                                        <li> <?php echo $dataproper[0]; ?></li>
+                                                    <?php }
+                                                    ?>
+
+                                                </ul>
+                                                <ul>
+                                                    <li class="my-title">PRODUCT NAME</li>
+                                                    <?php foreach ($requestModel as $value) {
+                                                        $obj      = Mage::getModel('catalog/product');
+                                                        $_product = $obj->load($value['product_id']);
+                                                        ?>
+                                                        <li> <?php echo $_product->getName(); ?></li>
+                                                    <?php }
+                                                    ?>
+                                                </ul>
+                                                <ul>
+                                                    <li class="my-title">QUANTITY</li>
+                                                    <?php foreach ($requestModel as $value) { ?>
+                                                        <li> <?php echo $value['phone']; ?></li>
+                                                    <?php }
+                                                    ?>
+                                                </ul>
+                                                <ul>
+                                                    <li class="my-title">QUOTES RECEIVED</li>
+                                                    <?php foreach ($requestModel as $value) { ?>
+                                                        <li class="<?php echo $value['status']; ?>"><a
+                                                                href="<?php echo Mage::getBaseUrl(); ?>quote2sales/request/index/"><?php echo $value['status']; ?></a>
+                                                        </li>
+                                                    <?php }
+                                                    ?>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <div id="rfq-sent" class="myaccount-tab-content">
+                                            <div class="myac-tab-inner">
+                                                <?php foreach ($requestModel as $value) {
+                                                    $valddd = $value['status'];
+                                                }
+                                                if ($valddd != "") { ?>
+                                                    <ul>
+                                                        <li class="my-title">DATE</li>
+                                                        <?php
+                                                        $requestModel = Mage::getModel('quote2sales/request')->getCollection()
+                                                                            ->addFieldToFilter('customer_id', $customer->getId())
+                                                                            ->addFieldToFilter('status', 'Waiting')
+                                                                            ->getData();
+                                                        foreach ($requestModel as $value) {
+                                                            $dataproper = explode(" ", $value['created_at']); ?>
+                                                            <li> <?php echo $dataproper[0]; ?></li>
+                                                        <?php }
+                                                        ?>
+
+                                                    </ul>
+                                                    <ul>
+                                                        <li class="my-title">PRODUCT NAME</li>
+                                                        <?php foreach ($requestModel as $value) {
+                                                            $obj      = Mage::getModel('catalog/product');
+                                                            $_product = $obj->load($value['product_id']);
+                                                            ?>
+                                                            <li> <?php echo $_product->getName(); ?></li>
+                                                        <?php }
+                                                        ?>
+                                                    </ul>
+                                                    <ul>
+                                                        <li class="my-title">QUANTITY</li>
+                                                        <?php foreach ($requestModel as $value) { ?>
+                                                            <li> <?php echo $value['phone']; ?></li>
+                                                        <?php }
+                                                        ?>
+                                                    </ul>
+                                                    <ul>
+                                                        <li class="my-title">QUOTES RECEIVED</li>
+                                                        <?php foreach ($requestModel as $value) { ?>
+                                                            <li class="<?php echo $value['status']; ?>"><a
+                                                                    href="<?php echo Mage::getBaseUrl(); ?>quote2sales/quote/history/"><?php echo $value['status']; ?></a>
+                                                            </li>
+                                                        <?php }
+                                                        ?>
+                                                    </ul>
+                                                <?php } ?>
+                                            </div>
+                                        </div>
+                                        <div id="orders-received" class="myaccount-tab-content">
+                                            <div class="myac-tab-inner">
+                                                <ul>
+                                                    <?php
+
+                                                    $collection = Mage::getModel('sales/order')->getCollection()
+                                                                      ->addAttributeToFilter('customer_id', $customer->getId())
+                                                                      ->addAttributeToFilter('status', array('eq' => 'complete'))
+                                                                      ->addAttributeToSort('increment_id', 'desc')->getData();
+                                                    /*echo "<pre>";
+                                                    print_r($collection);
+                                                    echo "</pre>";*/
+                                                    /*foreach ($collection as  $value) {
+                                                        echo $value[];
+                                                    }*/
+                                                    ?>
+                                                    <li class="my-title">DATE</li>
+                                                    <?php foreach ($collection as $value) {
+                                                        $dataproper = explode(" ", $value['created_at']); ?>
+
+                                                        <li><?php echo $dataproper[0]; ?></li><?php
+                                                    } ?>
+
+                                                </ul>
+                                                <ul>
+                                                    <li class="my-title">Order Id</li>
+
+                                                    <?php foreach ($collection as $value) { ?>
+                                                        <li><?php echo $value['increment_id']; ?></li><?php
+                                                    } ?>
+
+                                                </ul>
+                                                <!--<ul>
+                                                    <li class="my-title">Seller</li>
+                                                    <?php /*foreach ($collection as $value) { */?>
+                                                        <li><?php /*$doller = $value['increment_id'];
+                                                        if ($doller != "") {
+                                                            echo "Total Tools & Equipment (P) Ltd.";
+                                                        }
+                                                        */?></li><?php
+/*                                                    } */?>
+
+                                                </ul>-->
+                                                <ul>
+                                                    <li class="my-title">Status</li>
+                                                    <?php foreach ($collection as $value) { ?>
+                                                        <li class="<?php echo $value['status']; ?>"><?php echo $value['status']; ?></li>        <?php
+                                                    } ?>
+                                                </ul>
+                                                <ul></ul>
+                                            </div>
+                                        </div>
+                                        <div id="orders-placed" class="myaccount-tab-content">
+                                            <div class="myac-tab-inner">
+                                                <ul>
+                                                    <?php
+
+                                                    $collection = Mage::getModel('sales/order')->getCollection()
+                                                                      ->addAttributeToFilter('customer_id', $customer->getId())
+                                                                      ->addAttributeToFilter('status', array('in' => array('pending', 'processing')))
+                                                                      ->addAttributeToSort('increment_id', 'desc')->getData();
+                                                    /* echo "<pre>";
+                                                      print_r($collection);
+                                                      echo "</pre>";*/
+                                                    /*foreach ($collection as  $value) {
+                                                        echo $value[];
+                                                    }*/
+                                                    ?>
+                                                    <li class="my-title">DATE</li>
+                                                    <?php foreach ($collection as $value) {
+                                                        $dataproper = explode(" ", $value['created_at']); ?>
+
+                                                        <li><?php echo $dataproper[0]; ?></li><?php
+                                                    } ?>
+
+                                                </ul>
+                                                <ul>
+                                                    <li class="my-title">Order Id</li>
+
+                                                    <?php foreach ($collection as $value) { ?>
+                                                        <li><?php echo $value['increment_id']; ?></li><?php
+                                                    } ?>
+
+                                                </ul>
+                                                <!--<ul>
+                                                    <li class="my-title">Seller</li>
+                                                    <?php /*foreach ($collection as $value) {
+                                                        */?>
+
+                                                        <li><?php /*$doller = $value['increment_id'];
+                                                        if ($doller != "") {
+                                                            echo "Total Tools & Equipment (P) Ltd.";
+                                                        }
+                                                        */?></li><?php
+/*                                                    } */?>
+
+                                                </ul>-->
+                                                <ul>
+                                                    <li class="my-title">Status</li>
+                                                    <?php foreach ($collection as $value) { ?>
+                                                        <li class="<?php echo $value['status']; ?>"><?php echo $value['status']; ?></li>        <?php
+                                                    } ?>
+                                                </ul>
+                                                <ul></ul>
+                                            </div>
+                                        </div>
+                                    <?php } ?>
+                                </div>
+                            <?php } ?>
+                        </div>
+
+                        <!-- Hot categories home page -->
+                        <?php if ($this->getChildHtml('hot-categories')) { ?>
+                            <div class="hotcate-wrap">
+                                <div class="container">
+                                    <div class="row">
+                                        <?php echo $this->getChildHtml('hot-categories'); ?>
+                                    </div>
+                                </div>
+                            </div>
+                        <?php } ?>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- END: content -->
+    </div>
+    <!-- BEGIN: footer -->
+    <div id="yt_footer" class="yt-footer wrap">
+        <?php echo $this->getChildHtml('footer') ?>
+    </div>
+    <!-- END: footer -->
+    <?php
+    if (Mage::getSingleton('cms/page')->getIdentifier() == 'home'
+        && Mage::app()->getFrontController()->getRequest()->getRouteName() == 'cms'
+        && $var_yttheme->getParam('showPopup') == 1
+    ) {
+        ?>
+        <?php echo $this->getChildHtml('popup_location') ?>
+    <?php } ?>
+
+    <?php echo $this->getChildHtml('before_body_end') ?>
+    <?php echo $this->getAbsoluteFooter() ?>
+</div>
+</body>
+</html>

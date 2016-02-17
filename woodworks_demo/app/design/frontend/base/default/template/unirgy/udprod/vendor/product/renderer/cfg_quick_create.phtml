@@ -1,0 +1,371 @@
+<?php
+$_isMultiPrice = Mage::helper('udropship')->isModuleActive('Unirgy_DropshipMultiPrice');
+$_hlp = Mage::helper('udropship');
+$_sofHlp = Mage::helper('udprod');
+$_product = $this->getProduct();
+$_element = $this->getElement();
+$_form = $_element->getForm();
+$_name = $_element->getName();
+$_htmlId = $_element->getId();
+$_dateFormat = Mage::app()->getLocale()->getDateFormat(Mage_Core_Model_Locale::FORMAT_TYPE_SHORT);
+$_calDateFormat = Varien_Date::convertZendToStrFtime($_dateFormat, true, false);
+$cfgAttr = $this->getFirstAttribute();
+$cfgAttrs = $this->getFirstAttributes();
+$cfgAttrId = $cfgAttr->getId();
+$cfgAttrValTuple = $this->getCfgAttributeValueTuple();
+$cfgAttrVal = current($cfgAttrValTuple);
+$cfgAttrLabels = $this->getCfgAttributeLabels();
+$cfgAttrCode = $this->getCfgAttributeCode();
+$cfgSuf = '_'.$cfgAttrId.'_'.implode('_', $cfgAttrValTuple);
+$otherAttrLabel = '';
+$oneAttrMode = true;
+foreach ($this->getConfigurableAttributes(true) as $_cfgAttr) {
+    $oneAttrMode = false;
+    $otherAttrLabel = $this->htmlEscape($_cfgAttr->getFrontend()->getLabel());
+}
+$columnsCount = 1;
+$cfgColumnsCount = $this->isOneColumnCfgAttrs() ? 1 : count($this->getConfigurableAttributes(true));
+$extraColumnsCount = $this->getColumnsForm()->getElements()->count();
+$columnsCount += $cfgColumnsCount;
+$columnsCount += $extraColumnsCount;
+$addAnotherLabel = $cfgColumnsCount==1
+    ? Mage::helper('udropship')->__('Add Another %s', $otherAttrLabel)
+    : Mage::helper('udropship')->__('Add Other Options');
+?>
+
+<div id="content-wrapper-<?php echo $cfgSuf?>" class="content-wrapper">
+<div class="cfg-content-header">
+<h2>
+    <?php foreach ($cfgAttrs as $__i => $__ca): ?>
+    <?php echo $__ca->getFrontend()->getLabel().': '.$cfgAttrLabels[$__i]?>
+    <?php if ($__i<count($cfgAttrs)-1): ?>, <?php endif?>
+    <?php endforeach ?>
+</h2>
+<p><button type="button" class="btn-remove"><span><?php echo Mage::helper('udropship')->__('Remove') ?></span></button></p>
+</div>
+<div class="content">
+	<div class="col-gallery">
+        <?php if (!Mage::getSingleton('udprod/source')->isMediaCfgPerOptionHidden()
+            || Mage::getSingleton('udprod/source')->isCfgUploadImagesSimple()): ?>
+	    <?php echo $this->getGalleryContentHtml() ?>
+        <?php endif ?>
+	</div>
+	<div class="col-info">
+        <input type="hidden" id="udvalidate_cfg_required-row-<?php echo implode('_', $cfgAttrValTuple)?>" class="udvalidate-cfg-required-row" value="<?php echo implode('_', $cfgAttrValTuple)?>" />
+        <br /><div style="display: none;" id="advice-udvalidate_cfg_required-row-<?php echo implode('_', $cfgAttrValTuple)?>" class="advice-udvalidate-cfg-required-udvalidate_cfg_required-row validation-advice"><?php echo Mage::helper('udropship')->__('At least one option should be added') ?></div>
+	    <table id="cfg_quick_create<?php echo $cfgSuf?>" cellspacing="0" class="data data-table" cellpadding="0" style="width: 100%">
+            <?php if ($this->isOneColumnCfgAttrs() && !$oneAttrMode): ?>
+            <col width="150">
+            <?php else: ?>
+	        <?php foreach ($this->getConfigurableAttributes(true) as $_cfgAttr): ?>
+	        <col width="150">
+	        <?php endforeach ?>
+            <?php endif ?>
+            <?php for ($_excc=0; $_excc<$extraColumnsCount; $_excc++): ?>
+	        <col>
+	        <?php endfor ?>
+	        <col width="80">
+	        <thead>
+	            <tr class="headings">
+                    <?php if ($this->isOneColumnCfgAttrs() && !$oneAttrMode): ?>
+                    <th><?php echo $this->htmlEscape($this->getCfgAttrsColumnTitle()) ?><span class="required">*</span></th>
+                    <?php else: ?>
+	                <?php foreach ($this->getConfigurableAttributes(true) as $_cfgAttr): ?>
+	                <th><?php echo $this->htmlEscape($_cfgAttr->getFrontend()->getLabel()) ?><span class="required">*</span></th>
+	                <?php endforeach ?>
+                    <?php endif ?>
+	                <?php foreach ($this->getColumnsForm()->getElements() as $columnEl): ?>
+                    <th><?php echo $this->htmlEscape($columnEl->getLegend()) ?></th>
+                    <?php endforeach ?>
+	                <?php if (!$oneAttrMode): ?>
+	                <th><?php echo Mage::helper('udropship')->__('Action') ?></th>
+	                <?php endif ?>
+	            </tr>
+	            <tr style="display:none" id="cfg_quick_create<?php echo $cfgSuf?>_row_template">
+                    <?php $hiddenInserted=0; ?>
+                    <?php if ($this->isOneColumnCfgAttrs() && !$oneAttrMode): ?><td><?php endif ?>
+	                <?php foreach ($this->getConfigurableAttributes(true) as $_cfgAttr):
+                        $cfgAttrHtmlId = $this->prepareIdSuffix($this->getColumnsForm()->addSuffixToName($_cfgAttr->getAttributeCode(), $_name.'[$ROW]'));
+                    ?>
+	                <?php if (!$this->isOneColumnCfgAttrs()): ?>
+                    <td>
+                    <?php else: ?>
+                    <label><?php echo $this->htmlEscape($_cfgAttr->getFrontend()->getLabel()) ?><span class="required">*</span></label><br />
+                    <?php endif ?>
+	                    <select id="<?php echo $cfgAttrHtmlId?>" name="<?php echo $_name?>[$ROW][<?php echo $_cfgAttr->getAttributeCode() ?>]" class="required-entry" style="width:100%">
+	                    <?php foreach ($_cfgAttr->getSource()->getAllOptions(true, true) as $_option): ?>
+	                        <option alt="<?php echo $cfgAttrHtmlId?>" value="<?php echo $_option['value'] ?>"><?php echo $this->htmlEscape($_option['label']) ?></option>
+	                    <?php endforeach ?>
+	                    </select>
+	                    <br />
+                        <?php if (!$hiddenInserted): $hiddenInserted++;?>
+                        <?php foreach ($cfgAttrs as $__i => $__ca): $cfgAttrCode = $__ca->getAttributeCode(); ?>
+                        <input type="hidden" id="<?php echo $_htmlId?>-$ROW-<?php echo $cfgAttrCode?>" name="<?php echo $_name?>[$ROW][<?php echo $cfgAttrCode?>]" id="udmulti_vendors[$ROW][<?php echo $cfgAttrCode?>]" value="<?php echo $cfgAttrValTuple[$__i]?>">
+                        <?php endforeach ?>
+	                    <input type="hidden" id="<?php echo $_htmlId?>-$ROW-simple_id" name="<?php echo $_name?>[$ROW][simple_id]" id="udmulti_vendors[$ROW][simple_id]" value="$SIMPLE_ID" class="cfg-quick-create-qty">
+                        <?php endif ?>
+	                <?php if (!$this->isOneColumnCfgAttrs()): ?></td><?php endif ?>
+	                <?php endforeach ?>
+                    <?php if ($this->isOneColumnCfgAttrs() && !$oneAttrMode): ?></td><?php endif ?>
+
+                    <?php foreach ($this->getColumnsForm()->getElements() as $columnEl):
+                        $columnElCnt = $columnEl->getElements()->count();
+                    ?>
+                    <?php if (!empty($columnElCnt)): ?>
+                    <td>
+                        <?php foreach ($columnEl->getElements() as $lcElement):
+                            if ($lcElement->getRequired()) $lcElement->addClass('required-entry'); ?>
+                        <?php if ($columnElCnt>1): ?>
+                        <?php echo trim($lcElement->getLabelHtml()) ?><br />
+                        <?php endif; ?>
+                        <?php echo str_replace('<option ', '<option alt="'.$lcElement->getId().'"', $lcElement->getElementHtml()) ?><br />
+                        <?php endforeach; ?>
+                        <?php if (!$hiddenInserted): $hiddenInserted++;?>
+                        <?php foreach ($cfgAttrs as $__i => $__ca): $cfgAttrCode = $__ca->getAttributeCode(); ?>
+                            <input type="hidden" id="<?php echo $_htmlId?>-$ROW-<?php echo $cfgAttrCode?>" name="<?php echo $_name?>[$ROW][<?php echo $cfgAttrCode?>]" id="udmulti_vendors[$ROW][<?php echo $cfgAttrCode?>]" value="<?php echo $cfgAttrValTuple[$__i]?>">
+                        <?php endforeach ?>
+	                    <input type="hidden" id="<?php echo $_htmlId?>-$ROW-simple_id" name="<?php echo $_name?>[$ROW][simple_id]" id="udmulti_vendors[$ROW][simple_id]" value="$SIMPLE_ID" class="cfg-quick-create-qty">
+                        <?php endif ?>
+                    </td>
+                    <?php endif; ?>
+                    <?php endforeach ?>
+
+	                <?php if (!$oneAttrMode): ?>
+	                <td><button type="button" class="btn-remove"><span><?php echo Mage::helper('udropship')->__('Remove') ?></span></button></td>
+	                <?php endif ?>
+	            </tr>
+	        </thead>
+	        <?php if (!$oneAttrMode): ?>
+	        <tfoot>
+	            <tr>
+	                <th colspan="<?php echo $columnsCount?>" class="a-left">
+	                    <div class="left"><button type="button" class="scalable add" id="cfg_quick_create<?php echo $cfgSuf?>_add"><span>+ <?php echo $this->htmlEscape($addAnotherLabel) ?></span></button></div>
+	                </th>
+	            </tr>
+	        </tfoot>
+	        <?php endif ?>
+	        <tbody>
+	        </tbody>
+	    </table>
+	    <script type="text/javascript">
+	//<![CDATA[
+	    (function ()
+	    {
+	        var lastRowNum = 0;
+	        var tbody = $$('#cfg_quick_create<?php echo $cfgSuf?> tbody')[0]
+
+            $('cfg_quick_create<?php echo $cfgSuf?>_row_template').select('input,select,textarea').each(function(el) {
+                el.className = $w(el.className).collect(function(s){ return 'udorg--'+s;}).join(' ');
+            });
+	
+	        function addRow(inData)
+	        {
+	            var rowHtml = $('cfg_quick_create<?php echo $cfgSuf?>_row_template').innerHTML
+
+                inData = inData || {}
+                var udmInData = inData.udmulti || {}
+                var sdInData = inData.stock_data || {}
+                inData = $H(inData)
+                inData.unset('udmulti');
+                inData.unset('stock_data');
+                inData = inData.toObject();
+                
+	            var data = {
+                    <?php foreach (Mage::helper('udprod')->getQuickCreateAllowedAttributes() as $qcaAttr): ?>
+	                <?php echo $qcaAttr ?>: '',
+	                <?php endforeach ?>
+	                <?php foreach ($this->getConfigurableAttributes() as $cfgAttr): ?>
+	                <?php echo $cfgAttr->getAttributeCode() ?>: '',
+	                <?php endforeach ?>
+                    simple_id: ''
+	            }
+                udmData= {
+                    <?php if (Mage::helper('udropship')->isUdmultiActive()): ?>
+                    vendor_sku: '',
+                    vendor_cost: '',
+                    <?php if (Mage::helper('udmulti')->isVendorProductShipping()): ?>
+                    shipping_price: '',
+                    <?php endif ?>
+                    freeshipping: 0,
+                    stock_qty: '',
+                    avail_date: '',
+                    avail_state: '',
+                    reserved_qty: 0,
+                    priority: 9999,
+                    <?php if ($_isMultiPrice): ?>
+                        special_from_date: '',
+                        special_to_date: '',
+                        special_price: '',
+                        vendor_price: '',
+                        vendor_title: '',
+                        state_descr: '',
+                        state: 'new',
+                    <?php endif ?>
+                    status: <?php echo (int)Mage::helper('udmulti')->getDefaultMvStatus()?>
+                    <?php endif ?>
+                }
+                sdData= {
+                    <?php if (!Mage::helper('udropship')->isUdmultiActive()): ?>
+                    qty: 0,
+                    is_in_stock: 0
+                    <?php endif ?>
+                }
+                Object.extend(sdData, sdInData);
+                Object.extend(udmData, udmInData);
+	            Object.extend(data, inData);
+	            if (!window.cfgQcLastRowNum) {
+	                window.cfgQcLastRowNum = 1;
+	            }
+	            sdData.row = udmData.row = data.row = window.cfgQcLastRowNum++;
+	            lastRowNum++;
+
+                var numericVars, forcedNumericVars, selectFields
+
+                numericVars = <?php echo Zend_Json::encode(Mage::helper('udprod')->getQCNumericAttributes())?>;
+                forcedNumericVars = <?php echo Zend_Json::encode(Mage::helper('udprod')->getQCForcedNumericAttributes())?>;
+                selectFields = $H(<?php echo Zend_Json::encode(Mage::helper('udprod')->getQCSelectAttributes())?>);
+
+                <?php foreach ($this->getConfigurableAttributes() as $cfgAttr): ?>
+                numericVars.push('<?php echo $cfgAttr->getAttributeCode() ?>');
+                forcedNumericVars.push('<?php echo $cfgAttr->getAttributeCode() ?>');
+                selectFields.set('<?php echo $cfgAttr->getAttributeCode() ?>', 0);
+                <?php endforeach ?>
+
+                rowHtml = processData(rowHtml, data, numericVars, forcedNumericVars, selectFields);
+
+                numericVars = <?php echo Zend_Json::encode(Mage::helper('udprod')->getMvNumericAttributes())?>;
+                forcedNumericVars = <?php echo Zend_Json::encode(Mage::helper('udprod')->getMvForcedNumericAttributes())?>;
+                selectFields = $H(<?php echo Zend_Json::encode(Mage::helper('udprod')->getMvSelectAttributes())?>);
+
+                rowHtml = processData(rowHtml, udmData, numericVars, forcedNumericVars, selectFields, 'udmulti');
+
+                numericVars = <?php echo Zend_Json::encode(Mage::helper('udprod')->getSdNumericAttributes())?>;
+                forcedNumericVars = <?php echo Zend_Json::encode(Mage::helper('udprod')->getSdForcedNumericAttributes())?>;
+                selectFields = $H(<?php echo Zend_Json::encode(Mage::helper('udprod')->getSdSelectAttributes())?>);
+
+                rowHtml = processData(rowHtml, sdData, numericVars, forcedNumericVars, selectFields, 'stock_data');
+
+                //rowHtml = rowHtml.gsub('required-entry1', 'required-entry');
+
+                tbody.insert('<tr>'+rowHtml+'</tr>');
+	            var trs = tbody.childElements();
+	            var tr = trs[trs.length-1];
+                tr.select('input,select,textarea').each(function(el) {
+                    el.className = $w(el.className).collect(function(s){ return s.gsub('udorg--', '');}).join(' ');
+                });
+	            tr.addClassName(lastRowNum%2 ? 'odd' : 'even');
+                $(tr).down('.cfg-quick-create-qty').addClassName('cfg-quick-create-qty-<?php echo implode('_', $cfgAttrValTuple)?>');
+	            var del = $(tr).select('button')[0];
+	            if (del) {
+	                $(del).observe('click', function(e) { e.stop(); $(del.parentNode.parentNode).remove() })
+	            }
+
+                $(tr).up('.cfg-quick-create-item').down('.advice-udvalidate-cfg-required-udvalidate_cfg_required-row').hide();
+	        }
+            function processData(rowHtml, data, numericVars, forcedNumericVars, selectFields, htmlSuffix)
+            {
+                var isIE = (/msie [1-8]\./i).test(navigator.userAgent);
+                var keys = $H(data).keys().sortBy(function(s){return (''+s).length}).reverse();
+                for (j=0; j<keys.length; j++) {
+                    var i=keys[j];
+                    value = data[i] || ''
+                    if (-1 != numericVars.indexOf(i) && data[i]
+                        || -1 != forcedNumericVars.indexOf(i)
+                    ) {
+                        value *= 1;
+                        data[i] = value;
+                    }
+                    if (i!=='row' && isIE) value = '"'+value+'"'
+                    var __i=i;
+                    if (htmlSuffix) {
+                        __i = addSuffixToName(__i, htmlSuffix);
+                    }
+                    __i = __i.gsub(/[^a-zA-Z0-9$]/, '_').toUpperCase()
+                    rowHtml = rowHtml.replace(new RegExp('\\$'+__i, 'g'), value)
+                }
+                var regExTpl = [
+                    new Template('<option (([^>]*(alt="?#{key}"?|value="?#{value}"?(?=[\\s>]))){2})'),
+                    new Template('<option $1 selected="selected"'),
+                    new Template('<input (([^>]*(id="?#{key}"?|value="?#{value}"?(?=[\\s>])|type="?checkbox"?)){3})'),
+                    new Template('<input $1 checked="checked"')
+                ];
+                selectFields.each(function(pair){
+                    var varsForEval, value=data[pair.key], key=pair.key;
+                    if (htmlSuffix) {
+                        key = addSuffixToName(key, htmlSuffix);
+                    }
+                    key = addSuffixToName(key, '<?php echo $_name?>['+data.row+']');
+                    key = key.gsub(/[^a-zA-Z0-9$]/, '_');
+                    for (var rxIdx=0; rxIdx<regExTpl.length; rxIdx+=2) {
+                        varsForEval = [];
+                        if (value) {
+                            if (!Object.isArray(value)) {
+                                value = String.interpret(value).split(',');
+                            }
+                            value.each(function(val){
+                                varsForEval.push({key: key, value: val});
+                            })
+                        } else {
+                            varsForEval.push({key: key, value: value});
+                        }
+                        for (var vfeIdx=0; vfeIdx<varsForEval.length; vfeIdx++) {
+                            var varForEval = varsForEval[vfeIdx];
+                            var rxFind = regExTpl[rxIdx].evaluate(varForEval);
+                            var rxReplace = regExTpl[rxIdx+1].evaluate(varForEval);
+                            rowHtml = rowHtml.replace(new RegExp(rxFind, 'i'), rxReplace);
+                        }
+                    }
+                });
+                return rowHtml;
+            }
+            function addSuffixToName(name, suffix) {
+                if (!name) {
+                    return suffix;
+                }
+                var vars = name.split('[');
+                newName = suffix;
+                vars.each(function(value, index){
+                    newName = newName+'['+value;
+                    if (index==0) {
+                        newName = newName + ']';
+                    }
+                })
+                return newName;
+            }
+	
+	    <?php if (!$oneAttrMode): ?>
+	        $('cfg_quick_create<?php echo $cfgSuf?>_add').observe('click', function(e) { e.stop(); addRow() });
+	    <?php endif ?>
+	
+	    <?php if ($oneAttrMode && !$this->getSimpleProducts(true)): ?>
+	        addRow({});
+	    <?php endif ?>
+	    <?php foreach ($this->getSimpleProducts(true) as $_simpleProduct): ?>
+	        addRow(<?php echo Zend_Json::encode($_simpleProduct) ?>);
+	    <?php endforeach ?>
+            var btnRemColor = $('content-wrapper-<?php echo $cfgSuf?>').down('.cfg-content-header .btn-remove');
+            if (btnRemColor) {
+                btnRemColor.observe('click', function(){
+                    $('content-wrapper-<?php echo $cfgSuf?>').up().fade({
+                        duration: 1.0,
+                        afterFinish: function() {
+                            $('content-wrapper-<?php echo $cfgSuf?>').up().remove();
+                            var colorSel = $('cfg-quick-create-container-<?php echo $cfgAttrCode ?>');
+                            if (colorSel) {
+                                colorSel.options[colorSel.options.length] = new Option('<?php echo $this->jsQuoteEscape($this->getCfgAttributeLabel()) ?>', '<?php echo $cfgAttrVal ?>');
+                            }
+                        }
+                    });
+                });
+            }
+	    })()
+	//]]>
+	    </script>
+	</div>
+</div>
+</div>
+
+<style type="text/css">
+#cfg_quick_create<?php echo $cfgSuf?> select {width: auto}
+</style>
+	

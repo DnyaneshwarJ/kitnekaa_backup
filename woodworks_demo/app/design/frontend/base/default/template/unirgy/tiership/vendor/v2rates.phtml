@@ -1,0 +1,89 @@
+<?php
+$vendor = Mage::getSingleton('udropship/session')->getVendor();
+$_tsHlp = Mage::helper('udtiership');
+
+$deliveryTypes = Mage::getResourceModel('udtiership/deliveryType_collection')->toOptionHash();
+
+?>
+
+<?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
+
+<form action="<?php echo $this->getUrl('udtiership/vendor/v2ratesPost')?>" method="post" id="tiership-v2rates-form">
+    <table style="width: 100%" cellspacing="0" class="data-table" id="tiership_v2rates-grid">
+        <tbody id="tiership_v2rates-table">
+
+            <tr>
+                <td class="a-left">
+                    <?php echo Mage::helper('udropship')->__('Select Delivery Type to edit Rates')?>
+                    <br />
+                    <select class=" select" name="tiership_delivery_type_selector" id="tiership_delivery_type_selector">
+                        <option selected="selected" value=""><?php echo Mage::helper('udropship')->__('* Please select')?></option>
+                        <?php foreach ($deliveryTypes as $dtId=>$dtLbl): ?>
+                        <option value="<?php echo $dtId?>"><?php echo $this->escapeHtml($dtLbl)?></option>
+                        <?php endforeach; ?>
+                    </select>
+
+                    <script type="text/javascript">
+                        Event.observe('tiership_delivery_type_selector', 'change', function(){
+                            if ($F('tiership_delivery_type_selector')) {
+                                $('tiership_v2rates_container').update('');
+                                $('tiership_v2rates-loader').show();
+                                new Ajax.Updater(
+                                    'tiership_v2rates_container',
+                                    '<?php echo Mage::getModel('core/url')->getUrl('udtiership/vendor/loadVendorRates', array('delivery_type'=>'DELIVERYTYPE'));?>'.replace('DELIVERYTYPE', $F('tiership_delivery_type_selector')),
+                                    {
+                                        asynchronous:true,
+                                        evalScripts:true,
+                                        onFailure: function(transport){
+                                            alert('Error during rates load');
+                                            $('tiership_v2rates-loader').hide();
+                                        },
+                                        onSuccess: function (transport) {
+                                            $('tiership_v2rates-loader').hide();
+                                        }
+                                    });
+                            }
+                        });
+                    </script>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span class="tiership_v2rates-loader" style="display:none" id="tiership_v2rates-loader"><?php echo Mage::helper('udropship')->__('Please wait, loading...')?></span>
+                    <div id="tiership_v2rates_container"></div>
+                </td>
+
+            </tr>
+
+        </tbody>
+    </table>
+
+    <br/><br/>
+
+    <div class="button-set" style="text-align:left">
+        <div style="float:left">
+            <button class="form-button" type="submit"><span><?php echo Mage::helper('udropship')->__('Save') ?></span></button>
+        </div>
+        <div style="float:right">
+            <button class="form-button" type="submit"><span><?php echo Mage::helper('udropship')->__('Save') ?></span></button>
+        </div>
+    </div>
+</form>
+<style type="text/css">
+    #tiership_v2rates-grid {
+        border-collapse:collapse;
+        border-color: #DADFE0;
+        border-style: solid;
+        border-width: 1px medium;
+    }
+</style>
+<script type="text/javascript">
+    var dataForm = new VarienForm('tiership-v2rates-form', true);
+    Validation.addAllThese([
+        ['validate-less-then-eq', 'Invalid input or value exceed maximum.', function(v, elm) {
+            var val = parseNumber(v);
+            var maxVal = parseNumber(elm.alt);
+            return ((!isNaN(val) || v=='') && (elm.alt=='' || val<=maxVal));
+        }]
+    ]);
+</script>

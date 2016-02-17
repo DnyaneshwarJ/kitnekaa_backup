@@ -1,0 +1,98 @@
+<?php
+/*------------------------------------------------------------------------
+ # SM Categories - Version 2.0.0
+ # Copyright (c) 2014 YouTech Company. All Rights Reserved.
+ # @license - Copyrighted Commercial Software
+ # Author: YouTech Company
+ # Websites: http://www.magentech.com
+-------------------------------------------------------------------------*/
+
+$big_image_config = array(
+	'width' => (int)$this->_getConfig('imgcfgcat_width', 200),
+	'height' => $this->_getConfig('imgcfgcat_height', null),
+	'constrainOnly' => (bool)$this->_getConfig('imgcfgcat_constrainOnly'),
+	'keepAspectRatio' => (bool)$this->_getConfig('imgcfgcat_keepAspectRatio'),
+	'keepFrame' => (bool)$this->_getConfig('imgcfgcat_keepFrame'),
+	'keepTransparency' => (bool)$this->_getConfig('imgcfgcat_keepTransparency'),
+	'background' => (string)$this->_getConfig('imgcfgcat_background'),
+	'function' => (int)$this->_getConfig('imgcfgcat_function', 0)
+);
+
+?>
+<div class="cat-wrap theme2">
+	<?php $i = 0;
+	foreach ($list as $key => $items) {
+		$i++;
+		?>
+		<div class="content-box">
+			<div class="parent-cat">
+				<?php if ($this->_getConfig('cat_title_display', 1)) { ?>
+					<div class="cat-title">
+						<a href="<?php echo $items->link; ?>"
+						   title="<?php echo $items->title; ?>" <?php echo $helper->parseTarget($this->_getConfig('product_links_target')); ?> >
+							<?php echo $helper->truncate($items->title, $this->_getConfig('cat_title_maxcharacs', 25)); ?>
+						</a>
+					</div>
+				<?php } ?>
+
+				<?php  $cat_img = $helper->getCatImage($items, $this->_getConfig() , 'imgcfgcat');
+				if (($cat_img)) {
+					?>
+					<!--begin cat-image-->
+					<div class="image-cat">
+						<a href="<?php echo $items->link;?>"
+							title="<?php echo $items->title;?>"
+							<?php echo $helper->parseTarget($this->_getConfig('product_links_target')); ?>
+							>
+							<img
+								src="<?php echo $helper->_resizeImage($cat_img,$big_image_config,'category'); ?>"
+								title="<?php echo $items->title; ?>"
+								alt="<?php echo $items->title; ?>"
+								style="height: <?php echo $this->_getConfig('imgcfgcat_height');?>px"
+								/>
+						</a>
+					</div>
+					<!--end cat-image-->
+				<?php } ?>
+
+			</div>
+			<?php if ($this->_getConfig('cat_sub_title_display', 1)) { ?>
+				<div class="child-cat">
+					<?php
+					if (!empty($items->child_cat)) {
+						foreach ($items->child_cat as $key1 => $item) {
+							?>
+							<div class="arrow"></div>
+							<div class="child-cat-title">
+								<a href="<?php echo $item->link; ?>" <?php echo $helper->parseTarget($this->_getConfig('product_links_target')); ?> >
+									<?php echo $helper->truncate($item->title, $this->_getConfig('cat_sub_title_maxcharacs', 25)); ?>
+									<?php if ( $this->_getConfig('cat_all_product') == 1 ) {
+										echo '&nbsp;&nbsp;(' . $item->number_article . ')';
+									} ?>
+								</a>
+							</div>
+						<?php
+						}
+					} else {
+						?>
+						<p>
+							<?php echo 'No sub-categories to show!'; ?>
+						</p>
+					<?php } ?>
+				</div>
+			<?php } ?>
+		</div>
+		<?php
+		$clear = 'clr1';
+		if ($i % 2 == 0) $clear .= ' clr2';
+		if ($i % 3 == 0) $clear .= ' clr3';
+		if ($i % 4 == 0) $clear .= ' clr4';
+		if ($i % 5 == 0) $clear .= ' clr5';
+		if ($i % 6 == 0) $clear .= ' clr6';
+		?>
+		<div class="<?php echo $clear; ?>"></div>
+	<?php } ?>
+
+</div>
+       
+ 

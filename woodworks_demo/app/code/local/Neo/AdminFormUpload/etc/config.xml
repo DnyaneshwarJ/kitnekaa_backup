@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<config>
+	<modules>
+		<Neo_AdminFormUpload>
+			<version>0.0.1</version>
+		</Neo_AdminFormUpload>
+	</modules>
+	<global>
+		<blocks>
+			<neo_adminformupload>
+				<class>Neo_AdminFormUpload_Block</class>
+			</neo_adminformupload>
+		</blocks>
+		<helpers>
+			<neo_adminformupload>
+				<class>Neo_AdminFormUpload_Helper</class>
+			</neo_adminformupload>
+		</helpers>
+	</global>
+	<admin>
+		<routers>
+			<adminformupload>
+				<use>admin</use>
+				<args>
+					<module>Neo_AdminFormUpload</module>
+          			<frontName>neoadminformupload</frontName>
+				</args>
+			</adminformupload>
+		</routers>
+	</admin>
+</config>

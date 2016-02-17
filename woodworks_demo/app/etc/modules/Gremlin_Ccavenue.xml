@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<config>
+	<modules>
+		<Gremlin_Ccavenue>
+			<active>true</active>
+			<codePool>community</codePool>
+		</Gremlin_Ccavenue>
+	</modules>
+</config>

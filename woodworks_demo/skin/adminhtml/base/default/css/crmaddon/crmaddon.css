@@ -1,0 +1,305 @@
+/**
+ *
+ * CART2QUOTE CONFIDENTIAL
+ * __________________
+ *
+ *  [2009] - [2015] Cart2Quote B.V.
+ *  All Rights Reserved.
+ *
+ * NOTICE OF LICENSE
+ *
+ * All information contained herein is, and remains
+ * the property of Cart2Quote B.V. and its suppliers,
+ * if any.  The intellectual and technical concepts contained
+ * herein are proprietary to Cart2Quote B.V.
+ * and its suppliers and may be covered by European and Foreign Patents,
+ * patents in process, and are protected by trade secret or copyright law.
+ * Dissemination of this information or reproduction of this material
+ * is strictly forbidden unless prior written permission is obtained
+ * from Cart2Quote B.V.
+ *
+ * @category    Ophirah
+ * @package     Crmaddon
+ * @copyright   Copyright (c) 2015 Cart2Quote B.V. (http://www.cart2quote.com)
+ * @license     http://www.cart2quote.com/ordering-licenses
+ */
+
+/* ===================
+CART2QUOTE INTEGRATION
+====================*/
+#crmaddon_container {
+    z-index: 100;
+}
+
+#crmaddon_template_ifr, #crmaddon_template_tbl {
+    width: 100% !important;
+}
+
+.crmaddon_history {
+    /* min-width: 450px; */
+    width: 100%;
+    float: left;
+}
+
+#crmaddon_container .box-left,
+#crmaddon_container .box-right {
+    float: right !important;
+    clear: right !important;
+}
+
+#crmaddon_container .crm_left,
+#crmaddon_container .crm_right {
+    padding: 0;
+    margin: 0;
+}
+
+#crmaddon_container .crm_left {
+    float: left !important;
+}
+
+#crmaddon_container .crm_right,
+#crmaddon_container .crm_right .save {
+    /*    float: right !important; */
+    margin: 0;
+    width: 95%;
+}
+
+#crmaddon_template_tbl {
+    margin: 30px 0 0 0;
+}
+
+#crmaddon_container .buttons-set {
+    margin: 0 -15px 10px;
+}
+
+#crmaddon_container fieldset {
+    float: right;
+    padding: 10px 0;
+    margin-top: 0px;
+}
+
+#crmaddon_container fieldset,
+#crmaddon_container .crmaddon_history {
+    /* width: 48.5%; */
+    display: table;
+}
+
+#crmaddon_container fieldset button {
+    float: right;
+    margin: 0 15px 0 0;
+}
+
+#crmaddon_container .crmaddon_history fieldset {
+    float: left;
+    width: 100%;
+}
+
+#crmaddon_container .crmaddon_history fieldset .form-list {
+    padding: 0 15px;
+    width: 100%;
+}
+
+#crmaddon_container .crmaddon_history fieldset .form-list fieldset {
+    border: none;
+    margin: 0;
+}
+
+#crmaddon_container .crmaddon_history .form-list td.label {
+    padding: 0 !important;
+}
+
+#crmaddon_container .crmaddon_history fieldset button {
+    float: left;
+    margin: 0 15px 0 15px;
+}
+
+#crmaddon_container .form-list td.label,
+#crmaddon_container .form-list td.label label {
+    /*    width: 100px !important; */
+}
+
+#crmaddon_container .form-list td.value {
+    width: 100% !important;
+    padding: 10px 0 0 0 !important;
+}
+
+#crmaddon_container .form-list td.value textarea {
+    width: 100% !important;
+    padding: 0 !important;
+    margin: 15px 0 0 0;
+}
+
+#crmaddon_container .crmaddon_history fieldset .crm_send {
+    /*    padding: 0 5px 0 0; */
+}
+
+#crmaddon_container .crmaddon_history fieldset .crm_send button {
+    float: right;
+    margin: 0;
+}
+
+/* ===============
+CRM MESSAGE CENTRE
+==================*/
+
+#crm_newtemplate,
+#crm_savetemplate,
+#crm_deletetemplate {
+    margin: 0 25px 0 0;
+}
+
+.fieldset-wrapper {
+    padding: 0 2px 0 0;
+}
+
+/* ===============
+  MESSAGES HISTORY
+==================*/
+#crm_msgContainer .crm_msgWrapper,
+#tbl_crmMsgBottom {
+    padding: 0 15px;
+}
+
+#tbl_crmMsgBottom fieldset {
+    border: none;
+    background: transparent;
+    margin: 0;
+}
+
+#tbl_crmMsgBottom .crm_notify {
+    margin: 15px 0 0 0;
+    padding: 0;
+    float: left;
+}
+
+#crm_msgContainer .crm_msgmessage {
+    font-size: 100%;
+    margin: 15px 0;
+}
+
+#crm_msgContainer .divider {
+    margin: 0 !important;
+}
+
+#crm_msgContainer .crm_subj {
+    font-weight: bold;
+}
+
+#crm_msgContainer .crm_email {
+    font-weight: bold;
+    color: #306375;
+}
+
+#crm_msgContainer .crm_msgicon {
+    background: url("../../images/crmaddon/icon_note_list.gif") no-repeat scroll 4px 2px transparent;
+    padding: 0 0 0 25px;
+}
+
+#crm_msgContainer .crm_msgsend {
+    background: url("../../images/crmaddon/ico_success.gif") no-repeat scroll top left transparent;
+    position: absolute;
+    width: 16px;
+    height: 16px;
+}
+
+/* ===============
+    MCE EDITOR
+==================*/
+#crmaddon_container #crm_msgContainer ul.crm_msghead li,
+#crmaddon_container #crm_msgContainer ul.crm_msgfooter li,
+#crmaddon_container #crm_msgContainer ul.crm_msghead li:after,
+#crmaddon_container #crm_msgContainer ul.crm_msgfooter li:after {
+    display: inline !important;
+    padding: 0;
+    margin: 0 2px 0 0;
+}
+
+.crmaddon_history .mceButton,
+.crmaddon_history .mceOpen,
+.crmaddon_history .mceAction,
+.crmaddon_history .mceListBox,
+.crmaddon_history .mceSeparator,
+#crmaddon_template_fieldset .mceButton,
+#crmaddon_template_fieldset .mceOpen,
+#crmaddon_template_fieldset .mceAction,
+#crmaddon_template_fieldset .mceListBox,
+#crmaddon_template_fieldset .mceSeparator {
+    display: none !important;
+    height: 0;
+    padding: 0;
+    margin: 0;
+}
+
+#crmaddon_template_toolbar2,
+#crmaddon_template_toolbar3,
+#crmaddon_templatebody_toolbar2,
+#crmaddon_templatebody_toolbar3,
+#crmaddon_template_fieldset .buttons-set button.scalable {
+    display: none !important;
+}
+
+#crmaddon_template_toolbar1 #crmaddon_template_bold,
+#crmaddon_template_toolbar1 #crmaddon_template_italic,
+#crmaddon_template_toolbar1 #crmaddon_template_underline,
+#buttonscrmaddon_templatebody button#togglecrmaddon_template,
+#crmaddon_templatebody_toolbar1 #crmaddon_templatebody_bold,
+#crmaddon_templatebody_toolbar1 #crmaddon_templatebody_italic,
+#crmaddon_templatebody_toolbar1 #crmaddon_templatebody_underline,
+#crmaddon_template_fieldset button#togglecrmaddon_templatebody {
+    display: inline !important;
+}
+
+#crmaddon_container .defaultSkin .mceToolbar {
+    height: 0;
+}
+
+#crmaddon_container .defaultSkin .mceButton,
+#crmaddon_template_fieldset .defaultSkin .mceButton {
+    margin: 0 !important;
+    height: 0px;
+    display: none !important;
+    border: none !important;
+}
+
+#crmaddon_template_fieldset div#crmaddon_templatebody_toolbargroup {
+    margin: 0 !important;
+    height: 0px;
+}
+
+#crmaddon_container .defaultSkin a.mceButtonActive,
+.defaultSkin a.mceButtonSelected {
+    border: none !important;
+    background: none !important;
+}
+
+button.grey,
+#crm_loadtemplate,
+#crmaddon_container .crm_right .save,
+#buttonscrmaddon_template button#togglecrmaddon_template,
+#buttonscrmaddon_templatebody button#togglecrmaddon_templatebody {
+    background-color: #FFFFFF;
+    background-image: url("../../images/crmaddon/btn_back_bg.gif");
+    border-color: #CCCCCC #AAAAAA #AAAAAA #CCCCCC;
+    color: #666666;
+}
+
+button.grey:hover,
+#crm_loadtemplate:hover,
+#crmaddon_container .crm_right .save:hover,
+#buttonscrmaddon_template button#togglecrmaddon_template:hover,
+#buttonscrmaddon_templatebody button#togglecrmaddon_templatebody:hover {
+    background-color: #CCCCCC;
+    background-image: url("../../images/crmaddon/btn_back_bg_over.gif");
+    color: #555555;
+}
+
+#crmaddon_container .crm_right .save span,
+#crm_loadtemplate span {
+    background-image: url("../../images/crmaddon/icon_btn_save.gif");
+}
+
+#buttonscrmaddon_template button#togglecrmaddon_template span,
+#buttonscrmaddon_templatebody button#togglecrmaddon_templatebody span {
+    background-image: url("../../images/crmaddon/btn_show-hide_icon.gif");
+    padding-left: 26px;
+}

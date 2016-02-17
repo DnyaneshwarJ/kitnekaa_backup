@@ -1,0 +1,42 @@
+<!--@subject {{var quote.getStoreGroupName()}}: Quote # {{var quote.increment_id}} is accepted @-->
+
+<!--@styles
+body,td { color:#2f2f2f; font:11px/1.35em Verdana, Arial, Helvetica, sans-serif; }
+@-->
+<div style="font:11px/1.35em Verdana, Arial, Helvetica, sans-serif;">
+    <table cellspacing="0" cellpadding="0" border="0" width="98%"
+           style="margin-top:10px; font:11px/1.35em Verdana, Arial, Helvetica, sans-serif; margin-bottom:10px;">
+        <tr>
+            <td align="center" valign="top">
+                <!-- [ header starts here] -->
+                <table cellspacing="0" cellpadding="0" border="0" width="650">
+                    <tr>
+                        <td valign="top"><a href="{{store url=''}}"><img src="{{skin url='images/logo_email.gif' _area='frontend'}}" alt="Magento" style="margin-bottom:10px;" border="0"/></a></td>
+                    </tr>
+                </table>
+                <!-- [ middle starts here] -->
+                <table cellspacing="0" cellpadding="0" border="0" width="650">
+                    <tr>
+                        <td valign="top">
+                            <p>
+                                <strong>Hello {{var adminname}}</strong>,<br/><br>
+                            </p>
+
+                            <h3 style="font-size: 1.05em; padding-bottom: 1px;">
+                                Your Proposal #{{var quote.increment_id}}
+                                <small>(placed on {{var quote.getCreatedAtFormated('long')}})</small>
+                                is accepted by the customer
+                            </h3>
+                            <p>
+                                This note is sent to you, because the customer pressed the accept button in the Customer
+                                dashboard. The customer still needs to complete the checkout process, before the
+                                proposal is fully converted to an order.
+                            </p>
+                        </td>
+                    </tr>
+                </table>
+
+            </td>
+        </tr>
+    </table>
+</div>

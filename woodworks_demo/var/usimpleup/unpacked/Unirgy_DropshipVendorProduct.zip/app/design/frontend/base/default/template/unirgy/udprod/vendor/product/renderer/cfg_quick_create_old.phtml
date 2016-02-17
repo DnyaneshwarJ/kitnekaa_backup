@@ -1,0 +1,132 @@
+<?php
+$_hlp = Mage::helper('udropship');
+$_element = $this->getElement();
+$_name = $_element->getName();
+$_htmlId = $_element->getId();
+$cfgAttr = $this->getFirstAttribute();
+$cfgAttrId = $cfgAttr->getId();
+$cfgAttrVal = $this->getCfgAttributeValue();
+$cfgAttrCode = $this->getCfgAttributeCode();
+$cfgSuf = '_'.$cfgAttrId.'_'.$cfgAttrVal;
+?>
+<div>
+<h2><?php echo $cfgAttr->getFrontend()->getLabel().': '.$this->getCfgAttributeLabel()?></h2>
+<div class="col2-set">
+<div class="col-1">
+    <?php echo $this->getGalleryHtml() ?>
+</div>
+<div class="col-2">
+    <table id="cfg_quick_create<?php echo $cfgSuf?>" cellspacing="0" class="data data-table" cellpadding="0" style="width: 100%">
+        <?php foreach ($this->getConfigurableAttributes(true) as $_cfgAttr): ?>
+        <col width="150">
+        <?php endforeach ?>
+        <col width="150">
+        <col width="80">
+        <thead>
+            <tr class="headings">
+                <?php foreach ($this->getConfigurableAttributes(true) as $_cfgAttr): ?>
+                <th><?php echo $this->htmlEscape($_cfgAttr->getFrontend()->getLabel()) ?></th>
+                <?php endforeach ?>
+                <th><?php echo Mage::helper('udropship')->__('Stock Data') ?></th>
+                <th><?php echo Mage::helper('udropship')->__('Action') ?></th>
+            </tr>
+            <tr style="display:none" id="cfg_quick_create<?php echo $cfgSuf?>_row_template">
+                <?php foreach ($this->getConfigurableAttributes(true) as $_cfgAttr): ?>
+                <td>
+                    <select id="<?php echo $_htmlId?>-$ROW-<?php echo $_cfgAttr->getAttributeCode() ?>" name="<?php echo $_name?>[$ROW][<?php echo $_cfgAttr->getAttributeCode() ?>]" class="" style="width:100%">
+                    <?php foreach ($_cfgAttr->getSource()->getAllOptions(true, true) as $_option): ?>
+                        <option alt="<?php echo $_cfgAttr->getAttributeCode() ?>" value="<?php echo $_option['value'] ?>"><?php echo $this->htmlEscape($_option['label']) ?></option>
+                    <?php endforeach ?>
+                    </select>
+                    <br />
+                </td>
+                <?php endforeach ?>
+                <td>
+                    <input type="hidden" id="<?php echo $_htmlId?>-$ROW-<?php echo $cfgAttrCode?>" name="<?php echo $_name?>[$ROW][<?php echo $cfgAttrCode?>]" id="udmulti_vendors[$ROW][<?php echo $cfgAttrCode?>]" value="<?php echo $cfgAttrVal?>">
+                    <input type="hidden" id="<?php echo $_htmlId?>-$ROW-simple_id" name="<?php echo $_name?>[$ROW][simple_id]" id="udmulti_vendors[$ROW][simple_id]" value="$SIMPLE_ID">
+                    <label><?php echo Mage::helper('udropship')->__('Vendor Sku') ?></label> <input id="<?php echo $_htmlId?>-$ROW-vendor_sku" name="<?php echo $_name?>[$ROW][vendor_sku]" value="$VENDOR_SKU" class="" type="text" /> <br />
+                    <span id="container-<?php echo $_htmlId?>-$ROW-vendor_sku_auto"><input id="<?php echo $_htmlId?>-$ROW-vendor_sku_auto" name="<?php echo $_name?>[$ROW][vendor_sku_auto]" value="1" class="" type="checkbox" onclick="if (this.checked) {$('<?php echo $_htmlId?>-$ROW-vendor_sku').disable()} else {$('<?php echo $_htmlId?>-$ROW-vendor_sku').enable()}" /> <label for="<?php echo $_htmlId?>-$ROW-vendor_sku_auto"><?php echo Mage::helper('udropship')->__('Autogenerate Vendor Sku') ?></label><br /></span>
+                    <label><?php echo Mage::helper('udropship')->__('Stock Qty') ?></label> <input id="<?php echo $_htmlId?>-$ROW-qty" name="<?php echo $_name?>[$ROW][qty]" value="$QTY" class="" type="text" /> <br />
+                    <label><?php echo Mage::helper('udropship')->__('Weight') ?></label> <input id="<?php echo $_htmlId?>-$ROW-weight" name="<?php echo $_name?>[$ROW][weight]" value="$WEIGHT" class="" type="text" /> <br />
+                </td>
+                <td><button type="button" class="scalable delete"><span><?php echo Mage::helper('udropship')->__('Remove') ?></span></td>
+            </tr>
+        </thead>
+        <tfoot>
+            <tr>
+                <th colspan="<?php echo count($this->getConfigurableAttributes(true))+2?>" class="a-left">
+                    <div class="left"><button type="button" class="scalable add" id="cfg_quick_create<?php echo $cfgSuf?>_add"><span><?php echo Mage::helper('udropship')->__('Add Configuration') ?></span></button></div>
+                </th>
+            </tr>
+        </tfoot>
+        <tbody>
+        </tbody>
+    </table>
+    <script type="text/javascript">
+//<![CDATA[
+    (function ()
+    {
+        var lastRowNum = 0;
+        var tbody = $$('#cfg_quick_create<?php echo $cfgSuf?> tbody')[0]
+
+        function addRow(data)
+        {
+            var rowHtml = $('cfg_quick_create<?php echo $cfgSuf?>_row_template').innerHTML
+            data = data || {
+                simple_id: '',
+                name: '<?php echo $this->jsQuoteEscape($this->getName())?>',
+                sku: '',
+                status: '',
+                stock_status: '',
+                weight: '',
+                vendor_sku: '',
+                <?php foreach ($this->getConfigurableAttributes() as $cfgAttr): ?>
+                <?php echo $cfgAttr->getAttributeCode() ?>: '',
+                <?php endforeach ?>
+                qty: ''
+            }
+            if (!window.cfgQcLastRowNum) {
+                window.cfgQcLastRowNum = 0;
+            }
+            data.row = window.cfgQcLastRowNum++;
+            lastRowNum++;
+            rowHtml = rowHtml.replace(new RegExp('<option alt="stock_status" value="?'+data.stock_status+'"?>', 'i'), '<option alt="stock_status" value="'+data.stock_status+'" selected="selected">');
+            rowHtml = rowHtml.replace(new RegExp('<option alt="status" value="?'+data.status+'"?>', 'i'), '<option alt="status" value="'+data.status+'" selected="selected">');
+            <?php foreach ($this->getConfigurableAttributes() as $cfgAttr): ?>
+            rowHtml = rowHtml.replace(new RegExp('<option alt="<?php echo $cfgAttr->getAttributeCode() ?>" value="?'+data['<?php echo $cfgAttr->getAttributeCode() ?>']+'"?>', 'i'), '<option alt="<?php echo $cfgAttr->getAttributeCode() ?>" value="'+data['<?php echo $cfgAttr->getAttributeCode() ?>']+'" selected="selected">');
+            <?php endforeach ?>
+            for (i in data) {
+                value = data[i] || ''
+                if ((i=='qty' || i=='weight') && data[i]) value *= 1;
+                if (i!=='row' && Prototype.Browser.IE) value = '"'+value+'"'
+                rowHtml = rowHtml.replace(new RegExp('\\$'+i.toUpperCase(), 'g'), value)
+            }
+            tbody.insert('<tr>'+rowHtml+'</tr>')
+            var trs = tbody.childElements()
+            var tr = trs[trs.length-1]
+            tr.addClassName(lastRowNum%2 ? 'odd' : 'even')
+            if (data.simple_id) {
+                $('<?php echo $_htmlId?>-'+data.row+'-is_existing').disable();
+                $('container-<?php echo $_htmlId?>-'+data.row+'-name_auto').remove();
+                $('container-<?php echo $_htmlId?>-'+data.row+'-vendor_sku_auto').remove();
+            } else {
+                $('<?php echo $_htmlId?>-'+data.row+'-name_auto').checked = true;
+                $('<?php echo $_htmlId?>-'+data.row+'-vendor_sku_auto').checked = true;
+                $('<?php echo $_htmlId?>-'+data.row+'-name').disable();
+                $('<?php echo $_htmlId?>-'+data.row+'-vendor_sku').disable();
+            }
+            var del = $(tr).select('button')[0]
+            $(del).observe('click', function(e) { e.stop(); $(del.parentNode.parentNode).remove() })
+        }
+
+        $('cfg_quick_create<?php echo $cfgSuf?>_add').observe('click', function(e) { e.stop(); addRow() })
+
+    <?php foreach ($this->getSimpleProducts(true) as $_simpleProduct): ?>
+        addRow(<?php echo Zend_Json::encode($_simpleProduct) ?>)
+    <?php endforeach ?>
+    })()
+//]]>
+    </script>
+</div>
+</div>
+</div>

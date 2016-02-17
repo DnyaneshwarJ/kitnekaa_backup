@@ -1,0 +1,299 @@
+/**
+ *
+ * CART2QUOTE CONFIDENTIAL
+ * __________________
+ *
+ *  [2009] - [2015] Cart2Quote B.V.
+ *  All Rights Reserved.
+ *
+ * NOTICE OF LICENSE
+ *
+ * All information contained herein is, and remains
+ * the property of Cart2Quote B.V. and its suppliers,
+ * if any.  The intellectual and technical concepts contained
+ * herein are proprietary to Cart2Quote B.V.
+ * and its suppliers and may be covered by European and Foreign Patents,
+ * patents in process, and are protected by trade secret or copyright law.
+ * Dissemination of this information or reproduction of this material
+ * is strictly forbidden unless prior written permission is obtained
+ * from Cart2Quote B.V.
+ *
+ * @category    Ophirah
+ * @package     Qquoteadv
+ * @copyright   Copyright (c) 2015 Cart2Quote B.V. (http://www.cart2quote.com)
+ * @license     http://www.cart2quote.com/ordering-licenses
+ */
+
+#lightbox1 {
+
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    -webkit-box-shadow: 2px 2px 6px 2px #33;
+    /*box-shadow: 2px 2px 6px 2px #333;*/-webkit-box-shadow: 0px 0px 12px 0px rgba(50, 50, 50, 1);
+-moz-box-shadow:    0px 0px 12px 0px rgba(50, 50, 50, 1);
+box-shadow:         0px 0px 12px 0px rgba(50, 50, 50, 1);    border: 0px solid #d4d4d4;
+    overflow: visible;
+
+}
+
+#quoteadv-box-header {
+    background: #ffffff; /* Old browsers */
+    /* IE9 SVG, needs conditional override of 'filter' to 'none' */
+    /*background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI2ZmZmZmZiIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjUxJSIgc3RvcC1jb2xvcj0iI2Y0ZjRmNCIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNlNmU2ZTYiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
+    background: -moz-linear-gradient(top, #ffffff 0%, #f4f4f4 51%, #e6e6e6 100%); 
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #ffffff), color-stop(51%, #f4f4f4), color-stop(100%, #e6e6e6)); 
+    background: -webkit-linear-gradient(top, #ffffff 0%, #f4f4f4 51%, #e6e6e6 100%); 
+    background: -o-linear-gradient(top, #ffffff 0%, #f4f4f4 51%, #e6e6e6 100%); 
+    background: -ms-linear-gradient(top, #ffffff 0%, #f4f4f4 51%, #e6e6e6 100%); 
+    background: linear-gradient(to bottom, #ffffff 0%, #f4f4f4 51%, #e6e6e6 100%); 
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#e6e6e6', GradientType=0); */
+
+    color: #888888;
+    padding: 5px;
+    border-top: 2px solid #c7c7c7;
+    border-right: 2px solid #c7c7c7;
+    -moz-box-shadow: 0px 1px 5px rgba(68, 68, 68, 0.6);
+    -webkit-box-shadow: 0px 1px 5px rgba(68, 68, 68, 0.6);
+    box-shadow: 0px 1px 5px rgba(68, 68, 68, 0.6);
+    -webkit-border-top-left-radius: 5px;
+    -webkit-border-top-right-radius: 5px;
+    -moz-border-radius-topleft: 5px;
+    -moz-border-radius-topright: 5px;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    position: relative;
+    padding: 10px 15px;
+    padding-right: 5px;
+    font-size: 14px;
+    font-weight: bold;
+    background:none!important;
+    box-shadow:none!important;
+    border:none!important;
+    padding:0;
+    padding-bottom:30px;
+    margin:0;
+    font-size:27px;
+    color:#333333;
+    font-weight:300!important;
+}
+
+.leightbox1, .leightboxlink   {
+    background-color:#FFFFFF;
+    border-radius:7px!important;
+    text-align:left;
+    z-index:1001;
+    position:absolute;
+    top:25%;
+    width:458px;
+    margin-left:-229px;
+    left:50%;
+    padding:45px;
+    overflow:auto;
+    color:#0A263C;
+    display:none;
+}
+
+#quoteadv-box-header-close-btn {
+    float: right;
+    background: url(../../images/qquoteadv/close-btn.png) no-repeat;
+    width: 19px;
+    height: 19px;
+    position: relative;
+    top:-20px;
+    cursor:pointer;
+    right:-20px;
+
+}
+
+#lightbox1 button {
+    background: #f4cf4e; /* Old browsers */
+    /* IE9 SVG, needs conditional override of 'filter' to 'none' */
+   /* background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI2Y0Y2Y0ZSIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNmZWU0OGMiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
+    background: -moz-linear-gradient(top, #f4cf4e 0%, #fee48c 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #f4cf4e), color-stop(100%, #fee48c));
+    background: -webkit-linear-gradient(top, #f4cf4e 0%, #fee48c 100%);
+    background: -o-linear-gradient(top, #f4cf4e 0%, #fee48c 100%);
+    background: -ms-linear-gradient(top, #f4cf4e 0%, #fee48c 100%);
+    background: linear-gradient(to bottom, #f4cf4e 0%, #fee48c 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f4cf4e', endColorstr='#fee48c', GradientType=0);*/
+    /*border-bottom-color: #fee48c;
+    border-left-color: #fbdf7c;
+    border-right-color: #f9dd79;*/
+    text-decoration: none;
+    border-radius:7px;
+    margin:0!important;
+    background:transparent;
+    box-shadow:none;
+    height:50px;
+    font-weight:200;
+    font-family: "Helvetica Neue",Helvetica, Arial;
+    font-size:18px;
+    padding:0 35px;
+    letter-spacing:.5px;
+    display:block;
+    float:left;
+
+}
+
+#lightbox1 .text {
+    font: Arial, Verdana, sans;
+    font-size: 16px;
+    color: #777777;
+    padding: 20px 40px;
+    text-align:left;
+    line-height:24px;
+    padding-bottom:35px!important;
+    padding-top:0!important;
+    padding-left:0!important;
+    padding-right:0!important;
+    margin:0;
+    font-family: "Helvetica Neue",Helvetica, Arial;
+    font-size:14px!important;
+    color:#525150!important;
+    font-weight:300!important;
+
+}
+
+#lightbox1 button.button2 {
+    margin-left: 30px;
+    float:right;
+    background:#f78523;
+    color:#fff;
+    border:none;
+    border-bottom:4px solid #e56014;
+}
+
+#lightbox1 button.button2.floatleft {
+    float:left!important;
+}
+
+#lightbox1 button.button1 {
+    border:1px solid #a2a09f;
+    background:transparent;
+    color:#a2a09f;
+}
+#lightbox1 button.button1:active {
+    margin-top:2px!important;
+    margin-bottom:-2px!important;
+}
+#lightbox1 button.button2:hover {
+    background:#ff9c2a!important;
+    border-bottom-color:#f78523!important;
+
+}
+#lightbox1 button.button2:active {
+    background:#e56014!important;
+    margin-top:2px!important;
+    margin-bottom:-2px!important;
+    border-bottom-color:#e56014!important;
+}
+
+.sublinkBottom {
+    color:#ababab!important;
+    text-decoration:none;
+    font-style:italic!important;
+    font-size:12px!important;
+}
+
+.smallprint {
+    float: right;
+    padding:10px 0 0 0;
+    margin:0;
+    margin-bottom:-15px;
+}
+
+.custom_note {
+}
+
+.total_note {
+    float: right;
+    margin: 2px 8px 0 0;
+}
+
+.alert_msg {
+    float: right;
+    color: red;
+    font-weight: bold;
+    margin: 0 10px 0 5px;
+}
+
+div.lbaddr {
+    float: left;
+    width: 200px;
+    padding-left: 7px;
+    clear: left;
+}
+
+div.taddr {
+    display: inline;
+    float: left;
+    padding-left: 7px;
+}
+
+#qquote_tabs_product_content .form-list td.label,
+#qquote_tabs_product_content .form-list td.value,
+#qquote_tabs_product_content .form-list td.value2,
+#qquote_tabs_product_content .form-list td.note,
+#qquote_tabs_product_content .form-list td.scope-label,
+#qquote_tabs_product_content .form-list td.use-default {
+    padding: 2px 5px !important;
+}
+
+.optionSelected,
+.optionSelect {
+    width: 250px;
+    float: left;
+}
+
+.editAddress {
+    float: left;
+    color: #999999;
+}
+
+.editAddress:hover {
+    color: #333333;
+}
+
+.multiSelected {
+    float: left;
+    width: 464px;
+}
+
+.item_barBottom {
+    display: table;
+    margin: -10px 0 10px;
+    width: 100%;
+}
+
+#updateButton {
+    float: right;
+    margin: 5px 10px 0 0;
+}
+
+#edit_form .order-totals {
+    padding: 15px 10px;
+}
+
+#edit_form .order-totals table {
+    padding: 0 0 10px 0;
+}
+
+#edit_form .order-totals button {
+    margin: 10px 0 5px;
+}
+
+#edit_form td.file_label {
+    width: auto !important;
+}
+
+#discount button {
+    /*    margin: 0 0 10px 5px; */
+    width: 120px;
+}
+
+#percentage_price {
+    min-width: 50px;
+    width: 50px;
+    margin: 0 10px 0 0;
+}

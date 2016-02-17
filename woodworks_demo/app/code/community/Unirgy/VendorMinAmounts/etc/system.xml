@@ -1,0 +1,74 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Unirgy LLC
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the EULA
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://www.unirgy.com/LICENSE-M1.txt
+ *
+ * @category   Unirgy
+ * @package    Unirgy_VendorMinAmounts
+ * @copyright  Copyright (c) 2008-2009 Unirgy LLC (http://www.unirgy.com)
+ * @license    http:///www.unirgy.com/LICENSE-M1.txt
+ */
+ -->
+<config>
+    <sections>
+        <carriers>
+            <groups>
+                <udropship>
+                    <fields>
+                        <vendor_free_shipping_subtotal translate="label">
+                            <label>Default Minimum Order Amount for Vendor Specific Free Shipping</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>55</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </vendor_free_shipping_subtotal>
+                        <minimum_vendor_order_amount>
+                            <label>Default minimum vendor order amount</label>
+                            <sort_order>200</sort_order>
+                            <frontend_type>text</frontend_type>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </minimum_vendor_order_amount>
+                        <minimum_vendor_order_amount_message>
+                            <label>Minimum vendor order amount error message</label>
+                            <sort_order>210</sort_order>
+                            <frontend_type>textarea</frontend_type>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </minimum_vendor_order_amount_message>
+                        <minimum_vendor_order_amount_quote_message>
+                            <label>Minimum vendor order amount quote error message</label>
+                            <sort_order>211</sort_order>
+                            <frontend_type>textarea</frontend_type>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </minimum_vendor_order_amount_quote_message>
+                    </fields>
+                </udropship>
+                <udsplit>
+                    <fields>
+                        <minimum_vendor_order_amount>
+                            <label>Default minimum vendor order amount</label>
+                            <sort_order>200</sort_order>
+                            <frontend_type>text</frontend_type>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </minimum_vendor_order_amount>
+                    </fields>
+                </udsplit>
+            </groups>
+        </carriers>
+    </sections>
+</config>

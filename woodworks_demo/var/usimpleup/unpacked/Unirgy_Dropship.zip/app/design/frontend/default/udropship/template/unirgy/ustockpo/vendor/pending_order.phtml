@@ -1,0 +1,54 @@
+<?php
+/**
+ * Unirgy LLC
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the EULA
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://www.unirgy.com/LICENSE-M1.txt
+ *
+ * @category   Unirgy
+ * @package    Unirgy_Dropship
+ * @copyright  Copyright (c) 2008-2009 Unirgy LLC (http://www.unirgy.com)
+ * @license    http:///www.unirgy.com/LICENSE-M1.txt
+ */
+?>
+
+<?php
+$_hlp = Mage::helper('udropship');
+$_poHlp = Mage::helper('ustockpo');
+$_session = Mage::getSingleton('udropship/session');
+$_vendor = $_session->getVendor();
+$_highlight = $_session->getHighlight(true);
+
+$_po = $this->getPo();
+$_id = $_po->getId();
+
+$_items = $_po->getAllItems();
+
+$_udVendor = Mage::helper('udropship')->getVendor($_vendor->getDistributorId());
+
+?>
+
+<?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
+<h4><?php echo Mage::helper('udropship')->__('Stock PO Items') ?></h4>
+<table cellspacing="0" class="data-table" id="order-items-<?php echo $_id ?>">
+    <col />
+    <col width="25%" />
+    <col width="1" />
+    <thead>
+        <tr>
+            <th><?php echo Mage::helper('udropship')->__('Product Name') ?></th>
+            <th><?php echo Mage::helper('udropship')->__('SKU') ?></th>
+            <th class="a-center"><span class="nobr"><?php echo Mage::helper('udropship')->__('Qty') ?></span></th>
+        </tr>
+    </thead>
+    <tbody>
+    <?php foreach ($_items as $_item): ?>
+        <?php if ($_item->getOrderItem()->getParentItem()) continue; ?>
+        <?php echo $this->getItemHtml($_item) ?>
+    <?php endforeach; ?>
+    </tbody>
+</table>

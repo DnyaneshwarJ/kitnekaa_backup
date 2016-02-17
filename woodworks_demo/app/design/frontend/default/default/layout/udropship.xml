@@ -1,0 +1,219 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Unirgy LLC
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the EULA
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://www.unirgy.com/LICENSE-M1.txt
+ *
+ * @category   Unirgy
+ * @package    Unirgy_Dropship
+ * @copyright  Copyright (c) 2008-2009 Unirgy LLC (http://www.unirgy.com)
+ * @license    http:///www.unirgy.com/LICENSE-M1.txt
+ */
+-->
+<layout>
+    <udropship_vendor>
+        <reference name="root">
+            <action method="setTemplate"><template>page/1column.phtml</template></action>
+        </reference>
+        <reference name="head">
+            <action method="setTitle"><title>Vendor Portal</title></action>
+            <action method="addCss"><stylesheet>css/udropship.css</stylesheet></action>
+            <action method="setTemplate"><template>unirgy/dropship/vendor/head.phtml</template></action>
+        </reference>
+        <reference name="header">
+            <action method="setTemplate"><template>unirgy/dropship/vendor/header.phtml</template></action>
+        </reference>
+        <reference name="footer">
+            <action method="setTemplate"><template>unirgy/dropship/vendor/footer.phtml</template></action>
+        </reference>
+    </udropship_vendor>
+
+    <udropship_vendor_index>
+        <update handle="udropship_vendor" />
+        <reference name="head">
+            <action method="addItem"><type>js_css</type><name>calendar/calendar-win2k-1.css</name></action>
+            <action method="addItem"><type>js</type><name>calendar/calendar.js</name></action>
+            <action method="addItem"><type>js</type><name>calendar/calendar-setup.js</name></action>
+        </reference>
+        <reference name="content">
+            <block type="core/html_calendar" name="head.udropship.calendar" as="udropship.calendar" template="unirgy/dropship/calendar.phtml"></block>
+            <block type="core/template" template="unirgy/dropship/vendor/dashboard.phtml" name="dashboard">
+                <block type="udropship/vendor_shipment_pager" name="shipment.grid.toolbar" />
+                <block type="udropship/vendor_shipment_grid" template="unirgy/dropship/vendor/shipment/grid.phtml" name="shipment.grid" as="shipments"/>
+            </block>
+        </reference>
+    </udropship_vendor_index>
+
+    <udropship_vendor_login>
+        <update handle="udropship_vendor" />
+        <reference name="content">
+            <block type="core/template" template="unirgy/dropship/vendor/loginwrapper.phtml" name="login-wrapper">
+                <block type="core/template" template="unirgy/dropship/vendor/login.phtml" name="login">
+                    <block type="page/template_links" name="login_links" as="login_links">
+                        <action method="addLink" translate="label title" module="udropship">
+                            <label>Forgot Password</label>
+                            <url helper="udropship/getVendorForgotPasswordUrl"/>
+                            <title>Forgot Password</title><prepare/>
+                            <urlParams/>
+                            <position>10</position>
+                        </action>
+                    </block>
+                </block>
+            </block>
+        </reference>
+    </udropship_vendor_login>
+
+    <udropship_vendor_login_ajax>
+        <block type="core/template" template="unirgy/dropship/vendor/login.phtml" name="login" output="toHtml" />
+    </udropship_vendor_login_ajax>
+
+    <udropship_vendor_password>
+        <update handle="udropship_vendor" />
+        <reference name="content">
+            <block type="core/template" template="unirgy/dropship/vendor/password.phtml" name="password" />
+        </reference>
+    </udropship_vendor_password>
+
+    <udropship_vendor_passwordReset>
+        <update handle="udropship_vendor" />
+        <reference name="content">
+            <block type="core/template" template="unirgy/dropship/vendor/password.phtml" name="password">
+                <action method="setMode"><mode>reset</mode></action>
+            </block>
+        </reference>
+    </udropship_vendor_passwordReset>
+
+    <udropship_vendor_logoutsuccess>
+        <update handle="udropship_vendor" />
+        <reference name="content">
+            <block type="core/template" template="unirgy/dropship/vendor/logout.phtml" name="logout" />
+        </reference>
+    </udropship_vendor_logoutsuccess>
+
+    <!-- fix item renderer for simple product -->
+    <sales_order_shipment>
+        <reference name="shipment_items">
+            <action method="addItemRender"><type>simple</type><block>sales/order_item_renderer_default</block><template>sales/order/shipment/items/renderer/default.phtml</template></action>
+            <action method="addItemRender"><type>configurable</type><block>sales/order_item_renderer_default</block><template>sales/order/shipment/items/renderer/default.phtml</template></action>
+            <action method="addItemRender"><type>grouped</type><block>sales/order_item_renderer_grouped</block><template>sales/order/shipment/items/renderer/default.phtml</template></action>
+            <action method="addItemRender"><type>bundle</type><block>bundle/sales_order_items_renderer</block><template>unirgy/dropship/order/items/renderer/bundle.phtml</template></action>
+        </reference>
+    </sales_order_shipment>
+
+    <udropship_vendor_shipmentinfo>
+        <block type="udropship/vendor_shipment_info" template="unirgy/dropship/vendor/shipment/info.phtml" name="info"/>
+    </udropship_vendor_shipmentinfo>
+
+    <udropship_vendor_preferences>
+        <update handle="udropship_vendor" />
+        <reference name="head">
+            <action method="addItem"><type>js_css</type><name>calendar/calendar-win2k-1.css</name></action>
+            <action method="addItem"><type>js</type><name>calendar/calendar.js</name></action>
+            <action method="addItem"><type>js</type><name>calendar/calendar-setup.js</name></action>
+        </reference>
+        <reference name="content">
+            <block type="core/html_calendar" name="head.calendar" as="calendar" template="page/js/calendar.phtml"/>
+            <block type="udropship/vendor_preferences" template="unirgy/dropship/vendor/preferences.phtml" name="preferences" />
+        </reference>
+    </udropship_vendor_preferences>
+
+    <udropship_vendor_product>
+        <update handle="udropship_vendor" />
+        <reference name="content">
+            <block type="core/template" template="unirgy/dropship/vendor/product/wrapper.phtml" name="wrapper">
+                <block type="udropship/vendor_product_pager" name="product.grid.toolbar" />
+                <block type="udropship/vendor_product_grid" template="unirgy/dropship/vendor/product/grid.phtml" name="udmulti.product.grid" as="products"/>
+            </block>
+        </reference>
+    </udropship_vendor_product>
+
+    <udropship_vendor_batches>
+        <update handle="udropship_vendor" />
+        <reference name="content">
+            <block type="core/template" template="unirgy/dropship/vendor/batches.phtml" name="batches" />
+        </reference>
+    </udropship_vendor_batches>
+
+    <udropship_vendor_wysiwyg>
+        <update handle="udropship_vendor" />
+        <reference name="content">
+            <block type="core/template" template="unirgy/dropship/vendor/wysiwyg/content.phtml" name="wysiwyg_content" />
+        </reference>
+    </udropship_vendor_wysiwyg>
+
+    <_udropship_uploader_js>
+        <reference name="head">
+            <block type="core/template" template="unirgy/dropship/vendor/uploaderjs.phtml" as="_udropship_uploader_js" name="_udropship_uploader_js" />
+        </reference>
+    </_udropship_uploader_js>
+
+    <uwysiwyg_editor_js>
+        <reference name="head">
+            <action method="addJs"><script>mage/adminhtml/events.js</script></action>
+            <action method="addJs"><script>mage/adminhtml/tools.js</script></action>
+            <action method="addItem"><type>js</type><name>extjs/ext-tree.js</name></action>
+            <action method="addItem"><type>js</type><name>extjs/ext-tree-checkbox.js</name></action>
+            <action method="addItem"><type>js_css</type><name>extjs/resources/css/ext-all.css</name></action>
+            <action method="addItem"><type>js_css</type><name>extjs/resources/css/ytheme-magento.css</name></action>
+            <action method="addItem"><type>js</type><name>mage/adminhtml/wysiwyg/tiny_mce/setup.js</name></action>
+            <action method="addJs"><script>mage/adminhtml/variables.js</script></action>
+            <action method="addJs"><script>unirgy/media/browser.js</script></action>
+            <action method="addJs"><script>prototype/window.js</script></action>
+            <action method="addItem"><type>js_css</type><name>prototype/windows/themes/default.css</name></action>
+            <action method="addItem"><type>js_css</type><name>prototype/windows/themes/magento.css</name></action>
+            <action method="addCss"><name>lib/prototype/windows/themes/magento.css</name></action>
+        </reference>
+        <update handle="_udropship_uploader_js" />
+    </uwysiwyg_editor_js>
+
+    <uwysiwyg_editor>
+        <reference name="before_body_end">
+            <block type="core/template" name="uwysiwyg_editor_js" template="unirgy/dropship/vendor/wysiwyg.phtml"/>
+        </reference>
+    </uwysiwyg_editor>
+
+    <udropship_overlay_popup>
+        <block type="adminhtml/page" name="root" output="toHtml" template="unirgy/dropship/overlay_popup.phtml">
+            <block type="core/text_list" name="left" as="left"/>
+            <block type="core/text_list" name="content" as="content"/>
+            <block type="core/messages" name="messages" as="messages"/>
+            <block type="core/text_list" name="js" as="js"/>
+            <block type="core/text_list" name="before_body_end" as="before_body_end"/>
+        </block>
+    </udropship_overlay_popup>
+
+    <udropship_vendor_wysiwyg_images_index>
+        <remove name="footer" />
+        <remove name="head" />
+        <reference name="left">
+            <block name="wysiwyg_images.js" type="udropship/vendor_wysiwyg_images_content" template="unirgy/dropship/vendor/wysiwyg/browser/js.phtml" />
+            <block name="wysiwyg_images.tree" type="udropship/vendor_wysiwyg_images_tree" template="unirgy/dropship/vendor/wysiwyg/browser/tree.phtml" />
+        </reference>
+        <reference name="content">
+            <block name="wysiwyg_images.content"  type="udropship/vendor_wysiwyg_images_content" template="unirgy/dropship/vendor/wysiwyg/browser/content.phtml">
+                <block name="wysiwyg_images.uploader" type="udropship/vendor_wysiwyg_images_content_uploader" template="unirgy/dropship/vendor/wysiwyg/browser/content/uploader.phtml" />
+                <block name="wysiwyg_images.newfolder" type="udropship/vendor_wysiwyg_images_content_newfolder" template="unirgy/dropship/vendor/wysiwyg/browser/content/newfolder.phtml" />
+            </block>
+        </reference>
+    </udropship_vendor_wysiwyg_images_index>
+
+    <empty>
+    </empty>
+
+    <udropship_vendor_wysiwyg_images_contents>
+        <block name="wysiwyg_images.files" type="udropship/vendor_wysiwyg_images_content_files" template="unirgy/dropship/vendor/wysiwyg/browser/content/files.phtml" output="toHtml" />
+    </udropship_vendor_wysiwyg_images_contents>
+
+    <udropship_email_po_items>
+        <block type="sales/order_email_shipment_items" name="items" template="unirgy/dropship/email/po/items.phtml">
+            <action method="addItemRender"><type>default</type><block>sales/order_email_items_default</block><template>unirgy/dropship/email/po/items/default.phtml</template></action>
+            <action method="addItemRender"><type>bundle</type><block>bundle/sales_order_items_renderer</block><template>unirgy/dropship/email/po/items/bundle.phtml</template></action>
+        </block>
+    </udropship_email_po_items>
+</layout>

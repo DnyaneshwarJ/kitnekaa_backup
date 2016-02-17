@@ -1,0 +1,97 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Sm_Deal extension
+ * 
+ * NOTICE OF LICENSE
+ * 
+ * This source file is subject to the MIT License
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/mit-license.php
+ * 
+ * @category   	Sm
+ * @package		Sm_Deal
+ * @copyright  	Copyright (c) 2013
+ * @license		http://opensource.org/licenses/mit-license.php MIT License
+ */
+--> 
+<layout>
+	<!-- Deal grid action -->
+	<adminhtml_deal_deal_index>
+		<reference name="menu">
+			<action method="setActive">
+				<menupath>deal/deal</menupath>
+			</action>
+		</reference>
+		<reference name="content">
+			<block type="deal/adminhtml_deal" name="deal" />
+		</reference>
+	</adminhtml_deal_deal_index>
+	<adminhtml_deal_deal_grid>
+		<block type="core/text_list" name="root" output="toHtml">
+			<block type="deal/adminhtml_deal_grid" name="deal_grid"/>
+		</block>
+	</adminhtml_deal_deal_grid>
+	<!-- Deal add/edit action -->
+	<adminhtml_deal_deal_edit>
+		<update handle="editor"/>
+		<reference name="menu">
+			<action method="setActive">
+				<menupath>deal/deal</menupath>
+			</action>
+		</reference>
+		<reference name="content">
+			<block type="deal/adminhtml_deal_edit" name="deal_edit"></block>
+		</reference>
+		<reference name="left">
+			<block type="deal/adminhtml_deal_edit_tabs" name="deal_tabs"></block>
+		</reference> 
+	</adminhtml_deal_deal_edit>
+	<adminhtml_deal_deal_catalog_product_deals>
+		<block type="core/text_list" name="root" output="toHtml">
+			<block type="deal/adminhtml_catalog_product_edit_tab_deal" name="product.edit.tab.deal"/>
+			<block type="adminhtml/widget_grid_serializer" name="deal_grid_serializer">
+				<reference name="deal_grid_serializer">
+					<action method="initSerializerBlock">
+						<grid_block_name>product.edit.tab.deal</grid_block_name>
+						<data_callback>getSelectedDeals</data_callback>
+						<hidden_input_name>deals</hidden_input_name>
+						<reload_param_name>product_deals</reload_param_name>
+					</action>
+					<action method="addColumnInputName">
+						<input_name>position</input_name>
+					</action>
+				</reference>
+			</block>
+		</block>
+	</adminhtml_deal_deal_catalog_product_deals>
+	<adminhtml_deal_deal_catalog_product_dealsgrid>
+		<block type="core/text_list" name="root" output="toHtml">
+			<block type="deal/adminhtml_catalog_product_edit_tab_deal" name="product.edit.tab.deal"/>
+		</block>
+	</adminhtml_deal_deal_catalog_product_dealsgrid>
+	<adminhtml_deal_deal_products>
+		<block type="core/text_list" name="root" output="toHtml">
+			<block type="deal/adminhtml_deal_edit_tab_product" name="deal.edit.tab.product"/>
+			<block type="adminhtml/widget_grid_serializer" name="product_grid_serializer">
+				<reference name="product_grid_serializer">
+					<action method="initSerializerBlock">
+						<grid_block_name>deal.edit.tab.product</grid_block_name>
+							<data_callback>getSelectedProducts</data_callback>
+							<hidden_input_name>products</hidden_input_name>
+							<reload_param_name>deal_products</reload_param_name>
+					</action>
+					<action method="addColumnInputName">
+						<input_name>position</input_name>
+					</action>
+				</reference>
+			</block>
+		</block>
+	</adminhtml_deal_deal_products>
+	<adminhtml_deal_deal_productsgrid>
+		<block type="core/text_list" name="root" output="toHtml">
+			<block type="deal/adminhtml_deal_edit_tab_product" name="deal.edit.tab.product"/>
+		</block>
+	</adminhtml_deal_deal_productsgrid>
+</layout>

@@ -1,0 +1,190 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category   design_default
+ * @package    Mage
+ * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
+ * @license    http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+?>
+<?php
+/**
+ * Template for Mage_Page_Block_Html
+ */
+global $var_yttheme;
+?>
+<!DOCTYPE html>
+<html xml:lang="<?php echo $this->getLang() ?>" lang="<?php echo $this->getLang() ?>">
+<head>
+<meta name="format-detection" content="telephone=no">
+<?php echo $this->getChildHtml('head') ?>
+</head>
+
+<?php 
+	if( $var_yttheme->getParam('usebgimage') == 1 && $var_yttheme->getParam('usecustomizeimage') == 0 ){
+		$bg_image = $var_yttheme->getParam('bgimage');
+	}else{
+		$bg_image = '';
+	}
+
+	$hdStyles = $var_yttheme->getParam('headerstyles');
+    $classHeader = "";
+    $classHome = "";
+    if($hdStyles == 'header1'){
+         $classHeader = "header1-wrap";  
+    } elseif($hdStyles == 'header2') {
+        $classHeader = "header2-wrap";
+    } elseif($hdStyles == 'header3') {
+        $classHeader = "header3-wrap";
+    } elseif($hdStyles == 'header4') {
+        $classHeader = "header4-wrap"; 
+    }
+    if( Mage::getSingleton('cms/page')->getIdentifier() == 'home-v3'  && 
+                Mage::app()->getFrontController()->getRequest()->getRouteName() == 'cms' ) {
+        $classHome = "homepagev3";
+    }
+?>
+
+<body id="bd" class="<?php echo $var_yttheme->template ?> <?php echo $bg_image;?> <?php if( $var_yttheme->getParam('layoutstyle') == '2' ){echo "layout-boxed";}?> <?php echo $this->getBodyClass();?> <?php echo $classHome;?>">
+<?php echo $this->getChildHtml('after_body_start') ?>
+    <div id="yt_wrapper">
+    
+        <!-- BEGIN: Header -->
+		<div id="yt_header" class="yt-header wrap <?php echo $classHeader; ?>">
+		     <?php echo $this->getChildHtml('header') ?>
+		</div>
+		<!-- END: Header -->
+		
+		<!-- BEGIN: content -->
+        <div id="yt_content" class="yt-content wrap">        	
+            <div class="yt-content-inner">
+				<div class="container">
+					<div class ="row">
+                    	<?php if($this->getChildHtml('breadcrumbs')){ ?>          
+                    		<?php echo $this->getChildHtml('breadcrumbs') ?>
+                        <?php } ?>
+                        
+                        <div class="columns-w">
+							<div id="yt_left" class="col-lg-3 col-md-3 col-sm-4 col-xs-12">
+								<div class="yt-left-wrap">
+									<?php if( Mage::getSingleton('cms/page')->getIdentifier() == 'home-v3'  && 
+                Mage::app()->getFrontController()->getRequest()->getRouteName() == 'cms' ) { ?>
+									<div id="yt-responsivemenu" class="yt-responsivemenu">
+								        <?php echo $this->getChildHtml('mobiMenu2'); ?>
+								    </div>
+								    <div class="yt-menu">
+								        <div id="btn_categories">
+								            <span><i class="icon-cate"></i><?php echo $this->__("Categories"); ?></span>
+								        </div>
+								        <div class="yt-menu-content">
+									        <?php if( $var_yttheme->getParam('menustyle') == 'mega' ){
+									            echo $this->getChildHtml('megamenu-vertical-home');
+									        } else {
+									            echo $this->getChildHtml('topMenu2');
+									        } ?>
+								        </div>
+								    </div>
+								    <script type="text/javascript">
+										jQuery(document).ready(function($){
+									        //menu more cate
+											$i = 0;
+											$('.sm_megamenu_wrapper_vertical_menu .sm_megamenu_menu').append('<div class="more-wrap"><span class="more-view"><?php echo $this->__("More Categories"); ?></span></div>');
+											$('.sm_megamenu_wrapper_vertical_menu .sm_megamenu_menu > li.sm_megamenu_lv1').each(function(){
+												$i ++; 
+												if($i>11){ 
+													$(this).css('display', 'none');
+												}			
+											});
+											$('.sm_megamenu_wrapper_vertical_menu .sm_megamenu_menu .more-wrap > .more-view').click(function(){
+												if($(this).hasClass('open')){
+													$i=0;
+													$('.sm_megamenu_wrapper_vertical_menu .sm_megamenu_menu > li.sm_megamenu_lv1').each(function(){
+														$i ++;
+														if($i>11){
+															$(this).slideUp(200);
+									                        //$(this).addClass('disappear');
+									                        //$(this).removeClass('appear');
+														}
+													});
+													$(this).removeClass('open');
+													$('.more-wrap').removeClass('active-i');
+													$(this).text('More Categories');
+												}else{
+													$i=0;
+													$('.sm_megamenu_wrapper_vertical_menu .sm_megamenu_menu > li.sm_megamenu_lv1').each(function(){
+														$i ++;
+														if($i>11){
+															$(this).slideDown(200);
+									                        // $(this).addClass('appear');
+									                         //$(this).removeClass('disappear');
+														}
+													});
+													$(this).addClass('open');
+													$('.more-wrap').addClass('active-i');
+													$(this).text('Close Menu');
+												}
+											});									       
+										})
+									</script>
+								    <?php } ?>
+
+									<?php echo $this->getChildHtml('left') ?>
+								</div>
+							</div>
+							
+
+							<div id="yt_main" class="yt-main-right yt-main col-main col-lg-9 col-md-9 col-sm-8 col-xs-12">
+								<div class="yt_main_inner">	                            	
+									<?php echo $this->getChildHtml('global_notices') ?>
+									<?php echo $this->getChildHtml('global_messages') ?>
+									<?php echo $this->getTitle() ?>  
+									<?php echo $this->getChildHtml('content') ?>                                      	                        
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<!-- Hot categories home page v3 -->
+				<?php if( $this->getChildHtml('hot-categories') ){?>
+                    <div class="hotcate-wrap">
+                    	<div class="container">
+                        <div class ="row">					
+                        	<?php echo $this->getChildHtml('hot-categories');?>	
+                        </div>
+                        </div>						
+                    </div>
+                <?php }?> 
+                
+             </div>
+         </div>      
+        <!-- END: content -->
+        
+        <!-- BEGIN: footer -->
+        <div id="yt_footer" class="yt-footer wrap">
+        	<?php echo $this->getChildHtml('footer') ?>
+        </div>
+        <!-- END: footer -->        
+        
+		<?php echo $this->getChildHtml('before_body_end') ?>
+        <?php echo $this->getAbsoluteFooter() ?>
+    </div>
+</body>
+</html>

@@ -1,0 +1,48 @@
+<?php $el = $this->getElement();
+$hlp = Mage::helper('udropship');
+$p = $this->getProduct();
+$v = $hlp->getVendor($p->getUdropshipVendor());
+$elHtmlId = $el->getHtmlId();
+$defaultId = $this->getHtmlId($el->getDefaultId());
+$useConfigId = $this->getHtmlId($el->getUseConfigId());
+$useConfigName = $this->getName($el->getUseConfigName());
+$cfgValue = $hlp->getVendorUseCustomFallbackField($v, $el->getVendorUseCustomField(), $el->getVendorField(), $el->getConfigPath());
+?>
+<?php echo $this->getElement()->getLabelHtml(); ?> <br />
+<?php echo $this->getElement()->getElementHtml() ?> <br />
+<input type="hidden" id="<?php echo $defaultId?>" value="<?php echo $cfgValue; ?>" />
+
+<?php $_checked = ($el->getUseConfigValue() || !$p->getId()) ? 'checked="checked"' : '' ?>
+<input type="checkbox" id="<?php echo $useConfigId;?>" value="1" <?php echo $_checked ?> />
+<input type="hidden" id="<?php echo $useConfigId;?>_hidden" name="<?php echo $useConfigName;?>" value="<?php echo $_checked ? '1' : '0' ?>" />
+<label for="<?php echo $useConfigId;?>" class="normal"><?php echo Mage::helper('udropship')->__('Use Config Settings') ?></label>
+
+<script type="text/javascript">
+//<![CDATA[
+unirgyDomLoaded(function(){
+    var useConfigId = '<?php echo $useConfigId;?>';
+    var defaultId = '<?php echo $defaultId;?>';
+    var elHtmlId = '<?php echo $elHtmlId;?>';
+    function syncUseConfig() {
+        if ($(useConfigId).checked) {
+            if ($(elHtmlId).options) {
+                for (i=0; i<$(elHtmlId).options.length; i++) {
+                    if ($(elHtmlId).options[i].value==$(defaultId).value) {
+                        $(elHtmlId).selectedIndex = i;
+                    }
+                }
+            } else {
+                $(elHtmlId).value = $(defaultId).value;
+            }
+            $(elHtmlId).disable();
+            $(useConfigId+'_hidden').value=1;
+        } else {
+            $(elHtmlId).enable();
+            $(useConfigId+'_hidden').value=0;
+        }
+    }
+    $(useConfigId).observe('click', syncUseConfig);
+    syncUseConfig();
+});
+//]]>
+</script>

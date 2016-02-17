@@ -1,0 +1,99 @@
+<?php
+/**
+ * Unirgy LLC
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the EULA
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://www.unirgy.com/LICENSE-M1.txt
+ *
+ * @category   Unirgy
+ * @package    Unirgy_Dropship
+ * @copyright  Copyright (c) 2008-2009 Unirgy LLC (http://www.unirgy.com)
+ * @license    http:///www.unirgy.com/LICENSE-M1.txt
+ */
+?>
+<?php
+$_session = Mage::getSingleton('udropship/session');
+$_isUdpo = Mage::helper('udropship')->isUdpoActive();
+$_isUdreport = Mage::helper('udropship')->isModuleActive('Unirgy_DropshipVendorReport');
+$_active = $this->getActivePage();
+$_isUrmaActive = Mage::helper('udropship')->isModuleActive('Unirgy_Rma')
+    && $_session->isLoggedIn();
+$_isUstockPoActive = Mage::helper('udropship')->isModuleActive('ustockpo')
+     && $_session->isLoggedIn() && $_session->getVendor()->getDistributorId();
+$_isTierShip = $_session->getVendor()->getAllowTiershipModify();
+?>
+<div class="header-top-container">
+    <div class="header-top">
+        <h1 id="header-logo"><a href="<?php echo $this->getUrl('') ?>"><img src="<?php echo $this->getLogoSrc() ?>" alt="<?php echo $this->getLogoAlt() ?>" /></a></h1>
+        <p class="no-display"><a href="#main"><strong><?php echo Mage::helper('udropship')->__('Skip to Main Content') ?> &raquo;</strong></a></p>
+
+        <div class="quick-access">
+            <?php if ($_session->isLoggedIn()): ?>
+            <?php echo $this->htmlEscape(Mage::helper('udropship')->__('Logged in as %s', $_session->getVendor()->getVendorName())) ?>
+            <br />
+            <div class="shop-access">
+                <div>
+                    <ul>
+                        <li class="first <?php if ($_active=='dashboard'): ?>active<?php endif ?>"><a href="<?php echo $this->getUrl('udropship/vendor')?>"><?php echo Mage::helper('udropship')->__('Dashboard')?></a></li>
+<?php if ($_isUrmaActive): ?>
+    <li <?php if ($_active=='urmas'): ?>class="active"<?php endif ?>><a href="<?php echo $this->getUrl('urma/vendor/') ?>"><?php echo Mage::helper('udropship')->__('Returns')?></a></li>
+<?php endif ?>
+<?php if ($_isUstockPoActive): ?>
+        <li <?php if ($_active=='ustockpos'): ?>class="active"<?php endif ?>><a href="<?php echo $this->getUrl('ustockpo/vendor/') ?>"><?php echo Mage::helper('udropship')->__('Stock POs')?></a></li>
+<?php endif ?>
+<?php if ($_isUstockPoActive): ?>
+        <li <?php if ($_active=='pending_ustockpo'): ?>class="active"<?php endif ?>><a href="<?php echo $this->getUrl('ustockpo/vendor/pendingUstockpo') ?>"><?php echo Mage::helper('udropship')->__('Pending Stock PO')?></a></li>
+<?php endif ?>
+<?php if (false && $_session->getVendor()->getLabelType()): ?>
+                        <li <?php if ($_active=='batches'): ?>class="active"<?php endif ?>><a href="<?php echo $this->getUrl('udropship/vendor/batches')?>"><?php echo Mage::helper('udropship')->__('Label Batches')?></a></li>
+<?php endif ?>
+<?php if ($_isTierShip): ?>
+    <li <?php if ($_active=='tiership_rates'): ?>class="active"<?php endif ?>><a href="<?php echo Mage::helper('udtiership')->getVendorEditUrl()?>"><?php echo Mage::helper('udropship')->__('Shipping Rates')?></a></li>
+<?php endif ?>
+<?php if (0&&Mage::helper('udropship')->isModuleActive('udtiercom')): ?>
+    <li <?php if ($_active=='tiercom_rates'): ?>class="active"<?php endif ?>><a href="<?php echo $this->getUrl('udtiercom/vendor/rates')?>"><?php echo Mage::helper('udropship')->__('Commission Percents')?></a></li>
+<?php endif ?>
+                        <li <?php if ($_active=='preferences'): ?>class="active"<?php endif ?>><a href="<?php echo $this->getUrl('udropship/vendor/preferences')?>"><?php echo Mage::helper('udropship')->__('Settings')?></a></li>
+                        <?php if (Mage::helper('udropship')->isModuleActive('Unirgy_DropshipBatch')): ?>
+                        <li <?php if ($_active=='importstock'): ?>class="active"<?php endif ?>><a href="<?php echo $this->getUrl('udbatch/vendor_batch/importStock') ?>" ><?php echo Mage::helper('udropship')->__('Import Stock')?></a></li>
+                        <li <?php if ($_active=='importorders'): ?>class="active"<?php endif ?>><a href="<?php echo $this->getUrl('udbatch/vendor_batch/importOrders') ?>" ><?php echo Mage::helper('udropship')->__('Import Orders')?></a></li>
+                        <?php endif ?>
+<?php if (Mage::helper('udropship')->isModuleActive('modules/Unirgy_DropshipMulti')): ?>
+                        <li <?php if ($_active=='stockprice'): ?>class="active"<?php endif ?>><a href="<?php echo $this->getUrl('udmulti/vendor_product')?>"><?php echo Mage::helper('udropship')->__('Manage Stock And Price')?></a></li>
+<?php else: ?>
+                        <li <?php if ($_active=='stockprice'): ?>class="active"<?php endif ?>><a href="<?php echo $this->getUrl('udropship/vendor/product')?>"><?php echo Mage::helper('udropship')->__('Manage Stock')?></a></li>
+<?php endif ?>
+<?php if (Mage::helper('udropship')->isModuleActive('udprod')
+    && $_session->isLoggedIn()): ?>
+        <li <?php if ($_active=='udprod'): ?>class="active"<?php endif ?>><a href="<?php echo $this->getUrl('udprod/vendor/products')?>"><?php echo Mage::helper('udropship')->__('Products Edit')?></a></li>
+<?php endif ?>
+<?php if (Mage::helper('udropship')->isModuleActive('udsell')): ?>
+    <li <?php if ($_active=='myudsell'): ?>class="active"<?php endif ?>><a href="<?php echo $this->getUrl('udsell/index/mysellSearch')?>"><?php echo Mage::helper('udropship')->__('My Sell List')?></a></li>
+    <li><a href="<?php echo $this->getUrl('udsell/index/sellSearch')?>"><?php echo Mage::helper('udropship')->__('Select &amp; Sell')?></a></li>
+<?php endif ?>
+<?php if ($_isUdreport): ?>
+    <li <?php if ($_active=='udrshipment'): ?>class="active"<?php endif ?>><a href="<?php echo $this->getUrl('udreport/vendor/shipment')?>"><?php echo Mage::helper('udropship')->__('Shipments Report')?></a></li>
+    <?php if ($_isUdpo): ?>
+        <li <?php if ($_active=='udrudpo'): ?>class="active"<?php endif ?>><a href="<?php echo $this->getUrl('udreport/vendor/udpo')?>"><?php echo Mage::helper('udropship')->__('Advanced PO Report')?></a></li>
+    <?php endif ?>
+<?php endif ?>
+<?php if (Mage::helper('udropship')->isModuleActive('Unirgy_DropshipMicrosite')
+    && $_session->isLoggedIn()
+    && $_session->getVendor()->getShowProductsMenuItem()): ?>
+                        <li><a href="<?php echo Mage::helper('umicrosite')->getManageProductsUrl() ?>" onclick="this.target='VendorAdmin'"><?php echo Mage::helper('udropship')->__('System View')?></a></li>
+<?php endif ?>
+                        <li><a href="http://unirgy.com/products/udropship/help.php" onclick="this.target='_blank'"><?php echo Mage::helper('udropship')->__('Help')?></a></li>
+                        <li class="last"><a href="<?php echo $this->getUrl('udropship/vendor/logout')?>"><?php echo Mage::helper('udropship')->__('Log out')?></a></li>
+                    </ul>
+                </div>
+            </div>
+            <?php else: ?>
+            <?php echo Mage::helper('udropship')->__('Welcome to Dropship Vendor Interface') ?>
+            <?php endif ?>
+        </div>
+    </div>
+</div>

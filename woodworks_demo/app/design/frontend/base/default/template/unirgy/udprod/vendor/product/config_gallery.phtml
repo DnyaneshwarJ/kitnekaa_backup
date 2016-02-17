@@ -1,0 +1,364 @@
+<?php
+$_block = $this;
+$cfgAttrs = $this->getCfgAttributes();
+$cfgAttrIds = array();
+foreach ($cfgAttrs as $__ca) {
+    $cfgAttrIds[] = $__ca->getAttributeId();
+}
+$cfgAttrVals = $this->getCfgAttributeValueTuple();
+$cfgSuf = '_';
+$cfgIdKey = '';
+foreach ($cfgAttrs as $__i=>$__ca) {
+    $cfgIdKey .= $cfgAttrIds[$__i].'-'.$cfgAttrVals[$__i].'-';
+    $cfgSuf .= $cfgAttrIds[$__i].'_'.$cfgAttrVals[$__i].'_';
+}
+$cfgSuf = substr($cfgSuf, 0, -1);
+$cfgIdKey = substr($cfgIdKey, 0, -1);
+$isShowSortOrder = true;
+$isCfgUploadImagesSimple = $_block->isCfgUploadImagesSimple();
+?>
+
+<div id="cfg_qc_main_image<?php echo $cfgSuf?>" class="cfg_qc_main_image">
+<?php if ($mImgData = $this->getMainImageData()): ?>
+<!--<div class="place-holder" onmouseover="<?php echo $_block->getJsObjectName(); ?>.loadImage('<?php echo $mImgData['file'] ?>')"><span><?php echo Mage::helper('udropship')->__('Roll Over for preview') ?></span></div>-->
+<?php endif ?>
+	<!--<a href="javascript:void(0)" onclick="imagePreview($(this).down())"><img src="<?php echo $this->getSkinUrl('images/spacer.gif')?>" width="100" style="display:none;" alt="" /></a>
+    <br/><br/-->
+	<a href="javascript:void(0)" onclick="unirgyShowThisModal('cfg_qc_gallery_modal<?php echo $cfgSuf?>')"><?php echo Mage::helper('udropship')->__('Add/Edit Images')?></a>
+    <br /><div style="display: none;" id="advice-<?php echo $_block->getHtmlId() ?>_save" class="validation-advice"><?php echo Mage::helper('udropship')->__('Please upload images') ?></div>
+</div>
+<div id="cfg_qc_additional_images_wrapper<?php echo $cfgSuf?>" class="cfg_qc_additional_images_wrapper">
+<ul id="cfg_qc_additional_images<?php echo $cfgSuf?>">
+<?php $i=0; foreach ($this->getImagesData() as $img): ?>
+<li id="cfg_qc_additional_images<?php echo $cfgSuf?>-image-<?php echo base64_encode($img['file'])?>">
+<div class="place-holder" onmouseover="<?php echo $_block->getJsObjectName(); ?>.loadImage('<?php echo $img['file'] ?>')"><span><?php echo Mage::helper('udropship')->__('Roll Over for preview') ?></span></div>
+<a href="javascript:void(0)" onclick="imagePreview($(this).down())"><img src="<?php echo $this->getSkinUrl('images/spacer.gif')?>" width="100" style="display:none;" alt="" /></a>
+</li>
+<?php endforeach ?>
+</ul>
+</div>
+
+<div id="cfg_qc_gallery_modal<?php echo $cfgSuf?>" style="display: none;" class="cfg_qc_gallery_modal modal-wrapper">
+<div class="modal">
+    <a href="javascript:void(0)" onclick="$(this).up(1).hide()" class="close">Close</a>
+    <div class="modal-main">
+        <div class="content">
+
+<div class="block-title">
+	<h1><?php echo Mage::helper('udropship')->__('Upload Pictures')?></h1>
+</div>
+<?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('prodimage-upload-intro')->toHtml() ?>
+            
+<div id="<?php echo $_block->getHtmlId() ?>" >
+<div class="grid">
+<table cellspacing="0" class="data-table border" id="<?php echo $_block->getHtmlId() ?>_grid" width="100%">
+    <col width="1" />
+    <col />
+    <col width="70" />
+    <col width="70" />
+    <thead>
+        <tr class="headings">
+            <th><?php echo Mage::helper('udropship')->__('Image') ?></th>
+            <th><?php echo Mage::helper('udropship')->__('Label') ?></th>
+            <?php if ($isShowSortOrder): ?>
+            <th><?php echo Mage::helper('udropship')->__('Sort Order') ?></th>
+            <?php endif ?>
+            <?php if ($isCfgUploadImagesSimple): ?>
+            <?php foreach ($_block->getImageTypes() as $typeId=>$type): ?>
+                <th><?php echo $type['label'] ?></th>
+            <?php endforeach; ?>
+            <th><?php echo Mage::helper('udropship')->__('Exclude') ?></th>
+            <?php else: ?>
+            <th><?php echo Mage::helper('udropship')->__('Main Image') ?></th>
+            <?php endif ?>
+            <th class="last"><?php echo Mage::helper('udropship')->__('Remove') ?></th>
+        </tr>
+    </thead>
+    <tbody id="<?php echo $_block->getHtmlId() ?>_list">
+        <tr id="<?php echo $_block->getHtmlId() ?>_template" class="template no-display">
+                <td class="cell-image"><div class="place-holder" onmouseover="<?php echo $_block->getJsObjectName(); ?>.loadImage('__file__')"><span><?php echo Mage::helper('udropship')->__('Roll Over for preview') ?></span></div><a href="javascript:void(0)" onclick="imagePreview($(this).down())"><img src="<?php echo $this->getSkinUrl('images/spacer.gif')?>" width="100" style="display:none;" alt="" /></a></td>
+                <td class="cell-label"><input type="text" class="input-text" onkeyup="<?php echo $_block->getJsObjectName(); ?>.updateImage('__file__')" onchange="<?php echo $_block->getJsObjectName(); ?>.updateImage('__file__')" /></td>
+                <?php if ($isShowSortOrder): ?>
+                <td class="cell-position"><input type="text" class="input-text" onkeyup="<?php echo $_block->getJsObjectName(); ?>.updateImage('__file__')" onchange="<?php echo $_block->getJsObjectName(); ?>.updateImage('__file__')" /></td>
+                <?php endif ?>
+                <?php if ($isCfgUploadImagesSimple): ?>
+                <?php foreach ($_block->getImageTypes() as $typeId=>$type): ?>
+                    <td class="cell-<?php echo $typeId ?> a-center"><input type="radio" name="<?php echo $type['field'] ?>" onclick="<?php echo $_block->getJsObjectName(); ?>.setProductImages('__file__')" value="__file__" /></td>
+                <?php endforeach; ?>
+                <td class="cell-disable a-center"><input type="checkbox" onclick="<?php echo $_block->getJsObjectName(); ?>.updateImage('__file__')" /></td>
+                <?php else: ?>
+                <td class="cell-main a-center"><input type="radio" name="main<?php echo $_block->getHtmlId() ?>" onclick="<?php echo $_block->getJsObjectName(); ?>.updateImage('__file__')" value="__file__" /></td>
+                <?php endif ?>
+                <td class="cell-remove a-center last"><input type="checkbox" onclick="<?php echo $_block->getJsObjectName(); ?>.updateImage('__file__')" /></td>
+        </tr>
+        <?php if ($isCfgUploadImagesSimple): ?>
+        <tr id="<?php echo $_block->getHtmlId() ?>-image-0">
+            <td class="cell-image"><?php echo Mage::helper('udropship')->__('No image') ?></td>
+            <td class="cell-label"><input type="hidden" />&nbsp;</td>
+            <td class="cell-position"><input type="hidden" />&nbsp;</td>
+            <?php foreach ($_block->getImageTypes() as $typeId=>$type): ?>
+                <td class="cell-<?php echo $typeId ?> a-center"><input type="radio" name="<?php echo $type['field'] ?>" onclick="<?php echo $_block->getJsObjectName(); ?>.setProductImages('no_selection')" value="no_selection" /></td>
+            <?php endforeach; ?>
+            <td class="cell-disable"><input type="hidden" />&nbsp;</td>
+            <td class="cell-remove last"><input type="hidden" />&nbsp;</td>
+        </tr>
+        <?php endif ?>
+    </tbody>
+    <tfoot>
+        <tr>
+            <td colspan="100" class="last" style="padding:8px">
+                <?php echo $_block->getUploaderHtml() ?>
+            </td>
+        </tr>
+    </tfoot>
+</table>
+</div>
+</div>
+</div>
+    </div>
+</div>
+</div>
+
+<input type="hidden" class="udvalidate-images-required" id="<?php echo $_block->getHtmlId() ?>_save" name="product[media_gallery][cfg_images][<?php echo $cfgIdKey?>]" value="<?php echo $_block->htmlEscape($_block->getImagesJson()) ?>" />
+<?php if ($isCfgUploadImagesSimple): ?>
+<input type="hidden" id="<?php echo $_block->getHtmlId() ?>_has_changes" name="product[udprod_cfg_media_changed][<?php echo $cfgIdKey?>]" value="0" />
+<input type="hidden" id="<?php echo $_block->getHtmlId() ?>_save_image" name="product[media_gallery][cfg_values][<?php echo $cfgIdKey?>]" value="<?php echo $_block->htmlEscape($_block->getImagesValuesJson()) ?>" />
+<?php endif ?>
+<script type="text/javascript">
+//<![CDATA[
+(function () {
+var UnirgyProductGallery = Class.create(Product.Gallery, {
+    initialize : function($super, containerId, uploader, imageTypes, cfgMainImgId, cfgAdditionalImgId, cfgAttrIds, cfgAttrVals) {
+        this.hasImagesValues = <?php if ($isCfgUploadImagesSimple) {echo 'true';} else {echo 'false';} ?>;
+        this.hasSortOrder = <?php if ($isShowSortOrder) {echo 'true';} else {echo 'false';} ?>;
+        this.containerId = containerId, this.container = $(this.containerId);
+        this.container.setHasChanges = (function() {
+            if (this.hasImagesValues) this.getElement('has_changes').value = '1';
+        }).bind(this);
+        this.uploader = uploader;
+        this.cfgMainImgId = cfgMainImgId;
+        this.cfgAdditionalImgId = cfgAdditionalImgId;
+        this.cfgAttrIds = $A(cfgAttrIds);
+        this.cfgAttrVals = $A(cfgAttrVals);
+        this.imageTypes = imageTypes;
+        if (this.uploader) {
+            this.uploader.onFilesComplete = this.handleUploadComplete
+                    .bind(this);
+        }
+        // this.uploader.onFileProgress = this.handleUploadProgress.bind(this);
+        // this.uploader.onFileError = this.handleUploadError.bind(this);
+        this.images = this.getElement('save').value.evalJSON();
+        if (this.hasImagesValues) {
+        this.imagesValues = this.getElement('save_image').value.evalJSON();
+        }
+        this.template = new Template('<tr id="__id__" class="preview">' + this
+                .getElement('template').innerHTML + '</tr>', new RegExp(
+                '(^|.|\\r|\\n)(__([a-zA-Z0-9_]+)__)', ''));
+        this.fixParentTable();
+        this.updateImages();
+        varienGlobalEvents.attachEventHandler('moveTab', this.onImageTabMove
+                .bind(this));
+    },
+    updateVisualisation : function(file) {
+        var image = this.getImageByFile(file);
+        this.getFileElement(file, 'cell-label input').value = image.label;
+        if (this.hasSortOrder) {
+            this.getFileElement(file, 'cell-position input').value = image.position;
+        }
+        if (this.hasImagesValues) {
+            this.getFileElement(file, 'cell-disable input').checked = (image.disabled == 1);
+            $H(this.imageTypes)
+                .each(
+                    function(pair) {
+                        if (this.imagesValues[pair.key] == file) {
+                            this.getFileElement(file,
+                                'cell-' + pair.key + ' input').checked = true;
+                        }
+                    }.bind(this));
+        } else {
+        this.getFileElement(file, 'cell-main input').checked = image.main && (image.main == 1);
+        }
+        this.getFileElement(file, 'cell-remove input').checked = image.removed && (image.removed == 1);
+        this.updateState(file);
+    },
+    updateState : function(file) {
+        if (this.hasSortOrder && this.hasImagesValues) {
+            if (this.getFileElement(file, 'cell-disable input').checked) {
+                this.getFileElement(file, 'cell-position input').disabled = true;
+            } else {
+                this.getFileElement(file, 'cell-position input').disabled = false;
+            }
+        }
+    },
+    updateImage : function(file) {
+        var index = this.getIndexByFile(file);
+        var oldMain, oldMainIdx;
+        if (this.hasSortOrder) {
+            this.images[index].position = this.getFileElement(file,
+                'cell-position input').value;
+        }
+        if (this.hasImagesValues) {
+            this.images[index].disabled = (this.getFileElement(file,
+                'cell-disable input').checked ? 1 : 0);
+        } else {
+            this.images[index].main = (this.getFileElement(file,
+                'cell-main input').checked ? 1 : 0);
+            if (this.images[index].main) {
+                for (i=0; i<this.images.length; i++) {
+                    if (this.images[i].main==1 && index!=i) {
+                        oldMainIdx = i;
+                        oldMain = this.images[i];
+                    }
+                    if (index!=i) {
+                        this.images[i].main=0;
+                    }
+                }
+                var mainImgBoxHtml, mainImgBox = $(this.cfgMainImgId);
+                if (mainImgBox) {
+                    if (oldMain) {
+                    mainImgBoxHtml = mainImgBox.innerHTML;
+                    mainImgBoxHtml = mainImgBoxHtml.replace(new RegExp(RegExp.escape(oldMain.url), 'g'), this.images[index].url);
+                    mainImgBoxHtml = mainImgBoxHtml.replace(new RegExp(RegExp.escape(oldMain.file), 'g'), this.images[index].file);
+                    mainImgBox.update(mainImgBoxHtml);
+                    }
+                    try{
+                    mainImgBox.down('img').src=this.images[index].url;
+                    mainImgBox.down('img').show();
+                    }catch(e){}
+                    try{
+                    mainImgBox.down('.place-holder').hide();
+                    }catch(e){}
+                }
+            }
+        }
+        this.images[index].label = this
+                .getFileElement(file, 'cell-label input').value;
+        this.images[index].removed = (this.getFileElement(file,
+                'cell-remove input').checked ? 1 : 0);
+        this.getElement('save').value = Object.toJSON(this.images);
+        this.updateState(file);
+        this.container.setHasChanges();
+    },
+    createMainImg: function(image) {
+
+    },
+    handleUploadComplete : function(files) {
+        files.each( function(item) {
+            if (!item.response.isJSON()) {
+                try {
+                    console.log(item.response);
+                } catch (e2) {
+                    alert(item.response);
+                }
+                return;
+            }
+            var response = item.response.evalJSON();
+            if (response.error) {
+                return;
+            }
+            var newImage = {};
+            newImage.url = response.url;
+            newImage.file = response.file;
+            newImage.label = '';
+            if (this.hasSortOrder) {
+                newImage.position = this.getNextPosition();
+            }
+            if (this.hasImagesValues) {
+                newImage.disabled = 0;
+            } else {
+                newImage.main = 0;
+            }
+            newImage.removed = 0;
+            newImage.super_attribute = {};
+            for (var __i=0; __i<this.cfgAttrIds.length; __i++) {
+                newImage.super_attribute[this.cfgAttrIds[__i]] = this.cfgAttrVals[__i];
+            }
+            this.images.push(newImage);
+            this.uploader.removeFile(item.id);
+            var file=newImage.file;
+            var imgLi = $(this.cfgAdditionalImgId+'-image-'+encode_base64(file));
+            if (!imgLi) {
+                $(this.cfgAdditionalImgId).insert('<li id="'+this.cfgAdditionalImgId+'-image-'+encode_base64(file)+'"><div class="place-holder" onmouseover="<?php echo $_block->getJsObjectName(); ?>.loadImage(\''+file+'\')"><span><?php echo $this->jsQuoteEscape(Mage::helper('udropship')->__('Roll Over for preview')) ?></span></div><a href="javascript:void(0)" onclick="imagePreview($(this).down())"><img src="<?php echo $this->getSkinUrl('images/spacer.gif')?>" width="100" style="display:none;" alt="" /></a></li>');
+                var imgLis = $(this.cfgAdditionalImgId).childElements();
+                imgLi = imgLis[imgLis.length-1];
+            }
+            if (imgLi && imgLi.down('img')) {
+                imgLi.down('img').src = newImage.url;
+                imgLi.down('img').show();
+                imgLi.down('.place-holder').hide();
+            }
+            var oldMain, oldMainIdx;
+            for (i=0; i<this.images.length; i++) {
+                if (this.images[i].main==1) {
+                    oldMainIdx = i;
+                    oldMain = this.images[i];
+                }
+            }
+            var mainImgBoxHtml, mainImgBox = $(this.cfgMainImgId);
+            if (mainImgBox && !oldMain) {
+                this.images[0].main=1;
+                try{
+                mainImgBox.down('img').src=this.images[0].url;
+                mainImgBox.down('img').show();
+                }catch(e){}
+                try{
+                mainImgBox.down('.place-holder').hide();
+                }catch(e){}
+            }
+        }.bind(this));
+        this.container.setHasChanges();
+        this.updateImages();
+    },
+    loadImage : function(file) {
+        var image = this.getImageByFile(file);
+        this.getFileElement(file, 'cell-image img').src = image.url;
+        this.getFileElement(file, 'cell-image img').show();
+        this.getFileElement(file, 'cell-image .place-holder').hide();
+        if (image.main) {
+            var mainImgBox = $(this.cfgMainImgId);
+            if (mainImgBox && mainImgBox.down('img')) {
+                try{
+                mainImgBox.down('img').src = image.url;
+                mainImgBox.down('img').show();
+                }catch(e){}
+                try{
+                mainImgBox.down('.place-holder').hide();
+                }catch(e){}
+            }
+        }
+        if (typeof this.file2id[file] == 'undefined') {
+            this.file2id[file] = this.idIncrement++;
+        }
+        var imgLi = $(this.cfgAdditionalImgId+'-image-'+encode_base64(file));
+        if (!imgLi) {
+            $(this.cfgAdditionalImgId).insert('<li id="'+this.cfgAdditionalImgId+'-image-'+encode_base64(file)+'"><div class="place-holder" onmouseover="<?php echo $_block->getJsObjectName(); ?>.loadImage(\''+file+'\')"><span><?php echo $this->jsQuoteEscape(Mage::helper('udropship')->__('Roll Over for preview')) ?></span></div><a href="javascript:void(0)" onclick="imagePreview($(this).down())"><img src="<?php echo $this->getSkinUrl('images/spacer.gif')?>" width="100" style="display:none;" alt="" /></a></li>');
+            var imgLis = $(this.cfgAdditionalImgId).childElements();
+            imgLi = imgLis[imgLis.length-1];
+        }
+        if (imgLi && imgLi.down('img')) {
+            imgLi.down('img').src = image.url;
+            imgLi.down('img').show();
+            imgLi.down('.place-holder').hide();
+        }
+    },
+    setProductImages : function(file) {
+        if (this.hasImagesValues) {
+            $H(this.imageTypes)
+                .each(
+                    function(pair) {
+                        if (this.getFileElement(file,
+                            'cell-' + pair.key + ' input').checked) {
+                            this.imagesValues[pair.key] = (file == 'no_selection' ? null
+                                : file);
+                        }
+                    }.bind(this));
+
+            this.container.setHasChanges();
+            this.getElement('save_image').value = Object.toJSON($H(this.imagesValues));
+        }
+    }
+});
+window['<?php echo $_block->getJsObjectName(); ?>'] = new UnirgyProductGallery('<?php echo $_block->getHtmlId() ?>', window['<?php echo $_block->getUploader()->getJsObjectName() ?>'], <?php echo $_block->getImageTypesJson() ?>, 'cfg_qc_main_image<?php echo $cfgSuf?>', 'cfg_qc_additional_images<?php echo $cfgSuf?>', <?php echo Zend_Json::encode($cfgAttrIds)?>, <?php echo Zend_Json::encode($cfgAttrVals)?>);
+}).defer();
+//]]>
+</script>

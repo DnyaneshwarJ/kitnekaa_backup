@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<config>
+	<modules>
+		<Neo_Adminhtml>
+			<active>true</active>
+			<codePool>local</codePool>
+		</Neo_Adminhtml>
+	</modules>
+</config>

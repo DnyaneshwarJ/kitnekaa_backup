@@ -1,0 +1,97 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magento.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magento.com for more information.
+ *
+ * @category    design
+ * @package     rwd_default
+ * @copyright   Copyright (c) 2006-2014 X.commerce, Inc. (http://www.magento.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+/* @var $this Mage_Core_Block_Template */
+/* @var $catalogSearchHelper Mage_Catalogsearch_Helper_Data */
+$catalogSearchHelper =  $this->helper('catalogsearch');
+
+//$catalogCategories = $this->helper('solr');
+//$catalogCategoriesHelper = Mage::helper("solr")->getCategoriesDropdown();
+$c = $this->helper('catalog/category');
+$kithnekaaCategoryHelper = $this->helper('kithnekaa_solr/data');
+//$catalogCategoriesHelper = $c->getStoreCategories();
+$catalogCategoriesKithnekaa = $kithnekaaCategoryHelper->getCategoriesDropdown();
+
+?>
+
+<form id="search_mini_form" action="<?php echo $catalogSearchHelper->getResultUrl() ?>" method="get">
+	<div class="input-box" style="margin-top: 2px;">
+    <div class="input-box" style="margin-left: -160px;">
+        <label for="search"><?php echo $this->__('Search:') ?></label>
+		<!--
+        <input type="text" name="city" list="cityname" autocomplete="off">
+		<datalist id="cityname">
+  			<option value="Boston">BE</option>
+  			<option value="Cambridge">
+		</datalist>
+		-->
+        <select id="cat" name="cat" style="width: 150px; vertical-align: top; padding: 6px; height: 41px;">
+        <optgroup style="max-height: 40px;" label="">
+<!-- <option value="">--Select Categories--</option>-->
+        
+<?php
+ 
+ foreach($catalogCategoriesKithnekaa as $value){  
+  foreach($value as $key => $val){
+
+   if($key=='label'){
+    $catNameIs = $val;
+   }
+   if($key=='value'){
+    $catIdIs = $val;
+   }
+   if($key=='level'){
+    $catLevelIs = $val;
+    $b ='';
+     for($i=1;$i<$catLevelIs;$i++){
+      $b = $b."-";
+     }
+   }
+  }
+  
+  $search_category_id_selected = Mage::app()->getRequest()->getParam('cat', false);
+  ?>
+  <option value="<?php echo ($catIdIs > 2)?$catIdIs:''; ?>"  <?php echo ($search_category_id_selected == $catIdIs)?'selected':''; ?>> <?php echo $b.$catNameIs ?></option>
+  </optgroup>
+  <?php
+ } 
+?>
+</select>
+</div>
+<div class="input-box" style="margin-top: -40px;">
+        <input id="search" type="search" name="<?php echo $catalogSearchHelper->getQueryParamName() ?>" value="<?php echo $catalogSearchHelper->getEscapedQueryText() ?>" class="input-text required-entry" maxlength="<?php echo $catalogSearchHelper->getMaxQueryLength();?>" placeholder="<?php echo $this->__('Search entire store here...') ?>" />
+        <button type="submit" title="<?php echo $this->__('Search') ?>" class="button search-button"><span><span><?php echo $this->__('Search') ?></span></span></button>
+    </div>
+</div>
+    <div id="search_autocomplete" class="search-autocomplete"></div>
+    <script type="text/javascript">
+    //<![CDATA[
+        var searchForm = new Varien.searchForm('search_mini_form', 'search', '');
+        searchForm.initAutocomplete('<?php echo $catalogSearchHelper->getSuggestUrl() ?>', 'search_autocomplete');
+      
+
+    //]]>
+    </script>
+</form>

@@ -1,0 +1,36 @@
+<?php
+$_hlp = Mage::helper('udropship');
+?>
+
+<?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
+
+<form enctype="multipart/form-data" action="<?php echo $this->getUrl('udbatch/vendor_batch/importOrdersPost') ?>" method="POST">
+<fieldset>
+    <div class="generic-box col2-set">
+        <div class="col-1">
+            <ul class="form-list">
+                <li>
+                    <label for="import_orders_upload"><?php echo Mage::helper('udropship')->__('Import File') ?></label><br/>
+                    <input id="import_orders_upload" name="import_orders_upload" title="<?php echo Mage::helper('udropship')->__('Import Orders File') ?>" type="file" class="input-text" style="width:160px;" />
+                </li>
+                <li>
+                    <label for="import_orders_textarea"><?php echo Mage::helper('udropship')->__('Import Content') ?></label><br/>
+                    <textarea id="import_orders_textarea" name="import_orders_textarea" title="<?php echo Mage::helper('udropship')->__('Import Orders Content') ?>" type="file"   style="width:300px; height: 400px"></textarea>
+                </li>
+            </ul>
+        </div>
+        <div class="col-2">
+            <ul class="form-list">
+                <li>
+                    <label for="batch_notes"><?php echo Mage::helper('udropship')->__('Notes') ?></label><br/>
+                    <textarea id="batch_notes" name="batch_notes" title="<?php echo Mage::helper('udropship')->__('Notes') ?>" type="file"   style="width:300px;"></textarea>
+                </li>
+                <li>
+                    <input type="submit" value="import" style="display:none" />
+                    <button class="form-button" name="submit_action" type="submit" id="filter-search" value="import"><span><?php echo Mage::helper('udropship')->__('Import') ?></span></button>
+                </li>
+            </ul>
+        </div>
+    </div>
+</fieldset>
+</form>

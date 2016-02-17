@@ -1,0 +1,31 @@
+<?php
+$isCfg = $this->getElement()->getId() == 'configurable';
+$elements = $this->getElement()->getElements()->getIterator();
+$topElements = $this->getElement()->getTopColumn();
+$bottomElements = $this->getElement()->getBottomColumn();
+$lcElements = $this->getElement()->getLeftColumn();
+$rcElements = $this->getElement()->getRightColumn();
+?>
+<div class="generic-box">
+<div class="box-head"><h3><?php echo $this->getElement()->getLegend() ?></h3></div>
+<table style="width:100%" class="col2-table">
+<col width="50%" />
+<col width="50%" />
+<tbody>
+
+<?php if (!empty($topElements)): ?>
+<tr>
+<td colspan="2">
+    <ul class="form-list">
+        <?php foreach($topElements as $wideElement): ?>
+            <li id="<?php echo $wideElement.'-container'?>">
+                <?php echo $this->getChildElementHtml($wideElement); ?>
+            </li>
+        <?php endforeach ?>
+    </ul>
+</td></tr>
+<?php endif ?>
+
+</tbody></table>
+
+</div>

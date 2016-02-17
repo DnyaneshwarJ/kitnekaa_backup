@@ -1,0 +1,64 @@
+
+<div class="form-list checkout-payment-innerdddiv" id="payment_form_<?php echo $this->getMethodCode() ?>" style="display:none;">
+
+  <div class="input-box">
+    <label><?php echo $this->__('Utr Number') ?>  </label>
+  
+      <input type="text" title="<?php echo $this->__('Utr Number') ?>" name="payment[cust_utr_number]"  class="input-text required-entry validate-alphanum validate-maxlength maximum-length-16"
+      value="<?php echo $this->htmlEscape($this->getInfoData('cust_utr_number')) ?>" />
+
+
+  </div>
+  <br/>
+  <div>
+    <label><?php echo $this->__('Bank Name') ?>*</label>
+    <span>
+    <span >
+      <input type="text" title="<?php echo $this->__('Bank Name') ?>" name="payment[cust_bank_name]" class="input-text required-entry validate-alpha-space" value="<?php echo $this->htmlEscape($this->getInfoData('cust_bank_name')) ?>" />
+   
+    </span>
+  </div>
+  <br/>
+    <div>
+    <label><?php echo $this->__('Branch Name') ?>*</label>
+    <span>
+    <span >
+      <input type="text" title="<?php echo $this->__('Customer Branch Name') ?>" name="payment[cust_branch_name]" class="input-text required-entry validate-alpha-space" value="<?php echo $this->htmlEscape($this->getInfoData('cust_branch_name')) ?>" />
+   
+    </span>
+  </span>
+  </div>
+  <br/>
+  <div>
+ <label><?php echo $this->__('Date Of Transaction') ?>*</label>
+ 
+                             <input name="payment[cust_trans_date]" id="trans_date_bank" value="<?php echo $this->htmlEscape($this->getInfoData('cust_trans_date'))?>" tabindex="1" class=" input-text required-entry validate-date" style="width:110px !important;" type="text"> 
+                            <img src="http://localhost/latte/applications/magneto/woodworks_demo/skin/adminhtml/default/default/images/grid-cal.gif" alt="" class="v-middle" id="from_date_bank" title="Select Date" style="">
+                                <script type="text/javascript">
+                                //<![CDATA[
+                                    Calendar.setup({
+                                        inputField: "trans_date_bank",
+                                        ifFormat: "%e/%m/%Y",
+                                        showsTime: false,
+                                        button: "from_date_bank",
+                                        align: "Bl",
+                                        singleClick : true,
+                                        disableFunc: function(date) {
+var now= new Date();
+if(date.getFullYear() < now.getFullYear()) { return true; }
+if(date.getFullYear() == now.getFullYear()) { if(date.getMonth() < now.getMonth()) { return true; } }
+if(date.getMonth() == now.getMonth()) { if(date.getDate() < now.getDate()) { return true; } }
+},
+                                    });
+                                //]]>
+                                </script>            
+                        
+
+</div>
+</div>
+<div>
+    <?php echo $this->getMethod()->getConfigData('message');?>
+</div>
+
+
+

@@ -1,0 +1,21 @@
+<?xml version="1.0"?>   
+<layout version="1.0">
+	<default>
+        <reference name="head">
+        	<!--action method="addCss"><stylesheet>sm/searchboxpro/css/searchboxpro.css</stylesheet></action-->
+        </reference>
+		<!--reference name="content">
+			<block type="searchboxpro/list" name="searchboxpro.list.default">
+			</block>
+        </reference-->
+    </default>
+	<searchboxpro_index_index>
+		<!--reference name="content">
+			<block type="searchboxpro/list" name="searchboxpro.list.default">
+			</block>
+        </reference-->
+	</searchboxpro_index_index>
+</layout>   
+
+	
+	

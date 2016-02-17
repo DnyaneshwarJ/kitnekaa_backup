@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+<widgets>
+	<deal_deal_view type="deal/deal_widget_view" translate="name description" module="deal">
+		<name>Deal view</name>
+		<description>Deal view widget</description>
+		<is_email_compatible>0</is_email_compatible>
+		<parameters>
+			<deal_id type="complex" translate="label">
+				<visible>1</visible>
+				<required>1</required>
+				<label>Deal</label>
+				<type>label</type>
+				<helper_block>
+					<type>deal/adminhtml_deal_widget_chooser</type>
+					<data>
+						<button translate="open">
+							<open>Select Deal</open>
+						</button>
+					</data>
+				</helper_block>
+				<sort_order>120</sort_order>
+			</deal_id>
+		</parameters>
+	</deal_deal_view>
+	<deal_deal_link type="deal/deal_widget_link" translate="name description" module="deal">
+		<name>Deal link</name>
+		<description>Deal link widget</description>
+		<is_email_compatible>0</is_email_compatible>
+		<parameters>
+			<deal_id type="complex" translate="label">
+				<visible>1</visible>
+				<required>1</required>
+				<label>Deal</label>
+				<type>label</type>
+				<helper_block>
+					<type>deal/adminhtml_deal_widget_chooser</type>
+					<data>
+						<button translate="open">
+							<open>Select Deal</open>
+						</button>
+					</data>
+				</helper_block>
+				<sort_order>130</sort_order>
+			</deal_id>
+		</parameters>
+	</deal_deal_link>
+</widgets>

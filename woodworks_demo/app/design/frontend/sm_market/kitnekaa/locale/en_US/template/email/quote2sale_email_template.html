@@ -1,0 +1,118 @@
+<!--@subject {{var store.getFrontendName()}}: New Quote # {{var quoteid}} @-->
+<!--@vars
+{"store url=\"\"":"Store Url",
+"var logo_url":"Email Logo Image Url",
+"var logo_alt":"Email Logo Image Alt",
+"var customer":"Customer Name",
+"var store.getFrontendName()":"Store Name",
+"store url=\"customer/account/\"":"Customer Account Url",
+{{var customer}} : "Customer name",
+{{var quoteid}} :"Quote Id",
+{{var createdAt}} :"Created Date",
+{{var currency_code}} :"Currency Code",
+{{var currency_symbol}} :"Currency Symbol",
+{{var subTotal}} : "Subtotal",
+{{var subTotalDiscount}} :"Subtotal Discount",
+{{var discount}}:"Discount",
+{{var shippingTitle}} :"Shipping Title",
+{{var shippingAmount : "Shipping Amount",
+{{var grandTotal}} :"Grand Total",
+{{var website}} : "Website Name",
+{{var quoteDetails}} : "quoteDetails Table rows. (contains product, unit price, qty, row price.)"
+{{var quote_footer}} : "quote_footer is the table of the subTotal, discount, grandTotal, and shippingAmount, shippingTitle etc Table"
+
+@-->
+<!--@styles
+body,td { color:#2f2f2f; font:11px/1.35em Verdana, Arial, Helvetica, sans-serif; }
+@-->
+<body style="background:#F6F6F6; font-family:Verdana, Arial, Helvetica, sans-serif; font-size:12px; margin:0; padding:0;" >
+    <div style="background:#F6F6F6; font-family:Verdana, Arial, Helvetica, sans-serif; font-size:12px; margin:0; padding:0;">
+        <table cellspacing="0" cellpadding="0" border="0" width="100%">
+            <tr>
+                <td align="center" valign="top" style="padding:20px 0 20px 0">
+                    <table bgcolor="#FFFFFF" cellspacing="0" cellpadding="10" border="0" width="650" style="border:1px solid #E0E0E0;">
+                        <!-- [ header starts here] -->
+                        <tr>
+                            <td valign="top">
+                                <a href='{{store url=""}}' ><img src='{{var logo_url}}' alt="{{var logo_alt}}" style="margin-bottom:10px;" border="0" /></a>
+                            </td>
+                        </tr>
+                        <!-- [ middle starts here] -->
+                        <tr>
+                            <td valign="top">
+                                <h1 style="font-size:22px; font-weight:normal; line-height:22px; margin:0 0 11px 0;" >Hello, {{var customer}}</h1>
+                                <p style="font-size:12px; line-height:16px; margin:0;">
+                                    Thank you for your quote request from {{var store.getFrontendName()}}.&nbsp;{{var sellerComment}}.
+                                </p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <h2 style="font-size:18px; font-weight:normal; margin:0;">Your Quote #{{var quoteid}} <small>(created on {{var createdAt}})</small></h2>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <table class="data-table" id="my-quotes-table" summary='Items Quoted' bgcolor="#f6f6f6" border="0">
+                                    <!--<col />-->
+                                    <col width="1" />
+                                    <col width="1" />
+                                    <col width="1" />
+                                    <col width="1" />
+                                    <thead>
+                                        <tr>
+                                            <th align="left" width="325" bgcolor="#EAEAEA" style="font-size:13px; padding:5px 9px 6px 9px; line-height:1em;">Product</th>
+                                            <th class="a-right" align="right" width="325" bgcolor="#EAEAEA" style="font-size:13px; padding:5px 9px 6px 9px; line-height:1em;">Unit Price</th>
+                                            <th class="a-center" align="right" width="325" bgcolor="#EAEAEA" style="font-size:13px; padding:5px 9px 6px 9px; line-height:1em;">Qty</th>
+                                            <th class="a-right" align="right" width="325" bgcolor="#EAEAEA" style="font-size:13px; padding:5px 9px 6px 9px; line-height:1em;">Subtotal</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {{var quoteDetails}}
+                                    </tbody>
+                                </table>
+                                {{var  quote_footer}}
+                                <table width="100%">
+                                    <tr   style="height: 4px; background-color: #eaeaea;"><td width="100%"></td></tr>
+                                </table>
+                            </td>
+                        </tr>
+                        <tr  style="background:#FFFFFF;">
+
+                            <!-- Creating the buttons using the table tags -->
+                            <td width="100%" >
+                                <table width="100%">
+                                    <tr>
+                                        <td align="left">
+                                            <table border="0" cellpadding="0" cellspacing="5" style="background-color:#ff2525; border:0px solid #007ACC; border-radius:5px;">
+                                                <tr>
+                                                    <td align="center" valign="middle" style="color:#FFFFFF; font-family:Helvetica, Arial, sans-serif; font-size:14px; font-weight:bold; letter-spacing:.5px; line-height:150%; padding-top:5px; padding-right:5px; padding-bottom:5px; padding-left:5px;">
+                                                        <a href='{{store_url=""}}quote2sales/index?rejectquoteid={{var quoteid}}' target="_blank" style="color:#FFFFFF; text-decoration:none;">Reject / Re-request Quote</a>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <td align="right">
+                                            <table border="0" cellpadding="0" cellspacing="5" style="background-color:#29a529; border:0px solid #001E3D; border-radius:5px;">
+                                                <tr>
+                                                    <td align="center" valign="middle" style="color:#FFFFFF; font-family:Helvetica, Arial, sans-serif; font-size:14px; font-weight:bold; letter-spacing:.5px; line-height:150%; padding-top:5px; padding-right:5px; padding-bottom:5px; padding-left:5px;">
+                                                        <a href='{{store_url=""}}quote2sales/quote/checkout/quote_id/{{var quoteid}}' target="_blank" style="color:#FFFFFF; text-decoration:none;">Proceed to Checkout</a>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <br><p style="font-size: 10px;">If you have any questions about your quote please contact us at <a href="mailto:{{config path='trans_email/ident_support/email'}}" style="color:#1E7EC8;">{{config path='trans_email/ident_support/email'}}</a></p>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+    </div>  
+</body>

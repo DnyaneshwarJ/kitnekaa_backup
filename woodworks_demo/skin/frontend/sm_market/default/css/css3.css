@@ -1,0 +1,164 @@
+/* Using CSS3 for some visual enhancements. (Will be degraded nicely for non-CSS3 browsers.)*/
+
+.v2-banner-home a:after,
+.v2-banner-home a:before,
+.v2-banner-home a:hover:after,
+.v2-banner-home a:hover:before,
+.header2-wrap .headev2-banner a:hover:before,
+.header2-wrap .headev2-banner a:hover:after,
+.header2-wrap .headev2-banner a:after,
+.header2-wrap .headev2-banner a:before,
+.banner-home .banner2 a:before,
+.banner-home .banner2 a:after,
+.category-products .item .product-addcart .btn-cart:hover:before,
+.category-products .item .product-addcart .btn-cart:before,
+.category-products .item-inner:hover .product-image .image-hover,
+.category-products .item-inner .product-image .image-hover,
+.category-products .item-inner:hover .product-image .small-image,
+.category-products .item-inner .product-image .small-image,
+.language-currency .switcher-wrap:hover .switch-content,
+.language-currency .switcher-wrap .switch-content,
+#yt_header #yt_menu_short:hover .yt-menu-content,
+#yt_header #yt_menu_short .yt-menu-content,
+
+
+.sm_megamenu_wrapper_vertical_menu .sm_megamenu_menu .sm_megamenu_dropdown_1column, 
+.sm_megamenu_wrapper_vertical_menu .sm_megamenu_menu .sm_megamenu_dropdown_2columns, 
+.sm_megamenu_wrapper_vertical_menu .sm_megamenu_menu .sm_megamenu_dropdown_3columns, 
+.sm_megamenu_wrapper_vertical_menu .sm_megamenu_menu .sm_megamenu_dropdown_4columns,
+.sm_megamenu_wrapper_vertical_menu .sm_megamenu_menu .sm_megamenu_dropdown_5columns,
+.sm_megamenu_wrapper_vertical_menu .sm_megamenu_menu .sm_megamenu_dropdown_6columns,
+.sm_megamenu_wrapper_vertical_menu .sm_megamenu_menu li:hover .sm_megamenu_dropdown_1column, 
+.sm_megamenu_wrapper_vertical_menu .sm_megamenu_menu li:hover .sm_megamenu_dropdown_2columns, 
+.sm_megamenu_wrapper_vertical_menu .sm_megamenu_menu li:hover .sm_megamenu_dropdown_3columns,
+.sm_megamenu_wrapper_vertical_menu .sm_megamenu_menu li:hover .sm_megamenu_dropdown_4columns,
+.sm_megamenu_wrapper_vertical_menu .sm_megamenu_menu li:hover .sm_megamenu_dropdown_5columns,
+.sm_megamenu_wrapper_vertical_menu .sm_megamenu_menu li:hover .sm_megamenu_dropdown_6columns,
+
+.yt-menu-nav #nav > li:hover > a:before,
+.yt-menu-nav #nav > li > a:before,
+.yt-menu-nav #nav > li:hover > a,
+.yt-menu-nav #nav > li > a,
+.sm_megamenu_wrapper_horizontal_menu .sm_megamenu_menu li.sm_megamenu_lv1:hover .sm_megamenu_head,
+.sm_megamenu_wrapper_horizontal_menu .sm_megamenu_menu li.sm_megamenu_lv1 .sm_megamenu_head,
+.sm_megamenu_wrapper_horizontal_menu .sm_megamenu_menu li.sm_megamenu_lv1 .sm_megamenu_head:before,
+.sm_megamenu_wrapper_horizontal_menu .sm_megamenu_menu li.sm_megamenu_lv1:hover .sm_megamenu_head:before,
+.toolbar .select-inner:hover ul,
+.toolbar .select-inner ul{
+	-moz-transition: all 0.3s ease-in-out 0s;
+	-webkit-transition: all 0.3s ease-in-out 0s;
+	-o-transition: all 0.3s ease-in-out 0s;
+	-ms-transition: all 0.3s ease-in-out 0s;
+	transition: all 0.3s ease-in-out 0s;
+}
+.header4-wrap .wishlist-compare .block:hover .block-content,
+.header4-wrap .wishlist-compare .block .block-content,
+
+.sm_megamenu_wrapper_horizontal_menu .sm_megamenu_menu li:hover .sm_megamenu_dropdown_1column, 
+.sm_megamenu_wrapper_horizontal_menu .sm_megamenu_menu li:hover .sm_megamenu_dropdown_2columns, 
+.sm_megamenu_wrapper_horizontal_menu .sm_megamenu_menu li:hover .sm_megamenu_dropdown_3columns,
+.sm_megamenu_wrapper_horizontal_menu .sm_megamenu_menu li:hover .sm_megamenu_dropdown_4columns,
+.sm_megamenu_wrapper_horizontal_menu .sm_megamenu_menu li:hover .sm_megamenu_dropdown_5columns, 
+.sm_megamenu_wrapper_horizontal_menu .sm_megamenu_menu li:hover .sm_megamenu_dropdown_6columns,
+.sm_megamenu_wrapper_horizontal_menu .sm_megamenu_menu li .sm_megamenu_dropdown_1column, 
+.sm_megamenu_wrapper_horizontal_menu .sm_megamenu_menu li .sm_megamenu_dropdown_2columns, 
+.sm_megamenu_wrapper_horizontal_menu .sm_megamenu_menu li .sm_megamenu_dropdown_3columns,
+.sm_megamenu_wrapper_horizontal_menu .sm_megamenu_menu li .sm_megamenu_dropdown_4columns,
+.sm_megamenu_wrapper_horizontal_menu .sm_megamenu_menu li .sm_megamenu_dropdown_5columns, 
+.sm_megamenu_wrapper_horizontal_menu .sm_megamenu_menu li .sm_megamenu_dropdown_6columns,
+
+.yt-product-detail .tab-product-detail .yt-tab-navi > li > a:before,
+.yt-product-detail .tab-product-detail .yt-tab-navi > li > a:hover:before,
+#yt_main .sm-slider .page-button .control-button li,
+#yt_main .sm-slider .page-button .control-button li:hover,
+.yt-product-detail .more-views.slide-gallery .prev:hover, 
+.yt-product-detail .more-views.slide-gallery .next:hover,
+.yt-product-detail .more-views.slide-gallery .prev,
+.yt-product-detail .more-views.slide-gallery .next,
+.spotlight-wrap .spotlight ul li a,
+.spotlight-wrap .spotlight ul li a:hover,
+.carousel-control-wrap .carousel-control-tab:hover,
+.carousel-control-wrap .carousel-control-tab,
+.category-products .item-inner:hover .product-image .image-hover,
+.category-products .item-inner .product-image .image-hover,
+.item .item-inner:hover .sm_quickview_handler,
+.item .item-inner .sm_quickview_handler,
+.banner-right-home .banner-righthome a:hover:before,
+.banner-right-home .banner-righthome a:before,
+#yt_header .head-quicklink .links li a:before,
+#yt_header .head-quicklink .links li:hover a:before,
+.toolbar .pagination-wrap .pagination .pages ol li a.next:hover, 
+.toolbar .pagination-wrap .pagination .pages ol li a.previous:hover,
+
+.slider-happy-client .owl-controls .owl-next:hover, 
+.slider-happy-client .owl-controls .owl-prev:hover,
+.yt-payment .block-payment a:hover img,
+.yt-payment .block-payment a img,
+.mini-cartpro .block-content .mini-products-list .item:hover .product-image:before,
+.mini-cartpro .block-content .mini-products-list .item .product-image:before,
+#yt_wrapper .button,
+#yt_wrapper .button:hover {
+	-moz-transition: all 0.2s ease-in-out 0s;
+	-webkit-transition: all 0.2s ease-in-out 0s;
+	-o-transition: all 0.2s ease-in-out 0s;
+	-ms-transition: all 0.2s ease-in-out 0s;
+	transition: all 0.2s ease-in-out 0s;
+}
+/*.onpen-sidebar #yt_wrapper,
+#yt_wrapper,
+.yt_ressidebar_screennav,*/
+ul.nav-menu li.parent > .res-wrapnav,
+ul.nav-menu li.parent.open > .res-wrapnav{
+	-moz-transition: all 0.5s ease-in-out 0s;
+	-webkit-transition: all 0.5s ease-in-out 0s;
+	-o-transition: all 0.5s ease-in-out 0s;
+	-ms-transition: all 0.5s ease-in-out 0s;
+	transition: all 0.5s ease-in-out 0s;
+}
+.header4-wrap .wishlist-compare .block .block-content,
+.language-currency .switcher-wrap .switch-content,
+.toolbar .select-inner ul{
+	transform: scale(0) rotate(0deg);
+	-ms-transform: scale(0) rotate(0deg);
+	-moz-transform: scale(0) rotate(0deg);
+	-webkit-transform: scale(0) rotate(0deg);
+	-o-transform: scale(0) rotate(0deg);
+}
+.header4-wrap .wishlist-compare .block:hover .block-content,
+.language-currency .switcher-wrap:hover .switch-content,
+.toolbar .select-inner:hover ul{
+	transform: scale(1.0) rotate(0deg);
+	-ms-transform: scale(1.0) rotate(0deg);
+	-moz-transform: scale(1.0) rotate(0deg);
+	-webkit-transform: scale(1.0) rotate(0deg);
+	-o-transform: scale(1.0) rotate(0deg);
+}
+.sm_megamenu_wrapper_horizontal_menu .sm_megamenu_menu li:hover .sm_megamenu_dropdown_1column, 
+.sm_megamenu_wrapper_horizontal_menu .sm_megamenu_menu li:hover .sm_megamenu_dropdown_2columns, 
+.sm_megamenu_wrapper_horizontal_menu .sm_megamenu_menu li:hover .sm_megamenu_dropdown_3columns,
+.sm_megamenu_wrapper_horizontal_menu .sm_megamenu_menu li:hover .sm_megamenu_dropdown_4columns,
+.sm_megamenu_wrapper_horizontal_menu .sm_megamenu_menu li:hover .sm_megamenu_dropdown_5columns, 
+.sm_megamenu_wrapper_horizontal_menu .sm_megamenu_menu li:hover .sm_megamenu_dropdown_6columns,
+.item .item-inner:hover .sm_quickview_handler{
+	transform: scale(1.0) rotate(0deg);
+	-ms-transform: scale(1.0) rotate(0deg);
+	-moz-transform: scale(1.0) rotate(0deg);
+	-webkit-transform: scale(1.0) rotate(0deg);
+	-o-transform: scale(1.0) rotate(0deg);
+}
+.sm_megamenu_wrapper_horizontal_menu .sm_megamenu_menu li .sm_megamenu_dropdown_1column, 
+.sm_megamenu_wrapper_horizontal_menu .sm_megamenu_menu li .sm_megamenu_dropdown_2columns, 
+.sm_megamenu_wrapper_horizontal_menu .sm_megamenu_menu li .sm_megamenu_dropdown_3columns,
+.sm_megamenu_wrapper_horizontal_menu .sm_megamenu_menu li .sm_megamenu_dropdown_4columns,
+.sm_megamenu_wrapper_horizontal_menu .sm_megamenu_menu li .sm_megamenu_dropdown_5columns, 
+.sm_megamenu_wrapper_horizontal_menu .sm_megamenu_menu li .sm_megamenu_dropdown_6columns,
+
+.item .item-inner .sm_quickview_handler{
+	transform: scale(0) rotate(0deg);
+	-ms-transform: scale(0) rotate(0deg);
+	-moz-transform: scale(0) rotate(0deg);
+	-webkit-transform: scale(0) rotate(0deg);
+	-o-transform: scale(0) rotate(0deg);
+}
+
+

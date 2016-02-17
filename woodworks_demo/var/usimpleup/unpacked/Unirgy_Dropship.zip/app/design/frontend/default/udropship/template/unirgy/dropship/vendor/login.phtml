@@ -1,0 +1,55 @@
+<?php
+/**
+ * Unirgy LLC
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the EULA
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://www.unirgy.com/LICENSE-M1.txt
+ *
+ * @category   Unirgy
+ * @package    Unirgy_Dropship
+ * @copyright  Copyright (c) 2008-2009 Unirgy LLC (http://www.unirgy.com)
+ * @license    http:///www.unirgy.com/LICENSE-M1.txt
+ */
+?>
+
+<?php $_session = Mage::getSingleton('udropship/session') ?>
+
+<form action="#" method="post" id="login-form">
+<div class="login-box generic-box">
+    <div class="box-head"><h3><?php echo Mage::helper('udropship')->__('Vendor Log in') ?></h3></div>
+    <div class="registered-users">
+        <div class="content">
+            <ul class="form-list">
+                <li>
+                    <label for="email"><?php echo Mage::helper('udropship')->__('Username / Email Address') ?> <span class="required">*</span></label><br />
+                    <input name="login[username]" value="<?php echo $this->htmlEscape($_session->getUsername()) ?>" title="<?php echo Mage::helper('udropship')->__('Email Address') ?>" id="email" type="text" class="input-text required-entry" style="width:250px;" />
+                </li>
+                <li>
+                    <label for="pass"><?php echo Mage::helper('udropship')->__('Password') ?> <span class="required">*</span></label><br />
+                    <input name="login[password]" type="password" class="input-text required-entry vaidate-password" id="pass" style="width:250px;" />
+                </li>
+            </ul>
+            <p class="required"><?php echo Mage::helper('udropship')->__('* Required Fields') ?></p>
+        </div>
+        <div class="buttons-set" style="margin-top:10px;">
+            <?php echo $this->getChildHtml('login_links') ?>
+            <button class="form-button" type="submit" name="send"><span><?php echo Mage::helper('udropship')->__('Login') ?></span></button>
+        </div>
+    </div>
+</div>
+</form>
+
+<?php if (!$this->getRequest()->getParam('ajax')): ?>
+<script type="text/javascript">
+    var dataForm = new VarienForm('login-form', true);
+</script>
+<?php endif ?>
+<?php if ($_session->getUsername()): ?>
+<script type="text/javascript">
+$('pass').focus();
+</script>
+<?php endif ?>

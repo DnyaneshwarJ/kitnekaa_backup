@@ -1,0 +1,168 @@
+<?php $_order = $this->getQuote() ?>
+<?php
+//If the there is  data in $_order variable then fetch corresponding quote details
+if ($_order != NULL) {
+    $orderAdminDate = $this->formatDate($_order->getCreatedAtDate(), 'medium', true);
+    $orderStoreDate = $this->formatDate($_order->getCreatedAtStoreDate(), 'medium', true);
+}
+?>
+<div class="box-left">
+    <!--Order Information-->
+    <div class="entry-edit">
+
+        <?php /* ?>
+
+          <?php if ($_order->getEmailSent()):
+          $_email = Mage::helper('sales')->__('the order confirmation email was sent');
+          else:
+          $_email = Mage::helper('sales')->__('the order confirmation email is not sent');
+          endif; ?>
+
+          <?php */ ?>
+
+        <div class="entry-edit-head">
+            <a href="<?php echo $this->getViewUrl($_order->getId()) ?>"><?php echo Mage::helper('quote2sales')->__('Quote # %s', $_order->getId()) ?></a>
+        </div>
+
+
+        <div class="fieldset">
+            <table cellspacing="0" class="form-list">
+                <tr>
+                    <td class="label"><label><?php echo Mage::helper('quote2sales')->__('Quote Date') ?></label></td>
+                    <td class="value"><strong><?php echo $orderAdminDate ?></strong></td>
+                </tr>
+                <?php if ($orderAdminDate != $orderStoreDate): ?>
+                    <tr>
+                        <td class="label"><label><?php echo Mage::helper('quote2sales')->__('Quote Date (%s)', $_order->getCreatedAtStoreDate()->getTimezone()) ?></label></td>
+                        <td class="value"><strong><?php echo $orderStoreDate ?></strong></td>
+                    </tr>
+                <?php endif; ?>
+                <?php /* ?>
+                  <tr>
+                  <td class="label"><label><?php echo Mage::helper('sales')->__('Order Status') ?></label></td>
+                  <td class="value"><strong><span id="order_status"><?php echo $_order->getStatusLabel() ?></span></strong></td>
+                  </tr>
+                  <?php */ ?>
+                <tr>
+                    <td class="label"><label><?php echo Mage::helper('sales')->__('Purchased From') ?></label></td>
+                    <td class="value"><strong><?php echo $this->getOrderStoreName() ?></strong></td>
+                </tr>
+                <?php if ($_order->getRemoteIp() && $this->shouldDisplayCustomerIp()): ?>
+                    <tr>
+                        <td class="label"><label><?php echo Mage::helper('quote2sales')->__('Placed from IP') ?></label></td>
+                        <td class="value"><strong><?php echo $_order->getRemoteIp();
+                echo ($_order->getXForwardedFor()) ? ' (' . $this->escapeHtml($_order->getXForwardedFor()) . ')' : '';
+                    ?></strong></td>
+                    </tr>
+                <?php endif; ?>
+
+<?php if ($_order->getGlobalCurrencyCode() != $_order->getBaseCurrencyCode()): ?>
+                    <tr>
+                        <td class="label"><label><?php echo Mage::helper('quote2sales')->__('%s / %s rate:', $_order->getGlobalCurrencyCode(), $_order->getBaseCurrencyCode()) ?></label></td>
+                        <td class="value"><strong><?php echo $_order->getBaseToGlobalRate() ?></strong></td>
+                    </tr>
+                <?php endif; ?>
+<?php if ($_order->getBaseCurrencyCode() != $_order->getQuoteCurrencyCode()): ?>
+                    <tr>
+                        <td class="label"><label><?php echo Mage::helper('sales')->__('%s / %s rate:', $_order->getQuoteCurrencyCode(), $_order->getBaseCurrencyCode()) ?></label></td>
+                        <td class="value"><strong><?php echo $_order->getBaseToQuoteRate() ?></strong></td>
+                    </tr>
+<?php endif; ?>
+            </table>
+        </div>
+
+
+    </div>
+</div>
+
+<div class="box-right">
+    <!--Account Information-->
+    <div class="entry-edit">
+        <div class="entry-edit-head">
+            <h4 class="icon-head head-account"><?php echo Mage::helper('quote2sales')->__('Account Information') ?></h4>
+        </div>
+        <div class="fieldset">
+            <div class="hor-scroll">
+                <table cellspacing="0" class="form-list">
+                    <tr>
+                        <td class="label"><label><?php echo Mage::helper('quote2sales')->__('Customer Name') ?></label></td>
+                        <td class="value">
+                            <?php if ($_customerUrl = $this->getCustomerViewUrl()) : ?>
+                                <a href="<?php echo $_customerUrl ?>" target="_blank"><strong><?php echo $this->htmlEscape($this->getCustomerName()) ?></strong></a>
+                            <?php else: ?>
+                                <strong><?php echo $this->htmlEscape($this->getCustomerName()) ?></strong>
+<?php endif; ?>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="label"><label><?php echo Mage::helper('quote2sales')->__('Email') ?></label></td>
+                        <td class="value"><a href="mailto:<?php echo $_order->getCustomerEmail() ?>"><strong><?php echo $_order->getCustomerEmail() ?></strong></a></td>
+                    </tr>
+<?php if ($_groupName = $this->getCustomerGroupName()) : ?>
+                        <tr>
+                            <td class="label"><label><?php echo Mage::helper('quote2sales')->__('Customer Group') ?></label></td>
+                            <td class="value"><strong><?php echo $_groupName ?></strong></td>
+                        </tr>
+                    <?php endif; ?>
+<?php foreach ($this->getCustomerAccountData() as $data): ?>
+                        <tr>
+                            <td class="label"><label><?php echo $data['label'] ?></label></td>
+                            <td class="value"><strong><?php echo $data['value'] ?></strong></td>
+                        </tr>
+<?php endforeach; ?>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</div>
+<div class="clear"></div>
+<?php ?>
+
+<div class="box-left">
+    <!--Billing Address-->
+    <div class="entry-edit">
+        <div class="entry-edit-head">
+            <h4 class="icon-head head-billing-address"><?php echo Mage::helper('sales')->__('Billing Address') ?></h4>
+            <div class="tools"><?php //echo $this->getAddressEditLink($_order->getBillingAddress())  ?></div>
+        </div>
+        <fieldset>
+            <address><?php echo $_order->getBillingAddress()->getFormated(true) ?></address>
+        </fieldset>
+    </div>
+</div>
+<?php if (!$this->getOrder()->getIsVirtual()): ?>
+    <div class="box-right">
+        <!--Shipping Address-->
+        <div class="entry-edit">
+            <div class="entry-edit-head">
+                <h4 class="icon-head head-shipping-address"><?php echo Mage::helper('sales')->__('Shipping Address') ?></h4>
+                <div class="tools"><?php //echo $this->getAddressEditLink($_order->getShippingAddress())  ?></div>
+            </div>
+            <fieldset>
+                <address><?php echo $_order->getShippingAddress()->getFormated(true) ?></address>
+            </fieldset>
+        </div>
+    </div>
+
+    <div class="clear"></div>
+<?php endif; ?>
+<?php
+$requestId = Mage::getModel('quote2sales/requeststatus')->getCollection()
+                ->addFieldToSelect('request_id')
+                ->addFieldToFilter('quote_id', $this->getQuote()->getId())->getFirstItem()->getData('request_id');
+$sellerComment = Mage::getModel('quote2sales/request')->getCollection()
+                ->addFieldToSelect('seller_comment')
+                ->addFieldToFilter('request_id', $requestId)->getFirstItem()->getData('seller_comment');
+?>
+<div class="grid np">
+    <div class="entry-edit">
+        <div class="entry-edit-head">
+            <h4 class="icon-head head-account"><?php echo Mage::helper('quote2sales')->__('Quote Comment') ?></h4>
+        </div>
+        <div class="fieldset">
+<?php echo $sellerComment; ?>
+        </div>
+    </div>
+</div>
+<?php ?>

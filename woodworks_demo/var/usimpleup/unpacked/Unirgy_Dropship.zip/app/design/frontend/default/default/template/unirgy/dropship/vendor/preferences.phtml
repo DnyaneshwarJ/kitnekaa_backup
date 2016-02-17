@@ -1,0 +1,227 @@
+<?php
+/**
+ * Unirgy LLC
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the EULA
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://www.unirgy.com/LICENSE-M1.txt
+ *
+ * @category   Unirgy
+ * @package    Unirgy_Dropship
+ * @copyright  Copyright (c) 2008-2009 Unirgy LLC (http://www.unirgy.com)
+ * @license    http:///www.unirgy.com/LICENSE-M1.txt
+ */
+?>
+
+<?php
+$_hlp = Mage::helper('udropship');
+$_v = Mage::getSingleton('udropship/session')->getVendor();
+?>
+<?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
+
+<script type="text/javascript">
+    //<![CDATA[
+    RegionUpdater.prototype._checkRegionRequired = function()
+    {
+        var label, wildCard;
+        var elements = [this.regionTextEl, this.regionSelectEl];
+        var that = this;
+        if (typeof this.config == 'undefined') {
+            return;
+        }
+        var regionRequired = this.config.regions_required.indexOf(this.countryEl.value) >= 0;
+
+        elements.each(function(currentElement) {
+            if (!currentElement) {
+                return;
+            }
+            Validation.reset(currentElement);
+            label = $$('label[for="' + currentElement.id + '"]')[0];
+            if (label) {
+                wildCard = label.down('em') || label.down('span.required');
+                if (!that.config.show_all_regions) {
+                    if (regionRequired) {
+                        label.up().show();
+                    } else {
+                        label.up().hide();
+                    }
+                }
+            }
+
+            if (label && wildCard) {
+                if (!regionRequired) {
+                    wildCard.hide();
+                    if (label.hasClassName('required')) {
+                        label.removeClassName('required');
+                    }
+                } else if (regionRequired) {
+                    wildCard.show();
+                    if (!label.hasClassName('required')) {
+                        label.addClassName('required')
+                    }
+                }
+            }
+
+            if (!regionRequired) {
+                if (currentElement.hasClassName('required-entry')) {
+                    currentElement.removeClassName('required-entry');
+                }
+                if ('select' == currentElement.tagName.toLowerCase() &&
+                    currentElement.hasClassName('validate-select')) {
+                    currentElement.removeClassName('validate-select');
+                }
+            } else {
+                if (!currentElement.hasClassName('required-entry')) {
+                    currentElement.addClassName('required-entry');
+                }
+                if ('select' == currentElement.tagName.toLowerCase() &&
+                    !currentElement.hasClassName('validate-select')) {
+                    currentElement.addClassName('validate-select');
+                }
+            }
+        });
+    };
+    //]]>
+</script>
+
+<form id="uPrefForm" method="post" action="<?php echo $this->getUrl('udropship/vendor/preferencesPost')?>" enctype="multipart/form-data">
+    <?php foreach ($this->getFieldsets() as $_fieldset): if (empty($_fieldset['fields'])) continue; ?>
+
+        <fieldset class="generic-box">
+            <legend><?php echo htmlspecialchars(Mage::helper('udropship')->__($_fieldset['legend'])) ?></legend>
+
+            <table><tbody>
+                <?php foreach ($_fieldset['fields'] as $_k=>$_f):
+                    $_value = $_v->getData($_k);
+                    $_escaped = is_scalar($_value) ? htmlspecialchars($_value) : $_value;
+                    $_class = !empty($_f['class']) ? $_f['class'] : '';
+                    ?><tr>
+                    <th><label for="<?php echo $_k ?>"><?php echo htmlspecialchars(Mage::helper('udropship')->__($_f['label'])) ?></label></th>
+                    <td>
+                        <?php switch ($_f['type']): case 'text': case 'password': ?>
+                        <input type="<?php echo $_f['type'] ?>" class="input-text <?php echo $_class ?>" id="<?php echo $_k ?>" name="<?php echo $_f['name'] ?>" value="<?php echo $_escaped ?>" />
+
+                        <?php break; case 'textarea': ?>
+                            <textarea class="textarea <?php echo $_class ?>" id="<?php echo $_k ?>" name="<?php echo $_f['name'] ?>"><?php echo $_escaped ?></textarea>
+
+                        <?php break; case 'wysiwyg': ?>
+                            <textarea class="textarea <?php echo $_class ?>" id="<?php echo $_k ?>" name="<?php echo $_f['name'] ?>"><?php echo $_escaped ?></textarea>
+                        <br><button type="button" class="form-button" onclick="uVendorWysiwygEditor.open('<?php echo Mage::helper('udropship')->getVendorPortalJsUrl('*/*/wysiwyg') ?>', '<?php echo $_k ?>'); return false;"><span>WYSIWYG Editor</span></button>
+
+                        <?php break; case 'multiselect': $_class .= ' multiselect'; $_f['name'] .= '[]'; case 'select': ?>
+                            <select class="select <?php echo $_class ?>" id="<?php echo $_k ?>" name="<?php echo $_f['name'] ?>" <?php if ($_f['type']=='multiselect'):?>multiple="multiple"<?php endif ?>>
+                                <?php if (!empty($_f['options'])) foreach ($_f['options'] as $_o): ?>
+                                    <?php if (is_array($_o['value'])): ?>
+                                        <optgroup label="<?php echo htmlspecialchars(Mage::helper('udropship')->__($_o['label'])) ?>">
+                                            <?php foreach ($_o['value'] as $_o1): $_selected = is_array($_value) && in_array($_o1['value'], $_value) || $_value==$_o1['value']; ?>
+                                                <option value="<?php echo $_o1['value']?>" <?php if ($_selected):?>selected="selected"<?php endif ?>>
+                                                    <?php echo htmlspecialchars(Mage::helper('udropship')->__($_o1['label'])) ?>
+                                                </option>
+                                            <?php endforeach ?>
+                                        </optgroup>
+                                    <?php else: $_selected = is_array($_value) && in_array($_o['value'], $_value) || $_value==$_o['value']; ?>
+                                        <option value="<?php echo $_o['value']?>" <?php if ($_selected):?>selected="selected"<?php endif ?>>
+                                            <?php echo htmlspecialchars(Mage::helper('udropship')->__($_o['label'])) ?>
+                                        </option>
+                                    <?php endif ?>
+                                <?php endforeach ?>
+                            </select>
+                        <?php if (in_array($_f['name'], array('region_id'))): ?>
+                            <script type="text/javascript">
+                                //<![CDATA[
+                                document.observe("dom:loaded", function() {
+                                    new RegionUpdater('country_id', '', 'region_id', <?php echo $this->helper('directory')->getRegionJson() ?>, 'disable');
+                                });
+                                //]]>
+                            </script>
+                        <?php endif ?>
+                        <?php if (in_array($_f['name'], array('billing_region_id'))): ?>
+                            <script type="text/javascript">
+                                //<![CDATA[
+                                document.observe("dom:loaded", function() {
+                                    new RegionUpdater('billing_country_id', '', 'billing_region_id', <?php echo $this->helper('directory')->getRegionJson() ?>, 'disable');
+                                });
+                                //]]>
+                            </script>
+                        <?php endif ?>
+                        <?php if (!empty($_f['depend_select'])): ?>
+                            <?php echo $this->getDependSelectJs($_k, $_f) ?>
+                        <?php endif ?>
+
+                        <?php if (in_array($_f['name'], array('statement_po_type'))): ?>
+                            <?php echo $this->getStatementPoTypeJs() ?>
+                        <?php endif ?>
+
+                        <?php if (in_array($_f['name'], array('payout_po_status_type'))): ?>
+                            <?php echo $this->getPayoutPoStatusTypeJs() ?>
+                        <?php endif ?>
+
+                        <?php if (in_array($_f['name'], array('notify_lowstock'))): ?>
+                            <?php echo $this->getNotifyLowstockJs() ?>
+                        <?php endif ?>
+
+                        <?php break; case 'image': $_url = $_v->getFileUrl($_k); ?>
+
+                        <?php if ($_value): ?>
+                            <a href="<?php echo $_url ?>" title="<?php echo $_escaped ?>" onclick="this.target='_blank'"><img src="<?php echo $_url ?>" alt="<?php echo $_escaped ?>" height="22" width="22" class="small-image-preview v-middle" /></a>
+                        <?php endif ?>
+                        <input type="file" class="input-file <?php echo $_class ?>" name="<?php echo $_f['name'] ?>" />
+                        <input type="hidden" name="<?php echo $_k ?>[value]" value="<?php echo $_escaped ?>" />
+                            <?php if ($_value): ?>
+                        <br/><input type="checkbox" name="<?php echo $_f['name'] ?>[delete]" value="1" class="checkbox" id="image-delete-<?php echo $_k ?>" />
+                            <label for="image-delete-<?php echo $_k ?>" style="display:inline"><?php echo Mage::helper('udropship')->__('Delete') ?></label>
+                        <?php endif ?>
+
+                        <?php break; case 'date': case 'datetime': ?>
+                        <?php if (!empty($_calIncluded)): ?>
+                            <script type="text/javascript" src="calendar/calendar.js"></script>
+                            <script type="text/javascript" src="calendar/calendar-setup.js"></script>
+                        <link href="https://secure.unirgy.com/magento/js/calendar/calendar-win2k-1.css" type="text/css" rel="stylesheet">
+                        <?php endif ?>
+                        <input type="text" class="input-text <?php echo $_class ?>" id="<?php echo $_k ?>" name="<?php echo $_f['name'] ?>" value="<?php echo $_escaped ?>" style="width:120px;"/>
+                        <img id="<?php echo $_k ?>-trig" src="<?php echo $this->getSkinUrl('images/calendar.gif') ?>" style="vertical-align:middle !important;"/>
+                            <script type="text/javascript">
+                                Calendar.setup({
+                                    inputField: "<?php echo $_k ?>",
+                                    ifFormat: "%Y-%m-%d",
+                                    showsTime: <?php echo $_f['type']=='datetime' ? 'true' : 'false' ?>,
+                                    button: "<?php echo $_k ?>-trig",
+                                    align: "Bl",
+                                    singleClick : true
+                                });
+                            </script>
+
+                        <?php endswitch ?></td>
+                    <td><div class="note"><?php echo !empty($_f['note']) ? Mage::helper('udropship')->__($_f['note']) : '&nbsp;' ?></div></td>
+                    </tr><?php endforeach ?>
+                </tbody></table>
+        </fieldset>
+        <div class="a-right">
+            <button class="form-button" type="submit"><span><?php echo Mage::helper('udropship')->__('Save All Settings') ?></span></button>
+        </div>
+    <?php endforeach ?>
+</form>
+
+<script type="text/javascript">
+
+    document.observe("dom:loaded", function() {
+        $('uPrefForm').select('select.multiselect').invoke('observe', 'change', onUPrefMultiChange);
+    });
+
+
+    function onUPrefMultiChange(eventObj)
+    {
+        var multiSel = eventObj.element();
+        var multiSelHiddenId = multiSel.id+'_hidden';
+        if (multiSel.getValue() == '') {
+            if (!$(multiSelHiddenId)) {
+                multiSel.insert({after: '<input type="hidden" id='+multiSelHiddenId+' name='+multiSel.name+' value="  ">'});
+            }
+        } else if (!!$(multiSelHiddenId)) {
+            $(multiSelHiddenId).remove();
+        }
+    }
+</script>

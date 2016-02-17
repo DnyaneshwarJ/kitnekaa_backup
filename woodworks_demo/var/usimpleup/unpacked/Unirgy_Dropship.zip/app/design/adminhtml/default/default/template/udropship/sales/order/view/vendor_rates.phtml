@@ -1,0 +1,31 @@
+<?php $hlp = Mage::helper('udropship') ?>
+<?php if (Mage::getStoreConfigFlag('udropship/admin/show_order_view_vendor_rates') && Mage::registry('current_order')): ?>
+<?php $vendorRates = Mage::helper('udropship/protected')->getOrderVendorRates(Mage::registry('current_order')); ?>
+<?php if (!empty($vendorRates) && is_array($vendorRates)): ?>
+<dl id="udropship_orderview_vendor_rates" style="display: none">
+    <?php foreach ($vendorRates as $vId => $vRate): ?>
+    <dt><?php echo Mage::helper('udropship')->getVendor($vId)->getVendorName() ?></dt>
+    <dd><strong><?php echo @$vRate['carrier_title'].' - '.@$vRate['method_title'] ?></strong> <?php echo $hlp->displayPrices(Mage::registry('current_order'), @$vRate['price'], false, false, ' ')?></dd>
+    <?php endforeach ?>
+</dl>
+<script type="text/javascript">
+    var udropship_orderview_vendor_rates_js = function() {
+        var infoTab = $('sales_order_view_tabs_order_info_content')
+        var smBoxHead, smBoxContent
+        if (infoTab && (smBoxHead = infoTab.select('.head-shipping-method'))
+            && smBoxHead.length>0
+            && (smBoxContent = smBoxHead[0].up(1).select('fieldset'))
+            && smBoxContent.length>0
+        ) {
+            smBoxContent[0].insert({bottom: $('udropship_orderview_vendor_rates')})
+            $('udropship_orderview_vendor_rates').show()
+        }
+    }
+    if ((/msie [1-7]\./i).test(navigator.userAgent)) {
+        Event.observe(window, 'load', udropship_orderview_vendor_rates_js)
+    } else {
+        document.observe("dom:loaded", udropship_orderview_vendor_rates_js)
+    }
+</script>
+<?php endif ?>
+<?php endif ?>

@@ -1,0 +1,46 @@
+<?xml version="1.0"?>
+<config>
+	<menu>
+		<adminformupload translate="title" module="neo_adminformupload">
+            <title>Upload Images and CSV's</title>
+            <sort_order>90</sort_order>
+            <children>
+                <form translate="title" module="neo_adminformupload">
+                    <title>Upload Images</title>
+                    <sort_order>10</sort_order>
+                    <action>neoadminformupload/adminhtml_adminformupload</action>
+                </form>
+                <csv translate="title" module="neo_adminformupload">
+                    <title>Upload CSV</title>
+                    <sort_order>11</sort_order>
+                    <action>neoadminformupload/adminhtml_admincsvupload</action>
+                </csv>
+            </children>
+        </adminformupload>
+	</menu>
+	<acl>
+        <resources>
+            <all>
+                <title>Allow Everything</title>
+            </all>
+            <admin>
+                <children>
+                    <adminformupload>
+                        <title>Upload Images and Csv from admin</title>
+                        <sort_order>90</sort_order>
+                        <children>
+                            <form>
+                                <title>Upload Images</title>
+                                <sort_order>10</sort_order>
+                            </form>
+                            <csv>
+                                <title>Upload Csv</title>
+                                <sort_order>11</sort_order>
+                            </csv>
+                        </children>
+                    </adminformupload>
+                </children>
+            </admin>
+        </resources>
+    </acl>
+</config>

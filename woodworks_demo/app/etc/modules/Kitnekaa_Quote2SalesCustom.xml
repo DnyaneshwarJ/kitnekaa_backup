@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Kitnekaa_Quote2SalesCustom>
+            <active>true</active>
+            <codePool>local</codePool>
+            <depends>
+                <Bobcares_Quote2Sales/>
+            </depends>
+        </Kitnekaa_Quote2SalesCustom>
+    </modules>
+</config>

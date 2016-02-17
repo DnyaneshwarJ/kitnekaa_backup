@@ -1,0 +1,82 @@
+<?php
+//Current Category Name
+$catname = Mage::registry('current_category')->getName();
+//echo "Cat Name : ".$catname."<br>";
+
+//Current Category ID
+$categoryID = Mage::registry('current_category')->getID();
+//echo "Cat ID : ".$categoryID."<br>";
+
+//Media Folder Path
+$mediaurl = Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA);
+//echo "Media URL : ".$mediaurl."<br>";
+
+if($categoryID != '') {
+	$uploadedDigitalCatlogPath = Mage::getBaseDir('media') . DS . 'digital_catalog'. DS . $categoryID. DS;
+}
+
+if(file_exists($uploadedDigitalCatlogPath)) {
+	//Check Directory
+	if(is_dir($uploadedDigitalCatlogPath)) {
+		//Open Directory
+		if($dh = opendir($uploadedDigitalCatlogPath)) {
+			while (($file = readdir($dh)) !== false) {
+	            //echo "filename: $file : filetype: " . filetype($dir . $file) . "\n";
+	            //echo "File Name : $file"."\n";
+	            if($file != "." && $file != "..") {
+	            	$files[] = $file;
+	            }
+	        }
+	        closedir($dh);
+		}
+		/*echo "<pre>";
+		print_r($files);*/
+	}
+}
+
+//Create JSON Object
+$fileDetails = array(
+						//'cat_name' => $catname,
+						'cat_id' => $categoryID,
+						'file_path' => $mediaurl,
+						'file' => $files[0]
+				);
+$fileJsonObj = json_encode($fileDetails);
+/*echo "<pre>";
+print_r($fileJsonObj);*/
+?>
+
+<input type="hidden" id="fileParam" value=<?php echo $fileJsonObj;?> >
+
+<!-- A PDF Viewer Div -->
+<div id="pdf"></div>
+
+<script type="text/javascript">
+	//window.onload = function() {
+		//alert("Hi!!");
+		//var mypdf = new PDFObject({url:"http://192.168.0.103/latte_old/applications/magneto/woodworks_demo/media/digital_catalog/198/A.K.Lumber.pdf"}).embed();
+		//var mypdf = new PDFObject({url:"/media/digital_catalog/198/A.K.Lumber.pdf"}).embed("pdfViewer");
+	//}
+	jQuery(document).ready(function(){
+		//Get Hidden Field Values
+		var fileParam = jQuery('#fileParam').val();
+		//console.log('File Param:'+ fileParam);
+
+		//Parsed JSON Data
+		var parsedJSONObj = JSON.parse(fileParam);
+		//console.log('Parse Obj:'+ parsedJSONObj.cat_name);
+
+		//PDF File Path
+		var pdfFilePath = parsedJSONObj.file_path + 'digital_catalog/' + parsedJSONObj.cat_id + '/' + parsedJSONObj.file;
+		//console.log('PDF File:'+ pdfFilePath);
+
+		//View PDF File
+		var myPDF = new PDFObject({
+			url: pdfFilePath,
+			width: "900px",
+			height: "600px"
+		}).embed("pdf");
+
+		//var mypdf = new PDFObject({url:"http://192.168.0.103/latte_old/applications/magneto/woodworks_demo/media/digital_catalog/198/A.K.Lumber.pdf"}).embed("pdf");
+	});
+</script>

@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<layout>
+
+    <udtiership_vendor_rates>
+        <update handle="udropship_vendor" />
+        <reference name="content">
+            <block type="udtiership/vendor_rates" template="unirgy/tiership/vendor/rates.phtml" name="tiership_rates" />
+        </reference>
+    </udtiership_vendor_rates>
+
+    <udtiership_vendor_simplerates>
+        <update handle="udropship_vendor" />
+        <reference name="content">
+            <block type="udtiership/vendor_simpleRates" template="unirgy/tiership/vendor/simple_rates.phtml" name="tiership_simple_rates" />
+        </reference>
+    </udtiership_vendor_simplerates>
+
+    <udtiership_vendor_v2rates>
+        <update handle="udropship_vendor" />
+        <reference name="content">
+            <block type="core/template" template="unirgy/tiership/vendor/v2rates.phtml" name="tiership_rates" />
+        </reference>
+    </udtiership_vendor_v2rates>
+
+</layout>

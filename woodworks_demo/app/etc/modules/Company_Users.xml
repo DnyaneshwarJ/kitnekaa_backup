@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<config>
+  <modules>
+    <Company_Users>
+      <active>true</active>
+      <codePool>local</codePool>
+      <!-- Overriding Customer model in multiple modules -->
+      <depends><Mage_Customer /></depends>
+      <depends><Cminds_MultiUserAccounts /></depends>
+    </Company_Users>
+  </modules>
+</config>

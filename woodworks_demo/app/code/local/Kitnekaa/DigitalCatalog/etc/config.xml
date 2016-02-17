@@ -1,0 +1,76 @@
+<?xml version="1.0"?>
+<config>
+  <modules>
+    <Kitnekaa_DigitalCatalog>
+      <version>0.1.0</version>
+    </Kitnekaa_DigitalCatalog>
+  </modules>
+  <global>
+    <blocks>
+        <digitalcatalog>
+            <class>Kitnekaa_DigitalCatalog_Block</class>
+        </digitalcatalog>
+    </blocks>
+    <helpers>
+      <digitalcatalog>
+        <class>Kitnekaa_DigitalCatalog_Helper</class>
+      </digitalcatalog>
+    </helpers>
+	<resources>
+	  <digitalcatalog_setup>
+		<setup>
+		  <module>Kitnekaa_DigitalCatalog</module>
+		</setup>
+		<connection>
+		  <use>core_setup</use>
+		</connection>
+	  </digitalcatalog_setup>
+	  <digitalcatalog_write>
+		<connection>
+		  <use>core_write</use>
+		</connection>
+	  </digitalcatalog_write>
+	  <digitalcatalog_read>
+		<connection>
+		  <use>core_read</use>
+		</connection>
+	  </digitalcatalog_read>
+	</resources>
+    <models>
+      <digitalcatalog>
+        <class>Kitnekaa_DigitalCatalog_Model</class>
+      </digitalcatalog>
+    </models>
+    <events>
+	     <adminhtml_catalog_category_tabs> <!-- identifier of the event we want to catch -->
+              <observers>
+                    <adminhtml_catalog_category_tabs_handler> <!-- identifier of the event handler -->
+                      <!-- class method call type; valid are model, object and singleton -->
+                      <class>digitalcatalog/observer</class> <!-- observers class alias -->
+                      <method>addCategoryTab</method>  <!-- observer's method to be called -->
+                    </adminhtml_catalog_category_tabs_handler>
+              </observers>
+        </adminhtml_catalog_category_tabs>
+        <catalog_category_save_commit_after><!-- identifier of the event we want to catch -->
+            <observers>
+                <digitalcatalog_catalog_category_prepare_save><!-- identifier of the event handler -->
+                    <type>singleton</type>
+                    <class>digitalcatalog/observer</class> <!-- observers class alias -->
+                    <method>categorySave</method>  <!-- observer's method to be called -->
+                </digitalcatalog_catalog_category_prepare_save>
+            </observers>
+        </catalog_category_save_commit_after>
+    </events>
+    <!-- <adminhtml>
+        <cms>
+            <browser>
+                <extensions>
+                    <allowed>
+                        <pdf>1</pdf>
+                    </allowed>
+                </extensions>
+            </browser>
+        </cms>
+    </adminhtml> -->
+  </global>
+</config> 

@@ -1,0 +1,108 @@
+<?php
+/*------------------------------------------------------------------------
+ # SM Categories - Version 2.0.0
+ # Copyright (c) 2014 YouTech Company. All Rights Reserved.
+ # @license - Copyrighted Commercial Software
+ # Author: YouTech Company
+ # Websites: http://www.magentech.com
+-------------------------------------------------------------------------*/
+
+$big_image_config = array(
+	'width' => (int)$this->_getConfig('imgcfgcat_width', 200),
+	'height' => $this->_getConfig('imgcfgcat_height', null),
+	'constrainOnly' => (bool)$this->_getConfig('imgcfgcat_constrainOnly'),
+	'keepAspectRatio' => (bool)$this->_getConfig('imgcfgcat_keepAspectRatio'),
+	'keepFrame' => (bool)$this->_getConfig('imgcfgcat_keepFrame'),
+	'keepTransparency' => (bool)$this->_getConfig('imgcfgcat_keepTransparency'),
+	'background' => (string)$this->_getConfig('imgcfgcat_background'),
+	'function' => (int)$this->_getConfig('imgcfgcat_function', 0)
+);
+?>
+<div class="cat-wrap theme4">
+	<?php $i = 0;
+	foreach ($list as $key => $items) {
+		$i++;
+		$cat_child = $items->child_cat; ?>
+		<div class="sm-categories-inner">
+			<div class="sm-categories-heading">
+				<div class="icon_left"></div>
+				<?php if ($this->_getConfig('cat_title_display') == 1) { ?>
+					<div class="cat-title">
+						<a href="<?php echo $items->link; ?>"
+						   title="<?php echo $items->title; ?>"
+							<?php echo $helper->parseTarget($this->_getConfig('product_links_target')); ?> >
+							<?php echo $helper->truncate($items->title, $this->_getConfig('cat_title_maxcharacs', 25)); ?>
+						</a>
+					</div>
+				<?php } ?>
+				<div class="icon_right"></div>
+			</div>
+			<div class="sm-categories-content cf">
+				<?php
+				if (!empty($cat_child)) {
+					$k = 0;
+					foreach ($cat_child as $key1 => $item) {
+						$k++;
+						$count = count($cat_child); ?>
+						<div class="sm-categories-content-inner">
+							<div class="child-cat <?php echo ($k == $count) ? 'cat-lastitem' : ''; ?>">
+								<div class="child-cat-info">
+
+									<?php  $cat_img = $helper->getCatImage($item, $this->_getConfig() , 'imgcfgcat');
+									if (($cat_img)) {
+										?>
+										<!--begin cat-image-->
+										<div class="image-cat"
+										     style="max-width:<?php echo $this->_getConfig('imgcfg_width'); ?>px;"
+											>
+											<a href="<?php echo $item->link;?>"
+											   title="<?php echo $item->title;?>"
+												<?php echo $helper->parseTarget($this->_getConfig('product_links_target')); ?>
+												>
+												<img
+													src="<?php echo $helper->_resizeImage($cat_img,$big_image_config,'category'); ?>"
+													title="<?php echo $item->title; ?>"
+													alt="<?php echo $item->title; ?>"
+													style="height: <?php echo $this->_getConfig('imgcfgcat_height');?>px"
+													/>
+											</a>
+										</div>
+										<!--end cat-image-->
+									<?php } ?>
+
+									<?php if ($this->_getConfig('cat_sub_title_display', 1)) { ?>
+										<div class="child-cat-desc">
+											<div class="child-cat-title">
+												<a href="<?php echo $item->link ?>"
+												   title="<?php echo $item->title; ?>"
+													<?php echo $helper->parseTarget($this->_getConfig('product_links_target')); ?>
+													>
+													<?php echo $helper->truncate($item->title, $this->_getConfig('cat_sub_title_maxcharacs', 25)); ?>
+												</a>
+											</div>
+											<?php if ($this->_getConfig('cat_all_product', 1)) { ?>
+												<div class="num_items" style="float:left;color: #737373;">
+													<?php echo '(' . ($item->number_article) . ')'; ?>
+												</div>
+											<?php } ?>
+										</div>
+									<?php } ?>
+								</div>
+							</div>
+						</div>
+					<?php
+					}
+				} else {
+					?>
+					<div class="sm-categories-content-inner">
+						<div class="child-cat subcat-empty">
+							<div class="child-cat-info">
+								<?php echo 'No sub-categories to show!'; ?>
+							</div>
+						</div>
+					</div>
+				<?php } ?>
+			</div>
+		</div>
+	<?php } ?>
+</div>

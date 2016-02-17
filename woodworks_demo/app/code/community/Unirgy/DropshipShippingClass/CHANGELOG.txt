@@ -1,0 +1,26 @@
+===== 2.4.0 =====
+  * CE 1.9.2.2 compatibility
+
+===== 2.1.0 =====
+  * Central translations file
+
+===== 2.0.0 =====
+  * Major release
+  * Added ACL missing for menu items
+
+===== 1.1.4 =====
+  * Added supported logic for tiership v2 rates
+
+===== 1.1.3 =====
+  * Fixed customer/vendor shipclasses swapped in admin grid
+
+===== 1.1.2 =====
+  * Added on click "add country rows" in shipclass definition
+
+===== 1.1.1 =====
+  * Changed region to be optinal
+
+===== 1.1.0 =====
+  * Added means to setup multiple addresses per shipclass
+
+===== 1.0 - Initial release =====

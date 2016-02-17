@@ -1,0 +1,9 @@
+<?php
+/**
+ * @var $this Asm_Solr_Block_Filter
+ */
+?>
+
+<div class="facet-title"><a href="<?php echo $this->getResultLink() ?>"><?php echo $this->getTitle() ?><span class="result-count">(<?php echo $this->getResultCount() ?>)</span></a></div>
+
+<?php echo $this->getChildHtml('list_filter') ?>

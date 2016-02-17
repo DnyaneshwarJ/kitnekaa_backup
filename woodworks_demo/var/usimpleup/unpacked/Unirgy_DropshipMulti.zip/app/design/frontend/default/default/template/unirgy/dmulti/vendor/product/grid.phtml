@@ -1,0 +1,93 @@
+<?php
+$_hlp = Mage::helper('udropship');
+?>
+<form method="get">
+<fieldset>
+    <div class="generic-box col3-set">
+        <div class="col-1">
+            <ul class="form-list">
+                <li>
+                    <label for="filter-sku"><?php echo Mage::helper('udropship')->__('System SKU') ?></label><br/>
+                    <input id="filter-sku" name="filter_sku" title="<?php echo Mage::helper('udropship')->__('System SKU') ?>" type="text" class="input-text" style="width:160px;" value="<?php echo $this->getRequest()->getParam('filter_sku') ?>" />
+                </li>
+                <li>
+                    <label for="filter-name"><?php echo Mage::helper('udropship')->__('Product Name') ?></label><br/>
+                    <input id="filter-name" name="filter_name" title="<?php echo Mage::helper('udropship')->__('Product Name') ?>" type="text" class="input-text" style="width:160px;" value="<?php echo $this->getRequest()->getParam('filter_name') ?>" />
+                </li>
+            </ul>
+        </div>
+        <div class="col-2">
+            <ul class="form-list">
+                <li>
+                    <label for="filter-vendor_sku"><?php echo Mage::helper('udropship')->__('Vendor SKU') ?></label><br/>
+                    <input id="filter-vendor_sku" name="filter_vendor_sku" title="<?php echo Mage::helper('udropship')->__('Vendor SKU') ?>" type="text" class="input-text" style="width:160px;" value="<?php echo $this->getRequest()->getParam('filter_vendor_sku') ?>" />
+                </li>
+            </ul>
+        </div>
+        <div class="col-3">
+            <ul class="form-list">
+                <li>
+                    <label for="filter-vendor_cost-from"><?php echo Mage::helper('udropship')->__('Vendor Price') ?></label><br/>
+                    <input id="filter-vendor_cost-from" name="filter_vendor_cost_from" title="<?php echo Mage::helper('udropship')->__('From Vendor Price') ?>" type="text" class="input-text" style="width:80px;" value="<?php echo $this->getRequest()->getParam('filter_vendor_cost_from') ?>" /> -
+                    <input id="filter-vendor_cost-to" name="filter_vendor_cost_to" title="<?php echo Mage::helper('udropship')->__('To Vendor Price') ?>" type="text" class="input-text" style="width:80px;" value="<?php echo $this->getRequest()->getParam('filter_vendor_cost_to') ?>" />
+                </li>
+                <li>
+                    <label for="filter-stock_qty-from"><?php echo Mage::helper('udropship')->__('Stock Qty') ?></label><br/>
+                    <input id="filter-stock_qty-from" name="filter_stock_qty_from" title="<?php echo Mage::helper('udropship')->__('From Stock Qty') ?>" type="text" class="input-text" style="width:80px;" value="<?php echo $this->getRequest()->getParam('filter_stock_qty_from') ?>" /> -
+                    <input id="filter-stock_qty-to" name="filter_stock_qty_to" title="<?php echo Mage::helper('udropship')->__('To Stock Qty') ?>" type="text" class="input-text" style="width:80px;" value="<?php echo $this->getRequest()->getParam('filter_stock_qty_to') ?>" />
+                </li>
+            </ul>
+        </div>
+        <div class="button-set">
+            <input type="submit" value="search" style="display:none" />
+
+            <input type="hidden" name="limit" value="<?php echo $this->getRequest()->getParam('limit')?>"/>
+            <input type="hidden" name="p" value="<?php echo $this->getRequest()->getParam('p')?>"/>
+
+            <button class="form-button" name="submit_action" type="submit" id="filter-search" value="search"><span><?php echo Mage::helper('udropship')->__('Search') ?></span></button>
+
+        </div>
+    </div>
+</fieldset>
+</form>
+
+<form method="post" action="<?php echo $this->getUrl('udmulti/vendor_product/save') ?>">
+<fieldset>
+    <div class="a-right" style="margin:10px 0">
+        <button class="form-button" type="submit"><?php echo Mage::helper('udropship')->__('Update Information On This Page') ?></button>
+    </div>
+    <?php echo $this->getChildHtml('toolbar') ?>
+    <table cellspacing="0" cellpadding="0" class="data-table">
+        <col width="" />
+        <col width="" />
+        <col width="100" />
+        <col width="80" />
+        <col width="70" />
+        <thead>
+            <tr>
+                <th><?php echo Mage::helper('udropship')->__('System SKU')?></th>
+                <th><?php echo Mage::helper('udropship')->__('Product Name')?></th>
+                <th><?php echo Mage::helper('udropship')->__('Vendor SKU')?></th>
+                <th><?php echo Mage::helper('udropship')->__('Vendor Price')?></th>
+                <th><?php echo Mage::helper('udropship')->__('Stock Qty')?></th>
+            </tr>
+        </thead>
+        <tbody>
+    <?php foreach ($this->getProductCollection() as $_p): ?>
+            <tr>
+                <td><?php echo $this->htmlEscape($_p->getSku()) ?></td>
+                <td><?php echo $this->htmlEscape($_p->getName()) ?></td>
+                <td><input type="text" class="input-text" name="vp[<?php echo $_p->getVendorProductId() ?>][vendor_sku]" value="<?php echo $this->htmlEscape($_p->getVendorSku()) ?>" style="width:90px"/></td>
+                <td><input type="text" class="input-text" name="vp[<?php echo $_p->getVendorProductId() ?>][vendor_cost]" value="<?php echo is_null($_p->getVendorCost()) ? '' : $_p->getVendorCost()*1 ?>" style="width:70px"/></td>
+                <td><input type="text" class="input-text" name="vp[<?php echo $_p->getVendorProductId() ?>][stock_qty]" value="<?php echo is_null($_p->getStockQty()) ? '' : $_p->getStockQty()*1 ?>" style="width:60px"/></td>
+
+            </tr>
+    <?php endforeach ?>
+        </tbody>
+    </table>
+    <?php echo $this->getChildHtml('toolbar') ?>
+    <div class="a-right" style="margin:10px 0">
+        <button class="form-button" type="submit"><?php echo Mage::helper('udropship')->__('Update Information On This Page') ?></button>
+    </div>
+</fieldset>
+</form>

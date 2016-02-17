@@ -1,0 +1,91 @@
+<?php
+/*------------------------------------------------------------------------
+ # SM Shop By - Version 1.0
+ # Copyright (c) 2014 YouTech Company. All Rights Reserved.
+ # @license - Copyrighted Commercial Software
+ # Author: YouTech Company
+ # Websites: http://www.magentech.com
+-------------------------------------------------------------------------*/?>
+
+<ol>
+  <span class="expandfilter"></span>
+  <div class="filter_list">
+  <?php $i=1; ?>
+    <?php foreach ($this->getItems() as $_item): 
+		$label = $_item->getLabel()
+	?>
+        <li class="<?php echo str_replace(' ','_',$label);?>">
+            <?php if ($_item->getCount() > 0): ?>
+                <input class="check-shopby" type="checkbox"<?php if ($_item->isSelected()): ?> checked="checked" <?php endif; ?>
+                <?php if ($this->helper('sm_shopby')->isAjaxEnabled()): ?>
+                           onclick="$(this).next().click()"
+                       <?php else: ?>
+                           onclick="setLocation('<?php echo ($_item->isSelected()) ? $this->urlEscape($_item->getRemoveUrl()) : $this->urlEscape($_item->getUrl()) ?>')"
+                       <?php endif; ?>
+                       />
+                <a class="<?php if ($_item->isSelected()) echo $this->__('checked'); ?>" 
+                <?php if ($_item->isSelected()): ?>
+                        onclick="$(this).previous().checked = false;" 
+                    <?php else: ?>
+                        onclick="$(this).previous().checked = true;" 
+                    <?php endif; ?>                            
+                    href="<?php echo ($_item->isSelected()) ? $_item->getRemoveUrl() : $_item->getUrl() ?>"
+                    ><?php echo $_item->getLabel() ?></a>
+                <?php else: ?>
+                    <?php echo $_item->getLabel() ?>
+                <?php endif; ?>
+            
+        </li> 
+        <?php $i++ ;?>
+    <?php endforeach ?>
+    <?php if($i >= 5) {?>
+      <span class="morefilter">More</span>
+<?php } ?>
+</div>
+</ol>
+
+<script>
+	jQuery(document).ready(function($){
+		
+		// $("#narrow-by-list ol li a").click(function() {
+		// 	$(this).toggleClass('checked');
+		// });
+
+  //   //Side Category Filter
+  //   var sideCateParent = $('.narrow-by-list'),
+  //   FilterList = $('#narrow-by-list ol .filter_list');
+  //   FilterList.each(function(){
+  //     var thisList = $(this);
+  //     thisList.children('li').hide().filter(':lt(4)').show();
+  //     $('.morefilter').click(function(){
+  //       $(this).siblings(':gt(2)').toggle();
+  //       $(this).html('More');
+  //       $(this).toggleClass('more-active')
+  //       if($(this).hasClass('more-active')){
+  //         $(this).html('Less');
+  //         //removeClass('more-active');
+  //       }
+  //     });
+  //   });
+  // //Expand Function
+  
+  // $.fn.clickToggle = function(func1, func2) {
+  //     var funcs = [func1, func2];
+  //     this.data('toggleclicked', 0);
+  //     this.click(function() {
+  //         var data = $(this).data();
+  //         var tc = data.toggleclicked;
+  //         $.proxy(funcs[tc], this)();
+  //         data.toggleclicked = (tc + 1) % 2;
+  //     });
+  //     return this;
+  // };
+
+  // $('.expandfilter').clickToggle(function() {
+  //   alert('First handler: ');
+  // }, function() {
+  //     alert('Second handler: ' );
+  // });
+
+});
+</script>

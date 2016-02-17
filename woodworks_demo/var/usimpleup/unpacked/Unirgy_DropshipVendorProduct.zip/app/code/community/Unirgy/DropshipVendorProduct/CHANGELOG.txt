@@ -1,0 +1,160 @@
+===== 2.4.0 =====
+  * CE 1.9.2.2 compatibility
+  * Fixed limit categories in admin
+
+===== 2.1.0 =====
+  * Central translations file
+
+===== 1.2.26 =====
+  * Fixed simples not linked when all attributes identify image
+  * Added jsQuoteEscape in config gallery
+  * Fixed config gallery when all attributes identify image
+
+===== 1.2.25 =====
+  * Added ability to upload images per multiple identify image configurable attributes
+  * Added option Disable product name "is empty" check
+  * Fixed wysiwyg when admin have custom domain url
+  * Fixed configurable swatches for CE 1.9.1
+
+==== 1.2.24 =====
+  * Added register js base url
+
+==== 1.2.23 =====
+  * Fixed storeview save in admin
+
+==== 1.2.22 =====
+  * Autohide template product texts on form element focus and require validation when template text not changed
+
+==== 1.2.21 =====
+  * Added 'Custom Options Changed' option to unpublish actions
+
+==== 1.2.20 =====
+  * Added hide quick create validation when add first row
+  * Fixed delete product when there is quote in name
+
+==== 1.2.19 =====
+  * Added grouped products support
+  * Fixed unpublish in 1.9 when no attributes changed
+  * Fixed products grid toolbar pager
+
+==== 1.2.18 =====
+  * Added ability to hide add product button to have only virtual and only downloadable type of products
+
+===== 1.2.17 =====
+  * Added group price field
+
+===== 1.2.16 =====
+  * Added udmulti backorders field on form
+
+===== 1.2.15 =====
+  * Fixed pagination
+
+===== 1.2.14 =====
+  * Forced unpublish product when status=fix and attributes changed or image added
+
+===== 1.2.13 =====
+  * Fixed products grid when multiple websites selected for products
+
+===== 1.2.12 =====
+  * Added ability to remove product in vendor portal
+
+===== 1.2.11 =====
+  * Added check SKU when create product
+  * Fixed udprod_attributes_changed save intermittent problem
+
+===== 1.2.10 =====
+  * Added stock_data qty correction field
+
+===== 1.2.9 =====
+  * Added virtual products support
+  * Added functionality to setup configuration option prices
+  * Added "new product" unpublish option
+
+===== 1.2.8 =====
+  * Added limit categories option
+  * Fixed "Type of product" selector in "Configuration > Vendor Products Edit > Template Sku" when type of product contain slash char
+
+===== 1.2.7 =====
+  * Added optimization in product edit form configuration via usage of select2.js
+
+===== 1.2.6 =====
+  * Added per vendor default product inventory values (manage stock,backorders,min_qty,min_sale_qty,max_sale_qty)
+    will override effect of "configuration > inventory > Product Stock Options" for vendor products
+  * Added autogenerate configurable simple skus based on options
+  * Fixed product attribute "is wysiwyg"=no have no effect
+
+===== 1.2.5 =====
+  * Fixed pending/approved/fix notifications
+  * Added downloadable, virtual to filters/options
+  * Fixed safeguard vendor portal product edit form from adding fields with same name
+
+===== 1.2.4 =====
+  * Added code to support vendor/product associations indexer
+  * Added "Gallery upload is required" option to force vendors upload images
+  * Fixed media attributes not saved for some scenarious
+
+===== 1.2.3 =====
+  * Fixed new notification related attributes definition
+
+===== 1.2.2 =====
+  * Fixed downloadble support missing files/changes
+
+===== 1.2.1 =====
+  * Added downloadable products support
+  * Fixed "Template Sku" config section breaks when type of products have quote in name
+
+===== 1.2.0 =====
+  * Added pending/approved/fix notifications
+  * Added configuration to show vendor sku column in product grid
+
+===== 1.1.10 =====
+  * Added tier price attribute support
+  * Fixed "Use custom product zoom on frontend"=No affect price comparison add-on
+
+===== 1.1.9 =====
+  * Added support to use same attribute set differently within different type of products
+
+===== 1.1.8 =====
+  * Fixed "Check vendor SKU is unique within vendor products"=Yes
+
+===== 1.1.7 =====
+  * Fixed storage of template sku config when many attribute sets
+
+===== 1.1.6 =====
+  * Fixed redirect to admin login page on some pages when "Add Store Code to Urls"="Yes"
+
+===== 1.1.5 =====
+  * Added secure url for udprod/vendor
+  * Changed order of "Add New Product", "Add New Product (with options)" buttons to eliminate confusions
+
+===== 1.1.4 =====
+  * Added functionality to add/edit custom options
+  * Added unpublish on stock change
+  * Fixed "quick create" configurable simples does not use configurable websites/categoires
+
+===== 1.1.3 =====
+  * Added extra configuration for media upload:
+    "Upload images into configrable simples", "Explicitly show media gallery in configurable product"
+  * Fixed price in configurable simples empty
+  * Fixed sort order for configurable product options on frontend
+  * Fixed uploader doesn't work when magento core "Use SID on Frontend"=No
+  * Changes in uploader js
+
+===== 1.1.2 =====
+  * Fixed hidden value validation failure in quick create section
+  * Added "Is product view info use tabbed layout" configuration option
+  * Fixed price field in quick create form
+
+===== 1.1.1 =====
+  * Added "Show hidden categories to vendor if the field presented on product edit form" option
+  * Fixed code config rewrites not added in cron
+
+===== 1.1.0 =====
+  * Added configuration to turn on/off custom product zoom on frontend
+
+===== 1.0.1 =====
+
+  * Added "allowed types of product" global and per vendor config
+  * Fixed compatibility with IE9 dynamic rows js
+
+===== 1.0 - Initial release =====

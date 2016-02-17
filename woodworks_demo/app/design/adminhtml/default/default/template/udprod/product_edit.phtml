@@ -1,0 +1,63 @@
+<button style="" onclick="udprodToggleRequired(this)" class="scalable " type="button" title="<?php echo Mage::helper('udropship')->__('Turn OFF Required')?>" id="udprod-toggle-required"><span><span><span><?php echo Mage::helper('udropship')->__('Turn OFF Required')?></span></span></span></button>
+
+<script type="text/javascript">
+    function udprodToggleRequired(btn)
+    {
+        var label, wildCard;
+        if (btn.udtgrOffFlag) {
+            btn.udtgrOffFlag = false;
+        } else {
+            btn.udtgrOffFlag = true;
+        }
+        if (btn.udtgrOffFlag) {
+            $('udprod-toggle-required').down(2).update('<?php echo Mage::helper('udropship')->__('Turn ON Required')?>')
+        } else {
+            $('udprod-toggle-required').down(2).update('<?php echo Mage::helper('udropship')->__('Turn OFF Required')?>')
+        }
+        $('product_edit_form').select('input, select, textarea').each(function(el){
+            if (el.id!='sku') {
+                var fromTo = btn.udtgrOffFlag ? ['required-entry', 'optinal-entry'] : ['optinal-entry', 'required-entry']
+                var isRequired = false;
+                while (el.hasClassName(fromTo[0])) {
+                    isRequired = true;
+                    el.removeClassName(fromTo[0]);
+                    if (btn.udtgrOffFlag) {
+                        //el.removeClassName('validation-failed');
+                        var advice = Validation.getAdvice('required-entry', el);
+                        if (productForm.validator) {
+                            Validation.hideAdvice(el, advice);
+                        }
+                    }
+                }
+                if (isRequired) {
+                    el.addClassName(fromTo[1]);
+                    label = $$('label[for="' + el.id + '"]')[0];
+                    if (label) {
+                        wildCard = label.down('em') || label.down('span.required');
+                        if (wildCard) {
+                            if (btn.udtgrOffFlag) {
+                                wildCard.hide();
+                            } else {
+                                wildCard.show();
+                            }
+                        }
+                    }
+                }
+            }
+        });
+        if (productForm.validator) {
+            productForm.validator.validate();
+        }
+    }
+    function positionUdprodToggleRequired()
+    {
+        $$('.form-buttons button.back').each(function(backBtn){
+            backBtn.insert({after: $('udprod-toggle-required')});
+        });
+    }
+    if ((/msie [1-7]\./i).test(navigator.userAgent)) {
+        Event.observe(window, 'load', positionUdprodToggleRequired)
+    } else {
+        document.observe("dom:loaded", positionUdprodToggleRequired)
+    }
+</script>

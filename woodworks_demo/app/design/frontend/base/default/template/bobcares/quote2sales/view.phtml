@@ -1,0 +1,50 @@
+    <?php  $request = $this->getRequest()->getParam('request'); ?>
+    <div class="page-title title-buttons">
+    <h1><?php echo $this->__('Quote #%s', $this->getQuoteId()) ?></h1>
+</div>
+
+<?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
+
+<div class="order-items order-details">
+    <?php $_quote = $this->getQuote() ?>
+        <div class="row">
+            <div class="col-lg-6">
+                <?php echo $this->getChildHtml('quote_details') ?>
+            </div>
+            <div class="qoute-details-view col-lg-6">
+                <?php
+                $coll = Mage::getModel('quote2sales/request')->getCollection()->getData();
+                foreach($coll as $val){
+                    $allreq = $val['request_id'];
+                    if($request == $allreq){
+                        echo "Email Id: ".$val['email']."</br>";
+                        echo "Quantity: ".$val['phone']."</br>";
+                        echo "Price: ".$val['demo']."</br>";
+                        echo "Delivery location: ".$val['deliverylocation']."</br>";
+                        echo "Shipping Method: ".$val['paymentterms']."</br>";
+                        echo "Payment Terms: ".$val['paymentterms'];
+                    }
+                } 
+                ?>
+            </div>
+        </div>
+    <h2 class="table-caption"><?php echo $this->__('Items Quoted') ?></h2>
+    <?php echo $this->getChildHtml('quote_items') ?>
+    <?php //$_history = $this->getQuote()->getVisibleStatusHistory() ?>
+    <?php /*if (count($_history)): ?>
+    <div class="order-additional order-comments">
+        <h2 class="sub-title"><?php echo $this->__('About Your Quote') ?></h2>
+        <dl class="order-about">
+            <?php foreach ($_history as $_historyItem): ?>
+                <dt><?php echo $this->formatDate($_historyItem->getCreatedAtStoreDate(), 'medium', true) ?></dt>
+                <dd><?php echo $this->escapeHtml($_historyItem->getComment()) ?></dd>
+            <?php endforeach; ?>
+        </dl>
+    </div>
+    <?php endif; */ ?>
+    <?php 
+    echo $this->getChildHtml('quote_checkout') ?>
+    <div class="buttons-set">
+        <p class="back-link"><a href="<?php echo $this->getBackUrl() ?>"><small>&laquo; </small><?php echo $this->getBackTitle() ?></a></p>
+    </div>
+</div>

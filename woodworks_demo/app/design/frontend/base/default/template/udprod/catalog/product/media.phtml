@@ -1,0 +1,81 @@
+<?php
+    $_product = $this->getProduct();
+    $_helper = $this->helper('catalog/output');
+    $this->setThumbSize(265, 265);
+    $this->setSmallThumbSize(56, 56);
+    $_product = $this->getProduct();
+    $this->getGalleryImagesJson();
+?>
+<p class="product-image">
+    <div id="zoom-wrapper-<?php echo $_product->getId()?>" style="position:relative; width:<?php echo (int) $this->getThumbSize()?>px; height:<?php echo (int) $this->getThumbSize(false)?>px;">
+        <img id="zoom-img-<?php echo $_product->getId()?>" src="<?php echo $this->getMainImg()->getMedium() ?>"/>
+        <div id="zoom-lens-<?php echo $_product->getId()?>" class="MagicZoomPup" style="opacity: 0.5; display: none; z-index: 99999; text-align:center; padding-top:5px;"></div>
+        <img src="<?php echo $this->getSkinUrl('images/ajax-loader.gif') ?>" id="zoom-img-loader-<?php echo $_product->getId()?>" style="display: none; position: absolute; z-index: 999999; left: <?php echo (int)(($this->getThumbSize()-16)/2)?>px; top: <?php echo (int)(($this->getThumbSize(false)-16)/2)?>px; background:#fff; "/>
+    </div>
+
+    <div style="position: absolute; z-index:99999;">
+    <div id="zoom-large-view-<?php echo $_product->getId()?>" style="width:560px; height:500px; display: none; z-index: 99999; margin:-407px 0 0 400px">
+        <img id="zoom-large-img-<?php echo $_product->getId()?>"/>
+    </div>
+    </div>
+</p>
+<?php if (count($this->getGalleryImages()) > 0): ?>
+<div id="product-gallery-container">
+	<div class="product-gallery-container">
+        <div class="more-views">
+        <ul class="product-gallery-item-container">
+        <?php foreach($this->getGalleryImagesThumbs() as $_image): ?>
+            <li id="gi-thumb-<?php echo $_image->getId()?>">
+                <a href="javascript:void(0)" onclick="unirgyProductGallery<?php echo $_product->getId()?>.selectImageById('<?php echo $_image->getId() ?>')" title="<?php echo $this->htmlEscape($_image->getLabel()) ?>"><img src="<?php echo $_image->getThumb() ?>" alt="<?php echo $this->htmlEscape($_product->getName()) ?>" /></a>
+            </li>
+        <?php endforeach?>
+        </ul>
+            </div>
+    </div>
+</div>
+<?php endif; ?>
+
+<script type="text/javascript">
+
+var unirgyProductGallery<?php echo $_product->getId()?>;
+unirgyDomLoaded(function() {
+    unirgyProductGallery<?php echo $_product->getId()?> = new UnirgyProductGallery(<?php echo $this->getGalleryImagesJson()?>, {
+        imageSwitchDuration: .2,
+        containerId: 'zoom-wrapper-<?php echo $_product->getId()?>',
+        isProductPage: true,
+        defaultImage: '<?php echo $this->getDefaultImageUrl() ?>',
+        activeThumbClass: 'active',
+        width: <?php echo (int) $this->getThumbSize()?>, height: <?php echo (int) $this->getThumbSize(false)?>,
+        softIdentify: false,
+        zoomWrapperId: 'zoom-wrapper-<?php echo $_product->getId()?>',
+        zoomImgId: 'zoom-wrapper-<?php echo $_product->getId()?>',
+        zoomLargeViewId: 'zoom-large-view-<?php echo $_product->getId()?>',
+        zoomLargeImgId: 'zoom-large-img-<?php echo $_product->getId()?>',
+        zoomLensId: 'zoom-lens-<?php echo $_product->getId()?>',
+        zoomImgLoaderId: 'zoom-img-loader-<?php echo $_product->getId()?>',
+        zoomOutText: '<?php echo Mage::helper('udropship')->__('Click to zoom out')?>',
+        zoomInText: '<?php echo Mage::helper('udropship')->__('Click to zoom in')?>',
+        spConfig: 'spConfig'
+    });
+    <?php if ($_product->getTypeId() == 'configurable'): ?>
+    try {
+        unirgyProductGallery<?php echo $_product->getId()?>.superAttributesInit(spConfig)
+    } catch (e) {
+        try {
+            if (unirgyProductGallery<?php echo $_product->getId()?>.selImgIdx == null) {
+                unirgyProductGallery<?php echo $_product->getId()?>.switchImage(0,true)
+            }
+        } catch (e) {}
+    }
+    <?php endif ?>
+})
+
+</script>
+<style type="text/css">
+.MagicZoomPup {
+border: 1px solid #aaa;
+background: #fff;
+cursor: move;
+}
+</style>
+

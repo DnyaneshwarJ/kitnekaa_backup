@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns:typens="urn:{{var wsdl.name}}" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+	xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns="http://schemas.xmlsoap.org/wsdl/"
+	name="{{var wsdl.name}}" targetNamespace="urn:{{var wsdl.name}}">
+	<types>
+		<schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="urn:Magento">
+			<import namespace="http://schemas.xmlsoap.org/soap/encoding/" schemaLocation="http://schemas.xmlsoap.org/soap/encoding/" />
+			<complexType name="dealDealListEntity">
+				<all>
+					<element name="entity_id" type="xsd:string" minOccurs="1" />
+					<element name="name" type="xsd:string" minOccurs="1" />
+					<element name="start_date" type="xsd:string" minOccurs="1" />
+					<element name="end_date" type="xsd:string" minOccurs="1" />
+					<element name="url_key" type="xsd:string" minOccurs="0" />
+					<element name="status" type="xsd:string" minOccurs="0" />
+					<element name="in_rss" type="xsd:string" minOccurs="0" />
+					<element name="meta_title" type="xsd:string" minOccurs="0" />
+					<element name="meta_keywords" type="xsd:string" minOccurs="0" />
+					<element name="meta_description" type="xsd:string" minOccurs="0" />
+
+					<element name="created_at" type="xsd:string" minOccurs="1" />
+					<element name="updated_at" type="xsd:string" minOccurs="1" />
+				</all>
+			</complexType>
+			<complexType name="dealDealListEntityArray">
+				<complexContent>
+					<restriction base="soapenc:Array">
+						<attribute ref="soapenc:arrayType" wsdl:arrayType="typens:dealDealListEntity[]" />
+					</restriction>
+				</complexContent>
+			</complexType>
+			<complexType name="dealDealAddEntity">
+				<all>
+					<element name="name" type="xsd:string" minOccurs="1" />
+					<element name="start_date" type="xsd:string" minOccurs="1" />
+					<element name="end_date" type="xsd:string" minOccurs="1" />
+					<element name="url_key" type="xsd:string" minOccurs="0" />
+					<element name="status" type="xsd:string" minOccurs="0" />
+					<element name="in_rss" type="xsd:string" minOccurs="0" />
+					<element name="meta_title" type="xsd:string" minOccurs="0" />
+					<element name="meta_keywords" type="xsd:string" minOccurs="0" />
+					<element name="meta_description" type="xsd:string" minOccurs="0" />
+
+				</all>
+			</complexType>
+			<complexType name="dealDealUpdateEntity">
+				<all>
+					<element name="name" type="xsd:string" minOccurs="1" />
+					<element name="start_date" type="xsd:string" minOccurs="1" />
+					<element name="end_date" type="xsd:string" minOccurs="1" />
+					<element name="url_key" type="xsd:string" minOccurs="0" />
+					<element name="status" type="xsd:string" minOccurs="0" />
+					<element name="in_rss" type="xsd:string" minOccurs="0" />
+					<element name="meta_title" type="xsd:string" minOccurs="0" />
+					<element name="meta_keywords" type="xsd:string" minOccurs="0" />
+					<element name="meta_description" type="xsd:string" minOccurs="0" />
+
+				</all>
+			</complexType>
+			<complexType name="dealDealInfoEntity">
+				<all>
+					<element name="entity_id" type="xsd:string" minOccurs="1" />
+					<element name="name" type="xsd:string" minOccurs="1" />
+					<element name="start_date" type="xsd:string" minOccurs="1" />
+					<element name="end_date" type="xsd:string" minOccurs="1" />
+					<element name="url_key" type="xsd:string" minOccurs="0" />
+					<element name="status" type="xsd:string" minOccurs="0" />
+					<element name="in_rss" type="xsd:string" minOccurs="0" />
+					<element name="meta_title" type="xsd:string" minOccurs="0" />
+					<element name="meta_keywords" type="xsd:string" minOccurs="0" />
+					<element name="meta_description" type="xsd:string" minOccurs="0" />
+
+					<element name="created_at" type="xsd:string" minOccurs="1" />
+					<element name="updated_at" type="xsd:string" minOccurs="1" />
+				</all>
+			</complexType>
+			<complexType name="dealDealAssignProductEntity">
+				<all>
+				<element name="deal_id" type="xsd:string" minOccurs="1" />
+				<element name="product_id" type="xsd:string" minOccurs="1" />
+				<element name="position" type="xsd:string" minOccurs="0" />
+				</all>
+			</complexType>
+			<complexType name="dealDealUnassignProductEntity">
+				<all>
+				<element name="deal_id" type="xsd:string" minOccurs="1" />
+				<element name="product_id" type="xsd:string" minOccurs="1" />
+				</all>
+			</complexType>
+				</schema>
+	</types>
+	<message name="dealDealListRequest">
+		<part name="sessionId" type="xsd:string" />
+		<part name="filters" type="typens:filters"/>
+	</message>
+	<message name="dealDealListResponse">
+		<part name="result" type="typens:dealDealListEntityArray" />
+	</message>
+	<message name="dealDealInfoRequest">
+		<part name="sessionId" type="xsd:string" />
+		<part name="dealId" type="xsd:string" />
+	</message>
+	<message name="dealDealInfoResponse">
+		<part name="result" type="typens:dealDealInfoEntity" />
+	</message>
+	<message name="dealDealAddRequest">
+		<part name="sessionId" type="xsd:string" />
+		<part name="data" type="typens:dealDealAddEntity" />
+	</message>
+	<message name="dealDealAddResponse">
+		<part name="result" type="xsd:int"/>
+	</message>
+	<message name="dealDealUpdateRequest">
+		<part name="sessionId" type="xsd:string" />
+		<part name="dealId" type="xsd:string" />
+		<part name="data" type="typens:dealDealUpdateEntity" />
+	</message>
+	<message name="dealDealUpdateResponse">
+		<part name="result" type="xsd:boolean" />
+	</message>
+	<message name="dealDealRemoveRequest">
+		<part name="sessionId" type="xsd:string" />
+		<part name="dealId" type="xsd:string" />
+	</message>
+	<message name="dealDealRemoveResponse">
+		<part name="result" type="xsd:boolean" />
+	</message>
+		<message name="dealDealAssignProductRequest">
+			<part name="sessionId" type="xsd:string" />
+			<part name="dealId" type="xsd:string" />
+			<part name="productId" type="xsd:string" />
+			<part name="position" type="xsd:string" />
+		</message>
+		<message name="dealDealAssignProductResponse">
+			<part name="result" type="xsd:boolean" />
+		</message>
+		<message name="dealDealUnassignProductRequest">
+			<part name="sessionId" type="xsd:string" />
+			<part name="dealId" type="xsd:string" />
+			<part name="productId" type="xsd:string" />
+		</message>
+		<message name="dealDealUnassignProductResponse">
+			<part name="result" type="xsd:boolean" />
+		</message>
+		<portType name="{{var wsdl.handler}}PortType">
+		<operation name="dealDealList">
+			<documentation>Retrieve list of deal</documentation>
+			<input message="typens:dealDealListRequest" />
+			<output message="typens:dealDealListResponse" />
+		</operation>
+		<operation name="dealDealInfo">
+			<documentation>Retrieve deal info</documentation>
+			<input message="typens:dealDealInfoRequest" />
+			<output message="typens:dealDealInfoResponse" />
+		</operation>
+		<operation name="dealDealAdd">
+			<documentation>Add deal</documentation>
+			<input message="typens:dealDealAddRequest" />
+			<output message="typens:dealDealAddResponse" />
+		</operation>
+		<operation name="dealDealUpdate">
+			<documentation>Update deal</documentation>
+			<input message="typens:dealDealUpdateRequest" />
+			<output message="typens:dealDealUpdateResponse" />
+		</operation>
+		<operation name="dealDealRemove">
+			<documentation>Remove deal</documentation>
+			<input message="typens:dealDealRemoveRequest" />
+			<output message="typens:dealDealRemoveResponse" />
+		</operation>
+		<operation name="dealDealAssignProduct">
+			<documentation>Assign product to deal</documentation>
+			<input message="typens:dealDealAssignProductRequest" />
+			<output message="typens:dealDealAssignProductResponse" />
+		</operation>
+		<operation name="dealDealUnassignProduct">
+			<documentation>Remove product from deal</documentation>
+			<input message="typens:dealDealUnassignProductRequest" />
+			<output message="typens:dealDealUnassignProductResponse" />
+		</operation>
+		</portType>
+	<binding name="{{var wsdl.handler}}Binding" type="typens:{{var wsdl.handler}}PortType">
+		<soap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http" />
+		<operation name="dealDealList">
+			<soap:operation soapAction="urn:{{var wsdl.handler}}Action" />
+			<input>
+				<soap:body namespace="urn:{{var wsdl.name}}" use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</input>
+			<output>
+				<soap:body namespace="urn:{{var wsdl.name}}" use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</output>
+		</operation>
+		<operation name="dealDealInfo">
+			<soap:operation soapAction="urn:{{var wsdl.handler}}Action" />
+			<input>
+				<soap:body namespace="urn:{{var wsdl.name}}" use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</input>
+			<output>
+				<soap:body namespace="urn:{{var wsdl.name}}" use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</output>
+		</operation>
+		<operation name="dealDealAdd">
+			<soap:operation soapAction="urn:{{var wsdl.handler}}Action" />
+			<input>
+				<soap:body namespace="urn:{{var wsdl.name}}" use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</input>
+			<output>
+				<soap:body namespace="urn:{{var wsdl.name}}" use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</output>
+		</operation>
+		<operation name="dealDealUpdate">
+			<soap:operation soapAction="urn:{{var wsdl.handler}}Action" />
+			<input>
+				<soap:body namespace="urn:{{var wsdl.name}}" use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</input>
+			<output>
+				<soap:body namespace="urn:{{var wsdl.name}}" use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</output>
+		</operation>
+		<operation name="dealDealRemove">
+			<soap:operation soapAction="urn:{{var wsdl.handler}}Action" />
+			<input>
+				<soap:body namespace="urn:{{var wsdl.name}}" use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</input>
+			<output>
+				<soap:body namespace="urn:{{var wsdl.name}}" use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</output>
+		</operation>
+		<operation name="dealDealAssignProduct">
+			<soap:operation soapAction="urn:{{var wsdl.handler}}Action" />
+			<input>
+				<soap:body namespace="urn:{{var wsdl.name}}" use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</input>
+			<output>
+				<soap:body namespace="urn:{{var wsdl.name}}" use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</output>
+		</operation>
+		<operation name="dealDealUnassignProduct">
+			<soap:operation soapAction="urn:{{var wsdl.handler}}Action" />
+			<input>
+				<soap:body namespace="urn:{{var wsdl.name}}" use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</input>
+			<output>
+				<soap:body namespace="urn:{{var wsdl.name}}" use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</output>
+		</operation>
+		</binding>
+	<service name="{{var wsdl.name}}Service">
+		<port name="{{var wsdl.handler}}Port" binding="typens:{{var wsdl.handler}}Binding">
+			<soap:address location="{{var wsdl.url}}" />
+		</port>
+	</service>
+</definitions>

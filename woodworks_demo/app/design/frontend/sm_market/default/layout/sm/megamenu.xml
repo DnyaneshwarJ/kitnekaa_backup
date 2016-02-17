@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+    <default>
+		<reference name="head">
+			<!--action method="addItem">
+				<type>skin_css</type>
+				<name>sm/megamenu/css/horizontal/black/megamenu.css</name>
+			</action>
+			<action method="addItem">
+				<type>skin_css</type>
+				<name>sm/megamenu/css/vertical/black/megamenu.css</name>
+			</action-->
+		</reference>
+    </default>
+    <megamenu_index_index>
+        <reference name="content">
+			<block type="megamenu/list" name="megamenu.list.theme"></block>
+        </reference>
+    </megamenu_index_index>
+</layout> 

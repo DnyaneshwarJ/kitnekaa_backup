@@ -1,0 +1,59 @@
+<script type="text/javascript">
+
+jQuery(function(){
+            jQuery('.date').datetimepicker({
+
+               format: 'DD-MM-YYYY',
+               locale: 'en',
+              useCurrent: false //Important! See issue #1075
+            });
+            
+        });
+
+</script>
+<?php if(count($data)){ ?> 
+
+ 
+<?php
+                                     foreach($data as $fin)
+          {   ?>          
+          <li><div id="doc_box_<?php echo $fin['doc_name'] ?>" style="clear: right; margin-top: 10px;"><label for="tin_no"><?php echo $fin['doc_name'] ?></label>
+                        <div class="input-box">
+                                <input type="file" name="<?php echo $fin['doc_name']; ?>" id="upload_docs_vat" value="" 
+                            title="" class="input-file required-entry required-image-pdf" multiple="multiple"/>
+                        </div> 
+                </div>
+
+                  <?php if($fin['has_time_period']==1){ ?>
+                                                        
+                  <div id="dates" style="float: left;required-image-pdf
+margin-bottom: 10px;
+padding-left: 174px;
+margin-top: 10px;">
+                     <div id="from_date" class="input-box" style="float:left; margin-right:10px">
+                      <label for="tin_no">From Date</label>
+                  <div class='input-group date' id="datetimepickerbank<?php  echo $fin['doc_name']?>" style="width: 232px;">
+                      <input type='text' class="form-control input-text required-entry"    name="<?php echo $fin['doc_name'].'_from_date'; ?>" value="" style="margin: 0px;"/>
+                      <span class="input-group-addon" style="position: absolute;right: 0px;top: 0px;width: 38px;height: 34px;display: inline;"> <span class="glyphicon glyphicon-calendar"></span>
+                      </span>
+                  </div>
+                </div>
+                <div id="to_date" style="clear: right; float: left; margin-right: 10px;">
+                    <label for="tin_no">To Date</label>
+                  <div class='input-group date' id='datetimepickerbank_to_date<?php  echo $fin['doc_name']?>' style="width: 232px;">
+                      <input type='text' class="form-control input-text required-entry" name="<?php echo $fin['doc_name'].'_to_date'; ?>" value="" style="margin: 0px;"/>
+                      <span class="input-group-addon" style="position: absolute;right: 0px;top: 0px;width: 38px;height: 34px;display: inline;"> <span class="glyphicon glyphicon-calendar"></span>
+                      </span>
+                  </div>
+                </div>
+               </div>
+                <?php } ?>
+
+                 </li>
+               <?php  } 
+            }else{
+
+              echo "<b style='color:Green;'>You Are Verified Can Continue</b>";
+            }
+
+                 ?>

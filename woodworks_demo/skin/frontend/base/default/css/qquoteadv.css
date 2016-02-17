@@ -1,0 +1,231 @@
+/**
+ *
+ * CART2QUOTE CONFIDENTIAL
+ * __________________
+ *
+ *  [2009] - [2015] Cart2Quote B.V.
+ *  All Rights Reserved.
+ *
+ * NOTICE OF LICENSE
+ *
+ * All information contained herein is, and remains
+ * the property of Cart2Quote B.V. and its suppliers,
+ * if any.  The intellectual and technical concepts contained
+ * herein are proprietary to Cart2Quote B.V.
+ * and its suppliers and may be covered by European and Foreign Patents,
+ * patents in process, and are protected by trade secret or copyright law.
+ * Dissemination of this information or reproduction of this material
+ * is strictly forbidden unless prior written permission is obtained
+ * from Cart2Quote B.V.
+ *
+ * @category    Ophirah
+ * @package     Qquoteadv
+ * @copyright   Copyright (c) 2015 Cart2Quote B.V. (http://www.cart2quote.com)
+ * @license     http://www.cart2quote.com/ordering-licenses
+ */
+
+.leightbox, .leightboxlink {
+    background-color: #FFFFFF;
+    border: 2px solid #B8B8B8;
+    color: #0A263C;
+    display: none;
+    font: 9px Arial, sans-serif;
+    left: 25%;
+    margin: 0;
+    overflow: auto;
+    padding: 0;
+    position: absolute;
+    text-align: left;
+    top: 25%;
+    width: 450px;
+    min-height: 200px;
+    z-index: 10011;
+}
+
+#overlay, #overlaylink {
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1000;
+    background-color: #333;
+    filter: alpha(opacity=80);
+    background-color: rgba(0, 0, 0, 0.75);
+}
+
+.lightbox[id] {
+    /* IE6 and below Can't See This */
+    position: fixed;
+}
+
+#overlay[id] {
+    /* IE6 and below Can't See This */
+    position: fixed;
+}
+
+.lightboxlink[id] {
+    /* IE6 and below Can't See This */
+    position: fixed;
+}
+
+#overlaylink[id] {
+    /* IE6 and below Can't See This */
+    position: fixed;
+}
+
+td.attributes-col .item-options dt {
+    font-style: italic;
+    font-weight: normal;
+}
+
+.block-quote .block-title strong {
+    background-image: url("../../../default/default/images/i_block-list.gif");
+    background-position: 0pt 1px;
+    background-repeat: no-repeat;
+}
+
+#lightbox2 {
+    background: white;
+    width: 500px;
+    min-height: 200px;
+    padding: 20px;
+    margin: 10% auto;
+    border: 3px solid #ababab;
+    -webkit-border-radius: 15px;
+    -moz-border-radius: 15px;
+    border-radius: 15px;
+}
+
+#lightboxload {
+    background: url("../images/ajax-loader.gif");
+    width: 16px;
+    height: 16px;
+    margin: 100px auto;
+
+}
+
+.cms-index-index .products-grid li.item {
+    padding: 12px 10px 100px;
+}
+
+/*
+* Disable the following CSS rules
+* when having trouble with
+* grid and list view.
+*/
+
+#products-list button.btn-cart {
+    margin: 5px 0 0 0;
+    padding: 0 0 0 5px;
+    width: 120px;
+    float: right;
+}
+
+.products-grid button.btn-cart {
+    margin: 5px 0 0 0;
+    padding: 0 5px 0 0;
+    width: 100%;
+}
+
+.product-view button.btn-cart {
+    padding: 0 5px 0 0;
+}
+
+.products-grid li.item {
+    padding-bottom: 100px;
+}
+
+.products-grid .actions {
+    width: 30%;
+}
+
+form#quotelist .cart .totals {
+    padding: 0 0 0 100px !important;
+    width: auto !important;
+}
+
+#addressCheckbox .btn-estimate span {
+    background: none repeat scroll 0 0 #618499;
+    border-color: #406A83;
+}
+
+/*
+ * QUICK QUOTE
+ */
+#quickQuoteWrapper,
+#quickQuoteBack {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1500;
+}
+
+#quickQuote {
+    background-color: #FFFFFF;
+    padding: 25px;
+    position: absolute;
+    width: 400px;
+    top: 50%;
+    left: 50%;
+    margin: -200px 0 0 -200px;
+    z-index: 1550;
+    -webkit-border-radius: 15px;
+    -moz-border-radius: 15px;
+    border-radius: 15px;
+    border: 3px solid #ababab;
+}
+
+.quickQuoteButtons {
+    margin: 10px 0;
+}
+
+#quickQuote .qquote-client-collaterals {
+    display: table;
+    height: 100%;
+    width: 100%;
+}
+
+#quickQuoteBack {
+    /*
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    */
+    background-color: #333;
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=80)";
+    filter: alpha(opacity=80);
+    -moz-opacity: 0.8;
+    -khtml-opcaity: 0.8;
+    opacity: 0.8;
+}
+
+#quickQuote input,
+#quickQuote textarea {
+    width: 175px;
+}
+
+#quickQuote select {
+    width: 182px;
+}
+
+#quickQuote .close-icon {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: -7px -7px 0 0;
+}
+
+#quickQuote .close-icon img {
+    width: 25px;
+    height: 25px;
+}
+
+#quickQuote .close-icon img:hover {
+    cursor: pointer;
+}

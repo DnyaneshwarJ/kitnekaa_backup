@@ -1,0 +1,46 @@
+<?xml version="1.0"?>
+<layout>
+    <udropshipadmin_adminhtml_vendor_edit>
+        <update handle="editor"/>
+        <reference name="js">
+            <block type="core/template" name="udropship_wysiwyg" template="udropship/vendor/wysiwyg.phtml"/>
+        </reference>
+        <reference name="head">
+            <action method="setCanLoadExtJs"><flag>1</flag></action>
+            <action method="setCanLoadRulesJs"><flag>1</flag></action>
+        </reference>
+    </udropshipadmin_adminhtml_vendor_edit>
+    <adminhtml_udropshipadmin_vendor_new>
+        <update handle="udropshipadmin_adminhtml_vendor_edit"/>
+    </adminhtml_udropshipadmin_vendor_new>
+    <adminhtml_sales_order_shipment_view>
+        <reference name="order_info">
+            <action method="setTemplate"><template>udropship/sales/order/view/info.phtml</template></action>
+        </reference>
+        <reference name="order_comments">
+            <action method="setTemplate"><template>udropship/sales/order/shipment/comments/view.phtml</template></action>
+        </reference>
+        <reference name="shipment_items">
+            <action method="addItemRender"><type>bundle</type><block>bundle/adminhtml_sales_order_items_renderer</block><template>udropship/sales/order/shipment/items/bundle.phtml</template></action>
+            <action method="setTemplate"><template>udropship/sales/order/shipment/items.phtml</template></action>
+        </reference>
+    </adminhtml_sales_order_shipment_view>
+    <adminhtml_udropshipadmin_shipment_addcomment>
+        <block type="adminhtml/sales_order_shipment_view_comments" name="shipment_comments">
+            <block type="adminhtml/sales_order_comments_view"  name="order_comments" template="udropship/sales/order/shipment/comments/view.phtml"></block>
+        </block>
+    </adminhtml_udropshipadmin_shipment_addcomment>
+    <default>
+        <reference name="head">
+            <action method="addJs"><script>udropship.js</script></action>
+        </reference>
+    </default>
+    <adminhtml_sales_order_view>
+        <reference name="order_items">
+            <action method="addItemRender"><type>bundle</type><block>udropship/adminhtml_order_itemsRenderer_bundle</block><template>udropship/sales/order/view/items/bundle.phtml</template></action>
+        </reference>
+        <reference name="content">
+            <block type="core/template" template="udropship/sales/order/view/vendor_rates.phtml" />
+        </reference>
+    </adminhtml_sales_order_view>
+</layout>

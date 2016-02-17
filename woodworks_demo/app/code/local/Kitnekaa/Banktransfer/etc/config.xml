@@ -1,0 +1,103 @@
+<?xml version="1.0"?>
+<config>
+  <modules>
+    <Kitnekaa_Banktransfer>
+      <version>1.0.0.0</version>
+    </Kitnekaa_Banktransfer>
+  </modules>
+ 
+  <global>
+    <fieldsets>
+      <sales_convert_quote_payment>
+        <cust_utr_number>
+          <to_order_payment>*</to_order_payment>
+        </cust_utr_number>
+        <cust_bank_name>
+          <to_order_payment>*</to_order_payment>
+        </cust_bank_name>
+        <cust_branch_name>
+          <to_order_payment>*</to_order_payment>
+        </cust_branch_name>
+         <cust_trans_date>
+          <to_order_payment>*</to_order_payment>
+        </cust_trans_date>
+      </sales_convert_quote_payment>
+    </fieldsets>
+     
+    <helpers>
+      <banktransfer>
+        <class>Kitnekaa_Banktransfer_Helper</class>
+      </banktransfer>
+    </helpers>
+ 
+    <blocks>
+      <banktransfer>
+        <class>Kitnekaa_Banktransfer_Block</class>
+      </banktransfer>
+    </blocks>
+         
+    <models>
+      <banktransfer>
+        <class>Kitnekaa_Banktransfer_Model</class>
+      </banktransfer>
+    </models>
+ 
+    <resources>
+      <banktransfer_setup>
+        <setup>
+          <module>Kitnekaa_Banktransfer</module>
+        </setup>
+      </banktransfer_setup>
+    </resources>
+    
+  </global>
+ 
+  <default>
+    <payment>
+      <banktransfer>
+        <active>1</active>
+        <model>banktransfer/paymentmethod</model>
+        <order_status>pending</order_status>
+        <title>Banktransfer new</title>
+        <allowspecific>0</allowspecific>
+        <payment_action>sale</payment_action>
+      </banktransfer>
+    </payment>
+  </default>
+   
+  <frontend>
+    <routers>
+      <banktransfer>
+        <use>standard</use>
+        <args>
+          <module>Kitnekaa_Banktransfer</module>
+          <frontName>banktransfer</frontName>
+        </args>
+      </banktransfer>
+    </routers>
+  </frontend>
+  <!--<adminhtml>
+    <acl>
+        <resources>
+            <all>
+                <title>Allow Everything</title>
+            </all>
+            <admin>
+                <children>
+                    <system>
+                        <children>
+                            <config>
+                                <children>
+                                    <mycompany>
+                                        <title>Direct BAnk Transfer</title>
+                                    </mycompany>
+                                </children>
+                            </config>
+                        </children>
+                    </system>
+                </children>
+            </admin>
+        </resources>
+    </acl>
+</adminhtml>-->
+</config>

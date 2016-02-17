@@ -1,0 +1,129 @@
+<style>
+    .kit_sllist_container {
+        border: 1px solid #e6e6e6;
+        margin-bottom: 5px;
+        min-width: 200px;
+    }
+
+    .kit_sllist {
+        color: #909090;
+        outline: medium none !important;
+        padding: 7px 7px;
+        width: auto;
+        min-width: 188px;
+        font-weight: bold;
+    }
+
+    .kit_sllist span {
+        margin-right: 10px;
+    }
+
+    .kit_sllist input {
+        width: auto !important;
+    }
+</style>
+<div id="sl-popup" class="login-popup" style="display: none">
+    <div class="login-popup-inner">
+        <div class="login-popup-title">Add To Shopping List</div>
+        <div id="loading_min_sl" style="display:none;margin-bottom: 10px; text-align: center;">
+            <img class="v-middle"
+                 src="<?php echo $this->getSkinUrl('sm/cartpro/images/ajax-loader-tr.gif') ?>">
+            <span><?php echo $this->__('Processing...'); ?></span>
+        </div>
+        <div class="kit_sllist_container">
+            <div id="min_slist_items">
+
+            </div>
+
+            <input type="hidden" value="0" id="min_sl_current_product"/>
+            <input type="hidden" value="" id="min_sl_product_name"/>
+        </div>
+        <div class="itemBtn" style="height:25px">
+            <a class="notAddToLink" href="<?php echo Mage::getBaseUrl(); ?>shoppinglist/">Create New List</a>
+            <button class="button btn_min_add_to_sl" title="Add To Shopping List" type="button" onclick="addToSl();" >
+                <span>Add</span>
+            </button>
+        </div>
+    </div>
+</div>
+
+<script>
+    //var list_loaded=false;
+    jQuery(document).ready(function ($) {
+
+        $(document.body).on('click', function (e) {
+            $("#sl-popup").hide();
+            $("#min_sl_current_product").val(0);
+        });
+        $('.login-popup').on('click',function (e) {
+            e.stopPropagation();
+        });
+    });
+    //Add to shopping list
+    function addToSl()
+{
+    var pro_ids = new Array();
+    pro_ids.push(jQuery("#min_sl_current_product").val());
+    var selected_list =jQuery("input[name='opt_sl_name']:checked");
+    var list_id = selected_list.val();
+    var list_name = selected_list.data('slname');
+    var item_name = jQuery("#min_sl_product_name").val();
+
+    if (list_id != '' && list_id !=null) {
+        jQuery("#loading_min_sl").show();
+        jQuery.ajax({
+            url: '<?php echo Mage::getBaseUrl()."shoppinglist/index/addToShoppingList" ?>',
+            type: 'post',
+            cache: false,
+            data: {list_id: list_id, pro_ids: pro_ids},
+            success: function (response) {
+                var data = jQuery.parseJSON(response);
+                showAjaxSuccessMsg("Item <b>"+item_name+"</b> added to the shopping list <b>"+list_name+"</b> Successfully!" );
+                jQuery("#loading_min_sl").hide();
+            }
+        });
+    }
+    else
+    {
+
+        showAjaxErrorMsg("No Shopping List available or selected!");
+    }
+}
+
+function showSlPopup(e,el)
+{
+    e.stopPropagation();
+    var sl_popup=jQuery("#sl-popup");
+    sl_popup.hide();
+    jQuery("#min_sl_current_product").val(el.data('productid'));
+    jQuery("#min_sl_product_name").val(el.data('productname'));
+    sl_popup.show();
+    el.append(sl_popup);
+    //if(!list_loaded)
+    {
+        jQuery("#min_slist_items").html('');
+        jQuery("#loading_min_sl").show();
+        jQuery.ajax({
+            url: '<?php echo Mage::getBaseUrl()."shoppinglist/index/getShoppingListNames" ?>',
+            type:'POST',
+            data:{is_ajax:true},
+            success: function (response) {
+                var data = jQuery.parseJSON(response);
+                if(data.success)
+                {
+                    jQuery("#min_slist_items").html(data.html);
+                }
+                else
+                {
+                    sl_popup.hide();
+                    showAjaxErrorMsg(data.msg);
+                }
+                jQuery("#loading_min_sl").hide();
+                //list_loaded=true;
+            }
+        });
+    }
+
+
+}
+</script>

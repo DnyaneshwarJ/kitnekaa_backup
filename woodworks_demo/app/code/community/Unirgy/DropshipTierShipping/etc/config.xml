@@ -1,0 +1,283 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Unirgy LLC
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the EULA
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://www.unirgy.com/LICENSE-M1.txt
+ *
+ * @category   Unirgy
+ * @package    Unirgy_DropshipTierShipping
+ * @copyright  Copyright (c) 2008-2009 Unirgy LLC (http://www.unirgy.com)
+ * @license    http:///www.unirgy.com/LICENSE-M1.txt
+ */
+
+-->
+<config>
+    <modules>
+        <Unirgy_DropshipTierShipping>
+            <version>2.4.1</version>
+        </Unirgy_DropshipTierShipping>
+    </modules>
+
+    <global>
+        <models>
+            <udtiership>
+                <class>Unirgy_DropshipTierShipping_Model</class>
+                <resourceModel>udtiership_mysql4</resourceModel>
+            </udtiership>
+            <udtiership_mysql4>
+                <class>Unirgy_DropshipTierShipping_Model_Mysql4</class>
+                <entities>
+                    <delivery_type>
+                        <table>udtiership_delivery_type</table>
+                    </delivery_type>
+                    <simple_rates>
+                        <table>udtiership_simple_rates</table>
+                    </simple_rates>
+                    <vendor_simple_rates>
+                        <table>udtiership_vendor_simple_rates</table>
+                    </vendor_simple_rates>
+                    <simple_cond_rates>
+                        <table>udtiership_simple_cond_rates</table>
+                    </simple_cond_rates>
+                    <vendor_simple_cond_rates>
+                        <table>udtiership_vendor_simple_cond_rates</table>
+                    </vendor_simple_cond_rates>
+                    <rates>
+                        <table>udtiership_rates</table>
+                    </rates>
+                    <vendor_rates>
+                        <table>udtiership_vendor_rates</table>
+                    </vendor_rates>
+                    <product_rates>
+                        <table>udtiership_product_rates</table>
+                    </product_rates>
+                </entities>
+            </udtiership_mysql4>
+        </models>
+
+        <resources>
+            <udtiership_setup>
+                <setup>
+                    <module>Unirgy_DropshipTierShipping</module>
+                    <class>Mage_Sales_Model_Mysql4_Setup</class>
+                </setup>
+                <connection>
+                    <use>core_setup</use>
+                </connection>
+            </udtiership_setup>
+            <udtiership_write>
+                <connection>
+                    <use>core_write</use>
+                </connection>
+            </udtiership_write>
+            <udtiership_read>
+                <connection>
+                    <use>core_read</use>
+                </connection>
+            </udtiership_read>
+        </resources>
+
+        <blocks>
+            <udtiership>
+                <class>Unirgy_DropshipTierShipping_Block</class>
+            </udtiership>
+        </blocks>
+
+        <helpers>
+            <udtiership>
+                <class>Unirgy_DropshipTierShipping_Helper</class>
+            </udtiership>
+        </helpers>
+
+        <udropship>
+            <vendor>
+                <fields>
+                    <tiership_use_v2_rates>
+                        <label>Use Vendor Specific Rates</label>
+                        <fieldset>udtiership</fieldset>
+                        <type>select</type>
+                        <source>yesno</source>
+                        <position>1</position>
+                    </tiership_use_v2_rates>
+                </fields>
+                <fieldsets>
+                    <udtiership>
+                        <legend>Shipping Rates</legend>
+                        <position>1</position>
+                        <hidden>true</hidden>
+                    </udtiership>
+                </fieldsets>
+            </vendor>
+            <runtime_product_attributes_config_paths>
+                <carriers-udtiership-rate_cost_attribute />
+                <carriers-udtiership-rate_additional_attribute />
+                <carriers-udtiership-rate_handling_attribute />
+            </runtime_product_attributes_config_paths>
+        </udropship>
+
+        <template>
+            <email>
+            </email>
+        </template>
+
+        <sales>
+            <quote>
+                <item>
+                    <product_attributes>
+                        <udtiership_use_custom />
+                        <udtiership_rates />
+                    </product_attributes>
+                </item>
+            </quote>
+        </sales>
+
+        <events>
+            <udropship_vendor_load_after>
+                <observers>
+                    <udtiership>
+                        <type>singleton</type>
+                        <class>udtiership/observer</class>
+                        <method>udropship_vendor_load_after</method>
+                    </udtiership>
+                </observers>
+            </udropship_vendor_load_after>
+            <udropship_vendor_save_after>
+                <observers>
+                    <udtiership>
+                        <type>singleton</type>
+                        <class>udtiership/observer</class>
+                        <method>udropship_vendor_save_after</method>
+                    </udtiership>
+                </observers>
+            </udropship_vendor_save_after>
+            <udropship_vendor_save_before>
+                <observers>
+                    <udtiership>
+                        <type>singleton</type>
+                        <class>udtiership/observer</class>
+                        <method>udropship_vendor_save_before</method>
+                    </udtiership>
+                </observers>
+            </udropship_vendor_save_before>
+            <controller_front_init_before>
+                <observers>
+                    <udtiership>
+                        <type>singleton</type>
+                        <class>udtiership/observer</class>
+                        <method>controller_front_init_before</method>
+                    </udtiership>
+                </observers>
+            </controller_front_init_before>
+            <udropship_init_config_rewrites>
+                <observers>
+                    <udtiership>
+                        <type>singleton</type>
+                        <class>udtiership/observer</class>
+                        <method>udropship_init_config_rewrites</method>
+                    </udtiership>
+                </observers>
+            </udropship_init_config_rewrites>
+        </events>
+
+    </global>
+
+    <frontend>
+        <routers>
+            <udtiership>
+                <use>standard</use>
+                <args>
+                    <module>Unirgy_DropshipTierShipping</module>
+                    <frontName>udtiership</frontName>
+                </args>
+            </udtiership>
+        </routers>
+        <layout>
+            <updates>
+                <udtiership>
+                    <file>udtiership.xml</file>
+                </udtiership>
+            </updates>
+        </layout>
+        <events>
+            <udprod_product_edit_element_types>
+                <observers>
+                    <udtiership>
+                        <type>singleton</type>
+                        <class>udtiership/observer</class>
+                        <method>udprod_product_edit_element_types</method>
+                    </udtiership>
+                </observers>
+            </udprod_product_edit_element_types>
+        </events>
+        <secure_url>
+            <udtiership_vendor>/udtiership/vendor/</udtiership_vendor>
+        </secure_url>
+    </frontend>
+
+    <admin>
+        <routers>
+            <adminhtml>
+                <args>
+                    <modules>
+                        <udtiershipadmin after="Mage_Adminhtml">Unirgy_DropshipTierShipping</udtiershipadmin>
+                    </modules>
+                </args>
+            </adminhtml>
+        </routers>
+    </admin>
+
+    <adminhtml>
+        <layout>
+            <updates>
+                <udtiership>
+                </udtiership>
+            </updates>
+        </layout>
+        <events>
+            <udropship_adminhtml_vendor_tabs_after>
+                <observers>
+                    <udtiership>
+                        <class>udtiership/observer</class>
+                        <method>udropship_adminhtml_vendor_tabs_after</method>
+                    </udtiership>
+                </observers>
+            </udropship_adminhtml_vendor_tabs_after>
+        </events>
+    </adminhtml>
+
+    <default>
+        <udropship>
+	    </udropship>
+        <carriers>
+            <udtiership>
+                <active>1</active>
+                <sallowspecific>0</sallowspecific>
+                <model>udtiership/carrier</model>
+                <name>Tier Shipping</name>
+                <title>Tier Shipping</title>
+                <specificerrmsg>This shipping method is currently unavailable. If you would like to ship using this shipping method, please contact us.</specificerrmsg>
+                <handling_type>F</handling_type>
+                <match_subcategories>1</match_subcategories>
+                <handling_apply_method>none</handling_apply_method>
+                <cost_calculation_type>1</cost_calculation_type>
+                <additional_calculation_type>1</additional_calculation_type>
+                <handling_calculation_type>1</handling_calculation_type>
+                <calculation_method>1</calculation_method>
+                <fallback_lookup>2</fallback_lookup>
+                <use_simple_rates>0</use_simple_rates>
+                <use_customer_group>0</use_customer_group>
+            </udtiership>
+        </carriers>
+    </default>
+
+    <crontab>
+        <jobs>
+        </jobs>
+    </crontab>
+</config>

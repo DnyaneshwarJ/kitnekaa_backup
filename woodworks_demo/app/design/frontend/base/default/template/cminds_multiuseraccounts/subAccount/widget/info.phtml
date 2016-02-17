@@ -1,0 +1,74 @@
+<?php
+/**
+ *
+ * /* @var $this Mage_Customer_Block_Widget_Name
+ */
+?>
+<li class="fields">
+    <div class="field name-firstname">
+        <label for="firstname>"
+               class="required"><em>*</em><?php echo $this->__('First Name') ?></label>
+
+        <div class="input-box">
+            <input type="text" id="firstname" name="firstname"
+                   value="<?php echo $this->escapeHtml($this->getObject()->getFirstname()) ?>"
+                   title="<?php echo $this->__('First Name') ?>" maxlength="64"
+                   class="input-text required-entry"/>
+        </div>
+    </div>
+    <div class="field name-lastname">
+        <label for="lastname"
+               class="required"><em>*</em><?php echo $this->__('Last Name') ?></label>
+
+        <div class="input-box">
+            <input type="text" id="lastname" name="lastname"
+                   value="<?php echo $this->escapeHtml($this->getObject()->getLastname()) ?>"
+                   title="<?php echo $this->__('Last Name') ?>" maxlength="64"
+                   class="input-text required-entry"/>
+        </div>
+    </div>
+</li>
+<li class="fields">
+    <div class="field">
+        <label for="email_address" class="required"><em>*</em><?php echo $this->__('Email Address') ?>
+        </label>
+
+        <div class="input-box">
+            <input type="text" name="email" id="email_address"
+                   value="<?php echo $this->escapeHtml($this->getObject()->getEmail()) ?>"
+                   title="<?php echo $this->__('Email Address') ?>" maxlength="128"
+                   class="input-text validate-email required-entry"/>
+        </div>
+    </div>
+    <div class="field">
+        <label for="permission" class="required"><em>*</em><?php echo $this->__('Permission') ?>
+        </label>
+
+        <div class="input-box">
+            <select name="permission" id="permission" class="required-entry"/>
+            <?php foreach ($this->getPermissionOptions() as $permission): ?>
+                <option label="<?php echo $permission['label'] ?>"
+                        value="<?php echo $permission['value'] ?>"
+                    <?php echo ($permission['value'] == $this->getObject()->getPermission()) ? 'selected' : '' ?> ><?php echo $permission['label'] ?></option>
+            <?php endforeach; ?>
+            </select>
+        </div>
+    </div>
+</li>
+<li class="fields">
+    <div class="field">
+        <label for="view_all_orders" class="required"><em>*</em><?php echo $this->__('View All Orders') ?>
+        </label>
+
+        <div class="input-box">
+            <select name="view_all_orders" id="view_all_orders" class="required-entry"/>
+                <option label="<?php echo $this->__('No') ?>"
+                        value="0"
+                    <?php echo (0 == $this->getObject()->getViewAllOrders()) ? 'selected' : '' ?> ><?php echo $this->__('No') ?></option>
+                <option label="<?php echo $this->__('Yes') ?>"
+                        value="1"
+                    <?php echo (1 == $this->getObject()->getViewAllOrders()) ? 'selected' : '' ?> ><?php echo $this->__('Yes') ?></option>
+            </select>
+        </div>
+    </div>
+</li>

@@ -1,0 +1,120 @@
+<style>
+    .item-fields .itemradio{padding: 10px; background: #fff;border: 1px solid #ddd;margin-bottom: 10px;border-radius: 4px;}
+    #yt_wrapper .item-fields .itemradio label {width: 20%;padding-bottom: 0px; }
+    .itemradio input[type="radio"] {margin: 3px 7px 0px 0px;}
+</style>
+
+<form action="<?php echo $this->getPostActionUrl() ?>" method="post" id="form-validate">
+
+    <input type="hidden" name="success_url" value="<?php echo $this->getSuccessUrl() ?>"/>
+    <input type="hidden" name="error_url" value="<?php echo $this->getErrorUrl() ?>"/>
+
+    <div class="page-title">
+        <h1><?php echo $this->__('Create an Account') ?></h1>
+    </div>
+    <div class="itemradio">
+        <label><input type="radio" value="1" name="company_type" checked class="company_type"/> <?php echo Mage::helper('users')->getBuyerTypeLabel(1) ?></label>
+        <label><input type="radio" value="0" name="company_type" class="company_type" /> <?php echo Mage::helper('users')->getBuyerTypeLabel(0) ?></label>
+    </div>
+   <!-- <div class="inputfiled iteminput">
+        <select class="select validate-select company_type" name="company_type" id="company_type">
+            <option value=""><?php /*echo $this->__('* Please select company type') */?></option>
+            <option value="0"><?php /*echo $this->__('I am Individual') */?></option>
+            <option value="1"><?php /*echo $this->__('I owe a Company') */?></option>
+        </select>
+    </div>-->
+    <div class="inputfiled iteminput">
+      <input type="text" class="required-entry validate-company-exists" placeholder="<?php echo $this->__('* Company Name') ?>" id="company"
+               title="<?php echo $this->__('* Company Name') ?>" name="company"
+               value="<?php echo $this->escapeHtml($this->getFormData()->getCompany()) ?>" />
+
+    </div>
+    <div class="inputfiled iteminput">
+      <input type="text" class="required-entry" placeholder="<?php echo $this->__('* First Name') ?>"
+               name="firstname" maxlength="255" title="<?php echo $this->__('* First Name') ?>" id="firstname"
+               value="<?php echo $this->escapeHtml($this->getFormData()->getFirstName()) ?>"/>
+
+    </div>
+    <div class="inputfiled iteminput">
+     <input id="lastname" type="text" class="required-entry" maxlength="255"
+               title="<?php echo $this->__('* Last Name') ?>" placeholder="<?php echo $this->__('* Last Name') ?>"
+               name="lastname"
+               value="<?php echo $this->escapeHtml($this->getFormData()->getLastName()) ?>"/>
+
+    </div>
+    <div class="inputfiled iteminput">
+        <input id="email_address" type="text" class="required-entry validate-email validate-ajax validate-email-exists" placeholder="<?php echo $this->__('* Email Address') ?>"
+               name="email" value="<?php echo $this->escapeHtml($this->getFormData()->getEmail()) ?>"
+               title="<?php echo $this->__('* Email Address') ?>"/>
+
+    </div>
+    <div class="inputfiled iteminput">
+        <input type="tel"
+               class="required-entry kit-mob-number"
+               placeholder="<?php echo $this->__('* Mobile Number') ?>" name="phoneno" id="phoneno"
+               title="<?php echo $this->__('Mobile Number') ?>"
+               value="<?php echo $this->escapeHtml($this->getFormData()->getPhoneno()) ?>"/>
+        <p><?php echo $this->__('Enter mobile number with country code eg. (+91 7987946641).') ?></p>
+    </div>
+    <!--<div class="fieldrow">
+        <div class="inputfiled iteminput2" style="width:80px">
+            <select>
+                <option>+91</option>
+                <option>+92</option>
+                <option>+93</option>
+            </select>
+        </div>
+        <div class="inputfiled iteminput2"  style="width:85%">
+            <input type="text"
+                   class="required-entry validate-length maximum-length-12 minimum-length-5 validate-digits"
+                   placeholder="<?php /*echo $this->__('* Mobile Number') */?>" name="phoneno" id="phoneno"
+                   title="<?php /*echo $this->__('Mobile Number') */?>"
+                   value="<?php /*echo $this->escapeHtml($this->getFormData()->getPhoneno()) */?>"/>
+        </div>
+    </div>-->
+
+    <div class="fieldrow">
+    <div class="inputfiled iteminput2">
+        <input type="password"  name="password" id="password" title="<?php echo $this->__('* Password') ?>" placeholder="<?php echo $this->__('* Password') ?>" class="required-entry validate-password" />
+    </div>
+    <div class="inputfiled iteminput2">
+        <input type="password" name="confirmation" title="<?php echo $this->__('* Confirm Password') ?>" placeholder="<?php echo $this->__('* Confirm Password') ?>" id="confirmation" class="required-entry validate-cpassword" />
+    </div></div>
+    <?php if ($this->isNewsletterEnabled()): ?>
+        <?php if (!Mage::getSingleton('customer/session')->isLoggedIn()) { ?>
+            <div class="input-box">
+                <input type="checkbox" name="is_subscribed" title="<?php echo $this->__('Sign Up for Newsletter') ?>"
+                       value="1"
+                       id="is_subscribed"<?php if ($this->getFormData()->getIsSubscribed()): ?> checked="checked"<?php endif; ?>
+                       class="checkbox"/>
+            </div>
+            <label for="is_subscribed"><?php echo $this->__('Sign Up for Newsletter') ?></label>
+        <?php } ?>
+    <?php endif ?>
+    <div class="buttons-set">
+        <lable class="required"><span class="required-filed">* </span><?php echo $this->__('Required Fields') ?></lable>
+        <button type="submit" title="<?php echo $this->__('Submit') ?>" class="button"><span><span><?php echo $this->__('Submit') ?></span></span></button>
+    </div>
+</form>
+<script type="text/javascript">
+    //<![CDATA[
+    var dataForm = new VarienForm('form-validate', true);
+    //]]>
+</script>
+<script type="text/javascript">
+
+    jQuery(document).ready(function(){
+        jQuery('.company_type').click(function(){
+            var company=jQuery('#company');
+            var s_text = jQuery(this).val();
+            company.val('');
+            if(s_text == 0){
+                company.val('<?php echo Mage::helper('users')->getBuyerTypeLabel(0) ?>');
+                //alert(company.val());
+                company.hide();
+            }else{
+                company.show();
+            }
+        });
+    });
+</script>

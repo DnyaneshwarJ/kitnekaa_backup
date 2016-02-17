@@ -1,0 +1,143 @@
+<?php $_element = $this->getElement()?>
+<div class="grid">
+
+    <input id="<?php echo $_element->getName()?>" type="hidden" />
+    <table cellspacing="0" class="data" cellpadding="0" style="width: 400px">
+        <col width="150">
+        <col width="150">
+        <col width="100">
+        <thead>
+            <tr class="headings">
+                <th><?php echo Mage::helper('udropship')->__('Type of Product') ?></th>
+                <th><?php echo Mage::helper('udropship')->__('Attribute Sets') ?></th>
+                <th><?php echo Mage::helper('udropship')->__('Action') ?></th>
+            </tr>
+        </thead>
+        <tfoot>
+            <tr>
+                <th></th>
+                <th></th>
+                <th colspan=5 class="a-right"><?php echo $this->getAddButtonHtml() ?></th>
+            </tr>
+        </tfoot>
+        <tbody id="udprodTypeOfProduct-config-table">
+            <?php $_curHCs = $_element->getValue(); if (is_array($_curHCs)): ?>
+            <?php $i=0; foreach($_curHCs as $_curHC): ?>
+            <tr class="option-row">
+                <td class="udprodTypeOfProduct-config-type_of_product"><input name="<?php echo $_element->getName()?>[type_of_product][existing_<?php echo ++$i?>]" class="input-text required-option" type="text"  value="<?php echo @$_curHC['type_of_product']?>"/></td>
+                <td class="udprodTypeOfProduct-config-value">
+                    <?php echo $this->getAttributeSetSelect($_element->getName().'[attribute_set][existing_'.$i.'][]', $_curHC['attribute_set']) ?>
+                </td>
+                <td class="a-left">
+                    <?php echo $this->getDeleteButtonHtml() ?>
+                </td>
+            </tr>
+            <?php endforeach ?>
+            <?php endif ?>
+        </tbody>
+    </table>
+
+</div>
+
+<style type="text/css">
+.udprodTypeOfProduct-config-item input {width: 150px}
+</style>
+
+<script type="text/javascript">
+//<![CDATA[
+var udprodTypeOfProductCFGoptionDefaultInputType = 'radio';
+
+// IE removes quotes from element.innerHTML whenever it thinks they're not needed, which breaks html.
+var udprodTypeOfProductCFGtemplateText =
+        '<tr class="option-row">'+
+            '<td class="udprodTypeOfProduct-config-type_of_product"><input name="<?php echo $_element->getName()?>[type_of_product][{{id}}]" class="input-text required-option" type="text" /></td>'+
+            '<td class="udprodTypeOfProduct-config-value"><?php echo $this->jsQuoteEscape($this->getAttributeSetSelect($_element->getName().'[attribute_set][{{id}}][]')) ?></td>'+
+            '<td class="a-left">'+
+                '<?php echo $this->getDeleteButtonHtml() ?>'+
+            '</td>'+
+        '<\/tr>';
+
+var udprodTypeOfProductCFGattributeOption = {
+    table : $('udprodTypeOfProduct-config-table'),
+    templateSyntax : /(^|.|\r|\n)({{(\w+)}})/,
+    udprodTypeOfProductCFGtemplateText : udprodTypeOfProductCFGtemplateText,
+    itemCount : 0,
+    totalItems : 0,
+    add : function(data) {
+        this.template = new Template(this.udprodTypeOfProductCFGtemplateText, this.templateSyntax);
+        if(!data.id){
+    		data.id  = 'option_'+this.itemCount;
+        }
+        if (!data.intype)
+            data.intype = udprodTypeOfProductCFGoptionDefaultInputType;
+
+        Element.insert(this.table.up(), {bottom: this.template.evaluate(data)});
+        if (data.type_of_product) {
+            this.table.next().select('.udprodTypeOfProduct-config-type_of_product input')[0].value = data.type_of_product
+        }
+        this.bindRemoveButtons();
+        this.itemCount++;
+        this.totalItems++;
+        this.updateItemsCountField();
+    },
+    remove : function(event){
+        var element = $(Event.findElement(event, 'tr')); // !!! Button already
+                                                               // have table parent in safari
+        // Safari workaround
+        element.ancestors().each(function(parentItem){
+           if (parentItem.hasClassName('option-row')) {
+               element = parentItem;
+               throw $break;
+           } else if (parentItem.hasClassName('box')) {
+               throw $break;
+           }
+        });
+
+
+        if(element){
+            var elementFlags = element.getElementsByClassName('delete-flag');
+            if(elementFlags[0]){
+                elementFlags[0].value=1;
+            }
+
+            element.addClassName('no-display');
+            element.addClassName('template');
+            element.remove();
+            this.totalItems--;
+            this.updateItemsCountField();
+        }
+    },
+    updateItemsCountField: function() {
+        /*
+        if (this.totalItems > 0) {
+            $('option-count-check').value = '1';
+        } else {
+            $('option-count-check').value = '';
+        }
+        */
+    },
+    bindRemoveButtons : function(){
+        var buttons = $$('.delete-option');
+        for(var i=0;i<buttons.length;i++){
+            if(!$(buttons[i]).binded){
+                $(buttons[i]).binded = true;
+                Event.observe(buttons[i], 'click', this.remove.bind(this));
+            }
+        }
+    }
+
+}
+udprodTypeOfProductCFGattributeOption.bindRemoveButtons();
+
+if($('udprodTypeOfProduct_config_add_new_option_button')){
+    Event.observe('udprodTypeOfProduct_config_add_new_option_button', 'click', udprodTypeOfProductCFGattributeOption.add.bind(udprodTypeOfProductCFGattributeOption));
+}
+Validation.addAllThese([
+    ['required-option', '<?php echo Mage::helper('udropship')->__('Failed') ?>', function(v) {
+        return !Validation.get('IsEmpty').test(v);
+}]]);
+
+//]]>
+</script>
+
+

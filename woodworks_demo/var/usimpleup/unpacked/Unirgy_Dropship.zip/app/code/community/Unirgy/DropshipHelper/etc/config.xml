@@ -1,0 +1,63 @@
+<?xml version="1.0"?>
+<config>
+    <global>
+        <events>
+            <!-- CE 1.4.0- -->
+            <sales_order_item_save_before>
+                <observers>
+                    <udropship_helper>
+                        <type>singleton</type>
+                        <class>udropship/observer</class>
+                        <method>sales_order_item_save_before__helper</method>
+                    </udropship_helper>
+                </observers>
+            </sales_order_item_save_before>
+
+            <!-- CE 1.4.1+ -->
+            <sales_model_service_quote_submit_before>
+                <observers>
+                    <udropship_helper>
+                        <class>udropship/observer</class>
+                        <method>sales_model_service_quote_submit_before__helper</method>
+                    </udropship_helper>
+                </observers>
+            </sales_model_service_quote_submit_before>
+            <sales_quote_item_qty_set_after>
+                <observers>
+                    <udropship_helper>
+                        <class>udropship/observer</class>
+                        <method>sales_quote_item_qty_set_after__helper</method>
+                    </udropship_helper>
+                </observers>
+            </sales_quote_item_qty_set_after>
+            <shell_reindex_init_process>
+                <observers>
+                    <udropship_helper>
+                        <class>udropship/observer</class>
+                        <method>initConfigRewrites</method>
+                    </udropship_helper>
+                </observers>
+            </shell_reindex_init_process>
+        </events>
+    </global>
+    <crontab>
+        <events>
+            <default>
+                <observers>
+                    <udropship_helper>
+                        <class>udropship/observer</class>
+                        <method>beforeCrontab</method>
+                    </udropship_helper>
+                </observers>
+            </default>
+            <always>
+                <observers>
+                    <udropship_helper>
+                        <class>udropship/observer</class>
+                        <method>beforeCrontab</method>
+                    </udropship_helper>
+                </observers>
+            </always>
+        </events>
+    </crontab>
+</config>

@@ -1,0 +1,85 @@
+<?php
+$_hlp = Mage::helper('udropship');
+$vsAttr = Mage::getStoreConfig('udropship/vendor/vendor_sku_attribute');
+$allowVendorSku = Mage::helper('udropship')->isUdmultiAvailable() || (!empty($vsAttr) && $vsAttr != 'sku');
+?>
+
+<?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
+
+<form enctype="multipart/form-data" action="<?php echo $this->getUrl('udbatch/vendor_batch/importStockPost') ?>" method="POST">
+<fieldset>
+    <div class="generic-box col2-set">
+        <div class="col-1">
+            <ul class="form-list">
+                <li>
+                    <label for="import_inventory_fields1"><?php echo Mage::helper('udropship')->__('Field 1') ?></label><br/>
+                    <select id="import_inventory_fields1" name="import_inventory_fields[]" title="<?php echo Mage::helper('udropship')->__('Select Field 1') ?>" class="select"/>
+                        <option value=""><?php echo Mage::helper('udropship')->__('Select Field 1') ?></option>
+                        <option value="sku"><?php echo Mage::helper('udropship')->__('Sku') ?></option>
+                        <?php if ($allowVendorSku): ?><option value="vendor_sku"><?php echo Mage::helper('udropship')->__('Vendor Sku') ?></option><?php endif ?>
+                        <option value="stock_qty"><?php echo Mage::helper('udropship')->__('Stock Qty') ?></option>
+                        <option value="stock_status"><?php echo Mage::helper('udropship')->__('Stock Status') ?></option>
+                    </select>
+                </li>
+                <li>
+                    <label for="import_inventory_fields2"><?php echo Mage::helper('udropship')->__('Field 2') ?></label><br/>
+                    <select id="import_inventory_fields2" name="import_inventory_fields[]" title="<?php echo Mage::helper('udropship')->__('Select Field 2') ?>" class="select"/>
+                        <option value=""><?php echo Mage::helper('udropship')->__('Select Field 2') ?></option>
+                        <option value="sku"><?php echo Mage::helper('udropship')->__('Sku') ?></option>
+                        <?php if ($allowVendorSku): ?><option value="vendor_sku"><?php echo Mage::helper('udropship')->__('Vendor Sku') ?></option><?php endif ?>
+                        <option value="stock_qty"><?php echo Mage::helper('udropship')->__('Stock Qty') ?></option>
+                        <option value="stock_status"><?php echo Mage::helper('udropship')->__('Stock Status') ?></option>
+                    </select>
+                </li>
+                <li>
+                    <label for="import_inventory_fields3"><?php echo Mage::helper('udropship')->__('Field 3') ?></label><br/>
+                    <select id="import_inventory_fields3" name="import_inventory_fields[]" title="<?php echo Mage::helper('udropship')->__('Select Field 3') ?>" class="select"/>
+                        <option value=""><?php echo Mage::helper('udropship')->__('Select Field 3') ?></option>
+                        <option value="sku"><?php echo Mage::helper('udropship')->__('Sku') ?></option>
+                        <?php if ($allowVendorSku): ?><option value="vendor_sku"><?php echo Mage::helper('udropship')->__('Vendor Sku') ?></option><?php endif ?>
+                        <option value="stock_qty"><?php echo Mage::helper('udropship')->__('Stock Qty') ?></option>
+                        <option value="stock_status"><?php echo Mage::helper('udropship')->__('Stock Status') ?></option>
+                    </select>
+                </li>
+                <?php if ($allowVendorSku): ?>
+                <li>
+                    <label for="import_inventory_fields4"><?php echo Mage::helper('udropship')->__('Field 4') ?></label><br/>
+                    <select id="import_inventory_fields4" name="import_inventory_fields[]" title="<?php echo Mage::helper('udropship')->__('Select Field 4') ?>" class="select"/>
+                        <option value=""><?php echo Mage::helper('udropship')->__('Select Field 4') ?></option>
+                        <option value="sku"><?php echo Mage::helper('udropship')->__('Sku') ?></option>
+                        <option value="vendor_sku"><?php echo Mage::helper('udropship')->__('Vendor Sku') ?></option>
+                        <option value="stock_qty"><?php echo Mage::helper('udropship')->__('Stock Qty') ?></option>
+                        <option value="stock_status"><?php echo Mage::helper('udropship')->__('Stock Status') ?></option>
+                    </select>
+                </li>
+                <?php endif ?>
+                <li>
+                    <label for="filter-sku"><?php echo Mage::helper('udropship')->__('Field Delimiter') ?></label><br/>
+                    <input id="import_inventory_delimiter" name="import_inventory_delimiter" title="<?php echo Mage::helper('udropship')->__('Field Delimiter') ?>" type="text" class="input-text" style="width:160px;" value="," />
+                </li>
+                <li>
+                    <label for="import_inventory_enclosure"><?php echo Mage::helper('udropship')->__('Field Enclosure') ?></label><br/>
+                    <input id="import_inventory_enclosure" name="import_inventory_enclosure" title="<?php echo Mage::helper('udropship')->__('Field Enclosure') ?>" type="text" class="input-text" style="width:160px;" value='"' />
+                </li>
+            </ul>
+        </div>
+        <div class="col-2">
+            <ul class="form-list">
+                <li>
+                    <label for="import_inventory_upload"><?php echo Mage::helper('udropship')->__('Import Stock File') ?></label><br/>
+                    <input id="import_inventory_upload" name="import_inventory_upload" title="<?php echo Mage::helper('udropship')->__('Import Stock File') ?>" type="file" class="input-text" style="width:160px;" />
+                </li>
+                <li>
+                    <label for="import_inventory_textarea"><?php echo Mage::helper('udropship')->__('Import Stock Content') ?></label><br/>
+                    <textarea id="import_inventory_textarea" name="import_inventory_textarea" title="<?php echo Mage::helper('udropship')->__('Import Stock Content') ?>" type="file"   style="width:300px; height: 400px"></textarea>
+                </li>
+            </ul>
+        </div>
+        <div class="button-set">
+            <input type="submit" value="import" style="display:none" />
+            <button class="form-button" name="submit_action" type="submit" id="filter-search" value="import"><span><?php echo Mage::helper('udropship')->__('Import') ?></span></button>
+
+        </div>
+    </div>
+</fieldset>
+</form>

@@ -1,0 +1,247 @@
+<?php
+	//Current Category Name
+	$catname = Mage::registry('current_category')->getName();
+
+	//Current Category ID
+	$categoryID = Mage::registry('current_category')->getID();
+
+	//Current Category's Child Categories
+	$_categories = $this->getCurrentChildCategories();
+
+	//Get Child Category Count
+	$childCatCount = $_categories->count();
+
+	//Media Folder Path
+	$mediaurl = Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA);
+?>
+<div class="category-products category-list-dy" id="pdfFiles">
+		<ul class="products-grid">
+			<?php if($childCatCount > 0) { ?>
+				<?php
+					foreach ($_categories as $_category) {
+						//Category ID
+						$catID = $_category->getId();
+
+						//Category Name
+						$catName = $_category->getName();
+
+						//Category Active Status
+                    	$isActive = $_category->getIsActive();
+
+						//Category URL
+                    	$catURL = $_category->getURL();
+
+                    	//Category Image URL
+                    	$catImgURL = Mage::getModel('catalog/category')->load($_category->getId())->getImageUrl();
+
+						//Resized Image URL
+						$resizedImgURL = Mage::helper('digitalcatalog')->resizeImage($catID);
+						
+						$catDetailArry[] = array('cat_id' => $catID,'cat_name' => $catName,'is_active' => $isActive,'cat_url' => $catURL,'cat_img_url' => $resizedImgURL);
+					}
+					
+					function strComparison($a,$b) {
+	                    return strcmp($a['cat_name'], $b['cat_name']);
+	                }
+
+	                usort($catDetailArry, strComparison);
+	                
+	                foreach ($catDetailArry as $catValue) {
+	                	//Digital Catalog Path For Current Category
+	                	$uploadedDigitalCatlogPath = Mage::getBaseDir('media') . DS . 'digital_catalog'. DS . $catValue['cat_id']. DS;
+
+	                	  /*************************/
+                         /**  Get PDF File Count **/
+                        /*************************/
+	                	$fileCount = 0;
+
+						if(file_exists($uploadedDigitalCatlogPath)) {
+                            //Search For PDF Files In A Directory
+                            $files = glob($uploadedDigitalCatlogPath."*.pdf");
+
+                            if($files) {
+                                $fileCount = count($files);
+                            }
+                        }
+
+                        if($fileCount > 0 && $catValue['is_active'] == 1) { ?>
+                        	<li class="item col-lg-3 col-md-3 col-sm-6 col-xs-12">
+								<div class="item-inner">
+									<div class="product-image">
+										<a id="pdfDoc" href="<?php echo $catValue['cat_url']; ?>" title="<?php echo $this->htmlEscape($catValue['cat_name']); ?>">
+											<img src="<?php echo $catValue['cat_img_url']; ?>" />
+										</a>
+									</div>
+									<div class="product-name">
+										<a href="<?php echo $catValue['cat_url']; ?>"><?php echo $this->htmlEscape($catValue['cat_name']); ?></a>
+									</div>
+								</div>
+							</li>
+                        <?php }
+	                }
+			} else { ?>
+				<?php
+					//echo "In Else";
+					//Current Category Image
+					$categoryImage = Mage::getModel('catalog/layer')->getCurrentCategory()->getImage();
+					
+					//Category Image Path					
+					$categoryImagePath = '';
+
+					if($categoryImage != '') {
+						$categoryImagePath = $mediaurl.'digital_catalog/resized_category_images/'.$categoryImage;
+					} else {
+						//Default Img Path
+						$defaultImgPath = Mage::getBaseDir('media').DS.'digital_catalog/resized_category_images/pdf-icon.png';
+						if(file_exists($defaultImgPath)) {
+							$categoryImagePath = $mediaurl.'digital_catalog/resized_category_images/pdf-icon.png';
+						}
+					}
+
+					//Digital Catalog Path For Current Category
+					if($categoryID != '') {
+						$uploadedDigitalCatlogPath = Mage::getBaseDir('media') . DS . 'digital_catalog'. DS . $categoryID. DS;
+					}
+					
+					//Initialise Files Array
+					$files = array();
+					
+					if(file_exists($uploadedDigitalCatlogPath)) {
+						//Check Directory
+						if(is_dir($uploadedDigitalCatlogPath)) {
+							//Open Directory
+							if($dh = opendir($uploadedDigitalCatlogPath)) {
+								while (($file = readdir($dh)) !== false) {
+						            if($file != "." && $file != "..") {
+						            	//Get File Extension
+						            	$ext = pathinfo($file, PATHINFO_EXTENSION);
+						            	
+						            	if($ext == 'pdf') {
+						            		$files[] = $file;
+						            	}
+						            }
+						        }
+						        closedir($dh);
+							}
+						}
+					}
+					//echo "Again Here 11";
+					//die();
+
+					//Get PDF File Counts
+					$fileCount = count($files);
+
+					if($fileCount == 0) {
+						//Get Redirect URL
+						if($catname == 'Catalogs') {
+							echo "<p class='not-msg'>No Catalogs To Display.</p>";
+						} else {
+							$redirectURL = $this->getCurrentCategory()->getParentCategory()->getURL();
+							//echo "URL:".$redirectURL;die();
+							header("Location:$redirectURL");
+							exit(0);
+						}
+					} elseif ($fileCount == 1) {
+						//PDF File Path
+						$pdfFilePath = $mediaurl.'digital_catalog'. DS . $categoryID. DS .$files[0];
+					?>
+						<input type="hidden" id="fileParam" value=<?php echo $pdfFilePath;?> >
+					<?php } else {
+						foreach ($files as $uploaded_doc) {
+							//Get PDF File Name
+							$fileInfo = pathinfo($uploaded_doc);
+							$fileName = basename($uploaded_doc,'.'.$fileInfo['extension']);
+							
+							$pdfFileName = '';
+
+							$strPos = stripos($fileName, '_'); //Check If Filename Has Underscore(_)
+
+							if($strPos !== false) {
+								$tmpArry = explode('_', $fileName);
+								
+								foreach ($tmpArry as $value) {
+									$pdfFileName .= ucwords($value).' ';
+								}
+							} else {
+								$pdfFileName = ucwords($fileName);
+							} ?>
+							<li class="item col-lg-3 col-md-3 col-sm-6 col-xs-12">
+								<div class="item-inner">
+									<div class="product-image">
+										<a class="pdfDoc" href="javascript:void(0);" data-url="<?php echo $mediaurl.'digital_catalog'. DS . $categoryID. DS. $uploaded_doc;?>" title="<?php echo $pdfFileName; ?>" onclick="return false;">
+											<img src="<?php echo $categoryImagePath; ?>">
+										</a>
+									</div>
+									<div class="product-name">										
+										<a class="pdfDoc" href="javascript:void(0);" onclick="return false;" data-url="<?php echo $mediaurl.'digital_catalog'. DS . $categoryID. DS. $uploaded_doc;?>"><?php echo $pdfFileName; ?></a>
+									</div>
+								</div>
+							</li>
+						<?php }
+					}
+				} ?>
+		</ul>
+</div>
+
+<!-- A PDF Viewer Div -->
+<div id="pdf" style="display:none;">
+	<a class="back-btn" id="backbtn" href="javascript:void(0);" onclick="return false;" style="display:none;">Back</a>
+	<div id="pdfViewer"></div>
+</div>
+
+<!-- PDF File Count -->
+<input type="hidden" id="cnt" value=<?php echo count($files);?>>
+
+<script type="text/javascript">
+	jQuery(document).ready(function() {
+		//Get Hidden Field Values
+		var fileParam = jQuery('#fileParam').val();
+
+		//Get PDF File Count
+		var pdfCount = jQuery('#cnt').val();
+
+		//View PDF File
+		if(pdfCount == 1) {
+			var myPDF = new PDFObject({
+				url: fileParam,
+				width: "900px",
+				height: "1100px"
+			}).embed("pdfViewer");
+
+			jQuery('#pdf').css("display","block");
+		}
+		
+		//PDF File Click Function
+		jQuery('.pdfDoc').on('click',function(){
+			//PDf URL
+			var pdfPath = jQuery(this).attr('data-url');
+
+			var myPDF = new PDFObject({
+				url: pdfPath,
+				width: "900px",
+				height: "1100px"
+			}).embed("pdfViewer");
+
+			//Show PDF Viewer
+			jQuery('#pdf').css("display","block");
+
+			//Show Back Button
+			jQuery('#backbtn').css("display","block");
+
+			//Hide PDF File List
+			jQuery('#pdfFiles').css("display","none");
+		});
+
+		//Back Button Click Function
+		jQuery('#backbtn').on('click',function(){
+			//Hide PDF Viewer
+			jQuery('#pdf').css("display","none");
+
+			//Hide Back Button
+			jQuery(this).css("display","none");
+
+			//Show PDF File List
+			jQuery('#pdfFiles').css("display","block");
+		});
+	});
+</script>

@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<layout>
+    <adminhtml_customer_edit>
+        <reference name="customer_edit_tabs">
+            <action method="addTab">
+                <name>edit_customer_shoppinglist</name>
+                <block>shoppinglist/adminhtml_modifylist_shoplist</block>
+            </action>
+        </reference>
+     </adminhtml_customer_edit>
+
+    <adminhtml_shoppinglist_edit>
+        <reference name="content">
+                <block type="shoppinglist/adminhtml_editlist" name="shoppingeditlist"  />
+        </reference>
+    </adminhtml_shoppinglist_edit> 
+
+    <adminhtml_shoppinglist_additem>
+        <reference name="content">
+                <block type="shoppinglist/adminhtml_allproductlist" name="shoppingaddlist"  />
+        </reference>
+    </adminhtml_shoppinglist_additem> 
+    <adminhtml_shoppinglist_addshoplist>
+        <reference name="content">
+                <block type="shoppinglist/adminhtml_shoplistform"  
+                     name="shoppinglistform" />
+                     <block  type="core/template" template="shoppinglist/modifylist/shoppinglistform.phtml" output="toHtml" name="extrapage" />
+        </reference>
+    </adminhtml_shoppinglist_addshoplist>
+    <adminhtml_shoppinglist_shownonexistform>
+        <reference name="content">
+                <block type="shoppinglist/adminhtml_shownonexistform" name="nonexistform" />
+                <block  type="core/template" template="shoppinglist/modifylist/nonexistform.phtml" 
+                 name="nonexistformjs"  />
+        </reference>
+    </adminhtml_shoppinglist_shownonexistform>
+
+</layout>

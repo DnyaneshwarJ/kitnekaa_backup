@@ -1,0 +1,202 @@
+===== 2.3.1 =====
+  * Added hook for whole address is match check
+
+===== 2.3.0 =====
+  * Central translations file
+
+===== 2.2.11 =====
+  * Add vendor_sku to create po js
+
+===== 2.2.10 =====
+  * Fixed latest upgrade script to support table prefixes
+  * Fixed recently broken delete row button in admin product edit > dropship vendors tab
+
+===== 2.2.9 =====
+  * Preselect default vendor from multivendor data in case dropship vendor attribute not in that list to give better error messages
+
+===== 2.2.8 =====
+  * Added support for price comparison add-on vendor group and tier prices
+
+===== 2.2.7 =====
+  * Fixed vendor sku with custom options sku
+
+===== 2.2.6 =====
+  * Added best price vendor id field in product
+
+===== 2.2.5 =====
+  * Added support for multivendor data freeshipping field
+
+===== 2.2.4 =====
+  * Fixed protected file catalog_product_prepare_save on some php/ioncube installations
+  * Fixed enterprise observer rewrite
+
+===== 2.2.3 =====
+  * Added ignore address check in reassign option
+
+===== 2.2.2 =====
+  * Fixed broken dropship vendors tab of product edit when localvendor have quote in name or product sku have quote
+  * Fixed refund does not increment inventory of configurable simple
+
+===== 2.2.1 =====
+  * Added code to support vendor/product associations indexer
+  * Fixed "Save Vendor Updates" button not shown on order view page when there are other grids except items
+
+===== 2.2.0 =====
+  * Added bundles support
+  * Added support for "Qty for Item's Status to Become Out of Stock"
+  * Fixed $item->setBackorders in stock check
+
+===== 2.1.10 =====
+  * Added support for "Minimum Qty Allowed in Shopping Cart", "Maximum Qty Allowed in Shopping Cart"
+  * Fixed Call to undefined method Mage_CatalogInventory_Model_Observer::getUdropshipVendor()
+    in app/code/community/Unirgy/DropshipMulti/Helper/Data.php
+
+===== 2.1.9 =====
+  * Added EE1.13 indexers compatibility
+
+===== 2.1.8 =====
+  * Fixed decision method for big carts (more then 10-12 rows in some cases)
+
+===== 2.1.7 =====
+  * Added supported logic for advanced PO new permissions "View Order Costs", "View PO Costs", "Edit PO Costs"
+
+===== 2.1.6 =====
+  * Fixed code config rewrites not added in cron
+
+===== 2.1.5 =====
+  * Fixed turnOffUdmultiLoadToCollection adminhtml event
+
+===== 2.1.4 =====
+  * Fixed costs format for multicurrency orders
+  * Added skip udmultivendor data load for product collection during magento importexport module
+  * Fixed latest stock collect/check refactoring compatibility with ugiftcert
+
+===== 2.1.3 =====
+  * Added decision and stock collect/check refactoring to support forced_vendor_id on cart items
+    and mixing with normal quote items
+  * Fixed compatibility with IE9 dynamic rows js
+
+===== 2.1.2 =====
+  * Fixed wrong cataloginventory_stock_item sync for complex products
+
+===== 2.1.1 =====
+  * Fixed upgarde script filename
+  * Fixed cataloginventory_stock_item.qty not synced with multivendor data on new product
+  * Fixed remove complex items from admin create order cart
+
+===== 2.1.0 =====
+  * Added support for marketplace suit of add-ons
+
+===== 2.0.8 =====
+  * Added stock check after quote load except cart add/update or if quote->getUdSkipQuoteLoadAfterEvent()=true
+  * Fixed empty costs set in decision methods (should be fallback to product cost)
+  * Added better stock check, messages, reindex
+  * Added ability to select vendor in admin create order
+
+===== 2.0.7 =====
+  * Added backorders support
+
+===== 2.0.7.bndl.1 =====
+  * Added bundles support
+
+===== 2.0.6 =====
+  * Fixed set shipping method during reassign for non-shipped items
+
+===== 2.0.5 =====
+  * Fixed vendor_simple_sku
+
+===== 2.0.4 =====
+  * Fixed shipments total_cost update during reassign
+
+===== 2.0.3 =====
+  * Fixed reassign of order items when multivendor data cost is empty
+  * Added support for Advanced PO reassign from order view page
+
+===== 2.0.0 =====
+  * Added optimization for huge inventory update
+  * Added support for stock_qty_add field during stock update (for increment/decrement)
+  * Added extra priority condition
+  * Fixed authenticate problem when using non-unique emails
+  * Added consider of 'skip_udmulti_load' product collection flag
+  * Fixed stock check problem due to stock item assigned to cart product multiple times
+  * Added options to 'Configuration > Drop Shipping > Product Stock Options'
+    - 'Vendor Decision Method For Reassign' separate decision method used to check vendors stock when doing reassign
+    - 'Skip Stock Check For Reassign'
+  * Fixed addVendorSku caused by inconsistency between Varien_Object::__call and Varien_Object::hasData methods
+    (first use isset, second array_key_exists - not compatible for NULL values)
+
+===== 1.4.8 =====
+  * Added addVendorSku functionality and revamp assignVendorSku
+    from now vendor_sku stored in po items rather then constantly fetched from products
+  * Added sync multivendor stock with magento stock when save products from vendor interface and admin vendor edit page
+  * Fixed is_scalar(null) issue on some invocations of helper::getMultiVendorData
+
+===== 1.4.7 =====
+  * Added assigning vendor SKU to PO items when AdvancedPO is installed
+
+===== 1.4.6 =====
+  * Fixed compatibility with 1.5.0.1 (admin order edit > switch item vendor dropdown)
+
+===== 1.4.5 =====
+  * Fixed apply stock availability issues on order items
+
+===== 1.4.4 =====
+  * Fixed hiding vendors without suitable shipping methods from items dropdowns in admin order edit
+
+===== 1.4.3 =====
+  * Fixed changing item vendor in order (w/o AdvancedPO) and in Create PO (w/ AdvancedPO)
+
+===== 1.4.2 =====
+  * Added limiting vendor product availability by destination zipcode
+
+===== 1.4.1 =====
+  * Fixed stock availability and item cost logic in order vendor reassign dropdowns
+  * Fixed showing correct vendors in admin order item vendor reassign dropdowns
+  * Fixed showing correct associated products in admin vendor edit and vendor interface stock page
+
+===== 1.4.0 =====
+  * Changes for uDropship 1.9.1.0 (vendor autocomplete control)
+
+===== 1.3.9 =====
+  * Fixed errors in multi-address checkout
+
+===== 1.3.8 =====
+  * Changed available product qty to max of all vendors instead of sum
+  * Fixed compatibility with CE 1.4.1.1
+
+===== 1.3.7 =====
+  * Fixed hiding product vendors tab during product edit for vendor user when Microsite add-on is installed
+
+===== 1.3.6 =====
+  * Fixed install script compatibility with flat sales tables
+
+===== 1.3.5 =====
+  * Fixed using vendor SKU in vendor notifications and PDF
+
+===== 1.3.4 =====
+  * Fixed retrieving correct multivendor stock status in some situations
+
+===== 1.3.3 =====
+  * Fixed javascript issue in Admin > Product Edit > Dropship Vendors association
+
+===== 1.3.1 =====
+  * Fixed handling change of vendor for configurable products
+
+===== 1.2.3 =====
+  * Fixed error when using with db table prefix
+
+===== 1.2.2 =====
+  * Fixed calculation of bundle item qtys for stock check
+
+===== 1.2.1 =====
+  * Fixed using regular product cost when vendor cost is not entered
+
+===== 1.2.0 =====
+  * Added "Manage Stock and Price" vendor interface page
+  * Added vendor-product association from vendor edit page
+
+===== 1.1.1 =====
+  * Fixed handling configurable products
+
+===== 1.1.0 =====
+  * Fixed compatibility with Magento CE 1.4beta1

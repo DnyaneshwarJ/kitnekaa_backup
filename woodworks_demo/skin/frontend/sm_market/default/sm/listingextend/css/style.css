@@ -1,0 +1,123 @@
+.sm-listingextend {
+    overflow: hidden;
+	padding-bottom: 10px;
+}
+.sm-listingextend .pre-text,
+.sm-listingextend .post-text {
+    margin: 10px 0;
+}
+.sm-listingextend.preload {
+    height: 250px;
+    overflow: hidden;
+    position: relative
+}
+.sm-listingextend .extra-loading {
+    background: url('../images/loading.gif') no-repeat scroll center center transparent;
+    height: 250px;
+    width: 100%;
+}
+.sm-listingextend.preload .heading-title,
+.sm-listingextend.preload .heading-description,
+.sm-listingextend.preload .owl-controls,
+.sm-listingextend.preload .listingextend-inner {
+    display: none !important;
+}
+.sm-listingextend .heading-title {
+    text-transform: uppercase;
+	font-size: 133%;
+    font-weight: bold;
+}
+.sm-listingextend .heading-description {
+	margin-bottom: 40px;
+}
+.sm-listingextend .heading-description img{
+	max-width: 100%;
+}
+.sm-listingextend .listingextend-inner {
+	padding-top: 13px;
+	position: relative;
+}
+.sm-listingextend .products-grid{
+	margin-left: -30px;
+}
+.sm-listingextend .owl-item {
+    float: left;
+}
+.sm-listingextend .listingextend-inner .item-columns{
+	float: left;
+	padding-left: 30px;
+}
+.sm-listingextend .listingextend-inner .item {
+	margin-top: 30px;
+	min-height: auto;
+	margin-bottom: 0;
+	width: 100%;
+	border-right: 1px solid transparent;
+}
+
+/* Css button page*/
+.sm-listingextend .owl-controls{
+	position: absolute;
+	top: -37px;
+	right: 0;
+	width: 100%;
+	border-bottom: 1px solid #ddd;
+    border-top: 1px solid #ddd;
+	padding: 10px 0;
+	text-align: right;
+}
+.owl-theme .owl-pagination{
+	float: right;
+	margin-right: 29px;
+}
+.owl-theme .owl-buttons{
+	float: right;
+} 
+.owl-theme .owl-pagination .owl-page{
+	float: left;
+}
+.owl-theme .owl-pagination .owl-page .owl-numbers{
+    background-color: #fff;
+    border: 1px solid #e2e2e2;
+    padding: 4px 0;
+	text-align: center;
+	border-radius: 0;
+	width: 27px;
+	height: 29px;
+	margin: 0 0 0 2px;
+	display: block;
+}
+.owl-theme .owl-buttons .owl-prev:hover,
+.owl-theme .owl-buttons  .owl-next:hover,
+.owl-theme .owl-pagination .owl-page .owl-numbers:hover{
+    cursor: pointer;
+}
+.owl-theme .owl-buttons  .owl-next{
+	position: absolute;
+	top: 10px;
+	right: 0;
+}
+
+.owl-theme .owl-buttons .owl-prev,
+.owl-theme .owl-buttons  .owl-next{
+	background-image:url(../images/arrow-next-prev.png);
+	background-repeat:no-repeat;
+	display:inline-block;
+	text-indent:-999em;
+	width:27px; 
+	height:29px;
+    background-color: #fff;
+    border: 1px solid #e2e2e2;
+}
+.owl-theme .owl-buttons .owl-prev{
+	background-position:-2px -1px;
+}
+.owl-theme .owl-buttons .owl-prev:hover{
+	background-position:-52px -1px;
+}
+.owl-theme .owl-buttons  .owl-next{
+	background-position:-152px -2px;
+}
+.owl-theme .owl-buttons  .owl-next:hover{
+	background-position:-102px -2px;
+}

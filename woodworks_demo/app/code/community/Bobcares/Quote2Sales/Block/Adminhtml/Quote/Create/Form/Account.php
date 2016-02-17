@@ -1,0 +1,5 @@
+<?php
+class Bobcares_Quote2Sales_Block_Adminhtml_Quote_Create_Form_Account extends Mage_Adminhtml_Block_Sales_Order_Create_Form_Account{
+//extends Mage_Adminhtml_Block_Sales_Order_Create_Form_Abstract{
+	
+}

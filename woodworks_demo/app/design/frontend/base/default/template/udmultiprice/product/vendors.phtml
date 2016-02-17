@@ -1,0 +1,377 @@
+<?php
+    $_hlp = Mage::helper('udmultiprice');
+    $_udHlp = Mage::helper('udropship');
+    if (($isUdc2c = $_udHlp->isModuleActive('udsell'))) {
+        $_cHlp = Mage::helper('udsell');
+    }
+    if (($isMicro = $_udHlp->isModuleActive('umicrosite'))) {
+        $_msHlp = Mage::helper('umicrosite');
+    }
+    $_helper = $this->helper('catalog/output');
+    $_product = $this->getParentBlock()->getProduct();
+    $_product = !$_product ? Mage::registry('current_product') : $_product;
+    $_product = !$_product ? Mage::registry('product') : $_product;
+    $preCfgVid = null;
+    if (($isCfgMode = $_product->getConfigureMode())) {
+        $preCfgVid = $_product->getPreconfiguredUdropshipVendor();
+    }
+?>
+<?php if($vendors = $_product->getMultiVendorData() ): ?>
+<?php extract($_hlp->getGroupedMultipriceData($_product)); ?>
+<h3>
+    <?php echo Mage::helper('udropship')->__('Select Vendor') ?>
+    <?php if ($isUdc2c): ?> | <a href="<?php echo $this->getUrl('udsell/index/sell', array('id'=>$_product->getId())) ?>"><?php echo Mage::helper('udropship')->__('Sell Yours') ?></a><?php endif ?>
+</h3>
+<ul id="product-vendors-states" class="tabs">
+</ul>
+<div class="tabs-content">
+    <div id="product-vendors-contents">
+        <div class="toolbar-tpl" style="display: none">
+            <div class="pager">
+                <p class="amount">
+                    <?php echo Mage::helper('udropship')->__('<strong>%s-%s</strong> of %s offers', '#{from}', '#{to}', '#{total}') ?>
+                </p>
+                <div class="sort-by">
+                    <label><?php echo Mage::helper('udropship')->__('Sort By') ?></label>
+                    <select>
+                        <option><?php echo Mage::helper('udropship')->__('Price') ?></option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="toolbar">
+        </div>
+        <br />
+        <table id="product-vendors-table" class="data-table price-comparison-table">
+            <col width="10"/>
+            <col width="200"/>
+            <col width="120"/>
+            <col/>
+            <col width="100"/>
+            <thead>
+                <tr>
+                    <th class="first">&nbsp;</th>
+                    <th><?php echo Mage::helper('udropship')->__('Price + Shipping') ?></th>
+                    <th><?php echo Mage::helper('udropship')->__('Condition') ?></th>
+                    <th><?php echo Mage::helper('udropship')->__('Seller') ?></th>
+                    <th class="last">&nbsp;</th>
+                </tr>
+                <tr style="display:none" id="product_vendors_row_template">
+                    <td class="first"><span id="product_vendors_$ROW_is_featured" class="featured-icon">This seller is featured</span></td>
+                    <td>$PRICE_HTML
+                        <!--span id="product_vendors_$ROW_freeshipping" class="shipping-price">+ Free Shipping</span>
+                        <span id="product_vendors_$ROW_freeshipping_no" class="shipping-price">+ $SHIPPING_PRICE_HTML (shipping)</span-->
+                        $TIER_PRICE_HTML
+                    </td>
+                    <td><span class="condition">$STATE_LABEL</span><span class="condition-detail">$STATE_DESCR</span></td>
+                    <td>
+                        <div class="seller-info">
+                            <a id="product_vendors_$ROW_vendor_logo" href="$VENDOR_BASE_URL" class="seller-logo"></a>
+                            <a href="$VENDOR_BASE_URL" class="seller-name"><strong>$VENDOR_NAME</strong></a>
+                            <div class="seller-rating">
+                                <div id="product_vendors_$ROW_review_html">
+                                <span class="label"><?php echo Mage::helper('udropship')->__('Seller Rating') ?>:</span>
+                                $REVIEW_HTML
+                                </div>
+                                <p class="availability in-stock"><span>In Stock.</span></p>
+                            </div>
+                        </div>
+                    </td>
+                    <td class="last a-center">
+                        <input style="display: none" id="product_vendors_$ROW_udropship_vendor" type="radio" name="__udropship_vendor" value="$VENDOR_ID" class="__udropship_vendor" />
+                        <div id="product_vendors_$ROW_in_stock" class="nobr">
+                        <input class="input-text qty" id="product_vendors_$ROW_qty" type="text" name="__qty" value="<?php echo $this->getProductDefaultQty()?>" maxlength="12" class="__qty" />
+                        <?php if ($isCfgMode): ?>
+                        <button type="button" title="Update Cart" onclick="udmpChangeSelectedVendor.defer('product_vendors_$ROW_udropship_vendor', true);" class="button btn-cart"><span><span><?php echo Mage::helper('udropship')->__('Update Cart') ?></span></span></button>
+                        <?php else: ?>
+                        <button type="button" title="Add to Cart" onclick="udmpChangeSelectedVendor.defer('product_vendors_$ROW_udropship_vendor', true);" class="button btn-cart"><span><span><?php echo Mage::helper('udropship')->__('Add to Cart') ?></span></span></button>
+                        <?php endif ?>
+                        </div>
+                        <div id="product_vendors_$ROW_out_of_stock"><p class="availability out-of-stock"><span><?php echo Mage::helper('udropship')->__('Out of stock') ?></span></p></div>
+                    </td>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+</div>
+<script type="text/javascript">
+    function udmpChangeSelectedVendor(elem, addToCart) {
+        if (typeof $('product_addtocart_form').udropship_vendor == 'undefined') {
+            var el = document.createElement("input");
+            el.type = "hidden";
+            el.name = "udropship_vendor";
+            $('product_addtocart_form').appendChild(el);
+        }
+        <?php if ($isCfgMode && $preCfgVid): ?>
+        $('product_addtocart_form').udropship_vendor.value = '<?php echo $preCfgVid?>';
+        <?php endif ?>
+        if (addToCart) {
+            try {
+                $$('#product-vendors-table input.__udropship_vendor').each(function(item){return item.checked=false;});
+                $(elem).checked=true;
+                $('product_addtocart_form').udropship_vendor.value = $(elem).value;
+            } catch (e){}
+            try {
+                $('product_addtocart_form').qty.value = $(elem).up().down('.qty').value;
+            } catch (e){}
+            if (<?php echo (int)Mage::helper('udropship')->isModuleActive('EM_Ajaxcart')?>) {
+                jQuery('#product_addtocart_form').submit();return false;
+            } else {
+                productAddToCartForm.submit(this);
+            }
+        }
+    }
+    if ((/msie [1-7]\./i).test(navigator.userAgent)) {
+        Event.observe(window, 'load', udmpChangeSelectedVendor)
+    } else {
+        document.observe("dom:loaded", udmpChangeSelectedVendor)
+    }
+</script>
+<script type="text/javascript">
+//<![CDATA[
+var UnirgyVendorProducts = Class.create({
+    initialize: function(mvData, config) {
+        this.mvData = mvData;
+        this.config = {
+            statesId: 'product-vendors-states',
+            stateIdPrefix: 'vendor_state_',
+            stateClass: 'vendor_state',
+            tableId: 'product-vendors-table',
+            rowTemplateId: 'product_vendors_row_template',
+            addToCartFormId: 'product_addtocart_form',
+            pagesHtml: '#{pageItemsHtml}',
+            pageItemHtml: '<li>#{pageNumberHtml}</li>',
+            pageItemActiveHtml: '<li class="current">#{pageNumberHtml}</li>',
+            pageNumberHtml: '<a href="javascript: void;">#{pageNumber}</a>',
+            pageNumberActiveHtml: '#{pageNumber}',
+            stateHtml: '<li id="vendor_state_#{html_value}" class="vendor_state"><a href="javascript:void(0);">#{html_label}</a></li>',
+            pageSize: 2,
+            vendor_logo: ''
+        };
+        Object.extend(this.config, config);
+        this.stateHtmlTpl = new Template(this.config.stateHtml);
+        this.lastRowNum = 1;
+        this.states = $(this.config.statesId);
+        this.tbody = $(this.config.tableId).down('tbody');
+    },
+    processProductId: function(pId) {
+        if (!this.processedProducts) {
+            this.processedProducts = {};
+        }
+        if (!this.processedProducts.pId) {
+            this.processedProducts.pId = {};
+        }
+    },
+    getProductId: function() {
+        return this.productId || this.config.defaultProductId;
+    },
+    setProductId: function(pId) {
+        this.productId = pId;
+        this.states.update('');
+        var pId = this.getProductId();
+        if (this.mvData[pId]) {
+            var gmpData = this.mvData[pId].grouped_multiprice_data;
+            if (gmpData && gmpData.canonicStates) {
+                $H(gmpData.canonicStates).each(function(state){
+                    this.states.insert(this.stateHtmlTpl.evaluate(state.value));
+                }.bind(this));
+                decorateGeneric(this.states.childElements());
+                this.states.childElements().each(function(stateEl){
+                    stateEl.observe('click', this.setState.bind(this, stateEl));
+                }.bind(this));
+                var stateAll = $('vendor_state_all') || this.states.down();
+                this.state = '';
+                if (stateAll) this.setState(stateAll)
+            }
+        }
+        
+    },
+    stateClass: function(dotPrefix) {
+        dotPrefix = Object.isUndefined(dotPrefix) ? true : dotPrefix;
+        if (this.config.stateClass.startsWith('.') && !dotPrefix) {
+            return this.config.stateClass.substr(1);
+        } else if (!this.config.stateClass.startsWith('.') && dotPrefix) {
+            return '.'+this.config.stateClass;
+        }
+        return this.config.stateClass;
+    },
+    superAttributesChanged: function(spConfig) {
+        var simplePid = '<?php echo $_product->getId()?>';
+        if (spConfig && spConfig.getMatchingSimpleProduct()) {
+            simplePid = spConfig.getMatchingSimpleProduct();
+        }
+        this.setProductId(simplePid);
+    },
+    setState: function(state){
+        var state = this.processState(state);
+        if (this.state==state) return;
+        this.state=state;
+        if (this.states) {
+            this.states.select(this.stateClass(true)).each(function(stateEl){
+                var state = this.processState(stateEl)
+                if (state) {
+                    stateEl.removeClassName('active');
+                    if (this.state==state) {
+                        stateEl.addClassName('active');
+                    }
+                }
+            }.bind(this));
+        }
+        var pId = this.getProductId();
+        this.tbody.update('');
+        this.lastRowNum = 1;
+        if (this.mvData[pId]) {
+            var foundDefault = false;
+            var defaultVid = $('product_addtocart_form').udropship_vendor.value;
+            $A(this.mvData[pId].mvData).each(function(pair_value){
+                if (pair_value.canonic_state==state || state=='all') {
+                    this.addRow(pair_value, this.mvData[pId]);
+                }
+                if (defaultVid && pair_value.vendor_id==defaultVid) {
+                    foundDefault = true;
+                }
+            }.bind(this));
+            if (!foundDefault) {
+                try {
+                $('product_addtocart_form').down('.btn-cart').disable();
+                $('product_addtocart_form').down('.btn-cart').addClassName('disabled');
+                $('product_addtocart_form').down('.qty').disable();
+                } catch (e) {}
+            } else {
+                try {
+                $('product_addtocart_form').down('.btn-cart').enable();
+                    $('product_addtocart_form').down('.btn-cart').removeClassName('disabled');
+                $('product_addtocart_form').down('.qty').enable();
+                } catch (e) {}
+            }
+        }
+    },
+    processState: function(state) {
+        state = state || '';
+        if (Object.isElement(state)
+            || state.startsWith(this.config.stateIdPrefix) && $(state)
+        ) {
+            var stateEl = $(state);
+            if (!stateEl.hasClassName(this.stateClass(false))) {
+                stateEl = stateEl.down(this.stateClass(true)) || stateEl.up(this.stateClass(true));
+            }
+            var state = stateEl.id || '';
+            if (state && state.startsWith(this.config.stateIdPrefix)) {
+                state = state.substr(this.config.stateIdPrefix.length);
+            }
+        }
+        return state;
+    },
+    doFilter: function(state, page) {
+
+    },
+    addRow: function(inData, meta) {
+        var rowHtml = $(this.config.rowTemplateId).innerHTML;
+        var data = {
+            is_in_stock: false,
+            is_certified: false,
+            is_pro: false,
+            vendor_title: '',
+            review_html: '',
+            vendor_name: '',
+            vendor_id: '',
+            is_allowed_microsite: false,
+            state_label: '',
+            state_label: '',
+            state_descr: '',
+            price_html: '',
+            tier_price_html: '',
+            vendor_base_url: ''
+        };
+        Object.extend(data, inData);
+        var isIE = (/msie [1-8]\./i).test(navigator.userAgent);
+        var numericVars = ['qty','weight'];
+        var forcedNumericVars = [];
+        data.row = this.lastRowNum++;
+        var keys = $H(data).keys().sortBy(function(s){return (''+s).length}).reverse();
+        for (j=0; j<keys.length; j++) {
+            var i=keys[j];
+            value = data[i] || ''
+            if (-1 != numericVars.indexOf(i) && data[i]
+                || -1 != forcedNumericVars.indexOf(i)
+            ) {
+                value *= 1;
+                data[i] = value;
+            }
+            if (i!=='row' && isIE) value = '"'+value+'"';
+            rowHtml = rowHtml.replace(new RegExp('\\$'+i.toUpperCase(), 'g'), value);
+        }
+        this.tbody.insert('<tr>'+rowHtml+'</tr>');
+
+        var trs = this.tbody.childElements();
+        var tr = trs[trs.length-1];
+        tr.addClassName(this.lastRowNum%2 ? 'odd' : 'even');
+        ['is_featured', 'is_certified', 'is_pro', 'freeshipping', 'vendor_logo', 'review_html'].each(function(key){
+            if (!data[key]) {
+                try {
+                    $('product_vendors_'+data.row+'_'+key).remove();
+                } catch (e) {}
+            }
+        });
+        ['is_featured', 'is_certified', 'is_pro', 'freeshipping', 'vendor_logo', 'review_html'].each(function(key){
+            if (data[key]) {
+                try {
+                    $('product_vendors_'+data.row+'_'+key+'_no').remove();
+                } catch (e) {}
+            }
+        });
+        if (data['vendor_logo'] && $('product_vendors_'+data.row+'_vendor_logo')) {
+            var vlImg = document.createElement("img");
+            vlImg.src = data['vendor_logo'];
+            if (data['vendor_logo_width']) {
+                vlImg.width = data['vendor_logo_width'];
+            }
+            if (data['vendor_logo_height']) {
+                vlImg.height = data['vendor_logo_height'];
+            }
+            $('product_vendors_'+data.row+'_vendor_logo').appendChild(vlImg);
+        }
+        try {
+        if (data['is_allowed_microsite']) {
+            $('product_vendors_'+data.row+'_vendor_name').remove();
+        } else {
+            $('product_vendors_'+data.row+'_vendor_name_link').remove();
+        }
+        } catch (e) {}
+        try {
+        if (!data['is_in_stock']) {
+            $('product_vendors_'+data.row+'_udropship_vendor').remove();
+            $('product_vendors_'+data.row+'_in_stock').remove();
+        } else {
+            $('product_vendors_'+data.row+'_out_of_stock').remove();
+        }
+        } catch (e) {}
+        try {
+        if ($(this.config.addToCartFormId).udropship_vendor
+            && $('product_vendors_'+data.row+'_udropship_vendor')
+            && $(this.config.addToCartFormId).udropship_vendor.value == $('product_vendors_'+data.row+'_udropship_vendor').value
+        ) {
+            $('product_vendors_'+data.row+'_udropship_vendor').checked = true;
+        }
+        } catch (e) {}
+    }
+});
+var unirgyProductVendors<?php echo $_product->getId()?> = new UnirgyVendorProducts(<?php echo $_hlp->getMultiPriceDataJson($this->getParentBlock()) ?>, {defaultProductId: '<?php echo $_product->getId()?>'});
+unirgyDomLoaded(function () {
+    try {
+        <?php if ($_product->getTypeId()=='configurable'): ?>
+        unirgyProductVendors<?php echo $_product->getId()?>.superAttributesChanged(spConfig);
+        <?php else: ?>
+        unirgyProductVendors<?php echo $_product->getId()?>.setProductId();
+        <?php endif ?>
+    } catch (e) {}
+});
+//]]>
+</script>
+<style type="text/css">
+    #product-vendors-states li {float: left; padding-right: 10px}
+    #product-vendors-states:after{display:block;content:".";clear:both;font-size:0;line-height:0;height:0;overflow:hidden;}
+</style>
+<?php endif;?>

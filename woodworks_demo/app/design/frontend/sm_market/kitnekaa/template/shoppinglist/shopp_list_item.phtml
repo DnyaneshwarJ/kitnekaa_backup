@@ -1,0 +1,33 @@
+<?php $shopp_list_items = $this->getShoppingListItems(Mage::registry('current_list_id'));
+?>
+<div class="clearfix">
+<?php if (count($shopp_list_items) > 0) { ?>
+    <div class="shopp_list_right_btn">
+        <div>
+            <button style="width: 180px;display: none" class="button btn_get_all_quote"  title="Get Quote For Selected Products" type="button" onclick="getMultiUploadPopup()">
+                <span><span>Get Quote</span></span>
+            </button>
+            <button style="width: 180px;display: none" class="button btn_order_select" onclick="addToCartSelected()" title="Order Selected Items" type="button">
+                <span><span>Order Now Selected</span></span>
+            </button>
+            <button style="width: 180px;display: none" class="button btn_rmv_select" onclick="removeSelectedListItem()" title="Remove Items"
+                    type="button"><span><span>Remove Selected</span></span>
+            </button>
+            <button style="width: 180px" class="button" onclick="addListItem()" title="Add New Item" type="button">
+                <span><span>Add New List Item</span></span>
+            </button>
+        </div>
+    </div>
+    <div class="shopp_list_left_btn">
+        <div> <button style="width: 180px" class="button" onclick="selectShopItems(jQuery(this))" title="Select All" type="button" id="btn_chk_shopp_items">
+                <span>Select All</span>
+            </button>
+            <input type="checkbox" id="chk_shopp_items" style="display: none"/> 
+        </div>
+    </div>
+<?php } ?>
+</div>
+<div id="list_item_content">
+    <?php echo $this->getChildHtml('list_items_inner'); ?>
+</div>
+<!--</form>-->

@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+    <default>
+    </default>
+    <customer_account_create>
+        <reference name="content">
+            <block type="profile/customer_account_create" name="profile.form.additional.info" template="profile/customer/account/create.phtml" before="captcha" after="-" />
+        </reference>
+    </customer_account_create>
+    <customer_account_edit>
+        <reference name='content'>
+            <block type="profile/customer_account_create" name="profile.form.additional.info" template="profile/customer/account/edit.phtml"  />
+        </reference>
+    </customer_account_edit>
+    
+    <!-- 
+    <checkout_onepage_index>
+       	<reference name="checkout.onepage.billing">
+            <reference name="form.additional.info">
+                <block type="profile/customer_account_create" name="profile.form.additional.info" template="profile/customer/account/edit.phtml"  >
+                    <action method="setData">
+                        <name>mode</name>
+                        <value>billing</value>
+                    </action>
+                    <action method="setData">
+                        <name>step</name>
+                        <value>onepage</value>
+                    </action>
+                </block>
+            </reference>
+        </reference> 
+    </checkout_onepage_index>
+    -->
+</layout> 

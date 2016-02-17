@@ -1,0 +1,23 @@
+<?php
+$shopp_lists = $this->getShoppingLists();
+?>
+<!--<div class="inputfiled iteminput2" style="margin-bottom:1px;">-->
+<select id="cmb_shopp_lists" class="need-now">
+    <?php
+    if (count($shopp_lists) > 0) {
+        foreach ($shopp_lists as $list) { ?>
+            <option value="<?php echo $list->getListId() ?>"><?php echo $list->getListName() ?></option>
+        <?php }
+    }else{ ?>
+        <option value="">No List Available</option>
+    <?php } ?>
+
+</select>
+<!--</div>-->
+
+<!--<div class="inputfiled iteminput2">
+    <select class="need-now">
+        <option>NOW</option>
+    </select>
+    <span class="required-filed">*</span>
+</div>-->

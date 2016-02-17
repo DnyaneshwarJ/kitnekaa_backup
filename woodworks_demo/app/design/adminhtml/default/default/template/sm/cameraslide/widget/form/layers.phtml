@@ -1,0 +1,45 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: Vu Van Phan
+ * Date: 30-01-2015
+ * Time: 9:25
+ */
+?>
+<tr>
+    <td colspan="2">
+        <div class="smcmsl-layers-btn clearfix">
+            <?php
+                echo $this->getChildHtml('addLayerBtn')
+            ?>
+            <?php
+                echo $this->getChildHtml('addLayerImageBtn')
+            ?>
+            <?php
+                echo $this->getChildHtml('addLayerVideoBtn')
+            ?>
+            <?php
+                echo $this->getChildHtml('dupLayerBtn')
+            ?>
+            <?php
+                echo $this->getChildHtml('editLayerBtn')
+            ?>
+            <input type="hidden" id="addLayerImageUrl" value="<?php echo $this->getAddLayerImageUrl() ?>" />
+	        <input type="hidden" id="addLayerVideoUrl" value="<?php echo $this->getAddLayerVideoUrl()?>" />
+            <div class="right">
+                <?php
+                    echo $this->getChildHtml('deleteLayerBtn')
+                ?>
+                <?php
+                    echo $this->getChildHtml('deleteAllLayerBtn')
+                ?>
+            </div>
+        </div>
+        <div id="divLayers" class="sliders_layers" style="<?php echo $this->getDivLayersStyle() ?>"></div>
+        <div class="clearfix"></div>
+<!--        <div id="timeline">-->
+<!--            <span class="min">ms</span>-->
+<!--            <span class="max">ms</span>-->
+<!--        </div>-->
+    </td>
+</tr>

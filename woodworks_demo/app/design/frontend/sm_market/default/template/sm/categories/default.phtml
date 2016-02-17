@@ -1,0 +1,126 @@
+<?php
+/*------------------------------------------------------------------------
+ # SM Categories - Version 2.0.0
+ # Copyright (c) 2014 YouTech Company. All Rights Reserved.
+ # @license - Copyrighted Commercial Software
+ # Author: YouTech Company
+ # Websites: http://www.magentech.com
+-------------------------------------------------------------------------*/
+$list = $this->_getList();
+
+$helper = Mage::helper('categories/data');
+$uniqued = 'sm_categories_' . rand() . time();
+$theme = $this->_getConfig('theme', 'theme1');
+
+if ($theme == 'theme4') {
+
+	$import_str = "";
+	$jsHelper = Mage::helper('core/js');
+	// jquery has not added yet
+	if (!defined('MAGENTECH_JQUERY') && (int)$this->_getConfig('include_jquery', 1)) {
+		// if module allowed jquery.
+		$import_str .= $jsHelper->includeSkinScript('sm/categories/js/jquery-1.8.2.min.js');
+		$import_str .= $jsHelper->includeSkinScript('sm/categories/js/jquery-noconflict.js');
+		define('MAGENTECH_JQUERY', 1);
+	}
+	if (!defined('MAGENTECH_JQUERY_CATEGORIES')) {
+		$import_str .= $jsHelper->includeSkinScript('sm/categories/js/jquery.imagesloaded.js');
+		$import_str .= $jsHelper->includeSkinScript('sm/categories/js/jquery.sm_accordion.js');
+		define('MAGENTECH_JQUERY_CATEGORIES', 1);
+	}
+	echo $import_str;
+
+	?>
+
+	<script type="text/javascript">
+		//<![CDATA[
+		jQuery(document).ready(function ($) {
+			;
+			(function (element) {
+				var $element = $(element);
+				$(window).load(function () {
+					$element.imagesLoaded(function () {
+					});
+				});
+				$element.imagesLoaded(function () {
+
+					$element.sm_accordion({
+						items: '.sm-categories-inner',
+						heading: '.sm-categories-heading',
+						content: '.sm-categories-content',
+						active_class: 'selected',
+						event: '<?php echo $this->_getConfig('accmouseenter','click'); ?>',
+						delay: 300,
+						duration: 500,
+						active: '1'
+					});
+
+					var height_content = function () {
+						$('.sm-categories-inner', $element).each(function () {
+							var $inner = $('.sm-categories-content', $(this).filter('.selected'));
+							$inner.css('height', 'auto');
+							if ($inner.length) {
+								var inner_height = $inner.height();
+								$inner.css('height', inner_height);
+							}
+						});
+					}
+
+					if ($.browser.msie && parseInt($.browser.version, 10) <= 8) {
+
+					} else {
+						$(window).resize(function () {
+							height_content();
+						});
+						$(window).load(function () {
+							height_content();
+						});
+					}
+				});
+			})('#<?php echo $uniqued;?>')
+
+		});
+		//]]>
+
+	</script>
+<?php } ?>
+
+<?php if ($this->_getConfig('categories_title_text')) { ?>
+	<!-- <div class="categories-title-text">
+		<?php //echo $this->_getConfig('categories_title_text', 'Categories'); ?>
+	</div> -->
+	<div class="block-title">
+		<span><?php echo $this->_getConfig('categories_title_text', 'Categories'); ?></span>
+	</div>
+<?php } ?>
+<?php if ($this->_getConfig('pretext')) { ?>
+	<div class="intro_text">
+		<?php echo $this->_getConfig('pretext'); ?>
+	</div>
+<?php } ?>
+
+<?php if (!empty($list)) { ?>
+	<!--[if lt IE 9]>
+	<div id="<?php echo $uniqued; ?>"
+	     class="sm-categories <?php echo $theme; ?> <?php echo $this->_getConfig('deviceclass_sfx'); ?> msie lt-ie9"><![endif]-->
+	<!--[if IE 9]>
+	<div id="<?php echo $uniqued; ?>"
+	     class="sm-categories <?php echo $theme; ?> <?php echo $this->_getConfig('deviceclass_sfx'); ?> msie"><![endif]-->
+	<!--[if gt IE 9]><!-->
+	<div id="<?php echo $uniqued; ?>"
+	     class="sm-categories <?php echo $theme; ?> <?php echo $this->_getConfig('deviceclass_sfx'); ?>">
+		<!--<![endif]-->
+		<?php include('default_' . $theme . '.phtml'); ?>
+	</div>
+
+<?php
+} else {
+	echo 'Has no content to show';
+}
+?>
+<?php if ($this->_getConfig('posttext')) { ?>
+	<div class="footer_text">
+		<?php echo $this->_getConfig('posttext'); ?>
+	</div>
+<?php } ?>
+ 

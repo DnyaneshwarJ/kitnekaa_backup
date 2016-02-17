@@ -1,0 +1,67 @@
+<?php
+$elements = $this->getElement()->getElements()->getIterator();
+$wideElementsTop = $this->getElement()->getWideColumnTop();
+$wideElementsBottom = $this->getElement()->getWideColumnBottom();
+$lcElements = $this->getElement()->getLeftColumn();
+$rcElements = $this->getElement()->getRightColumn();
+$formAfter = $this->getElement()->getData('udpromo_form_after');
+?>
+<div class="generic-box">
+<div class="box-head"><h3><?php echo $this->getElement()->getLegend() ?></h3></div>
+<table style="width:100%" class="col2-table"><tbody>
+
+<?php if (!empty($wideElementsTop)): ?>
+<tr>
+<td colspan="2">
+<ul class="form-list">
+<?php foreach($wideElementsTop as $wideElement): ?>
+<li id="<?php echo $wideElement.'-container'?>" class="wide" <?php if ($this->isHidden($wideElement)) echo 'style="display: none;"' ?>>
+<?php echo $this->getChildElementHtml($wideElement); ?>
+</li>
+<?php endforeach ?>
+</ul>
+</td></tr>
+<?php endif ?>
+
+<tr><td>
+<?php if (!empty($lcElements)): ?>
+<ul class="form-list">
+<?php foreach($lcElements as $lcElement): ?>
+<li id="<?php echo $lcElement.'-container'?>">
+<?php echo $this->getChildElementHtml($lcElement); ?>
+</li>
+<?php endforeach ?>
+</ul>
+<?php endif ?>
+</td><td>
+
+<?php if (!empty($lcElements)): ?>
+<ul class="form-list">
+<?php foreach($rcElements as $rcElement): ?>
+<li id="<?php echo $lcElement.'-container'?>">
+<?php echo $this->getChildElementHtml($rcElement); ?>
+</li>
+<?php endforeach ?>
+</ul>
+<?php endif ?>
+</td></tr>
+
+<?php if (!empty($wideElementsBottom)): ?>
+<tr>
+<td colspan="2">
+<ul class="form-list">
+<?php foreach($wideElementsBottom as $wideElement): ?>
+<li id="<?php echo $wideElement.'-container'?>" class="wide" <?php if ($this->isHidden($wideElement)) echo 'style="display: none;"' ?>>
+<?php echo $this->getChildElementHtml($wideElement); ?>
+</li>
+<?php endforeach ?>
+</ul>
+</td></tr>
+<?php endif ?>
+
+
+</tbody></table>
+
+</div>
+
+<?php echo $formAfter ? $formAfter->toHtml() : '' ?>

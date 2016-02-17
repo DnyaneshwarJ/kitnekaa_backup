@@ -1,0 +1,38 @@
+===== 2.4.0 =====
+  * CE 1.9.2.2 compatibility
+
+===== 2.1.0 =====
+  * Central translations file
+
+===== 2.0.0 =====
+  * Major release
+
+===== 1.0.10 =====
+  * Fixed adminhtml rule controller reference wrong path
+
+===== 1.0.9 =====
+  * Fixed multi-address checkout shipping bug
+  * Fixed CE1.9 rule validation
+
+===== 1.0.8 =====
+  * Fixed shipping amount turns zero when using non-dropship carrier
+
+===== 1.0.7 =====
+  * Fixed tax applies when vendor tax class None
+
+===== 1.0.6 =====
+  * Fixed CE 1.8.1 compatibility
+
+===== 1.0.5 =====
+  * Fixed CE 1.9.0 compatibility
+
+===== 1.0.4 =====
+  * Fixed shipping tax in multicurrency
+
+===== 1.0.3 =====
+  * Removed dependency from split-rate add-on
+
+===== 1.0.2 =====
+  * Added per vendor shipping tax
+
+===== 1.0 - Initial release =====

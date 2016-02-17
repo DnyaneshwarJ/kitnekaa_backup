@@ -1,0 +1,40 @@
+<!--@subject {{var quote.getStoreGroupName()}}: Angebot Nr.: {{var quote.increment_id}} wurde akzeptiert is accepted @-->
+
+<!--@styles
+body,td { color:#2f2f2f; font:11px/1.35em Verdana, Arial, Helvetica, sans-serif; }
+@-->
+<div style="background:#F6F6F6; font-family:Verdana, Arial, Helvetica, sans-serif; font-size:12px; margin:0; padding:0;">
+    <table cellspacing="0" cellpadding="0" border="0" width="100%">
+        <tr>
+            <td align="center" valign="top" style="padding:20px 0 20px 0">
+                <table bgcolor="#FFFFFF" cellspacing="0" cellpadding="10" border="0" width="650"
+                       style="border:1px solid #E0E0E0;">
+                    <!-- [ header starts here] -->
+                    <tr>
+                        <td valign="top"><a href="{{store url=''}}"><img src="{{var logo_url}}" alt="{{var logo_alt}}"
+                                                                         style="margin-bottom:10px;" border="0"/></a>
+                        </td>
+                    </tr>
+                    <!-- [ middle starts here] -->
+                    <tr>
+                        <td valign="top">
+                            <p>
+                                <strong>Hallo {{var adminname}}</strong>,<br/><br>
+                            </p>
+
+                            <h3 style="font-size: 1.05em; padding-bottom: 1px;">
+                                Ihr Angebot Nr.: {{var quote.increment_id}}
+                                <small>(vom {{var quote.getCreatedAtFormated('long')}})</small>
+                                wurde akzeptiert
+                            </h3>
+                            <p>
+                                Sie erhalten diese Nachricht nachdem der Kunde das Angebot in seinem Kundenkonto mittels
+                                Button best�tigt hat. F�r eine endg�ltige Auftragserteilung mu� der Kunde jetzt noch den
+                                restlichen Bestellvorgang durchlaufen.
+                            </p>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+</div>

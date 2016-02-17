@@ -1,0 +1,62 @@
+ <div class="form-list" id="payment_form_<?php echo $this->getMethodCode() ?>" style="display:none">
+	
+		<?php
+		 echo  Mage::app()->getLayout()->createBlock('users/index')->setTemplate('company/form/company_details.phtml')->toHtml(); 
+
+     $company = Mage::helper('credittransfer')->getFinancerList();
+     
+      ?>
+<ul>
+                
+                <li><label for="tin_no"><?php echo $this->__('Select Financer') ?></label>
+                <!-- <div class="input-box"> -->
+                   <select name="financer"  id="finance_company" class="validate-select">
+                    <option value="">Select Financer</option>
+                    <?php foreach ($company as $key => $value) { ?>
+                    <option value="<?php echo $value['verifying_company_id']; ?>"><?php echo str_replace("_", " ",$value['verifying_company_name']); ?></option>
+                    <?php } ?>
+                   </select>
+                <!-- </div> --></li>
+
+             
+</ul>
+
+	
+</div> 
+<script type="text/javascript">
+ <?php  
+ $ab = Mage::getUrl("*/ajax/");
+ $ab.= "?isAjax=true"; ?>
+
+jQuery(function(){
+    jQuery('#finance_company').change(function(){
+        var data_finance  = jQuery('#finance_company').val();
+       
+       <?php $customer = Mage::getSingleton('adminhtml/session_quote')->getCustomer();
+          $customer_id =  $customer->getEntityid();       ?>
+
+        var customer_id = "<?php echo $customer->getEntityid(); ?>";
+        var params = {};
+         params['financer'] = data_finance;
+         params['customer_id'] = customer_id;
+      
+      if(data_finance > 0)
+      {
+              jQuery('#payment_form_credittransfer ul li').not('li:first').remove();
+              new Ajax.Request('<?php echo $ab ?>', {
+                                method: 'post',
+                                parameters: params,
+                                onSuccess: function(transport){
+                          jQuery('#payment_form_credittransfer ul li').not('li:first').remove();
+                          jQuery('#payment_form_credittransfer ul').append(transport.responseText);              
+                                }
+                            }); 
+        }else{
+          alert("Select Financer");
+           jQuery('#payment_form_credittransfer ul li').not('li:first').remove();
+        }
+    <?php //$company_id=Mage::helper('credittransfer')->getpagefield($customer_id,$financer); ?>
+          
+    });
+});
+  </script>

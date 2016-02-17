@@ -1,0 +1,107 @@
+<?php
+    $items = $this->getItems();
+?>
+<div class="dashboard">
+    <div class="page-title">
+        <h1><?php echo $this->__('Pick List "%s"', $this->getWishlistName()) ?></h1>
+    </div>
+    <?php if($this->isSubAccount() && $this->getWishlistStatus() == Cminds_MultiUserAccounts_Model_Wishlist::STATUS_PENDING): ?>
+        <?php if(count($items)): ?>
+            <button style="margin-bottom: 2px;" type="button" title="<?php echo $this->__('Mark as Finished') ?>" class="button" onclick="window.location='<?php echo $this->getUrl('wishlist/subaccount/markasfinished', array('id' => $this->getWishlistId())) ?>';"><span><span><?php echo $this->__('Mark as Finished') ?></span></span></button>
+            <button style="margin-bottom: 2px;" type="button" class="button btn-update button-secondary" title="<?php echo $this->__('Mark as Finished') ?>"  onclick="$('pickListForm').submit();" class="button"><span><span><?php echo $this->__('Update Pick List') ?></span></span></button>
+        <?php endif; ?>
+        <button style="margin-bottom: 2px;" type="button" title="<?php echo $this->__('Rename') ?>" class="button" onclick="window.location='<?php echo $this->getUrl('wishlist/subaccount/rename', array('id' => $this->getWishlistId())) ?>';"><span><span><?php echo $this->__('Rename') ?></span></span></button>
+    <?php endif; ?>
+    <?php if(!$this->isSubAccount() && $this->getWishlistStatus() == Cminds_MultiUserAccounts_Model_Wishlist::STATUS_FINISHED): ?>
+        <button style="margin-bottom: 2px;" type="button" title="<?php echo $this->__('Finalize') ?>" class="button" onclick="window.location='<?php echo $this->getUrl('wishlist/subaccount/makeasquote', array('id' => $this->getWishlistId())) ?>';"><span><span><?php echo $this->__('Finalize') ?></span></span></button>
+    <?php endif; ?>
+    <?php if($this->isSubAccount() && $this->getWishlistStatus() == Cminds_MultiUserAccounts_Model_Wishlist::STATUS_FINISHED): ?>
+        <ul class="messages"><li class="notice-msg"><ul><li><span><?php echo $this->__("This wishlist is marked as finalized and it is waiting for purchase by main account"); ?></span></li></ul></li></ul>
+    <?php endif; ?>
+    <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
+        <?php echo $this->getChildHtml('pager'); ?>
+        <?php if (count($items)): ?>
+          <form class="pick-list-form" id="pickListForm" action="<?php echo $this->getUrl('wishlist/subaccount/update') ?>" method="post">
+            <input type="hidden" name="wishlist_id" value="<?php echo $this->getWishListId(); ?>">
+            <table class="data-table" id="manage-wishlist-subaccounts-table">
+                <col width="0.2" />
+                <col width="1" />
+                <col width="1" />
+                <thead>
+                <tr>
+                    <th><?php echo $this->__('Product') ?></th>
+                    <th></th>
+                    <th><?php echo $this->__('Price') ?></th>
+                    <th><?php echo $this->__('Quantity') ?></th>
+                    <?php if($this->isSubAccount() && $this->getWishlistStatus() == Cminds_MultiUserAccounts_Model_Wishlist::STATUS_PENDING): ?>
+                    <th></th>
+                    <?php endif; ?>
+                </tr>
+                </thead>
+                <tbody>
+                <?php $_odd = ''; ?>
+                <?php foreach ($items as $item): ?>
+                    <?php $product = $item->getProduct(); ?>
+                    <tr>
+                        <td><a href="<?php echo $product->getProductUrl(); ?>"><img src="<?php echo (string) Mage::helper('catalog/image')->init($product, 'thumbnail')->resize(150); ?>" alt=""/></a></td>
+                        <td>
+                            <a href="<?php echo $product->getProductUrl(); ?>"><?php echo $this->escapeHtml($product->getName()) ?></a>
+                            <?php if($item->getRequestObj()) : $s = unserialize($item->getRequestObj()); ?>
+                              <?php if($s && isset($s['super_attribute']) && is_array($s['super_attribute'])): ?>
+                                  <i>
+                                      <dl>
+                                          <?php foreach($s['super_attribute'] AS $id => $option) :?>
+                                              <?php $attr = Mage::getModel('catalog/resource_eav_attribute')->load($id); ?>
+                                              <dt><strong><?php echo $attr->getFrontendLabel() ; ?></strong></dt>
+                                              <dd><?php echo $attr->getSource()->getOptionText($option) ; ?></dd>
+                                          <?php endforeach; ?>
+                                      </dl>
+                                  </i>
+                              <?php endif; ?>
+                              <?php if($product->getTypeId() == Mage_Catalog_Model_Product_Type::TYPE_BUNDLE): ?>
+                                <?php if($item->getRequestObj()) : $s = unserialize($item->getRequestObj()); ?>
+                                  <dl>
+                                      <?php $options = $this->getSelectedOptions($product, $s['bundle_option']); ?>
+
+                                      <?php foreach($options AS $id => $option) :?>
+                                          <dt><?php echo $id; ?></dt>
+                                          <dd><?php echo $option; ?></dd>
+                                      <?php endforeach; ?>
+                                  </dl>
+                                  <?php endif; ?>
+                              <?php endif;?>
+                            <?php endif; ?>
+                        </td>
+                        <td>
+                          <?php if($product->getTypeId() != Mage_Catalog_Model_Product_Type::TYPE_BUNDLE): ?>
+                            <?php echo Mage::helper('core')->currency($product->getFinalPrice(), true, false); ?>
+                          <?php else : ?>
+                            <?php if($item->getRequestObj()) : $s = unserialize($item->getRequestObj()); ?>
+                              <?php echo Mage::helper('core')->currency($this->getBundlePrice($product, $s['bundle_option'])); ?>
+                            <?php endif; ?>
+                          <?php endif; ?>
+                        </td>
+                        <td>
+                          <?php if($this->isSubAccount() && $this->getWishlistStatus() == Cminds_MultiUserAccounts_Model_Wishlist::STATUS_PENDING): ?>
+                            <input type="text" class="input-text qty validate-not-negative-number" name="qty[<?php echo $item->getId(); ?>]" value="<?php echo (float) $item->getQty(); ?>">
+                          <?php else : ?>
+                            <?php echo (float) $item->getQty(); ?>
+                          <?php endif; ?>
+                        </td>
+                        <?php if($this->isSubAccount() && $this->getWishlistStatus() == Cminds_MultiUserAccounts_Model_Wishlist::STATUS_PENDING): ?>
+                            <td><a href="<?php echo $this->getUrl('wishlist/subaccount/removeItem', array('id' => $item->getId())); ?>"><?php echo $this->__('Remove') ?></a></td>
+                        <?php endif; ?>
+                    </tr>
+                <?php endforeach; ?>
+                </tbody>
+            </table>
+            </form>
+            <script type="text/javascript">
+              decorateTable('manage-wishlist-subaccounts-table');
+
+            </script>
+        <?php else: ?>
+            <p style="padding: 20px;"><?php echo $this->__('No items found') ?></p>
+        <?php endif; ?>
+        <?php echo $this->getChildHtml('pager'); ?>
+</div>

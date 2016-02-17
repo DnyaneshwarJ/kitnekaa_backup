@@ -1,0 +1,105 @@
+<?php
+/*------------------------------------------------------------------------
+ # Copyright (c) 2014 YouTech Company. All Rights Reserved.
+ # @license - Copyrighted Commercial Software
+ # Author: YouTech Company
+ # Websites: http://www.magentech.com
+-------------------------------------------------------------------------*/
+
+global $var_yttheme;  
+// Include cpanel
+if( $var_yttheme->getParam('showCpanel') ) { ?>
+<div id="cpanel_wrapper">
+	<div class="cpanel-head">
+		<span>Theme setting</span>
+		<div class="action cpanel-reset">
+			<a class="btn btn-info reset" href="#" onclick="javascript: onCPResetDefault(TMPL_COOKIE);">Reset</a>
+		</div>		
+	</div>
+
+	<div class="accordion" id="ytcpanel_accordion">
+		<!--Theme-->
+        <div class="accordion-group cpanel-theme-color">
+            <div id="yt_cpanelaccordionfirst" class="accordion-heading">
+                <a class="accordion-toggle"  data-parent="#ytcpanel_accordion" href="#ytitem_1">
+					Theme Color
+				</a>
+            </div>
+        	<div id="ytitem_1" class="accordion-theme">
+                <div class="accordion-inner clearfix">
+					<div class="color-theme">
+						<?php
+							$storeCode = Mage::app()->getStore()->getCode();
+							//var_dump($storeCode);
+						?>
+						<a class="theme-color yellow <?php if($storeCode == 'english') echo 'active';?>" href="<?php echo $this->getUrl('') ?>?___store=english&amp;___from_store=australia"><span title="Yellow" >Yellow</span></a>
+						<a class="theme-color blue <?php if($storeCode == 'australia') echo 'active';?>" href="<?php echo $this->getUrl('') ?>?___store=australia&amp;___from_store=english"><span title="Blue" >Blue</span></a>
+                        <a class="theme-color tangerine <?php if($storeCode == 'german') echo 'active';?>" href="<?php echo $this->getUrl('') ?>?___store=german&amp;___from_store=english"><span title="Tangerine" >Tangerine</span></a>
+						<a class="theme-color emerald <?php if($storeCode == 'italia') echo 'active';?>" href="<?php echo $this->getUrl('') ?>?___store=italia&amp;___from_store=english"><span title="Emerald" >Emerald</span></a>
+						<a class="theme-color green <?php if($storeCode == 'canada') echo 'active';?>" href="<?php echo $this->getUrl('') ?>?___store=canada&amp;___from_store=english"><span title="Green" >Green</span></a>
+						
+					</div>
+				</div>
+			</div>
+        </div>
+	
+		<!--Store-->
+		<!--<div class="accordion-group cpanel-store">
+			<div class="accordion-heading">
+				<a class="accordion-toggle" data-parent="#ytcpanel_accordion" href="#ytitem_2">
+				Layout Style</a>
+			</div>
+			<div id="ytitem_2" class="accordion-store">
+				<div class="accordion-inner clearfix">
+					<div class="cp-item">
+						<div class="inner">
+							<?php //echo $this->getChildHtml('store_switcher');?>
+						</div>
+					</div>-->
+					<!-- Select Layout -->
+					<!--<div class="cp-item layout-option">
+						<div class="inner">
+							<select onchange="javascript: onCPApply();" name="ytcpanel_layoutstyle" class="cp_select">
+								<option value="1" <?php //echo ($var_yttheme->getParam('layoutstyle')=='1')?' selected="selected"':'';?>>Full Width</option>
+								<option value="2" <?php //echo ($var_yttheme->getParam('layoutstyle')=='2')?' selected="selected"':'';?>>Boxed</option>
+							</select>
+						</div>
+					</div>					
+				</div>
+			</div>
+		</div>-->
+		<!-- Menu -->
+		<div class="accordion-group cpanel-menu">
+			<div class="accordion-heading">
+				<a class="accordion-toggle" data-parent="#ytcpanel_accordion" href="#ytitem_6">
+				Menu style </a>
+			</div>
+			<div id="ytitem_6" class="accordion-menu">
+				<div class="accordion-inner clearfix">
+					<!-- Styles -->
+					<div class="cp-item footer-background-color">
+						<!--span>Styles</span-->
+						<div class="inner">
+							<select onchange="javascript: onCPApply();" name="ytcpanel_menustyle" class="cp_select">
+								<option value="mega" <?php echo ($var_yttheme->getParam('menustyle')=='mega')?' selected="selected"':'';?>>Mega</option>
+								<option value="css" <?php echo ($var_yttheme->getParam('menustyle')=='css')?' selected="selected"':'';?>>Css</option>
+							</select>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div id="cpanel_btn" class="normal">
+		<i class="icon-hand-left"></i>
+	</div>
+</div>
+
+<script type="text/javascript">
+	jQuery(document).ready(function($){
+		$('.theme-color').click(function(){
+			$($(this).parent().find('.active')).removeClass('active'); $(this).addClass('active');
+		});
+	});
+    </script>
+<?php } ?>

@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+ <config>
+      <modules>
+        <Kithnekaa_Solr>
+            <active>true</active>
+            <codePool>local</codePool>
+         </Kithnekaa_Solr>
+       </modules>
+ </config>

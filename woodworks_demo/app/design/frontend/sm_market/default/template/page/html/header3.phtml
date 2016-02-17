@@ -1,0 +1,145 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+global $var_yttheme;
+?>
+<div class="yt-header-top">
+    <div class="container">
+        <div class="row">
+            <div class="header-top-1 col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                <div class="inner">
+                    <p class="welcome-msg"><?php echo $this->getChildHtml('welcome') ?> <?php echo $this->getAdditionalHtml() ?></p> 
+                    <div class="login-regis">
+                        <?php 
+                        //if(Mage::getSingleton('customer/session')->isLoggedIn())
+                        if(!$this->helper('customer')->isLoggedIn() ){ ?>                            
+                            <a title="<?php echo $this->__("Join Free"); ?>" class="btn-head" href="<?php echo Mage::getBaseUrl(); ?>customer/account/create/">
+                            <?php echo $this->__("Join Free"); ?></a>
+                            <?php echo $this->__("or"); ?>                           
+                        <?php } ?>
+                        <?php if(!$this->helper('customer')->isLoggedIn() ){ ?>
+                            <a title="<?php echo $this->__("Sign in"); ?>" class="btn-head" href="<?php echo $this->getUrl('customer/account/login/') ?>">
+                                <?php echo $this->__("Sign in"); ?>
+                            </a>
+                        <?php } else{ ?>
+                            <a title="<?php echo $this->__("Sign out"); ?>" class="btn-head" href="<?php echo $this->getUrl('customer/account/logout') ?>">
+                                <?php echo $this->__("Sign out"); ?>
+                            </a>
+                        <?php } ?>
+                    </div>            
+                </div>
+            </div>
+            <div class="header-top-2 col-lg-8 col-md-8 col-sm-8 col-xs-12">
+                <div class="inner">
+                    <div class="head-quicklink">
+                        <?php echo $this->getChildHtml('topLinks');?>
+                    </div>
+                    <div class="language-currency">
+                        <?php echo $this->getChildHtml('store_language') ?>
+                        <?php echo $this->getChildHtml('currency'); ?>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="yt-header-middle">
+    <div class="container">
+        <div class="row">
+        <div class="logo col-lg-3 col-md-3 col-sm-4 col-xs-12">
+            <a href="<?php echo $this->getUrl('') ?>" title="<?php echo $this->getLogoAlt() ?>" class="logo"><img src="<?php echo $this->getLogoSrc() ?>" alt="<?php echo $this->getLogoAlt() ?>" />
+            </a>
+        </div>
+        <div class="header-middle-right col-lg-9 col-md-9 col-sm-8 col-xs-12">
+            <div class="inner">
+                <?php if($this->getLayout()->createBlock('cms/block')->setBlockId('call-us')->toHtml()) { ?>         
+                    <?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('call-us')->toHtml(); ?>        
+                <?php } ?>
+                <div class="head-cart">
+                    <?php echo $this->getChildHtml('mini-cartpro') ?>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+</div>
+<div class="yt-header-middle2">
+    <div class="container">
+        <div class="row">
+            <div class="yt-header-middle2-left col-lg-8 col-md-8 col-sm-12 col-xs-12">
+                <?php echo $this->getChildHtml('megamenu-horizontal') ?>
+            </div>
+            <div class="yt-header-middle2-right col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                <?php if ($this->getChildHtml('searchbox')) { ?>
+                <div class="head-searchbox">
+                    <?php echo $this->getChildHtml('searchbox') ?>
+                </div>        
+                <?php } ?>
+                
+            </div>
+        </div>
+    </div>
+</div>
+
+<?php 
+if( Mage::getSingleton('cms/page')->getIdentifier() == 'home-v3'  && 
+                Mage::app()->getFrontController()->getRequest()->getRouteName() == 'cms' ) { /* if is home page*/
+?>
+<div class="yt-header-bottom">
+<div class="container">
+<div class="row">
+    <div class="v3-bottom-left col-lg-9 col-md-9 col-sm-12 col-xs-12">
+        <?php if( $this->getChildHtml('dynamic-slideshow-v2') ){ ?>
+        <div class="slideshow-wrap">
+             <?php echo $this->getChildHtml('dynamic-slideshow-v2') ?> 
+        </div>            
+        <?php } ?>
+    </div>  
+    <div class="v3-bottom-right col-lg-3 col-md-3 col-sm-12 col-xs-12">
+        <?php if($this->getLayout()->createBlock('cms/block')->setBlockId('v3-banner-header-right')->toHtml()) { ?>
+        <!-- <div class="banner-home-right-wrap"> -->
+            <?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('v3-banner-header-right')->toHtml(); ?>
+        <!-- </div> -->
+        <?php } ?> 
+    </div>
+
+    <?php if($this->getLayout()->createBlock('cms/block')->setBlockId('block-policy-v3')->toHtml()) { ?>
+        <div class="headerv3-policy-wrap">
+            <?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('block-policy-v3')->toHtml(); ?>
+        </div>
+    <?php } ?> 
+
+</div>
+</div>
+</div>   
+<?php } ?>     
+
+
+
+
+
+
+
+

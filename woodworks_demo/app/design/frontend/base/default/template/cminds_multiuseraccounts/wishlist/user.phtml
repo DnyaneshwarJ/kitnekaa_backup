@@ -1,0 +1,47 @@
+<?php
+$wishlists = $this->getWishlistItems();
+/**
+ * @var $this Cminds_MultiUserAccounts_Block_Wihslist
+ */
+?>
+<div class="dashboard">
+    <div class="page-title">
+        <h1><?php echo $this->__('Manage Pick Lists') ?></h1>
+    </div>
+    <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
+        <?php echo $this->getChildHtml('pager'); ?>
+        <?php if (count($wishlists)): ?>
+        <table class="data-table" id="manage-wishlist-subaccounts-table">
+            <col width="1" />
+            <col width="1" />
+            <col width="1" />
+            <col width="1" />
+            <col width="1" />
+            <thead>
+            <tr>
+                <th><?php echo $this->__('Name') ?></th>
+                <th><?php echo $this->__('Items') ?></th>
+                <th><?php echo $this->__('Status') ?></th>
+                <th></th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <?php $_odd = ''; ?>
+            <?php foreach ($wishlists as $wishlist): ?>
+                <tr>
+                    <td><?php echo $this->escapeHtml($wishlist->getName()) ?></td>
+                    <td><?php echo $this->escapeHtml($wishlist->getItemCount()) ?></td>
+                    <td><?php echo $this->escapeHtml($wishlist->getStatusLabel()) ?></td>
+                    <td><a href="<?php echo $this->getUrl('customer/account/subWishlist', array('id' => $wishlist->getId())); ?>"><?php echo $this->__('Show Wishlist') ?></a></td>
+                    <td><a href="<?php echo $this->getUrl('wishlist/subaccount/remove', array('id' => $wishlist->getId())); ?>"><?php echo $this->__('Remove') ?></a></td>
+                </tr>
+            <?php endforeach; ?>
+            </tbody>
+        </table>
+        <script type="text/javascript">decorateTable('manage-wishlist-subaccounts-table')</script>
+        <?php else: ?>
+            <p style="padding: 20px;"><?php echo $this->__('No Pick List Found') ?></p>
+        <?php endif; ?>
+        <?php echo $this->getChildHtml('pager'); ?>
+</div>

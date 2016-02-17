@@ -1,0 +1,49 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Unirgy LLC
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the EULA
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://www.unirgy.com/LICENSE-M1.txt
+ *
+ * @category   Unirgy
+ * @package    Unirgy_Dropship
+ * @copyright  Copyright (c) 2008-2009 Unirgy LLC (http://www.unirgy.com)
+ * @license    http:///www.unirgy.com/LICENSE-M1.txt
+ */
+-->
+<config>
+    <modules>
+        <Unirgy_Dropship>
+            <active>true</active>
+            <codePool>community</codePool>
+            <depends>
+                <Mage_Adminhtml />
+                <Mage_Catalog />
+                <Mage_CatalogInventory />
+                <Mage_Sales />
+                <Mage_Tax />
+            </depends>
+        </Unirgy_Dropship>
+
+        <Unirgy_DropshipHelper>
+            <active>true</active>
+            <codePool>community</codePool>
+        </Unirgy_DropshipHelper>
+
+        <Mage_CatalogInventory>
+            <depends>
+                <Unirgy_DropshipHelper />
+            </depends>
+        </Mage_CatalogInventory>
+        <Mage_Cron>
+            <depends>
+                <Unirgy_DropshipHelper />
+            </depends>
+        </Mage_Cron>
+    </modules>
+</config>

@@ -1,0 +1,91 @@
+<?xml version="1.0"?>
+<layout>
+
+    <adminhtml_catalog_product_simple>
+        <reference name="product_tabs">
+            <block type="udmulti/adminhtml_product_vendors_condition" name="udmulti_condition" />
+        </reference>
+    </adminhtml_catalog_product_simple>
+
+    <adminhtml_catalog_product_grouped>
+        <reference name="product_tabs">
+            <block type="udmulti/adminhtml_product_vendors_condition" name="udmulti_condition" />
+        </reference>
+    </adminhtml_catalog_product_grouped>
+
+    <adminhtml_catalog_product_configurable>
+        <reference name="product_tabs">
+            <block type="udmulti/adminhtml_product_vendors_condition" name="udmulti_condition" />
+        </reference>
+    </adminhtml_catalog_product_configurable>
+
+    <adminhtml_catalog_product_bundle>
+        <reference name="product_tabs">
+            <block type="udmulti/adminhtml_product_vendors_condition" name="udmulti_condition" />
+        </reference>
+    </adminhtml_catalog_product_bundle>
+
+    <adminhtml_catalog_product_downloadable>
+        <reference name="product_tabs">
+            <block type="udmulti/adminhtml_product_vendors_condition" name="udmulti_condition" />
+        </reference>
+    </adminhtml_catalog_product_downloadable>
+
+    <adminhtml_catalog_product_virtual>
+        <reference name="product_tabs">
+            <block type="udmulti/adminhtml_product_vendors_condition" name="udmulti_condition" />
+        </reference>
+    </adminhtml_catalog_product_virtual>
+
+    <adminhtml_catalog_product_ugiftcert>
+        <reference name="product_tabs">
+            <block type="udmulti/adminhtml_product_vendors_condition" name="udmulti_condition" />
+        </reference>
+    </adminhtml_catalog_product_ugiftcert>
+
+    <adminhtml_catalog_product_giftcard>
+        <reference name="product_tabs">
+            <block type="udmulti/adminhtml_product_vendors_condition" name="udmulti_condition" />
+        </reference>
+    </adminhtml_catalog_product_giftcard>
+
+    <adminhtml_catalog_product_giftvoucher>
+        <reference name="product_tabs">
+            <block type="udmulti/adminhtml_product_vendors_condition" name="udmulti_condition" />
+        </reference>
+    </adminhtml_catalog_product_giftvoucher>
+
+    <!--
+    <adminhtml_catalog_product_edit>
+        <reference name="product_tabs">
+            <block type="udmulti/adminhtml_product_vendors_condition" name="udmulti_condition" />
+        </reference>
+    </adminhtml_catalog_product_edit>
+    -->
+
+    <udpoadmin_order_po_new>
+        <reference name="before_body_end">
+            <block type="udmulti/adminhtml_order_js" name="udmulti_po_js" template="udmulti/po/js.phtml" />
+        </reference>
+    </udpoadmin_order_po_new>
+    <udpoadmin_order_po_updateqty>
+        <block type="udmulti/adminhtml_order_js" name="udmulti_po_js" template="udmulti/po/js.phtml" />
+    </udpoadmin_order_po_updateqty>
+
+    <adminhtml_sales_order_view>
+        <reference name="before_body_end">
+            <block type="udmulti/adminhtml_order_js" name="udmulti_js" template="udmulti/order/js.phtml" />
+        </reference>
+    </adminhtml_sales_order_view>
+
+    <adminhtml_sales_order_create_load_block_items>
+        <reference name="items_grid">
+            <action method="setTemplate"><template helper="udmulti/getCreateOrderItemsGridFile" /></action>
+        </reference>
+    </adminhtml_sales_order_create_load_block_items>
+    <adminhtml_sales_order_create_index>
+        <reference name="items_grid">
+            <action method="setTemplate"><template helper="udmulti/getCreateOrderItemsGridFile" /></action>
+        </reference>
+    </adminhtml_sales_order_create_index>
+</layout>

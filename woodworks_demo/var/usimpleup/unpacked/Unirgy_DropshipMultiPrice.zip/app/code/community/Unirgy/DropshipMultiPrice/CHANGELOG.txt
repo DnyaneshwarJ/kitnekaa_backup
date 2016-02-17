@@ -1,0 +1,65 @@
+===== 2.1.0 =====
+  * Central translations file
+  * Exclude out of stock offers from price indexing
+
+===== 1.1.16 =====
+  * Added support for edit cart item page
+
+===== 1.1.15 =====
+  * Added support for out of stock search in vendor portal for select&sell
+
+===== 1.1.14 =====
+  * Added support for vendor group and tier prices
+
+===== 1.1.13 =====
+  * Fixed currency display in products list
+
+===== 1.1.12 =====
+  * Added back 'add to cart' button on product view page. now use by default vendor with lowest price
+
+===== 1.1.11 =====
+  * Fixed prices sync with configurable options selection change (if has options prices)
+  * Fixed vendor link in offers table
+  * Fixed offers sort on frontend
+
+===== 1.1.10 =====
+  * Fixed 1.9 rwd theme compatibility
+
+===== 1.1.9 =====
+  * Fixed 1.7 compatibility
+  * Fixed offers sorting
+  * Fixed intermittent empty price in product view vendors table
+
+===== 1.1.8 =====
+  * Fixed compatibility with OrganicInternet_SimpleConfigurableProducts
+
+===== 1.1.7 =====
+  * Added honor of "Stick microsite products in cart"
+
+===== 1.1.6 =====
+  * Fixed use custom product list template only when multivendor decision method is on
+
+===== 1.1.5 =====
+  * Added if udmultiActive check in observer
+  * Fixed configurable price display
+
+===== 1.1.4 =====
+  * Added compatibility with ajaxcart
+
+===== 1.1.3 =====
+  * Added EE1.13 indexers compatibility
+  * Fixed price indexer when "inventory > show out of stock"=yes
+
+===== 1.1.2 =====
+  * Fixed 404 error for $VENDOR_LOGO url
+
+===== 1.1.1 =====
+  * Added support for tabbed layout of product view page
+  * Fixed code config rewrites not added in cron
+
+===== 1.1.0 =====
+  * Added decision and stock collect/check refactoring to support forced_vendor_id on cart items
+    and mixing with normal quote items
+  * Fixed compatibility with IE9 dynamic rows js
+
+===== 1.0 - Initial release =====

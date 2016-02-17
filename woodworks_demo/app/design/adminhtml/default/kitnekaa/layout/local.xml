@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<layout version="0.1.0">
+    <default>
+        <reference name="head">
+            <action method="addItem"><type>skin_css</type><name>css/intlTelInput.css</name></action>
+            <action method="addItem"><type>skin_js</type><name>js/intlTelInput.js</name></action>
+        </reference>
+        <reference name="content">
+            <block type="core/template" name="kit_country_allowed1" template="jsphp/js.phtml" output="toHtml"/>
+                <block type="core/template" name="admin_custom_ajax_msg" template="messages/ajax_messages.phtml" output="toHtml" />
+        </reference>
+    </default>
+    <sales_order_grid_update_handle>
+        <reference name="sales_order.grid">
+            <action method="addColumnAfter">
+                <columnId>company_name</columnId>
+                <arguments>
+                    <header>Company</header>
+                    <index>company_name</index>
+                    <filter_index>sales_flat_order.company_name</filter_index>
+                </arguments>
+                <after>shipping_name</after>
+            </action>
+        </reference>
+    </sales_order_grid_update_handle>
+    <adminhtml_sales_order_grid>
+        <!-- apply layout handle defined above -->
+        <update handle="sales_order_grid_update_handle" />
+    </adminhtml_sales_order_grid>
+    <adminhtml_sales_order_index>
+        <!-- apply layout handle defined above -->
+        <update handle="sales_order_grid_update_handle" />
+    </adminhtml_sales_order_index>
+</layout>

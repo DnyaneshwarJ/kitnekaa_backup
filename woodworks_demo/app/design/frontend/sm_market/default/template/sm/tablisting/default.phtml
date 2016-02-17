@@ -1,0 +1,211 @@
+<?php
+/*$_category = Mage::getModel('catalog/category')->load(90);
+$productColl = Mage::getModel('catalog/product')->getCollection()
+               ->addCategoryFilter($_category)
+               ->addAttributeToSort('price', 'asc')
+               ->setPageSize(2)
+               ->load();
+                echo $Minprice = $productColl->getFirstItem()->getPrice();
+                $finalprice = explode('.',$Minprice);
+                print_r($finalprice[0]);*/
+/*               $catid = array(90,92);
+               foreach ($catid as  $value) {
+                  
+               $_category = Mage::getModel('catalog/category')->load($value);
+               $mediaurl = Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA);
+               echo $imageurl = $mediaurl."catalog/category/".$_category->getImage();
+               echo $requestUrl = $_category->getUrlPath();
+               echo $namecat = $_category->getName();
+
+               $productColl = Mage::getModel('catalog/product')->getCollection()
+               ->addCategoryFilter($_category)
+               ->addAttributeToSort('price', 'asc')
+               ->setPageSize(2)
+               ->load();
+                echo $Minprice = $productColl->getFirstItem()->getPrice();
+
+                $productColl = Mage::getModel('catalog/product')->getCollection()
+               ->addCategoryFilter($_category)
+               ->addAttributeToSort('price', 'desc')
+               ->setPageSize(2)
+               ->load();
+                echo $Maxprice = $productColl->getFirstItem()->getPrice();
+               
+         }
+*/
+
+?>
+<?php
+/*$id = 92;
+$categoryModel = Mage::getModel('catalog/category')->load($id); // Replace with Id of Cat
+$productColl = Mage::getModel('catalog/product')->getCollection()
+->addCategoryFilter($categoryModel)
+->addAttributeToSort('price', 'asc')
+->setPageSize(2)
+->load();
+echo $val = $productColl->getFirstItem()->getPrice()."</br>";
+echo "sss";
+*/
+//print_r($val);
+?>
+
+
+
+<div class="yt-tab-listing first-load" id="special-prodcuts">
+   <div class="title-text">SPECIAL PRICES - PRODUCTS<span class="title-tag"></span></div>
+   
+      <div class="respl-items-container">
+         <!--Begin Items-->
+         <div class="respl-items  respl-items-selected respl-items-loaded items-category-all  respl00-4 respl01-4 respl02-4 respl03-2 respl04-1">
+            <div class="respl-items-inner">
+               <div class="container-slider-detail slider-tab-listing 4">
+                  <div data-interval="0" class="category-products carousel slide slider-tbl slider-tabl" id="carousel_products">
+                     <div class="carousel-control-wrap">
+                        <a data-slide="prev" role="button" href="#carousel_products" class="carousel-control-tab prev">
+                        Previous             </a>
+                        <a data-slide="next" role="button" href="#carousel_products" class="carousel-control-tab next">
+                        Next              </a>
+                     </div>
+                     <div class="carousel-inner products-grid">
+                              <!-- <div class="col col-sm-6 col-xs-12 sub-item respl-item"> -->
+
+
+               <?php                              
+               $catid = array(190,92,94,159,164,163,160,158);
+               foreach ($catid as  $value) {
+                  
+               $_category = Mage::getModel('catalog/category')->load($value);
+               $mediaurl = Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA);
+                $imageurl = $mediaurl."catalog/category/".$_category->getImage();
+                 
+                $requestUrl = $_category->getUrlPath();
+                $namecat = $_category->getName();
+
+               $productColl = Mage::getModel('catalog/product')->getCollection()
+               ->addCategoryFilter($_category)
+               ->addAttributeToSort('price', 'asc')
+               ->setPageSize(2)
+               ->load();
+                 $Minprice = $productColl->getFirstItem()->getPrice();
+                 $finalprice = explode('.',$Minprice);
+                
+
+                $productColl = Mage::getModel('catalog/product')->getCollection()
+               ->addCategoryFilter($_category)
+               ->addAttributeToSort('price', 'desc')
+               ->setPageSize(2)
+               ->load();
+              $Maxprice = $productColl->getFirstItem()->getPrice();
+              $finalprices = explode('.',$Maxprice);
+                
+?>
+                     <div class="sub-item respl-item" style="opacity: 1;">
+                                 <div class="item-inner">
+                                    <div class="product-image">
+                                       <a title="Precision Dado Saw Blade D200X30XZ24" class="product-img" 
+                                       href="<?php echo Mage::getBaseUrl().$requestUrl ;?>">
+                                          <img alt="Precision Dado Saw Blade D200X30XZ24" src="<?php echo $imageurl;?>" class="small-image">
+                                          <!-- <img class="thumnail-image image-hover" src="" alt="" /> -->
+                                       </a>
+                                    </div>
+                                    <div class="product-info">
+                                       <div class="care-pro-title"><a href="#"><?php echo $namecat;?></a></div>
+                                       <div class="care-pro-range">₹ <?php echo $finalprice[0];?> to ₹ <?php echo $finalprices[0];?></div>
+                                       <div class="care-view-more"><a href="<?php echo Mage::getBaseUrl().$requestUrl ;?>">VIEW DETAIL</a></div>
+                                    </div>
+                                 </div>
+                              </div>
+               <?php             
+               }
+         
+?>
+
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+      <!--End Items-->
+   </div>
+<div class="yt-tab-listing" id="special-services">
+   <div class="title-text">SPECIAL PRICES - Services<span class="title-tag"></span></div>
+   
+      <div class="respl-items-container">
+         <!--Begin Items-->
+         <div class="respl-items  respl-items-selected respl-items-loaded items-category-all  respl00-4 respl01-4 respl02-4 respl03-2 respl04-1">
+            <div class="respl-items-inner">
+               <div class="container-slider-detail slider-tab-listing 4">
+                  <div data-interval="0" class="category-products carousel slide slider-tbl slider-tabl" id="carousel_services">
+                     <div class="carousel-control-wrap">
+                        <a data-slide="prev" role="button" href="#carousel_services" class="carousel-control-tab prev">
+                        Previous             </a>
+                        <a data-slide="next" role="button" href="#carousel_services" class="carousel-control-tab next">
+                        Next              </a>
+                     </div>
+                     <div class="carousel-inner products-grid">
+
+                               <?php                              
+               $catid = array(174,177,180,184);
+               foreach ($catid as  $value) {
+                  
+               $_category = Mage::getModel('catalog/category')->load($value);
+               $mediaurl = Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA);
+                $imageurl = $mediaurl."catalog/category/".$_category->getImage();
+                 
+                $requestUrl = $_category->getUrlPath();
+                $namecat = $_category->getName();
+/*
+               $productColl = Mage::getModel('catalog/product')->getCollection()
+               ->addCategoryFilter($_category)
+               ->addAttributeToSort('price', 'asc')
+               ->setPageSize(2)
+               ->load();
+                 $Minprice = $productColl->getFirstItem()->getPrice();*/
+
+               /* $productColl = Mage::getModel('catalog/product')->getCollection()
+               ->addCategoryFilter($_category)
+               ->addAttributeToSort('price', 'desc')
+               ->setPageSize(2)
+               ->load();
+              $Maxprice = $productColl->getFirstItem()->getPrice();*/
+           
+?>
+
+                              <!-- <div class="col col-sm-6 col-xs-12 sub-item respl-item"> -->
+                              <div class="sub-item respl-item" style="opacity: 1;">
+                                 <div class="item-inner">
+                                    <div class="product-image">
+                                       <a title="Precision Dado Saw Blade D200X30XZ24" class="product-img" href="<?php echo Mage::getBaseUrl().$requestUrl ;?>">
+                                          <img alt="Precision Dado Saw Blade D200X30XZ24" src="<?php echo $imageurl;?>" class="small-image">
+                                          <!-- <img class="thumnail-image image-hover" src="" alt="" /> -->                                                       
+                                       </a>
+                                       
+                                       
+                                    </div>
+                                    <div class="product-info">
+                                       <div class="care-pro-title"><a href="#"><?php echo $namecat;?></a></div>
+                                       <!-- <div class="care-pro-range">₹ <?php //echo $Minprice;?> to ₹ <?php //echo $Maxprice;?></div> -->
+                                       <div class="care-view-more"><a href="<?php echo Mage::getBaseUrl().$requestUrl ;?>">VIEW DETAIL</a></div>
+                                    </div>
+                                 </div>
+                              </div>
+
+                               <?php } ?>
+                              <!-- <div class="col col-sm-6 col-xs-12 sub-item respl-item"> -->
+                              
+                              <!-- <div class="col col-sm-6 col-xs-12 sub-item respl-item"> -->
+                              
+                              <!-- <div class="col col-sm-6 col-xs-12 sub-item respl-item"> -->
+                              
+                              <!-- <div class="col col-sm-6 col-xs-12 sub-item respl-item"> -->
+                             
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+      <!--End Items-->
+   </div>
+</div>

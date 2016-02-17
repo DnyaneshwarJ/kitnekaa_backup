@@ -1,0 +1,163 @@
+<?xml version="1.0"?>
+<config>
+  <modules>
+    <Kitnekaa_Shoppinglist>
+      <version>0.1.8</version>
+    </Kitnekaa_Shoppinglist>
+  </modules>
+  <frontend>
+    <routers>
+      <shoppinglist>
+        <use>standard</use>
+          <args>
+            <module>Kitnekaa_Shoppinglist</module>
+            <frontName>shoppinglist</frontName>
+          </args>
+      </shoppinglist>
+    </routers>
+		<layout>
+		  <updates>
+			<shoppinglist>
+			  <file>shoppinglist.xml</file>
+			</shoppinglist>
+		  </updates>
+		</layout>
+  </frontend>
+  <global>
+		<!--<rewrite>
+            <kitnekaa_shoppinglist_indexcontroller>
+                <from><![CDATA[#^/wishlist/index/#]]></from> &lt;!&ndash; Mage_Wishlist_IndexController  &ndash;&gt;
+                <to>/shoppinglist/</to> &lt;!&ndash; Kitnekaa_Shoppinglist_Wishlist_IndexController  &ndash;&gt;
+            </kitnekaa_shoppinglist_indexcontroller>
+		</rewrite>-->
+    <helpers>
+      <shoppinglist>
+        <class>Kitnekaa_Shoppinglist_Helper</class>
+      </shoppinglist>
+	<wishlist>
+        <rewrite>
+          <data>Kitnekaa_Shoppinglist_Helper_Wishlist</data> <!-- tell magento to use your own helper instead of the default one -->
+        </rewrite>
+      </wishlist>
+    </helpers>
+	<blocks>
+	  <shoppinglist>
+		<class>Kitnekaa_Shoppinglist_Block</class>
+	  </shoppinglist>
+	</blocks>
+	<resources>
+	  <shoppinglist_setup>
+		<setup>
+		  <module>Kitnekaa_Shoppinglist</module>
+          <class>Mage_Core_Model_Resource_Setup</class>
+		</setup>
+		<connection>
+		  <use>core_setup</use>
+		</connection>
+	  </shoppinglist_setup>
+	  <shoppinglist_write>
+		<connection>
+		  <use>core_write</use>
+		</connection>
+	  </shoppinglist_write>
+	  <shoppinglist_read>
+		<connection>
+		  <use>core_read</use>
+		</connection>
+	  </shoppinglist_read>
+	</resources>
+    <events>
+	  <wishlist_add_product> <!-- identifier of the event we want to catch -->
+        <observers>
+          <wishlist_add_product_handler> <!-- identifier of the event handler -->
+            <type>model</type> <!-- class method call type; valid are model, object and singleton -->
+            <class>shoppinglist/observer</class> <!-- observers class alias -->
+            <method>addProductExtraAttributes</method>  <!-- observer's method to be called -->
+            <args></args> <!-- additional arguments passed to observer -->
+          </wishlist_add_product_handler>
+        </observers>
+      </wishlist_add_product>
+	  <wishlist_update_item> <!-- identifier of the event we want to catch -->
+        <observers>
+          <wishlist_update_item_handler> <!-- identifier of the event handler -->
+            <type>model</type> <!-- class method call type; valid are model, object and singleton -->
+            <class>shoppinglist/observer</class> <!-- observers class alias -->
+            <method>updateProductExtraAttributes</method>  <!-- observer's method to be called -->
+            <args></args> <!-- additional arguments passed to observer -->
+          </wishlist_update_item_handler>
+        </observers>
+      </wishlist_update_item>
+	  <wishlist_add_item> <!-- identifier of the event we want to catch -->
+        <observers>
+          <wishlist_add_item_handler> <!-- identifier of the event handler -->
+            <type>model</type> <!-- class method call type; valid are model, object and singleton -->
+            <class>shoppinglist/observer</class> <!-- observers class alias -->
+            <method>addItemExtraAttributes</method>  <!-- observer's method to be called -->
+            <args></args> <!-- additional arguments passed to observer -->
+          </wishlist_add_item_handler>
+        </observers>
+      </wishlist_add_item>
+	  <wishlist_product_add_after> <!-- identifier of the event we want to catch -->
+        <observers>
+          <wishlist_product_add_after_handler> <!-- identifier of the event handler -->
+            <type>model</type> <!-- class method call type; valid are model, object and singleton -->
+            <class>shoppinglist/observer</class> <!-- observers class alias -->
+            <method>addWishlistAfter</method>  <!-- observer's method to be called -->
+            <args></args> <!-- additional arguments passed to observer -->
+          </wishlist_product_add_after_handler>
+        </observers>
+      </wishlist_product_add_after>
+    </events>
+    <models>
+      <shoppinglist>
+        <class>Kitnekaa_Shoppinglist_Model</class>
+        <resourceModel>shoppinglist_resource</resourceModel>
+      </shoppinglist>
+      <shoppinglist_resource>
+        <class>Kitnekaa_Shoppinglist_Model_Resource</class>
+        <entities>
+          <shoppinglist>
+            <table>kitnekaa_shopping_list</table>
+          </shoppinglist>
+          <shoppinglist_items>
+            <table>kitnekaa_shopping_list_items</table>
+          </shoppinglist_items>
+          <shoppinglist_files>
+            <table>kitnekaa_shopping_list_files</table>
+          </shoppinglist_files>
+        </entities>
+      </shoppinglist_resource>
+    </models>
+  </global>
+  <!--<admin>
+	<routers>
+	  <shoppinglist>
+	    <use>admin</use>
+		<args>
+		  <module>Kitnekaa_Shoppinglist</module>
+		  <frontName>admin_shoppinglist</frontName>
+		</args>
+	  </shoppinglist>
+	</routers>
+  </admin>-->
+  <admin>
+        <routers>
+            <adminhtml>
+                <args>
+                    <modules>
+                      <Kitnekaa_Shoppinglist before="Mage_Adminhtml">Kitnekaa_Shoppinglist_Adminhtml</Kitnekaa_Shoppinglist>
+                    </modules>
+                </args>
+            </adminhtml>
+        </routers>
+    </admin>
+  <adminhtml>
+        <layout>
+            <updates>
+                <shoppinglist>
+                    <file>shoppinglist.xml</file>
+                </shoppinglist>
+            </updates>
+        </layout>
+    </adminhtml>
+</config> 

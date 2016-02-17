@@ -1,0 +1,51 @@
+ <div class="form-list checkout-payment-innerdiv" id="payment_form_<?php echo $this->getMethodCode() ?>" style="display:none">
+      	<ul>
+            	<?php
+            	 echo  Mage::app()->getLayout()->createBlock('users/index')->setTemplate('company/form/company_details.phtml')->toHtml(); 
+                $company = Mage::helper('credittransfer')->getFinancerList();
+              ?>
+
+                <li>
+                  <label for="tin_no"><?php echo $this->__('Select Finacer') ?></label>
+                    <div class="input-box">
+                       <select name="financer" id="finance_company" class="validate-select">
+                        <option value="">Select Financer</option>
+                           <?php foreach ($company as $key => $value) { ?>
+                        <option value="<?php echo $value['verifying_company_id']; ?>"><?php echo str_replace("_", " ",$value['verifying_company_name']); ?></option>
+                        <?php } ?>
+                       </select>
+                    </div>
+              </li>
+      </ul>
+      <ul id="purchasecredit_new">
+      </ul>
+</div> 
+<script type="text/javascript">
+  jQuery(function(){
+
+        jQuery('#vat_no').addClass('required-entry');
+        jQuery('#tin_no').addClass('required-entry');
+
+        jQuery('#finance_company').change(function(){
+        
+              var data_finance  = jQuery('#finance_company').val();
+              if(data_finance > 0){
+
+                $j('#purchasecredit_new').html("");
+                $j.ajax({
+                            url: "<?php echo $this->getUrl('credittransfer/ajax/index') ?>",
+                            type: "POST",
+                            data: "financer="+data_finance,
+                            success: function(data){
+                                   $j('#purchasecredit_new').html(data);
+                            }
+                        });
+              }else{
+
+                 alert("Please Select Financer");
+                 $j('#purchasecredit_new').html("");
+              }
+
+        });
+});
+  </script>

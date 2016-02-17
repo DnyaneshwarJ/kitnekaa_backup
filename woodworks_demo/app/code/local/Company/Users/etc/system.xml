@@ -1,0 +1,56 @@
+<?xml version="1.0"?>
+<config>
+	<tabs>
+		<companyusers module="users" translate="label">
+			<label>Company Users</label>
+			<sort_order>100</sort_order>
+		</companyusers>
+	</tabs>
+	<sections>
+		<companyusers_sections module="users" translate="label">
+			<label>Notify Vat and Tin No. Verification email address</label>
+			<!-- <frontend_type>text</frontend_type> -->
+			<sort_order>100</sort_order>
+			<show_in_default>1</show_in_default>
+			<show_in_website>1</show_in_website>
+			<show_in_store>1</show_in_store>
+			<tab>companyusers</tab>
+			<groups>
+				<companyusersvattinverification_group translate="label">
+					<label>Email address of those who will verify the vat and tin number</label>
+					<!-- <frontend_type>text</frontend_type> -->
+					<sort_order>1</sort_order>
+					<show_in_default>1</show_in_default>
+					<show_in_website>1</show_in_website>
+					<show_in_store>1</show_in_store>
+					<fields>
+						<vattinverification_name translate="label">
+							<label>Name of the receipt</label>
+							<frontend_type>text</frontend_type>
+							<sort_order>1</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>1</show_in_store>
+						</vattinverification_name>
+						<vattinverification_to translate="label">
+							<label>To email address of those who will verify the vat and tin number</label>
+							<frontend_type>text</frontend_type>
+							<sort_order>2</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>1</show_in_store>
+						</vattinverification_to>
+						<vattinverification_cc translate="label">
+							<label>CC email address of those who will get email as cc of verify the vat and tin number</label>
+							<frontend_type>text</frontend_type>
+							<sort_order>3</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>1</show_in_store>
+						</vattinverification_cc>
+					</fields>
+				</companyusersvattinverification_group>
+			</groups>
+		</companyusers_sections>
+	</sections>
+</config>

@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+    <checkout_cart_index>
+        <reference name="checkout.cart.shipping">
+            <action method="setTemplate"><template>udtax/cart/shipping.phtml</template></action>
+        </reference>
+    </checkout_cart_index>
+    <checkout_onepage_shippingmethod>
+        <reference name="root">
+            <action method="setTemplate"><template>udtax/onepage/shipping.phtml</template></action>
+        </reference>
+    </checkout_onepage_shippingmethod>
+</layout>

@@ -1,0 +1,95 @@
+<script type="text/javascript">
+
+jQuery(function(){
+            jQuery('#datetimepickerbank').datetimepicker({
+                format: 'DD-MM-YYYY',
+                 useCurrent: false, //Important! See issue #1075
+           //dateFormat: 'dd-mm-yy',
+            });
+            
+        });
+
+</script>
+
+
+<div class="form-list checkout-payment-innerdddiv" id="payment_form_<?php echo $this->getMethodCode() ?>" style="display:none;">
+   <div>
+    <label><?php echo $this->__('Account Name') ?></label>
+    <span>
+     <?php echo $this->__(' - KITNEKAA ON-LINE TRADING PRIVATE LIMITED') ?>
+    </span>
+  </div> 
+   <div>
+    <label><?php echo $this->__('Account Number') ?></label>
+    <span>
+       <label><?php echo $this->__(' - 50200014501304') ?></label>
+    </span>
+  </div> 
+   <div>
+    <label><?php echo $this->__('Bank Name') ?></label>
+    <span>
+       <label><?php echo $this->__(' - HDFC Bank') ?></label>
+    </span>
+  </div> 
+   <div>
+    <label><?php echo $this->__('Account Type ') ?></label>
+    <span>
+       <label><?php echo $this->__(' - Current A/c') ?></label>
+    </span>
+  </div> 
+  <div>
+    <label><?php echo $this->__('Kitnekaa IFSC Code') ?></label>
+    <span>
+       <label><?php echo $this->__(' - HDFC0000543') ?></label>
+    </span>
+  </div> 
+
+  <div>
+    <label><?php echo $this->__('Utr Number') ?>  </label>
+    <span>
+      <input type="text" title="<?php echo $this->__('Utr Number') ?>" name="payment[cust_utr_number]"  class="input-text required-entry validate-alphanum validate-maxlength maximum-length-16"
+      value="<?php echo $this->htmlEscape($this->getInfoData('cust_utr_number')) ?>" />
+
+
+    </span>
+  </div>
+  <br/>
+  <div>
+    <label><?php echo $this->__('Bank Name') ?>*</label>
+    <span>
+    <span >
+      <input type="text" title="<?php echo $this->__('Bank Name') ?>" name="payment[cust_bank_name]" class="input-text required-entry validate-alpha-space" value="<?php echo $this->htmlEscape($this->getInfoData('cust_bank_name')) ?>" />
+   
+    </span>
+  </div>
+  <br/>
+    <div>
+    <label><?php echo $this->__('Customer Branch Name') ?>*</label>
+    <span>
+    <span >
+      <input type="text" title="<?php echo $this->__('Customer Branch Name') ?>" name="payment[cust_branch_name]" class="input-text required-entry validate-alpha-space" value="<?php echo $this->htmlEscape($this->getInfoData('cust_branch_name')) ?>" />
+   
+    </span>
+  </span>
+  </div>
+  <br/>
+  <div>
+ <label><?php echo $this->__('Date Of Transaction') ?>*</label>
+ 
+ <span class="payment_datapicker">
+                <div class='input-group date' id='datetimepickerbank'>
+                   <input type='text' class="form-control input-text required-entry" title="<?php echo $this->__('Date of transaction') ?>"  name="payment[cust_trans_date]" value="<?php echo $this->htmlEscape($this->getInfoData('cust_trans_date')) ?>" style="margin: 0px;"/>
+                    <span class="input-group-addon" style="position: absolute;right: 0px;top: 0px;width: 38px;height: 34px;display: inline;">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                </div>
+ 
+ </span>   
+</div>
+</div>
+<div>
+    <?php echo $this->getMethod()->getConfigData('message');?>
+</div>
+
+
+

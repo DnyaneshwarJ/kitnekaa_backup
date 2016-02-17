@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<layout>
+    <adminhtml_customer_edit>
+        <reference name="customer_edit_tabs">
+            <action method="addTab">
+                <name>customer_edit_tab_subaccount</name>
+                <block>cminds_multiuseraccounts/adminhtml_customer_edit_tab_subAccount</block>
+            </action>
+        </reference>
+    </adminhtml_customer_edit>
+
+    <adminhtml_subaccount_subaccountgrid>
+        <block type="cminds_multiuseraccounts/adminhtml_customer_edit_tab_subAccount" name="customer.subaccount.grid" output="toHtml"></block>
+    </adminhtml_subaccount_subaccountgrid>
+
+    <adminhtml_subaccount_edit>
+        <reference name="content">
+            <block type="cminds_multiuseraccounts/adminhtml_subAccount_edit" name="subaccount.edit"></block>
+        </reference>
+    </adminhtml_subaccount_edit>
+
+    <adminhtml_subaccount_new>
+        <reference name="content">
+            <block type="cminds_multiuseraccounts/adminhtml_subAccount_edit" name="subaccount.new"></block>
+        </reference>
+    </adminhtml_subaccount_new>
+
+    <adminhtml_subaccount_grid>
+        <block type="cminds_multiuseraccounts/adminhtml_subAccount_grid" name="subaccount.grid" output="toHtml"></block>
+    </adminhtml_subaccount_grid>
+</layout>

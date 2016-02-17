@@ -1,0 +1,103 @@
+<?php
+/**
+ * Unirgy_Dropship extension
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/osl-3.0.php
+ *
+ * @category   Unirgy
+ * @package    Unirgy_Dropship
+ * @copyright  Copyright (c) 2008 Unirgy LLC
+ * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+
+/**
+ * @category   Unirgy
+ * @package    Unirgy_Dropship
+ * @author     Boris (Moshe) Gurevich <moshe@unirgy.com>
+ */
+?>
+<?php $_htmlId      = $this->getElement()->getHtmlId() ?>
+<?php $_htmlClass   = $this->getElement()->getClass() ?>
+<?php $_htmlName    = $this->getElement()->getName() ?>
+<?php $_multiWebsite= true; ?>
+<tr>
+    <td class="label"><?php echo $this->getElement()->getLabel() ?></td>
+    <td colspan="10" class="grid carrier">
+    <table cellspacing="0" class="data border" id="carriers_table">
+        <thead>
+            <tr class="headings">
+                <th><?php echo Mage::helper('udropship')->__('Qty') ?></th>
+                <th><?php echo $this->getPriceColumnHeader(Mage::helper('udropship')->__('Price')) ?></th>
+                <th class="last"><?php echo Mage::helper('udropship')->__('Action') ?></th>
+            </tr>
+            <tr id="<?php echo $_htmlId ?>_add_template" class="template no-display">
+                <td>
+                <select disabled="no-template" class="<?php echo $_htmlClass ?> custgroup required-entry" name="<?php echo $_htmlName ?>[__index__][carrier_code]" id="tier_price_row___index___carrier_code">
+                    <?php foreach ($this->getSystemCarriers() as $_code=>$_name): ?>
+                    <option value="<?php echo $_code ?>"><?php echo htmlspecialchars($_name) ?></option>
+                    <?php endforeach ?>
+                </select>
+                </td>
+                <td class="nobr">
+                    <input disabled="no-template" class="<?php echo $_htmlClass ?>" type="text" name="<?php echo $_htmlName ?>[__index__][account_id]" value="'#{account_id}'" />
+                </td>
+                <td>
+                    <input disabled="no-template" class="<?php echo $_htmlClass ?>" type="text" name="<?php echo $_htmlName ?>[__index__][fixed_price]" value="'#{fixed_price}'" />
+                </td>
+                <td class="last"><input type="hidden" name="<?php echo $_htmlName ?>[__index__][delete]" class="delete" disabled="no-template" value="" /><button title="Delete Tier" class="scalable delete icon-btn delete-product-option" onclick="carrierControl.deleteItem(event);return false"><span>Delete</span></button></td>
+            </tr>
+        </thead>
+        <tfoot>
+            <tr>
+                <td colspan="4" class="a-right"><?php echo $this->getAddButtonHtml() ?></td>
+            </tr>
+        </tfoot>
+        <tbody id="<?php echo $_htmlId ?>_container">
+        </tbody>
+    </table>
+
+<script type="text/javascript">
+//<![CDATA[
+    function CarrierControl() {
+        var template = new Template('<tr>' + $('<?php echo $_htmlId ?>_add_template').innerHTML.replace(/__index__/g, '#{index}').replace(/ disabled="?no-template"?/g, '').replace(/ disabled/g, '').replace(/="'([^']*)'"/g, '="$1"') + '</tr>');
+        var itemsCount = 0;
+
+        return {
+            addItem: function (def) {
+                var data = {};
+                data.qty = '';
+                data.price = '';
+                data.index = itemsCount++;
+                data.qty        = def[0];
+                data.price      = def[1];
+
+                Element.insert($('<?php echo $_htmlId ?>_container'), {'bottom':template.evaluate(data)});
+                $('carrier_row_'+data.index+'_cust_group').value = data.group;
+                $('carrier_row_'+data.index+'_website').value = data.website_id;
+            },
+            deleteItem : function(event) {
+                var tr = Event.findElement(event, 'tr');
+                if (tr) {
+                    Element.select(tr, '.delete').each(function(elem){elem.value='1'});
+                    Element.select(tr, ['input', 'select']).each(function(elem){elem.hide()});
+                    Element.hide(tr);
+                    Element.addClassName(tr, 'no-display template');
+                }
+            }
+        }
+    }
+
+    var carrierControl = new CarrierControl();
+
+    <?php foreach ($this->getCarriers() as $_carrier): ?>
+    carrierControl.addItem(<?php echo $_carrier->toJson() ?>);
+    <?php endforeach; ?>
+//]]>
+</script>
+</td>
+</tr>

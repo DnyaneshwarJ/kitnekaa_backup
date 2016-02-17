@@ -1,0 +1,61 @@
+===== 2.4.1 =====
+  * Fixed per vendor v2 rates loading
+
+===== 2.4.0 =====
+  * CE 1.9.2.2 compatibility
+  * Fixed install "index too long" error on some mysql installations
+
+===== 2.2.0 =====
+  * Central translations file
+
+===== 2.1.5 =====
+  * Added customer group condition to setup shipping prices
+
+===== 2.1.4 =====
+  * Fixed rates calculation when use rates setup = 'V2 By Category/VendorClass First/Additional/Handling Rates'
+
+===== 2.1.3 =====
+  * Few changes in vendor portal labels
+
+===== 2.1.2 =====
+  * Fixed find fallback rate (for *,-1 class) when rate for existing customer ship class not setup explicitly
+  * Added multiple root categories selection
+
+===== 2.1.1 =====
+  * Fixed rates save in products edit vendor portal
+
+===== 2.1.0 =====
+  * Moved product specific rates storage to separate tebles
+
+===== 2.0.0 =====
+  * Added v2 rates: new configuration setup, new modes for rates calculation, multiple delivery types support
+  * Fixed simple mode calculation when different configurables in cart with product attributes available
+
+===== 1.1.6 =====
+  * Added secure url for udtiership/vendor
+
+===== 1.1.5 =====
+  * Fixed compatibility with flat catalog in regards to runtime product attribute references from config
+    like rate_cost_attribute, rate_additional_attribute, rate_handling_attribute
+
+===== 1.1.4 =====
+  * Added support for rule based freeshipping
+  * Added check for existence of referenced product attribute
+    to eliminate further exception in eav_collection/addAttributeToSelect
+
+===== 1.1.3 =====
+  * Added simple rates configuration
+
+===== 1.1.2 =====
+  * default rate renderer fix in vendor rates edit
+  * added rates modifications in vendor portal
+
+===== 1.1.1 =====
+  * Added means to setup multiple addresses per shipclass
+
+===== 1.1.0 =====
+  * Added various means to combine rate elements from different sources by different rules
+  * Added configurable calculation methods
+  * Added tier handling
+
+===== 1.0 - Initial release =====

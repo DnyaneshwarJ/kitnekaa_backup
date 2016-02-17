@@ -1,0 +1,53 @@
+<?xml version="1.0"?>
+ 
+<!--<config>-->
+<!--     <menu>
+        <customer>
+            <children>
+                <customerverification>
+                    <sort_order>10</sort_order>
+                    <title>Customer Verification</title>
+                    <action>adminhtml/customerverification/index</action>
+                </customerverification>
+            </children>
+        </customer>
+    </menu>
+</config> -->
+<!-- 
+  <menu>
+            <customer>
+                    <children>
+                             <kitnekaa_credittransfer translate="title" module="kitnekaa_credittransfer">
+                                    <title>Subitem 1</title>
+                                    <sort_order>10</sort_order>
+                                    <action>adminhtml/credittransfer</action>
+                            </kitnekaa_credittransfer>
+                    </children>
+            </customer>
+    </menu>
+    <acl>
+            <resources>
+                    <admin>
+                            <children>
+                                    <customer>
+                                            <title>Subitem 1</title>
+                                            <sort_order>10</sort_order>
+                                    </customer>
+                            </children>
+                    </admin>
+            </resources>
+    </acl> -->
+    <!--</config>-->
+<!-- <config>
+    <menu>
+        <sales>
+            <children>
+                <kitnekaa_credittransfer translate="title" module="kitnekaa_credittransfer">
+                    <sort_order>10</sort_order>
+                    <title>Sachin Grid</title>
+                    <action>adminhtml/order/</action>
+                </kitnekaa_credittransfer>
+            </children>
+        </sales>
+    </menu>
+</config> -->

@@ -1,0 +1,244 @@
+/**************************
+*
+*	GENERAL
+*
+**************************/
+
+.clearfix_cameraslide, .cameraslide{
+    clear: both;
+}
+
+/* Css of js enfinity*/
+
+.pix_slideshow {
+    float: left;
+
+    width: 100%;
+}
+.pix_slideshow img {
+    max-width: none!important;
+}
+.pix_slideshow [data-use="simple"] img,
+.pix_slideshow [data-use="simple"] .filmore_rotate_wrap {
+    max-width: 100%!important;
+}
+.pix_slideshow_until_image {
+    display: none;
+}
+
+.pix_slideshow_target {
+    display: block;
+}
+.pix_slideshow_target {
+    overflow: hidden;
+    position: relative;
+    visibility: hidden;
+}
+
+.film_slide {
+    bottom: 0;
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 100%;
+    z-index: 0;
+}
+
+.filmoreSlide {
+    bottom: 0;
+    display: none;
+    height: 100%;
+    left: 0;
+    overflow: hidden;
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 100%;
+    z-index: 0;
+}
+.filmoreSlide > div {
+    position: absolute;
+}
+
+.filmoreBgs {
+    bottom: 0;
+    height: 100%;
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 100%;
+    z-index: 0;
+}
+
+section img, footer img {
+    height: auto;
+    max-width: 100%;
+    width: auto;
+}
+
+.pix_button {
+    text-align: center;
+}
+.pix_button a {
+    float: left;
+    margin: 0 -10px;
+    padding: 0 10px;
+    text-align: center;
+    text-decoration: none!important;
+    width: 100%;
+}
+.pix_button.yellow, .single_add_to_cart button, .single_add_to_cart .button, .shop_table a.checkout-button, input[type=submit]#place_order, .widget_shopping_cart .button, .checkout-button {
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    border-radius: 3px;
+    cursor: pointer;
+    display: inline-block;
+    height: 33px;
+    line-height: 33px;
+    padding: 0 10px;
+    text-decoration: none!important;
+}
+
+section img, footer img {
+    height: auto;
+    max-width: 100%;
+    width: auto;
+}
+
+.filmore_loader {
+    position: absolute;
+    right: 0;
+    top: 10px;
+}
+
+.filmore_commands {
+    float: left;
+    height: 48px;
+    position: relative;
+    text-align: center;
+    width: 100%;
+}
+.filmore_command {
+    cursor: pointer;
+    height: 38px;
+    overflow: hidden;
+    text-indent: -9999px;
+    width: 38px;
+}
+.filmore_pause {
+    background: url("../images/icons_sprite.png") no-repeat -6px -266px;
+    display: none;
+    left: 0;
+    position: absolute;
+    top: 5px;
+}
+.pixslideshow_white .filmore_pause {
+    background: url("../images/icons_sprite.png") no-repeat -6px -228px;
+}
+.pixslideshow_black .filmore_pause {
+    background: url("../images/icons_sprite.png") no-repeat -6px -190px;
+}
+.filmore_play {
+    background: url("../images/icons_sprite.png") no-repeat -48px -266px;
+    left: 0;
+    position: absolute;
+    top: 5px;
+}
+.pixslideshow_white .filmore_play {
+    background: url("../images/icons_sprite.png") no-repeat -48px -228px;
+}
+.pixslideshow_black .filmore_play {
+    background: url("../images/icons_sprite.png") no-repeat -48px -190px;
+}
+.filmore_autoadv .filmore_play {
+    display: none;
+}
+.filmore_autoadv .filmore_pause {
+    display: block;
+}
+
+.filmore_prev {
+   /* background: url("../images/icons_sprite.png") no-repeat -98px -266px;*/
+    display: inline-block;
+    height: 38px;
+    margin-top: 5px;
+    text-indent: -9999px;
+    width: 30px;
+}
+.pixslideshow_white .filmore_prev {
+    /*background: url("../images/icons_sprite.png") no-repeat -98px -228px;*/
+}
+.pixslideshow_black .filmore_prev {
+   /* background: url("../images/icons_sprite.png") no-repeat -98px -190px;*/
+}
+.filmore_next {
+    /*background: url("../images/icons_sprite.png") no-repeat -230px -266px;*/
+    display: inline-block;
+    height: 38px;
+    margin-top: 5px;
+    text-indent: -9999px;
+    width: 30px;
+}
+.pixslideshow_white .filmore_next {
+    background: url("../images/icons_sprite.png") no-repeat -230px -228px;
+}
+.pixslideshow_black .filmore_next {
+    background: url("../images/icons_sprite.png") no-repeat -230px -190px;
+}
+.filmore_next:hover,
+.filmore_prev:hover,
+.filmore_pag:hover,
+.filmore_pause:hover,
+.filmore_play:hover {
+    opacity: .7;
+}
+.filmore_next:active,
+.filmore_prev:active,
+.filmore_pag:active,
+.filmore_pause:active,
+.filmore_play:active {
+    opacity: 1;
+}
+
+.filmore_pagination {
+    display: inline-block;
+    overflow: hidden;
+}
+
+.filmore_pag {
+    background: url("../images/icons_sprite.png") no-repeat -188px -266px;
+    display: inline-block;
+    height: 38px;
+    margin-top: 5px;
+    text-indent: -9999px;
+    width: 24px;
+}
+.pixslideshow_white .filmore_pag {
+    background: url("../images/icons_sprite.png") no-repeat -188px -228px;
+}
+.pixslideshow_black .filmore_pag {
+    background: url("../images/icons_sprite.png") no-repeat -188px -190px;
+}
+
+.filmore_pag.filmore_current_pag {
+    background: url("../images/icons_sprite.png") no-repeat -147px -266px;
+    cursor: default;
+    opacity: 1!important;
+}
+.pixslideshow_white .filmore_pag.filmore_current_pag {
+    background: url("../images/icons_sprite.png") no-repeat -147px -228px;
+}
+.pixslideshow_black .filmore_pag.filmore_current_pag {
+    background: url("../images/icons_sprite.png") no-repeat -147px -190px;
+}
+
+.pix_slideshow [data-use="simple"] img,
+.pix_slideshow [data-use="simple"] .filmore_rotate_wrap {
+    max-width: 100%!important;
+}
+
+@media only screen and (min-width: 320px) and (max-width: 768px) {
+    
+}

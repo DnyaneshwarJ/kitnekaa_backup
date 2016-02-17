@@ -1,0 +1,117 @@
+ <script type="text/javascript">
+
+function uploaddocs(company,financer){
+
+  alert("clicked");
+  var filename = jQuery('#doc_to_upload').val();
+  if(filename==''){
+    alert('Please  select File To Upload');
+  }else{
+
+    alert('file going to upload');
+  }
+  
+}
+
+ function mypage(mydata,mycompany,verifyingname){
+
+<?php $ab = Mage::helper("adminhtml")->getUrl("*/credittransfer/addmyblock");
+ $ab.= "?isAjax=true";
+ $uploadurl = Mage::helper("adminhtml")->getUrl("*/credittransfer/adddocs");
+  ?>
+  var uploadurl = "<?php echo $uploadurl?>";
+ var financer = '"'+verifyingname+'"';
+  
+  var values = {
+    'form_key': "<?php echo Mage::getSingleton('core/session')->getFormKey(); ?>",
+    'financer': mydata,
+    'company': mycompany,
+    'verifyname': verifyingname
+};
+
+ jQuery.ajax({  
+                  url: "<?php echo $ab ?>",
+                     type: "POST",
+                     data: values,
+                     success: function(data) {
+                     jQuery('#all_new_data').html(data);
+                     },
+                     beforeSend:function(){
+                      Element.show('loading-mask');
+                     },
+                     complete:function(){
+                      Element.hide('loading-mask');
+
+                     }
+
+                 });
+
+
+
+     
+
+     }
+
+      function docdelete(id,financer,customerid,financerid){
+
+<?php $ab = Mage::helper("adminhtml")->getUrl("*/credittransfer/delete");
+ $ab.= "?isAjax=true";
+  ?>
+  var values = {
+    'form_key': "<?php echo Mage::getSingleton('core/session')->getFormKey(); ?>",
+    'id': id,
+    'financer': financer,
+    'customer_id':customerid,
+    
+};
+
+if(confirm('Are You sure want To Delete This')){
+ jQuery.ajax({  
+                  url: "<?php echo $ab ?>",
+                     type: "GET",
+                     data: values,
+                     success: function(data) {
+                      msg  = "Document Deleted Succefully";
+                    
+           mypage(financerid,customerid,financer); 
+           showAjaxSuccessMsg(msg);
+
+
+                     },
+                     beforeSend:function(){
+                      Element.show('loading-mask');
+                     },
+                     complete:function(){
+                      Element.hide('loading-mask');
+
+                     }
+                 });
+
+     }
+        }
+</script>
+
+
+
+<div id="all_my_data">
+	<input type="hidden" name="form_key" value="<?php echo $this->getFormKey(); ?>" />
+ <?php 
+  echo $this->getLayout()
+            ->createBlock('credittransfer/adminhtml_credittransfer_grid')
+            ->toHtml();
+?>
+
+<div id="all_new_data"></div>
+</div> 
+<div id="newdocs">
+
+</div>
+
+
+
+<script type="text/javascript">
+    //<![CDATA[
+    var dataForm = new VarienForm("doc_edit_form", true);
+    //]]>
+    </script>
+

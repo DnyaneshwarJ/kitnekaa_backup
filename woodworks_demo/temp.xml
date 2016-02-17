@@ -1,0 +1,10 @@
+<action type="customer/convert_adapter_customer" method="load">\r\n<var name="store"><![CDATA[0]]></var>\r\n<var
+        name="filter/adressType"><![CDATA[default_billing]]></var>\r\n
+</action>\r\n\r\n<action type="customer/convert_parser_customer" method="unparse">\r\n<var name="store">
+    <![CDATA[0]]></var>\r\n
+</action>\r\n\r\n<action type="dataflow/convert_mapper_column" method="map">\r\n</action>\r\n\r\n<action
+type="dataflow/convert_parser_csv" method="unparse">\r\n<var name="delimiter"><![CDATA[,]]></var>\r\n<var
+        name="enclose"><![CDATA["]]></var>\r\n<var name="fieldnames">true</var>\r\n
+</action>\r\n\r\n<action type="dataflow/convert_adapter_io" method="save">\r\n<var name="type">file</var>\r\n<var
+        name="path">var/export</var>\r\n<var name="filename"><![CDATA[export_customers.csv]]></var>\r\n
+</action>\r\n\r\n

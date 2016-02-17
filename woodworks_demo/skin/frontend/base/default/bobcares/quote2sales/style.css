@@ -1,0 +1,8 @@
+@CHARSET "UTF-8";
+.more {
+	display: none;}
+a.showLink, a.hideLink {
+	text-decoration: none;
+	color: #36f;}
+a.showLink:hover, a.hideLink:hover {
+	border-bottom: 1px dotted #36f; }

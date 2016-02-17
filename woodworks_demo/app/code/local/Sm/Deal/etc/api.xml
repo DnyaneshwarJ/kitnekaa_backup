@@ -1,0 +1,99 @@
+<?xml version="1.0"?>
+<config>
+	<api>
+		<resources>
+			<deal_deal translate="title" module="deal">
+				<title>Deal API</title>
+				<model>deal/deal_api</model>
+				<acl>deal/deal</acl>
+				<methods>
+					<list translate="title" module="deal">
+						<title>Retrieve list of deal</title>
+						<method>items</method>
+						<acl>deal/deal/list</acl>
+					</list>
+					<info translate="title" module="deal">
+						<title>Retrieve deal info</title>
+						<acl>deal/deal/info</acl>
+					</info>
+					<add translate="title" module="deal">
+						<title>Add deal</title>
+						<acl>deal/deal/add</acl>
+					</add>
+					<update translate="title" module="deal">
+						<title>Update deal</title>
+						<acl>deal/deal/update</acl>
+					</update>
+					<remove translate="title" module="deal">
+						<title>Remove deal</title>
+						<acl>deal/deal/remove</acl>
+					</remove>
+					<assignProduct translate="title" module="deal">
+						<title>Assign product to Deal</title>
+						<acl>deal/deal/update</acl>
+					</assignProduct>
+					<unassignProduct translate="title" module="deal">
+						<title>Remove product from deal}</title>
+						<acl>deal/deal/update</acl>
+					</unassignProduct>
+				</methods>
+				<faults module="deal">
+					<deal_not_exists>
+						<code>101</code>
+						<message>Requested deal does not exist.</message>
+					</deal_not_exists>
+					<invalid_data>
+						<code>102</code>
+						<message>Provided data is invalid.</message>
+					</invalid_data>
+					<save_error>
+						<code>103</code>
+						<message>Error while saving deal. Details in error message.</message>
+					</save_error>
+					<remove_error>
+						<code>104</code>
+						<message>Error while removing deal. Details in error message.</message>
+					</remove_error>
+					<product_not_exists>
+						<code>105</code>
+						<message>Product does not exist.</message>
+					</product_not_exists>
+				</faults>
+			</deal_deal>
+		</resources>
+		<resources_alias>
+			<deal>deal_deal</deal>
+		</resources_alias>
+		<v2>
+			<resources_function_prefix>
+				<deal>dealDeal</deal>
+			</resources_function_prefix>
+		</v2>
+		<acl>
+			<resources>
+				<deal translate="title" module="deal">
+					<title>Deal</title>
+					<deal translate="title" module="deal">
+						<title>Deal</title>
+						<sort_order>110</sort_order>
+						<list translate="title" module="deal">
+							<title>List</title>
+						</list>
+						<info translate="title" module="deal">
+							<title>Info</title>
+						</info>
+						<add translate="title" module="deal">
+							<title>Add</title>
+						</add>
+						<update translate="title" module="deal">
+							<title>Update</title>
+						</update>
+						<remove translate="title" module="deal">
+							<title>Remove</title>
+						</remove>
+					</deal>
+				</deal>
+			</resources>
+		</acl>
+	</api>
+</config>

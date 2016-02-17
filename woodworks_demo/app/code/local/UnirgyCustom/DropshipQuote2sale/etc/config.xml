@@ -1,0 +1,143 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <UnirgyCustom_DropshipQuote2sale>
+            <version>0.1.2</version>
+        </UnirgyCustom_DropshipQuote2sale>
+    </modules>
+    <frontend>
+        <layout>
+            <updates>
+                <dropshipquote2sale>
+                    <file>udquote2sale/udquote2sale.xml</file>
+                </dropshipquote2sale>
+            </updates>
+        </layout>
+    </frontend>
+    <adminhtml>
+        <events>
+            <sales_quote_save_before>
+                <observers>
+                    <custom_data_on_quote_save>
+                        <class>UnirgyCustom_DropshipQuote2sale_Model_ExtendedObserver</class>
+                        <method>setCustomDataOnQuoteSave</method>
+                    </custom_data_on_quote_save>
+                </observers>
+            </sales_quote_save_before>
+        </events>
+    </adminhtml>
+    <global>
+        <blocks>
+            <quote2sales>
+                <rewrite>
+                    <adminhtml_request_grid>UnirgyCustom_DropshipQuote2sale_Block_Adminhtml_Request_Grid</adminhtml_request_grid>
+                    <adminhtml_quote_grid>UnirgyCustom_DropshipQuote2sale_Block_Adminhtml_Quote_Grid</adminhtml_quote_grid>
+                    <adminhtml_quote_view_info>UnirgyCustom_DropshipQuote2sale_Block_Adminhtml_Quote_View_Info</adminhtml_quote_view_info>
+                    <adminhtml_quote_create_search_grid>UnirgyCustom_DropshipQuote2sale_Block_Adminhtml_Quote_Create_Search_Grid</adminhtml_quote_create_search_grid>
+                </rewrite>
+            </quote2sales>
+        </blocks>
+        <models>
+            <dropshipquote2sale>
+                <class>UnirgyCustom_DropshipQuote2sale_Model</class>
+                <resourceModel>dropshipquote2sale_mysql4</resourceModel>
+            </dropshipquote2sale>
+            <dropshipquote2sale_mysql4>
+                <class>UnirgyCustom_DropshipQuote2sale_Model_Mysql4</class>
+                <entities>
+                    <vendorequotes>
+                        <table>vendor_quotes</table>
+                    </vendorequotes>
+                </entities>
+            </dropshipquote2sale_mysql4>
+            <quote2sales>
+                <rewrite>
+                    <request>UnirgyCustom_DropshipQuote2sale_Model_Request</request>
+                    <adminhtml_quote_create>UnirgyCustom_DropshipQuote2sale_Model_Adminhtml_Quote_Create</adminhtml_quote_create>
+                    <email>UnirgyCustom_DropshipQuote2sale_Model_Email</email>
+                </rewrite>
+            </quote2sales>
+           <!-- <quote2salescustom>
+                <rewrite>
+                    <observer>UnirgyCustom_DropshipQuote2sale_Model_ExtendedObserver</observer>
+                </rewrite>
+            </quote2salescustom>-->
+        </models>
+        <events>
+        <save_quote_request_after> <!-- identifier of the event we want to catch -->
+            <observers>
+                <map_quote_request_vendors> <!-- identifier of the event handler -->
+                    <class>dropshipquote2sale/observer</class> <!-- observers class alias -->
+                    <method>mapQuoteRequestVendors</method>  <!-- observer's method to be called -->
+                </map_quote_request_vendors>
+            </observers>
+        </save_quote_request_after>
+
+            <delete_quote_request_after> <!-- identifier of the event we want to catch -->
+                <observers>
+                    <delete_quote_request_vendors> <!-- identifier of the event handler -->
+                        <class>dropshipquote2sale/observer</class> <!-- observers class alias -->
+                        <method>deleteQuoteRequestVendors</method>  <!-- observer's method to be called -->
+                    </delete_quote_request_vendors>
+                </observers>
+            </delete_quote_request_after>
+            <send_quote_request_email_before> <!-- identifier of the event we want to catch -->
+                <observers>
+                    <send_quote_request_email_vendors> <!-- identifier of the event handler -->
+                        <class>dropshipquote2sale/observer</class> <!-- observers class alias -->
+                        <method>sendQuoteRequestEmailToVendors</method>  <!-- observer's method to be called -->
+                    </send_quote_request_email_vendors>
+                </observers>
+            </send_quote_request_email_before>
+            <set_quote_to_order>
+                <observers>
+                    <push_quote_vednor_id_to_order> <!-- identifier of the event handler -->
+                        <class>UnirgyCustom_DropshipQuote2sale_Model_OrderObserver</class> <!-- observers class alias -->
+                        <method>set_quote_to_order</method>  <!-- observer's method to be called -->
+                    </push_quote_vednor_id_to_order>
+                </observers>
+            </set_quote_to_order>
+            <set_quote_item_to_order_item>
+                <observers>
+                    <push_quote_item_vednor_id_to_order_item> <!-- identifier of the event handler -->
+                        <class>UnirgyCustom_DropshipQuote2sale_Model_OrderObserver</class> <!-- observers class alias -->
+                        <method>set_quote_item_to_order_item</method>  <!-- observer's method to be called -->
+                    </push_quote_item_vednor_id_to_order_item>
+                </observers>
+            </set_quote_item_to_order_item>
+        </events>
+        <helpers>
+            <udquote2sale>
+                <class>UnirgyCustom_DropshipQuote2sale_Helper</class>
+            </udquote2sale>
+        </helpers>
+        <resources>
+            <vendorquotes_setup>
+                <setup>
+                    <module>UnirgyCustom_DropshipQuote2sale</module>
+                    <class>Mage_Core_Model_Resource_Setup</class>
+                </setup>
+                <connection>
+                    <use>core_setup</use>
+                </connection>
+            </vendorquotes_setup>
+            <user_write>
+                <connection>
+                    <use>core_write</use>
+                </connection>
+            </user_write>
+            <user_read>
+                <connection>
+                    <use>core_read</use>
+                </connection>
+            </user_read>
+        </resources>
+        <fieldsets>
+            <sales_convert_quote>
+                <vendor_id>
+                    <to_order>*</to_order>
+                </vendor_id>
+            </sales_convert_quote>
+        </fieldsets>
+    </global>
+</config>

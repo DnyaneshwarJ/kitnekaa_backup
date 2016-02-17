@@ -1,0 +1,30 @@
+<?php  $_quote = $this->getQuote() ?>
+<table class="data-table my-account-table" id="my-quotes-table" summary="<?php echo $this->__('Items Quoted') ?>">
+    <col />
+    <col width="1" />
+    <col width="1" />
+    <col width="1" />
+        <col width="1" />
+    <thead>
+    
+        <tr>
+            <th class=""><?php echo $this->__('Product') ?></th>
+            <th class="a-right rfq-pr"><?php echo $this->__('Unit Price') ?></th>
+            <th class="a-center rfq-da"><?php echo $this->__('Qty') ?></th>
+            <th class="a-right rfq-pr"><?php echo $this->__('Subtotal') ?></th>
+        </tr>
+    </thead>
+        <?php $_items = $_quote->getItemsCollection(); ?>
+        <?php $_index = 0; ?>
+            <?php $_count = $_items->count();?>
+        <?php foreach ($_items as $_item): ?>
+        <?php if ($_item->getParentItem()) continue; ?>
+        <tbody>
+            <?php  echo $this->getItemHtml($_item); ?>
+        </tbody>
+        <?php endforeach; ?>
+    <tfoot>
+        <?php echo $this->getChildHtml('quote_totals') ?>
+    </tfoot>
+</table>
+<script type="text/javascript">decorateTable('my-quotes-table', {'tbody' : ['odd', 'even'], 'tbody tr' : ['first', 'last']})</script>

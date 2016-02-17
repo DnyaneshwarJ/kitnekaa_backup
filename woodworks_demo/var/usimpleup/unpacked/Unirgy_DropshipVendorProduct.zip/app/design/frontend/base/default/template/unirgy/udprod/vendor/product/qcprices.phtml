@@ -1,0 +1,159 @@
+<table cellspacing="0" class="data data-table" id="<?php echo $this->suffixId('cfgTable')?>" style="width:550px">
+    <col width="130" />
+    <col width="130" />
+    <col width="100" />
+    <col width="100" />
+    <col width="50" />
+    <thead>
+    <tr class="headings">
+        <th><?php echo Mage::helper('udropship')->__('Attribute') ?></th>
+        <th><?php echo Mage::helper('udropship')->__('Value') ?></th>
+        <th><?php echo Mage::helper('udropship')->__('Price Value') ?></th>
+        <th><?php echo Mage::helper('udropship')->__('Type') ?></th>
+        <th><?php echo Mage::helper('udropship')->__('Action') ?></th>
+    </tr>
+    <tr id="<?php echo $this->suffixId('rowTpl')?>" style="display:none">
+        <td>
+            <select name="<?php echo $this->getFieldName()?>[$ROW][attribute_id]" style="width:120px;"  onchange="cfgPriceAttrChange('$ROW', this.value);">
+                <option value=""><?php echo Mage::helper('udropship')->__('* Please select')?></option>
+                <?php foreach ($this->getConfigurableAttributes() as $cfgAttr): ?>
+                    <option alt="attribute_id" value="<?php echo $cfgAttr->getId()?>"><?php echo $this->htmlEscape($cfgAttr->getFrontend()->getLabel()) ?></option>
+                <?php endforeach; ?>
+            </select>
+        </td>
+        <td>
+            <select id="<?php echo $this->getFieldName()?>_$ROW_value_index" name="<?php echo $this->getFieldName()?>[$ROW][value_index]" style="width:120px;"></select>
+        </td>
+        <td>
+            <input name="<?php echo $this->getFieldName()?>[$ROW][pricing_value]" class="input-text" type="text"  value="$PRICING_VALUE" style="width: 100px" />
+        </td>
+        <td>
+            <select name="<?php echo $this->getFieldName()?>[$ROW][is_percent]" style="width:90px;">
+                <option alt="is_percent" value="0"><?php echo Mage::helper('udropship')->__('Fixed')?></option>
+                <option alt="is_percent" value="1"><?php echo Mage::helper('udropship')->__('Percent')?></option>
+            </select>
+        </td>
+        <td>
+            <button type="button" class="scalable delete delete-fieldset"><span>&nbsp;</span></button>
+        </td>
+    </tr>
+    </thead>
+    <tfoot>
+    <tr>
+        <th colspan="6" class="a-left">
+            <div class="left"><button type="button" class="scalable add" id="<?php echo $this->suffixId('addBtn')?>"><span>+ <?php echo Mage::helper('udropship')->__('Add Option Price') ?></span></button></div>
+        </th>
+    </tr>
+    </tfoot>
+    <tbody class="<?php echo $this->suffixId('body')?>">
+    </tbody>
+</table>
+
+<script type="text/javascript">
+    //<![CDATA[
+    var cfgPriceAttrOptions = <?php echo $this->getCfgAttrOptionsJson();?>;
+    function cfgPriceAttrChange(row, cfgPriceAttrId, cfgPriceAttrValue) {
+        var cfgPriceAttrOptSel = $('<?php echo $this->getFieldName()?>_'+row+'_value_index');
+        cfgPriceAttrOptSel.options.length=0;
+        if (cfgPriceAttrOptions[cfgPriceAttrId] && cfgPriceAttrOptions[cfgPriceAttrId].values) {
+            cfgPriceAttrOptSel.add(new Option('<?php echo $this->jsQuoteEscape(Mage::helper('udropship')->__('* Please select'))?>', ''));
+            $H(cfgPriceAttrOptions[cfgPriceAttrId].values).each(function(pair) {
+                if (pair.value.value && pair.value.label) {
+                    cfgPriceAttrOptSel.add(new Option(pair.value.label, pair.value.value));
+                }
+            });
+            for (j=0; j<cfgPriceAttrOptSel.options.length; j++) {
+                cfgPriceAttrOptSel.options[j].alt = 'value_index';
+                if (cfgPriceAttrOptSel.options[j].value==cfgPriceAttrValue) {
+                    cfgPriceAttrOptSel.options[j].selected = true;
+                }
+            }
+        }
+        if (cfgPriceAttrOptSel.options.length>1) {
+            cfgPriceAttrOptSel.show();
+        } else {
+            cfgPriceAttrOptSel.hide();
+        }
+    }
+    (function ()
+    {
+        var lastRowNum = 0;
+        var tbody = $$('#<?php echo $this->suffixId('cfgTable')?> tbody.<?php echo $this->suffixId('body')?>')[0]
+
+        function addRow(inData)
+        {
+            var rowHtml = $('<?php echo $this->suffixId('rowTpl')?>').innerHTML
+            var data = {
+                value_index: '',
+                attribute_id: '',
+                pricing_value: '',
+                is_percent: '',
+                sort_order: '0'
+            }
+            Object.extend(data, inData);
+            data.row = ++lastRowNum;
+
+            var isIE = (/msie [1-8]\./i).test(navigator.userAgent);
+            var numericVars = ['attribute_id','value_index','is_percent','pricing_value'];
+            var forcedNumericVars = [];
+            var keys = $H(data).keys().sortBy(function(s){return (''+s).length}).reverse();
+            for (j=0; j<keys.length; j++) {
+                var i=keys[j];
+                value = data[i] || ''
+                if (-1 != numericVars.indexOf(i) && data[i]
+                    || -1 != forcedNumericVars.indexOf(i)
+                    ) {
+                    value *= 1;
+                    data[i] = value;
+                }
+                if (i!=='row' && isIE) value = '"'+value+'"';
+                rowHtml = rowHtml.replace(new RegExp('\\$'+i.toUpperCase(), 'g'), value)
+            }
+            var regExTpl = [
+                new Template('<option (([^>]*(alt="?#{key}"?|value="?#{value}"?(?=[\\s>]))){2})'),
+                new Template('<option $1 selected="selected"'),
+                new Template('<input (([^>]*(alt="?#{key}"?|value="?#{value}"?(?=[\\s>])|type="?checkbox"?)){3})'),
+                new Template('<input $1 checked="checked"')
+            ];
+            var selectFields = $H({attribute_id:0,is_percent:0});
+            selectFields.each(function(pair){
+                var varsForEval, value=data[pair.key], key=pair.key;
+                for (var rxIdx=0; rxIdx<regExTpl.length; rxIdx+=2) {
+                    varsForEval = [];
+                    if (pair.value) {
+                        if (!Object.isArray(value)) {
+                            value = String.interpret(value).split(',');
+                        }
+                        value.each(function(val){
+                            varsForEval.push({key: RegExp.escape(key), value: RegExp.escape(val)});
+                        })
+                    } else {
+                        varsForEval.push({key: RegExp.escape(key), value: RegExp.escape(value)});
+                    }
+                    for (var vfeIdx=0; vfeIdx<varsForEval.length; vfeIdx++) {
+                        var varForEval = varsForEval[vfeIdx];
+                        var rxFind = regExTpl[rxIdx].evaluate(varForEval);
+                        var rxReplace = regExTpl[rxIdx+1].evaluate(varForEval);
+                        rowHtml = rowHtml.replace(new RegExp(rxFind, 'i'), rxReplace);
+                    }
+                }
+            });
+            tbody.insert('<tr>'+rowHtml+'</tr>');
+            cfgPriceAttrChange(data.row, data.attribute_id, data.value_index);
+            var trs = tbody.childElements()
+            var tr = trs[trs.length-1]
+            tr.addClassName(lastRowNum%2 ? 'odd' : 'even')
+            var del = $(tr).select('button.delete-fieldset')[0];
+            if (del) {
+                $(del).observe('click', function(e) { e.stop(); $(del.parentNode.parentNode).remove() })
+            }
+        }
+
+        $('<?php echo $this->suffixId('addBtn')?>').observe('click', function(e) { e.stop(); addRow() });
+
+        <?php $fValue = $this->getCfgPrices(); if (is_array($fValue)): foreach ($fValue as $fV): ?>
+        addRow(<?php echo Zend_Json::encode($fV) ?>);
+        <?php endforeach; endif; ?>
+    })();
+    //]]>
+</script>

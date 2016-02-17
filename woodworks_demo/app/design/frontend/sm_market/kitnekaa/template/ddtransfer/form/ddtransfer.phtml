@@ -1,0 +1,67 @@
+<script type="text/javascript">
+  jQuery(function(){
+
+      jQuery('#datetimepickerdd').datetimepicker({
+          format: 'DD-MM-YYYY',
+           useCurrent: false, //Important! See issue #1075
+           //dateFormat: 'dd-mm-yy',
+           minDate: getFormattedDate(new Date())
+      }); 
+      
+  });
+ 
+ 
+</script>
+
+
+<div class="form-list checkout-payment-innerdddiv" id="payment_form_<?php echo $this->getMethodCode() ?>" style="display:none;">
+  <div>
+    <label><?php echo $this->__('Account Name') ?></label>
+    <span><?php echo $this->__(' - KITNEKAA ON-LINE TRADING PRIVATE LIMITED') ?></span>
+  </div> 
+   <div>
+    <label><?php echo $this->__('Account Number') ?></label>
+    <span><?php echo $this->__(' - 50200014501304') ?></span>
+  </div> 
+   <div>
+    <label><?php echo $this->__('Bank Name') ?></label>
+    <span><?php echo $this->__(' - HDFC Bank') ?></span>
+  </div> 
+   <div>
+    <label><?php echo $this->__('Account Type ') ?></label>
+    <span><?php echo $this->__(' - Current A/c') ?></span>
+  </div> 
+  <div>
+    <label><?php echo $this->__('DD Number') ?>*</label>
+    <span>
+      <input type="text" title="<?php echo $this->__('DD Number') ?>" name="payment[cust_dd_number]"  class="input-text required-entry validate-digits validate-maxlength maximum-length-12 validate-minlength minimum-length-6"
+      value="<?php echo $this->htmlEscape($this->getInfoData('cust_dd_number')) ?>" />
+    </span>
+  </div>
+  <div>
+    <label><?php echo $this->__('Bank Name') ?>*</label>
+    <span>
+      <input type="text" title="<?php echo $this->__('Bank Name') ?>" name="payment[cust_bank_name]"  id="bank_name_dd" class="input-text required-entry validate-alpha-space validate-minlength minimum-length-3" value="<?php echo $this->htmlEscape($this->getInfoData('cust_bank_name')) ?>" />
+    </span>
+  </div>
+  <div>
+    <label><?php echo $this->__('Branch Name') ?>*</label>
+    <span>
+      <input type="text" title="<?php echo $this->__('Branch Name') ?>" name="payment[cust_branch_name]" id="branch_name_dd" class="input-text required-entry validate-alpha-space validate-length minimum-length-3"  value="<?php echo $this->htmlEscape($this->getInfoData('cust_branch_name')) ?>" />   
+    </span>
+  </div>
+  <div>
+    <label><?php echo $this->__('Date Of Transaction') ?>*</label> 
+    <span class="payment_datapicker">
+      <div class='input-group date' id='datetimepickerdd'>
+         <input type='text' class="form-control input-text required-entry" id="dd_date" title="<?php echo $this->__('Date of transaction') ?>"  name="payment[cust_trans_date]" value="<?php echo $this->htmlEscape($this->getInfoData('cust_trans_date')) ?>"/>
+          <span class="input-group-addon">
+              <span class="glyphicon glyphicon-calendar"></span>
+          </span>
+      </div> 
+    </span>
+  </div>
+</div>
+<div>
+    <?php echo $this->getMethod()->getConfigData('message');?>
+</div>

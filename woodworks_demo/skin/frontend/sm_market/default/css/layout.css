@@ -1,0 +1,122 @@
+/******************************************
+***           SmartAddon.Com           ****
+*******************************************/
+.wrap { width: 100%; clear: both; min-width: 1200px; }
+.main { width: 960px; max-width: 1200px; margin: 0 auto; position: relative;}
+
+.column { float: left; }
+
+.main .inner {
+/* We use liquid layout, so we need to insert a div which will create margin if need */
+	padding-left: 20px;
+	padding-right: 20px;
+}
+
+.main .main-inner1 {
+/* We use liquid layout, so we need to insert a div which will create margin if need */
+	padding-left: 20px;
+	padding-right: 20px;
+}
+
+.column div.block { 
+/* for side columns and spotlight, we only need to add margin or padding to Module */
+	margin-left: 0;
+	margin-right: 0;
+}
+
+.yt-rightcol div.block {
+	margin:0 0 20px 0;
+	padding: 0 0;
+}
+
+.yt-leftcol div.block {
+	margin:0 0 20px 0;
+	padding: 0 0;
+}
+
+.item .contentpaneopen {
+/* for article columns, we only need to add margin or padding to this div  */
+	padding-left: 20px;
+	padding-right: 20px;
+}
+
+.items-leading { }
+
+.items-row {
+/* minus the spacing of the article row to macth with the Gutter & global grid */
+	margin-left: 0;
+	margin-right: 0; 
+}
+
+/*--- Main column --- */
+
+#yt_main {
+	float: right;
+	width: 720px;
+	padding-top: 22px;
+}
+
+.one-column #yt_main {
+	float: none;
+	width: auto;
+}
+
+.yt-r #yt_main {
+	float: left;
+	margin-left: 0;
+}
+
+.yt-l-m-r #yt_main {
+	width: 480px;
+	overflow: hidden;
+	margin-left: 20px;
+	float:left;
+}
+.cms-home #yt_content_top{
+	margin:0 0 15px 0;
+}
+/*--- side columns --- */
+.yt-colswrap {}
+.yt-col { padding-top: 22px; width: 220px;}
+
+/*--- Container --- */
+#yt_content { min-height: 300px; }
+#yt_main {  }
+#yt_main .inner { }
+#yt_wrapperwrap {}
+
+/* --- In page layout ---*/
+.middle { width: 970px; min-height: 400px; margin:0 auto; text-align:left; }
+.side-col { width: 220px; }
+.col-left { float: left; }
+.col-main { float: left; }
+.col-right { float: right; }
+.col-1-layout .col-main { float:none; margin:0; }
+.col-2-right-layout .col-main { float:left;  }
+.col-2-left-layout .col-main { float:right; }
+.col-3-layout .col-main { margin-left:20px; }
+
+.home-spot {
+	float: right;
+}
+.col2-set, .col3-set, .col4-set, .col5-set { clear:both; }
+
+.col2-set .col-1, .col2-set .col-2 { width:49%; }
+.col2-set .col-1 { float:left; }
+.col2-set .col-2 { float:right; }
+
+.col2-alt-set .col-1 { width:32%; }
+.col2-alt-set .col-2 { width:65%; }
+.col2-alt-set .col-1 { float:left; }
+.col2-alt-set .col-2 { float:right; }
+
+.col3-set .col-1, .col3-set .col-2, .col3-set .col-3 { float:left; width:31.3%; }
+.col3-set .col-1, .col3-set .col-2 { margin-right:3%; }
+
+.col4-set .col-1, .col4-set .col-2, .col4-set .col-3, .col4-set .col-4 { float:left; width:22%; }
+.col4-set .col-1, .col4-set .col-2, .col4-set .col-3 { margin-right:4%; }
+
+table .col-1, table .col-2, table .col-3, table .col-4 { float:none !important; margin:0 !important; }
+.col3-set td.spacer { width:3%; }
+.col4-set td.spacer { width:4%; }
+

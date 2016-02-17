@@ -1,0 +1,73 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Unirgy LLC
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the EULA
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://www.unirgy.com/LICENSE-M1.txt
+ *
+ * @category   Unirgy
+ * @package    Unirgy_Dropship
+ * @copyright  Copyright (c) 2008-2009 Unirgy LLC (http://www.unirgy.com)
+ * @license    http:///www.unirgy.com/LICENSE-M1.txt
+ */
+-->
+<layout>
+    <ustockpo_vendor_index>
+        <update handle="udropship_vendor" />
+        <reference name="head">
+            <action method="addItem"><type>js_css</type><name>calendar/calendar-win2k-1.css</name></action>
+            <action method="addItem"><type>js</type><name>calendar/calendar.js</name></action>
+            <action method="addItem"><type>js</type><name>calendar/calendar-setup.js</name></action>
+        </reference>
+        <reference name="content">
+            <block type="core/html_calendar" name="head.udropship.calendar" as="udropship.calendar" template="unirgy/dropship/calendar.phtml"></block>
+            <block type="core/template" template="unirgy/ustockpo/vendor/ustockpos.phtml" name="dashboard">
+                <block type="ustockpo/vendor_po_pager" name="ustockpo.grid.toolbar">
+                    <action method="checkCompat"/>
+                </block>
+                <block type="ustockpo/vendor_po_grid" template="unirgy/ustockpo/vendor/po/grid.phtml" name="ustockpo.grid" as="ustockpos"/>
+            </block>
+        </reference>
+    </ustockpo_vendor_index>
+    <ustockpo_vendor_pendingustockpo>
+        <update handle="udropship_vendor" />
+        <reference name="content">
+            <block type="ustockpo/vendor_pendingOrder" template="unirgy/ustockpo/vendor/pending_order.phtml" name="pending_ustockpo"/>
+        </reference>
+    </ustockpo_vendor_pendingustockpo>
+    <ustockpo_vendor_ustockpoinfo>
+        <block type="ustockpo/vendor_po_info" template="unirgy/ustockpo/vendor/po/info.phtml" name="info"/>
+    </ustockpo_vendor_ustockpoinfo>
+    <ustockpo_vendor_login>
+        <update handle="udropship_vendor_login" />
+    </ustockpo_vendor_login>
+    <ustockpo_vendor_login_ajax>
+        <update handle="udropship_vendor_login_ajax" />
+    </ustockpo_vendor_login_ajax>
+
+    <ustockpo_tracking_ajax>
+        <reference name="root">
+            <action method="setTemplate"><template></template></action>
+        </reference>
+        <reference name="content">
+            <block type="shipping/tracking_ajax" name="shipping.tracking.ajax" template="unirgy/ustockpo/tracking/ajax.phtml" />
+        </reference>
+    </ustockpo_tracking_ajax>
+    <ustockpo_tracking_popup translate="label">
+        <label>Shipment Tracking Popup</label>
+        <reference name="root">
+            <action method="setTemplate"><template>page/popup.phtml</template></action>
+        </reference>
+        <!--<reference name="head">
+            <action method="addJs"><script>scriptaculous/scriptaculous.js</script></action>
+        </reference>-->
+        <reference name="content">
+            <block type="shipping/tracking_popup" name="shipping.tracking.popup" template="unirgy/ustockpo/tracking/popup.phtml" />
+        </reference>
+    </ustockpo_tracking_popup>
+</layout>

@@ -1,0 +1,334 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+global $var_yttheme;
+?>
+
+<div class="header-quick-links">
+    <div class="yt-header-top head-top-1">
+        <div class="container">
+            <div class="row">
+                <div class="head-top-left">
+                    <!-- <select class="language-select">
+                        <option>India - English</option>
+                        <option>India - English</option>
+                    </select>
+                    <select class="inr-select">
+                        <option>1000</option>
+                        <option>2000</option>
+                    </select> -->
+                </div>
+                <div class="head-top-right">
+                    <select class="language-select">
+                        <option>India - English</option>
+                        <option>India - English</option>
+                    </select>
+                    <ul>
+                        <li class="call-us"><strong>Call Us On :</strong> 1800 3000 2004</li>
+                        <li class="sale-kitnekaa"><a href="<?php echo Mage::getBaseUrl(); ?>contacts/"><img
+                                    src="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_SKIN); ?>frontend/sm_market/default/images/kitnekaa-tag.png">Sell
+                                on Kitnekaa</a></li>
+                        <li class="track-ship"><a href="#"><img
+                                    src="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_SKIN); ?>frontend/sm_market/default/images/track-ship-ic.png">Track
+                                My Shipment</a></li>
+                            <?php if(!Mage::getSingleton('customer/session')->isLoggedIn())
+                            { ?>
+                             <li><a href="<?php echo Mage::getBaseUrl(); ?>customer/account/login/">Login</a></li>
+                             <li><a href="<?php echo Mage::getBaseUrl(); ?>customer/account/login/">Register</a></li>
+
+                            <?php }else{ ?>
+                                <li><a href="<?php echo Mage::getBaseUrl(); ?>customer/account/logout/">Logout</a></li>
+                                 <li><a href="<?php echo Mage::getBaseUrl(); ?>customer/account/">My Account</a></li>
+                             <?php } ?>
+
+
+                        
+                        
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="yt-header-top head-top-2">
+        <div class="container">
+            <div class="row">
+                <ul>
+                    <li><a href="<?php echo Mage::getBaseUrl(); ?>shoppinglist/">Shopping List</a></li>
+                    <li><a href="<?php echo Mage::getBaseUrl(); ?>quote2sales/request/index/">RFQ Received</a></li>
+                    <li><a href="<?php echo Mage::getBaseUrl(); ?>quote2sales/quote/history/">RFQ Sent</a></li>
+                    <li><a href="<?php echo Mage::getBaseUrl(); ?>sales/order/history/">Orders Received</a></li>
+                    <li><a href="<?php echo Mage::getBaseUrl(); ?>sales/order/history/">Orders Placed</a></li>
+                </ul>
+                <p class="quick-label">Quick Links :</p>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="yt-header-middle">
+    <div class="container">
+        <div class="row">
+            <div class="logo col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                <a href="<?php echo $this->getUrl('') ?>" title="<?php echo $this->getLogoAlt() ?>" class="logo"><img
+                        src="<?php echo $this->getLogoSrc() ?>" alt="<?php echo $this->getLogoAlt() ?>"/>
+                </a>
+            </div>
+            <div class="header-middle-right col-lg-9 col-md-9 col-sm-12 col-xs-12">
+                <?php if ($this->getChildHtml('searchbox')) { ?>
+                    <div class="head-searchbox">
+                        <?php echo $this->getChildHtml('searchbox') ?>
+                    </div>
+                <?php } ?>
+                <div class="head-cart">
+                    <?php echo $this->getChildHtml('mini-cartpro') ?>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="mega-horizontal-wrap">
+    <div class="container">
+        <div class="row">
+            <div class="mega-horizontal-left col-lg-3 col-md-3 col-sm-2 col-xs-12">
+            </div>
+            <div class="mega-horizontal-right col-lg-9 col-md-9 col-sm-10 col-xs-12">
+                <?php echo $this->getChildHtml('megamenu-horizontal') ?>
+            </div>
+        </div>
+    </div>
+</div>
+<?php
+if (Mage::getSingleton('cms/page')->getIdentifier() == 'about-magento-demo-store' &&
+    Mage::app()->getFrontController()->getRequest()->getRouteName() == 'cms'
+) { /* if is home page*/
+    ?>
+    <div class="yt-header-bottom">
+        <div class="container">
+            <div class="row">
+                <div id="yt_header_left" class="col-lg-3 col-md-3 col-sm-0 col-xs-12">
+                    <div id="yt-responsivemenu" class="yt-responsivemenu">
+                        <?php echo $this->getChildHtml('mobiMenu'); ?>
+                    </div>
+                    <div class="yt-menu">
+                        <div id="btn_categories">
+                            <span><i class="icon-cate"></i><?php echo $this->__("Categories"); ?></span>
+                        </div>
+                        <div class="yt-menu-content">
+                            <?php if ($var_yttheme->getParam('menustyle') == 'mega') {
+                                echo $this->getChildHtml('megamenu-vertical');
+                            } else {
+                                echo $this->getChildHtml('topMenu');
+                            } ?>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div id="yt_header_right" class="col-main col-lg-9 col-md-9 col-sm-12 col-xs-12">
+                    <div id="custom_popular_search"></div>
+                    <div class="inner">
+                        <?php //if( $this->getChildHtml('dynamic-slideshow') ){ ?>
+                        <div class="slideshow-wrap">
+                            <?php //echo $this->getChildHtml('dynamic-slideshow') ?>
+                        </div>
+                        <?php //} ?>
+
+                        <?php //if($this->getLayout()->createBlock('cms/block')->setBlockId('banner-header-right')->toHtml()) { ?>
+                        <!-- <div class="banner-home-right-wrap"> -->
+                        <?php //echo $this->getLayout()->createBlock('cms/block')->setBlockId('banner-header-right')->toHtml(); ?>
+                        <!-- </div> -->
+                        <?php //} ?>
+                        <?php //if($this->getLayout()->createBlock('cms/block')->setBlockId('block-policy')->toHtml()) { ?>
+
+                        <?php //echo $this->getLayout()->createBlock('cms/block')->setBlockId('block-policy')->toHtml(); ?>
+
+                        <?php //} ?>
+
+                        <div class="slider-home-front">
+                            <div id="slider1">
+                                <img border="0"
+                                     src="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_SKIN); ?>frontend/sm_market/default/images/slider/tab1/tab1-img-1.png"
+                                     width="863" height="241" alt="Kitnekaa" title="Featured Deals"/>
+                                <img border="0"
+                                     src="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_SKIN); ?>frontend/sm_market/default/images/slider/tab2/tab2-img-2.png"
+                                     width="863" height="241" alt="Kitnekaa" title="Featured Services"/>
+                                <img border="0"
+                                     src="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_SKIN); ?>frontend/sm_market/default/images/slider/tab3/tab3-img-1.png"
+                                     width="863" height="241" alt="Kitnekaa" title="Sell on Kitnekaa today"/>
+                                <img border="0"
+                                     src="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_SKIN); ?>frontend/sm_market/default/images/slider/tab4/tab4-img-1.png"
+                                     width="863" height="241" alt="Kitnekaa" title="What's New"/>
+                            </div>
+                            <div id='next' class="slider_next"></div>
+                            <ul id="thumb"></ul>
+                            <!-- <div id='next' class="slider_next"><img border="0" src="images/next.png" width="57" height="57" alt="next image" /></div>
+                            <div id='prev' class="slider_prev"><img border="0" src="images/prev.png" width="57" height="57" alt="previous image" /></div> -->
+                        </div>
+                        <script type="text/javascript"
+                                src="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_SKIN); ?>frontend/sm_market/default/js/jquery.cycle.all.js"></script>
+                        <script language="javascript">
+                            jQuery(document).ready(function () {
+                                jQuery('#slider1').cycle({
+                                    fx: 'scrollHorz', //'scrollLeft,scrollDown,scrollRight,scrollUp',blindX, blindY, blindZ, cover, curtainX, curtainY, fade, fadeZoom, growX, growY, none, scrollUp,scrollDown,scrollLeft,scrollRight,scrollHorz,scrollVert,shuffle,slideX,slideY,toss,turnUp,turnDown,turnLeft,turnRight,uncover,ipe ,zoom
+                                    speed: 'slow',
+                                    timeout: 0,
+                                    next: '#next',
+                                    prev: '#prev',
+                                    pager: '#thumb',
+
+                                    pagerAnchorBuilder: function (idx, slide) {
+                                        return '<li class="test">' + slide.title + '</li>';
+                                    }
+                                });
+                            });
+                        </script>
+
+                        <!-- Static Block -->
+                        <?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('block-policy-v3')->toHtml(); ?>
+                        <!-- Static Block -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+<?php } else {
+    ?>
+    <div class="yt-header-bottom">
+        <div class="container">
+            <div class="row">
+                <div id="yt_header_left" class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                    <div id="yt-responsivemenu" class="yt-responsivemenu">
+                        <?php echo $this->getChildHtml('mobiMenu'); ?>
+                    </div>
+                    <div id="yt_menu_short">
+                        <div id="btn_categories">
+                            <span><i class="icon-cate"></i><?php echo $this->__("Categories"); ?></span>
+                        </div>
+                        <div class="yt-menu-content">
+                            <?php if ($var_yttheme->getParam('menustyle') == 'mega') {
+                                echo $this->getChildHtml('megamenu-vertical');
+                            } else {
+                                echo $this->getChildHtml('topMenu');
+                            } ?>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+<?php } ?>
+<script type="text/javascript">
+    jQuery(document).ready(function ($) {
+        //menu more cate
+        $i = 0;
+        $('.sm_megamenu_wrapper_vertical_menu .sm_megamenu_menu').append('<div class="more-wrap"><span class="more-view"><?php echo $this->__("More Categories"); ?></span></div>');
+        $('.sm_megamenu_wrapper_vertical_menu .sm_megamenu_menu > li.sm_megamenu_lv1').each(function () {
+            $i++;
+            if ($i > 13) {
+                $(this).css('display', 'none');
+            }
+        });
+
+        $('.sm_megamenu_wrapper_vertical_menu .sm_megamenu_menu .more-wrap > .more-view').click(function () {
+            if ($(this).hasClass('open')) {
+                $i = 0;
+                $('.sm_megamenu_wrapper_vertical_menu .sm_megamenu_menu > li.sm_megamenu_lv1').each(function () {
+                    $i++;
+                    if ($i > 13) {
+                        $(this).slideUp(200);
+                        //$(this).addClass('disappear');
+                        //$(this).removeClass('appear');
+                    }
+                });
+                $(this).removeClass('open');
+                $('.more-wrap').removeClass('active-i');
+                $(this).text('More Categories');
+            } else {
+                $i = 0;
+                $('.sm_megamenu_wrapper_vertical_menu .sm_megamenu_menu > li.sm_megamenu_lv1').each(function () {
+                    $i++;
+                    if ($i > 13) {
+                        $(this).slideDown(200);
+                        // $(this).addClass('appear');
+                        //$(this).removeClass('disappear');
+                    }
+                });
+                $(this).addClass('open');
+                $('.more-wrap').addClass('active-i');
+                $(this).text('Close Menu');
+            }
+        });
+
+        // style for quicklink
+        $("#yt_header .head-quicklink .links li").mouseenter(function () {
+            $("#yt_header .head-quicklink .links li.first").addClass('inactive');
+        });
+        $("#yt_header .head-quicklink .links li").mouseleave(function () {
+            $("#yt_header .head-quicklink .links li.first").removeClass('inactive');
+        });
+        $("#yt_header .head-quicklink .links li.first").mouseenter(function () {
+            $("#yt_header .head-quicklink .links li.first").removeClass('inactive');
+        });
+
+        /*fix show button more*/
+
+        var n = $('.sm_megamenu_wrapper_vertical_menu .sm_megamenu_menu > li.sm_megamenu_lv1').length;
+
+        if (n < 13) {
+            $('.sm_megamenu_wrapper_vertical_menu .more-wrap').css('display', 'none');
+        } else {
+            $('.sm_megamenu_wrapper_vertical_menu .more-wrap').css('display', 'block');
+        }
+    })
+</script>
+<script type="text/javascript">
+    jQuery(document).ready(function () {
+        var catname = jQuery('#categorynamehead').val();
+        jQuery("#btn_categories span").append(" - " + catname);
+    });
+</script>
+
+<?php
+$cat = array(9, 13);
+$val = array();
+foreach ($cat as $id) {
+    $categoryModel = Mage::getModel('catalog/category')->load($id); // Replace with Id of Cat
+    $productColl = Mage::getModel('catalog/product')->getCollection()
+        ->addCategoryFilter($categoryModel)
+        ->addAttributeToSort('price', 'asc')
+        ->setPageSize(2)
+        ->load();
+//echo $val[] = $productColl->getFirstItem()->getPrice()."</br>";
+}
+//print_r($val);
+?>
+
+<?php
+echo "<pre>";
+//print_r(mage::getModel('quote2sales/request')->getCollection()->getData());
+echo "</pre>";
+?>
+
+ 
+

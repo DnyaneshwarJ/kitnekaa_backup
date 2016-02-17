@@ -1,0 +1,186 @@
+<div class="login-left-field item-fields">
+    <form action="" id="">
+
+        <div class="page-title">
+            <h1>Enter Company Details</h1>
+        </div>
+        <div class="inputfiled iteminput">
+            <div>
+                <input class="required-entry" placeholder="* Company Name" title="Company Name" type="text">
+            </div>
+            <p>Upload Company logo :</p>
+            <div class="file-upload-outer">
+                <input type="file" name="fileToUpload" id="fileToUpload">
+            </div>
+        </div>
+        <div class="inputfiled iteminput">
+            <textarea class="required-entry" placeholder="* Billing Address" title="Billing Address" type="text"></textarea>
+            <p>Upload Address Proof Below To Verify :</p>
+            <div class="file-upload-outer">
+                <input type="file" name="fileToUpload" id="fileToUpload">
+            </div>
+        </div>
+        <div class="inputfiled iteminput">
+            <textarea class="required-entry" placeholder="* Shipping Address" title="Shipping Address" type="text"></textarea>
+            <p>Upload Address Proof Below To Verify :</p>
+            <div class="file-upload-outer">
+                <input type="file" name="fileToUpload" id="fileToUpload">
+            </div>
+        </div>
+        <div class="inputfiled row">
+            <div class="col-md-4">
+                <div>
+                    <input title="PAN Number" placeholder="* PAN Number" class="required-entry" type="text">
+                </div>
+                <p>Upload PAN Proof Below To Verify :</p>
+                <div class="file-upload-outer">
+                    <input type="file" name="fileToUpload" id="fileToUpload">
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div>
+                    <input title="VAT Number" placeholder="* VAT Number" class="required-entry" type="text">
+                </div>
+                <p>Upload VAT Proof Below To Verify :</p>
+                <div class="file-upload-outer">
+                    <input type="file" name="fileToUpload" id="fileToUpload">
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div>
+                    <input title="TIN Number" placeholder="* TIN Number" class="required-entry" type="text">
+                </div>
+                <p>Upload TIN Proof Below To Verify :</p>
+                <div class="file-upload-outer">
+                    <input type="file" name="fileToUpload" id="fileToUpload">
+                </div>
+            </div>
+        </div>
+        <div class="inputfiled">
+            <select class="">
+                <option value="">* Type of Business</option>
+                <option value="1">Test 1</option>
+                <option value="2">Test 2</option>
+            </select>
+        </div>
+        <div class="inputfiled iteminput">
+            <input class="required-entry" placeholder="* Website URL" title="Website URL" type="text">
+        </div>
+        <div class="buttons-set">
+            <button type="submit" title="Submit" class="button"><span><span>Next</span></span></button>
+        </div>
+    </form>
+</div>
+
+<!-- ========================================================================================================================================= -->
+<br/><br/><br/>
+
+<div class="login-left-field item-fields">
+    <form action="" id="">
+
+        <div class="page-title">
+            <h1>Select Product Categories</h1>
+        </div>
+
+        <div class="item-fields-checkbox-div">
+            <ul>
+                <li>
+                    <span class="expandfilter expand-active"></span>
+                    <a class="custom-checkbox">
+                        <input class="check_parent" type="checkbox">
+                        <label>Abrasives</label>
+                    </a>
+                    <ul>
+                        <li>
+                            <a class="custom-checkbox">
+                                <input class="check_child" type="checkbox">
+                                <label>test 1</label>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="custom-checkbox">
+                                <input class="check_child" type="checkbox">
+                                <label>test 2</label>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="custom-checkbox">
+                                <input class="check_child" type="checkbox">
+                                <label>test 3</label>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <span class="expandfilter expand-active"></span>
+                    <a class="custom-checkbox">
+                        <input class="check_parent" type="checkbox">
+                        <label>Abrasives</label>
+                    </a>
+                    <ul>
+                        <li>
+                            <a class="custom-checkbox">
+                                <input class="check_child" type="checkbox">
+                                <label>test 1</label>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="custom-checkbox">
+                                <input class="check_child" type="checkbox">
+                                <label>test 2</label>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <span class="expandfilter expand-active"></span>
+                    <a class="custom-checkbox">
+                        <input class="check_parent" type="checkbox">
+                        <label>Abrasives</label>
+                    </a>
+                    <ul>
+                        <li>
+                            <a class="custom-checkbox">
+                                <input class="check_child" type="checkbox">
+                                <label>test 1</label>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="custom-checkbox">
+                                <input class="check_child" type="checkbox">
+                                <label>test 2</label>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+        <div class="inputfiled iteminput">
+            <p>Upload Product Catalogue :</p>
+            <div class="file-upload-outer">
+                <input type="file" name="fileToUpload" id="fileToUpload">
+            </div>
+        </div>
+        <div class="buttons-set">
+            <button type="submit" title="Submit" class="button"><span><span>Submit</span></span></button>
+        </div>
+    </form>
+</div>
+
+<script>
+    jQuery( document ).ready(function($) {
+        $('.item-fields-checkbox-div .expandfilter').click(function() {
+            $(this).toggleClass('expand-active');
+            $(this).parent().find('ul').slideToggle();
+        });
+        $(".custom-checkbox .check_parent").change(function(){
+            $(this).parent().next('ul').find(".check_child").prop('checked', $(this).prop("checked"));
+        });
+        $(".custom-checkbox .check_child").change(function(){
+            var parent = $(this).closest('ul');
+            var status = parent.find('.check_child').not(':checked').length === 0;
+            parent.prev(".custom-checkbox").find('.check_parent').prop('checked', status);
+        });
+    })
+</script>

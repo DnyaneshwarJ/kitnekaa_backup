@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+        <!--
+            dùng để tạo 1 widget trong source của magento
+        -->
+<widgets>
+    <cameraslide type="sm_cameraslide/slide_preview" translate="name description">
+        <name>SM Camera Slide</name>
+        <description>Adds a slide to block / page</description>
+        <parameters>
+            <id translate="label">
+                <label>Slide ID</label>
+                <visible>1</visible>
+                <required>1</required>
+                <type>select</type>
+                <source_model>sm_cameraslide/source_slide</source_model>
+            </id>
+        </parameters>
+    </cameraslide>
+</widgets>

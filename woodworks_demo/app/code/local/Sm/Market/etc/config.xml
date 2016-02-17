@@ -1,0 +1,167 @@
+<?xml version="1.0"?>
+<config>
+	<modules>
+		<Sm_Market>
+			<version>1.0.0</version>
+			<title>MagenTech.com</title>
+			<link><![CDATA[http://www.magentech.com/]]></link>
+		</Sm_Market>
+	</modules>
+	<global>
+		<models>
+		  <market>
+			<class>Sm_Market_Model</class>
+		  </market>
+		</models>	
+		<blocks>
+            <market>
+                <class>Sm_Market_Block</class>
+            </market>
+            <page>
+                <rewrite>
+                    <html_head>Sm_Market_Block_Page_Html_Head</html_head>
+                </rewrite>
+            </page>			
+        </blocks>				
+		<helpers>
+            <market>
+                <class>Sm_Market_Helper</class>
+            </market>
+            <core>
+                <rewrite>
+                    <data>Sm_Market_Helper_Core_Data</data>
+                </rewrite>
+            </core>			
+        </helpers>
+        <resources>
+        	<market_setup>
+        		<setup>
+        			<module>Sm_Market</module>
+        		</setup>
+        	</market_setup>
+        </resources>		
+	</global>
+	
+	<adminhtml>
+        <translate>
+      		<modules>
+          		<Sm_Market>
+                     <files>
+                          <default>Sm_Market.csv</default>
+                     </files>
+                </Sm_Market>
+            </modules>
+        </translate>
+        <layout>
+            <updates>
+                <market module="Sm_Market">
+                    <file>sm/market.xml</file>
+                </market>
+            </updates>
+        </layout>
+    </adminhtml>
+ 	<default>
+		<market_cfg module="market">
+			<general>
+			<!-- Layout -->			
+				<layout_styles>1</layout_styles>
+				<color>yellow</color>
+				<header_styles>header1</header_styles>
+			<!-- Entire Page -->
+				<body_font_family></body_font_family>
+				<body_font_size>12px</body_font_size>
+				<google_font>Open Sans</google_font>
+				<google_font_targets>body</google_font_targets>
+				<body_link_color>666666</body_link_color>
+				<body_link_hover_color>F4A137</body_link_hover_color>
+				<body_text_color>666666</body_text_color>
+				<body_title_color>444444</body_title_color>
+				<title_color_targets>
+					.yt-menu-nav > #nav > li > a > span,.language-currency ul li a,.sm-serachbox-pro .sm-searbox-content,.sm-serachbox-pro .jqTransformInputWrapper input.input-text,#custom_popular_search .sm-searchbox-popular-title,.banner-policy a,.yt-header-bottom .more-wrap .more-view,.toolbar .select-inner ul li a.selected,.category-products .item .product-name a,.yt-product-detail .tab-product-detail .yt-tab-navi > li > a,
+					.yt-product-detail .tab-product-detail .yt-tab-navi > li > a:hover,.sm_quickview_handler,.yt-tab-listing .respl-tabs-wrap ul li.respl-tab .respl-tab-label,.yt-tab-listing .title-text,.block-title span,.spotlight .block-title,.spotlight4,.footer-links-w,.toolbar,.sm-categories .cat-title,.breadcrumbs,#narrow-by-list dt,.yt-product-detail .product-name h1,.yt-product-detail .short-description h2,.postTitle h2 a,#yt_wrapper h1.page-title, #yt_wrapper .page-title h1
+				</title_color_targets>
+				<body_background_color>ffffff</body_background_color>
+				<use_background_image>0</use_background_image>
+				<body_background_image></body_background_image>
+				<use_customize_image></use_customize_image>
+				<background_customize_image></background_customize_image>
+				<background_repeat></background_repeat>
+				<background_position></background_position>
+			<!-- Menu -->	
+				<menu_styles>1</menu_styles>
+				<menu_ontop>0</menu_ontop>
+				<responsive_menu>3</responsive_menu>
+			</general>
+			<detail_market>
+				<show_imagezoom>1</show_imagezoom>
+				<zoom_mode>1</zoom_mode>
+				<use_addthis>1</use_addthis>
+				<show_related>1</show_related>
+				<related_number>5</related_number>
+				<show_upsell>1</show_upsell>
+				<upsell_number>5</upsell_number>
+				<show_customtab>1</show_customtab>
+				<customtab_name>Custom tab</customtab_name>
+				<customtab_content>
+					<![CDATA[
+					<table class="data-table" style="width: 100%;" border="1">
+						<tbody>
+							<tr>
+								<td>Brand</td>
+								<td><img title="brand" src="{{media url="wysiwyg/logo-client.png"}}" alt="brand" /></td>
+							</tr>
+							<tr>
+								<td>History</td>
+								<td>Color sit amet, consectetur adipiscing elit. In gravida pellentesque ligula, vel eleifend turpis blandit vel. Nam quis lorem ut mi mattis ullamcorper ac quis dui. Vestibulum et scelerisque ante, eu sodales mi. Nunc tincidunt tempus varius. Integer ante dolor, suscipit non faucibus a, scelerisque vitae sapien.</td>
+							</tr>
+						</tbody>
+					</table>
+					]]>
+				</customtab_content>
+			</detail_market>
+			<rich_snippets_setting>
+				<use_rich_snippet>1</use_rich_snippet>
+				<set_breadcrumbs>1</set_breadcrumbs>
+				<google_plus_href>https://plus.google.com/u/0/+Smartaddons</google_plus_href>
+			</rich_snippets_setting>
+			<social_market>
+				<show_facebook>1</show_facebook>
+				<facebook_name>Facebook</facebook_name>
+				<facebook_url>http://www.facebook.com/MagenTech</facebook_url>
+				<show_twitter>1</show_twitter>
+				<twitter_name>Twitter</twitter_name>
+				<twitter_url>https://twitter.com/magentech</twitter_url>
+				<show_google>1</show_google>
+				<google_name>Google+</google_name>
+				<google_url>https://plus.google.com/u/0/+Smartaddons</google_url>				
+				<show_linkedin>0</show_linkedin>
+				<linkedin_name>Linkedin</linkedin_name>
+				<linkedin_url>#</linkedin_url>
+				<show_flickr>0</show_flickr>
+				<flickr_name>Flickr</flickr_name>
+				<flickr_url>#</flickr_url>				
+				<show_pinterest>1</show_pinterest>
+				<pinterest_name>Pinterest</pinterest_name>
+				<pinterest_url>http://www.pinterest.com/magentech/</pinterest_url>
+			</social_market>
+			<advanced>
+				<show_cpanel>1</show_cpanel>
+				<show_ontop>1</show_ontop>
+				<show_addtocart>1</show_addtocart>
+				<show_wishlist>1</show_wishlist>
+				<show_compare>1</show_compare>
+				<custom_copyright>1</custom_copyright>
+				<copyright>
+					<![CDATA[
+					<p>&copy; 2014 Magento Themes Demo Store. All Rights Reserved. Designed by <a title="Visit MagenTech.Com!" href="http://www.magentech.com/" target="_blank">MagenTech.Com</a></p>
+					]]>
+				</copyright>
+				<custom_css></custom_css>
+				<custom_js></custom_js>
+				<!--Minify css, js-->
+				<compress_css_js>0</compress_css_js>
+				<enable_yuicompressor>0</enable_yuicompressor>
+			</advanced>
+		</market_cfg>
+	</default> 
+</config> 

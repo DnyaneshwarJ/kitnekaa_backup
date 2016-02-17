@@ -1,0 +1,88 @@
+<?php 
+ $new_prod = $this->getRequest()->getParam('product_id');
+ $list_id = $this->getRequest()->getParam('list_id');
+ $customer_id = $this->getRequest()->getParam('customer_id');
+ if(isset($new_prod))
+ { 
+    
+         $showfile = "";
+         $list_item = Mage::getModel('shoppinglist/shoppinglistfiles')->getCollection();
+         
+         $data = $list_item->addFieldToFilter('list_item_id', $new_prod);
+         
+         $data =  $data->getData();
+        
+              
+}
+?>
+<script>
+
+    jQuery(document).ready(function() {
+    	
+
+        jQuery('.add').click(function(){
+            var wrapper = "<tr class='wrapper-tr'>" +
+                    "<td class='label'></td>" +
+                    "<td class='value'><input type='file' name='prodfile[]' class='required-entry'><span class='remove'>Remove</span></td>" +
+                    "</tr>";
+                    jQuery(wrapper).find('.remove').on('click', function() {
+                        jQuery(this).parent('.wrapper-tr').remove();
+
+                    });
+           
+                    jQuery('#some-row-id').after(wrapper);
+            });
+                    jQuery('.form-list').on('click', 'span.remove', function(){
+                    
+                             jQuery(this).parents('.wrapper-tr').remove();
+                        });
+
+        
+    });
+    <?php if(isset($new_prod)){ 
+        $path = Mage::helper('shoppinglist')->getAttachmentUploadPath();
+        $slash = '/';      
+         $showurl =  Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA) .$slash.'shopfiles'.$slash;
+      
+         foreach ($data as $k => $item) 
+        {   $filename = $item['file_name'];
+            $url = $showurl.$filename;
+            $showfile.= "<tr><td class='label'></td><td class='value'><span>".$filename."   "."</span><a target=_blank href='".$url."'> View</a>"."   "."<button type='button' class='remove' onclick='deleteitems(".$item['file_id'].",".$customer_id.",".$list_id.",".$new_prod.")' >Delete</button></td></tr>";
+        } 
+                
+    ?>
+            jQuery(document).ready(function() {
+                var showfile = "<?php echo $showfile ?>";
+                jQuery('#some-row-id').after(showfile);
+            });
+
+    <?php } ?>    
+
+       function deleteitems(itemid,customer_id,list_id,product_id)
+       {
+            <?php $url =Mage::helper("adminhtml")->getUrl('*/*/deleteitemfile');
+            $form_key = Mage::getSingleton('core/session')->getFormKey(); 
+             ?>
+            var url = "<?php echo $url ?>";
+            var form_key = "<?php echo $form_key ?>";
+            //var product_id = "<?php echo $new_prod ?>";
+            url = url+'customer_id/'+customer_id+'/list_id/'+list_id+'/itemid/'+itemid+'/product_id/'+product_id+'/form_key/'+form_key;
+            alert(url);
+            setLocation(url);
+       }
+</script>
+
+
+
+
+<script type="text/javascript">
+    //<![CDATA[
+
+
+var dataForm = new varienForm('editForm', true);
+
+
+    
+    //]]>
+
+</script>

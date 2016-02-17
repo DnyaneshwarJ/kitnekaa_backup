@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<layout>
+	<!--<customer_account>
+		<reference name="customer_account_navigation">
+			<action method="addLink">
+				<name>account_information_subaccount</name>
+				<path>company_custommultiuseraccounts/index/index</path>
+				<label>Edit My Account</label>
+			</action>
+		</reference>
+	</customer_account>-->
+	<company_custommultiuseraccounts_index_index translate="label">
+		<label>Edit Subaccount</label>
+		<update handle="customer_account"/>
+		<reference name="my.account.wrapper">
+			<block type="company_custommultiuseraccounts/index" name="company_custommultiuseraccounts_content" template="company/custommultiuseraccounts_customerpage.phtml"/>
+	    </reference>
+	</company_custommultiuseraccounts_index_index>
+</layout>

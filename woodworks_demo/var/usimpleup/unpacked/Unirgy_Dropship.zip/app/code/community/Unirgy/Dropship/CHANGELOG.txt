@@ -1,0 +1,864 @@
+===== 2.4.1 =====
+  * CE 1.9.2.2 compatibility vendor portal filter fix
+
+===== 2.4.0 =====
+  * CE 1.9.2.2 compatibility
+  * Fixed round prices before submit request
+
+===== 2.3.1 =====
+  * Added hook for whole address is match check
+  * Fixed fedex label signature option
+  * Fixed limit by zipcode, limit by country not allow address change to valid one
+  * Fixed missing translations
+  * Fixed fedex India domestics labels printing
+
+===== 2.3.0 =====
+  * Central translations file
+
+===== 2.2.43 =====
+  * Added UPS support for poll tracking
+
+===== 2.2.42 =====
+  * ACL problem fix in adminhtml shipment controller
+
+===== 2.2.41 =====
+  * Added attachOrderItemVendorSkuInfo method in helper/item
+
+===== 2.2.40 =====
+  * Added cancel shipment when order canceled
+
+===== 2.2.39 =====
+  * Fixed po shipping method assign if using non-dropship method on order place
+  * Fixed wysiwyg when admin have custom domain url
+  * Fixed report grid
+
+===== 2.2.38 =====
+  * Fixed rounding in statement/payout calculation
+
+===== 2.2.37 =====
+  * Fixed partially rounding in statement/payout calculation
+
+===== 2.2.36 =====
+  * Added helper getVendorPortalJsBaseUrl method
+  * Fixed vendor double save
+  * Fixed Edit Offer link in stock tab (only with select and sell)
+
+===== 2.2.35 =====
+  * Changes in resource helper
+
+===== 2.2.34 =====
+  * Added support to offline membership
+
+===== 2.2.33 =====
+  * Fixed statement refunds' pos status filter
+
+===== 2.2.32 =====
+  * Fixed vendor sku with custom options sku
+  * Fixed region preselection in vendor portal settings page
+
+===== 2.2.31 =====
+  * Safeguard vendor/product assoc indexer to eliminate problems with broken db integrity
+  * Fixed vendor not assigned to order item in multiaddress checkout when not using dropship carrier
+
+===== 2.2.30 =====
+  * Added option to use statements as invoice
+  * Added getUdropshipVendor method in helper/item
+
+===== 2.2.29 =====
+  * Few changes in vendor portal labels
+
+===== 2.2.28 =====
+  * Fixed automatic generate label problem when total weight exceed max limit but none of item on it own doesn't
+
+===== 2.2.27 =====
+  * Fixed vendor region presentation/update
+
+===== 2.2.26 =====
+  * Fixed label type check when using global settings
+
+===== 2.2.25 =====
+  * Fixed refunds in statements
+  * Added fedex insurance option
+
+===== 2.2.24 =====
+  * Fixed recently broken vendor/product assoc indexer
+
+===== 2.2.23 =====
+  * Added forced active option "Turn on udropship explicitly" to enable dropship functionality without dropship carrier enabled
+  * Added categories multiselect field
+  * Fixed vendor simple skus in notification emails
+
+===== 2.2.22 =====
+  * Fixed simple sku display for configurable products
+
+===== 2.2.21 =====
+  * Added split po dry run
+
+===== 2.2.20 =====
+  * Fixed bundles rates calculation when ship separately and child have rates calculation item or row based
+
+===== 2.2.19 =====
+  * Added apply commissions on shipping
+  * Fixed proper determine of endicia mailshape
+  * Fixed origin_country in internal rates calculation request
+
+===== 2.2.18 =====
+  * Fixed vendor/product associations indexer when magento catalog EAV integrity broken
+  * Fixed shipping methods preselection of estimate and override carrier for microsite registration
+  * Added ignore address check in reassign option
+  * Added "waiting for email confirmation" field in vendor edit to allow skip confirmation per vendor (Microsite Pro specific)
+
+===== 2.2.17 =====
+  * Added support for categories limitation in marketplace and microsite
+
+===== 2.2.16 =====
+  * Added fedex third-party billing
+  * Fixed intermittent errors in batch export
+  * Fixed show vendor sku in stock tab
+  * Added 1.8 shell_reindex_init_process hook to support price comparison add-on more smoothly
+
+===== 2.2.15 =====
+  * Added support for Advanced PO new weight/value sync logic on PO page generate label form (vendor portal)
+
+===== 2.2.14 =====
+  * Fixed billing address object init
+  * Fixed dropship vendor attribute sortable functionality (if configured)
+
+===== 2.2.13 =====
+  * Fixed regionupdater in vendor portal settings
+  * Fixed localifinstock decision method order items have Backordered status for non-local vendors
+  * Fixed poll tracking for delivered
+
+===== 2.2.12 =====
+  * Added support to batch export PO statement totals
+  * Added support to vendor reports module
+
+===== 2.2.11 =====
+  * Added option "Include shipping tax in shipping amount"
+  * Fixed edit of 'statement_po_type','payout_po_status_type','notify_lowstock' and depend_select preferences in vendor portal
+  * Fixed system/smtp/set_return_path not considered
+  * Fixed billing street only first line displayed
+  * Fixed packing slip PDF when billing longer then shipping address
+  * Fixed rule based freeshipping propagated to other dropship methods when matching system method maps to multiple dropship methods
+
+===== 2.2.10 =====
+  * Fixed 2.2.9 bug shipping calculation does not include tax when shipping include tax
+
+===== 2.2.9 =====
+  * Added better processing of shipping tax in statements
+
+===== 2.2.8 =====
+  * Fixed labels in vendor portal settings page billing address section had triple Email fields
+
+===== 2.2.7 =====
+  * Added dropship stock option "Split Bundle by vendors"
+  * Fixed vendor save when there are huge number of products associated and no modifications made
+  * Added downloadable, virtual to filters/options
+  * Fixed bundle item pdf renderer
+  * Fixed bundle weigths for labels
+
+===== 2.2.6 =====
+  * Added vendor/product associations indexer
+
+===== 2.2.5 =====
+  * Fixed collectTracking does not use global preferences if configured
+  * Fixed fedex v12 international labels issues
+
+===== 2.2.4 =====
+  * Fixed changing PO status in bare udropship to shipped and then delivered increment order item shipped qty multiple times
+
+===== 2.2.3 =====
+  * Fixed fedex smart post tracking numbers not saved
+  * Fixed intermittent error on vendor fields update using Mage::getResourceSingleton('udropship/helper')->updateModelFields
+
+===== 2.2.2 =====
+  * Fixed image/file preference delete does not delete from filesystem
+
+===== 2.2.1 =====
+  * Fixed vendor shipping not saved on grid non-first page
+
+===== 2.2.0 =====
+  * Added bundles support
+  * Added option "Always allow generate labels for these system carriers"
+  * Fixed limitation by website in udropship method definition have no effect on checkout
+  * Fixed categories tree URL in vendor portal (should be https if page is https)
+
+===== 2.1.25 =====
+  * Fixed missing generate label "Shipping Method" selectbox in vendor portal when order udropship method was deleted
+  * Fixed potential init delay when there are lot of storeviews in the system
+
+===== 2.1.24 =====
+  * Fixed reprint track when shipment carrier differ from track carrier
+
+===== 2.1.23 =====
+  * Added "Allow use of all PO udropship method associated system carriers when generate label" global config option
+  * Added support for udsprofile module (conditions feature)
+
+===== 2.1.22 =====
+  * Removed "tax regions", "Calculate order tax based on vendor locations" functionality in favour of vendor tax add-on
+  * Fixed redirect to admin login page on some pages when "Add Store Code to Urls"="Yes"
+
+===== 2.1.21 =====
+  * Added option to include refunds in statement (beta)
+  * Added option to include discount in statement
+  * Use observer events to get quote instead of checkout/session
+    in checkout_cart_product_add_after and checkout_cart_update_items_after
+
+===== 2.1.20 =====
+  * Added option to set vendor billing address separate from shipping origin
+  * Added poll tracking support for webshopapps fedex soap module
+
+===== 2.1.19 =====
+  * Added option to show totals in vendor portal order view
+  * Fixed logo in statement PDF for latest magento
+  * Fixed generate label for fedex Home Delivery
+  * Added subtract second in statement/payouts "to date" to properly filter POs
+
+===== 2.1.18 =====
+  * Fixed payout/statement rows refresh after save in umarketplace
+
+===== 2.1.17 =====
+  * Added supported logic for Microsite PRO "new vendor reject status with reason and reject email"
+  * Fixed "An item option with code udropship_vendor already exist" error in multiaddress checkout
+      (when multiprice add-on installed)
+  * Fixed flat indexer bug when no runtime flat attributes available
+
+===== 2.1.16 =====
+  * Added support for fedex ship service v12
+  * Added fedex smart post support
+
+===== 2.1.15.1 =====
+  * Added min_package_weight option in carriers/dropship
+
+===== 2.1.15 =====
+  * Added orig_request argument to "udropship_carrier_process_vendor_requests" event
+  * Added option to generate statements using locale timezone date filters
+
+===== 2.1.14 =====
+  * Fixed don't poll track non-dropship shipments
+  * Fixed update stockitem qty=0 using helper::saveVendorProducts does not hide products on frontend
+    (prices not properly reindexed)
+  * Fixed clean adjustments table when clean statement
+  * Added base_cost save in shipment item to properly process cost based statements in multivendor add-on
+  * Fixed uploader doesn't work when magento core "Use SID on Frontend"=No
+  * Fixed date in statement email subject
+  * Changes in uploader js
+
+===== 2.1.13 =====
+  * Fixed virtual items compatibility in advanced po add-on
+
+===== 2.1.12 =====
+  * Added support for radios vendor field type
+
+===== 2.1.11 =====
+  * Added "change order status after POs generated" option
+  * Added media browser support in vendor portal wysiwyg editor
+  * Added "hide_modules" meta definition for vendor preferences
+  * Added suport for "hide_depend_fields" in dependSelect
+  * Fixed compatibility with flat catalog in regards to runtime product attribute references from config
+    like vendor_sku, vendor_special_cost
+  * Fixed code config rewrites not added in cron
+
+===== 2.1.10 =====
+  * Added store titles for shipping methods
+
+===== 2.1.9 =====
+  * Added support for global configuration of labels API
+  * Added processing [%bold%] as instruction to draw some lines of custom text in PDF with bold font
+
+===== 2.1.8 =====
+  * Added fedex shipment email notification
+  * Added custom text on vendor packing slips
+
+===== 2.1.7.2 =====
+  * Added vendor_sku attribute update in helper::saveVendorProducts
+
+===== 2.1.7.1 =====
+  * Fixed wrong reference to multivendor add-on in bare udropship vendor products grid
+
+===== 2.1.7 =====
+  * Fixed address wide rule based freeshipping
+  * Added check for existence of referenced product attribute
+    to eliminate further exception in eav_collection/addAttributeToSelect
+
+===== 2.1.6 =====
+  * Fixed costs format for multicurrency orders
+  * Fixed memory leak in vendor portal stock page
+  * Show not applicable in stock qty/status columns in vendor portal stock page when stock not managed
+  * Added workaround to generate labels for non-dropship POs
+  * Added optimization for udropship_vendor product attribute source
+  * Fixed show company on UPS labels
+  * Fixed reports display problem
+
+===== 2.1.5 =====
+  * Added select carrier/title when add tracking number in vendor portal
+  * Fixed po increment_id display in adminhtml grids
+
+===== 2.1.4 =====
+  * Added decision and stock collect/check refactoring to support forced_vendor_id on cart items
+    and mixing with normal quote items
+
+===== 2.1.3.1 =====
+  * Fixed out of stock message for configurable and grouped products
+
+===== 2.1.3 =====
+  * Added allowed countries vendor preference
+
+===== 2.1.2 =====
+  * Added extra params to udropship_vendor_shipping_check_skipped, udropship_process_vendor_carrier_single_rate_result events
+  
+===== 2.1.1 =====
+  * Fixed recognize freeshipping rules
+  * Fixed freeweight freeshipping not fully applied (handling applied but should not)
+
+===== 2.1.0 =====
+  * Added support for marketplace suit of add-ons
+  * Added extra hook event to process each system rate result
+
+===== 2.0.0.17 =====
+  * Added default global setting for "Statement calculation based on" and "Statement on following po/shipment statuses"
+  * Added stock check after quote load except cart add/update or if quote->getUdSkipQuoteLoadAfterEvent()=true
+  * Fixed system shipping method not shows in vendor packingslip
+  * Added better stock check, messages, reindex (for multivendor add-on)
+  * Added ability to select vendor in admin create order (for multivendor add-on)
+
+===== 2.0.17.bndl.2 =====
+  * Safeguard division by zero in split functions
+
+===== 2.0.0.16 =====
+  * Added backorders support for multivendor add-on
+
+===== 2.0.0.16.bndl.1 =====
+  * Added bundles support
+
+===== 2.0.0.16 =====
+  * Added backorders support for multivendor add-on
+
+===== 2.0.0.15 =====
+  * Added ability to apply commission on tax
+  * Fixed "Wrong Content Type." when add udropship shipping method in ce1.7.0
+  * Fixed USPS international labels with non-default label width/height settings
+
+===== 2.0.0.14 =====
+  * Added configuration for each package in FedEx MPS
+
+===== 2.0.0.13 =====
+  * Added generate label support for Fedex SOAP module from webshopapps
+  * Fixed customer shipment notification configuration does not turns off
+  * Fixed vendor_simple_sku
+  * Fidex endicia service do not apply for international
+    turned off delivery confirmation for international regardless of configuration
+  * Fixed endicia labels for international "First-Class Mail International ..."
+
+===== 2.0.0.11 =====
+  * Added interface to call endicia ChangePassPhraseRequest request. Need to specify in
+    vendor edit > preferences > "Endicia (USPS) Specific"  > "New Pass Phrase" / "Confirm New Pass Phrase"
+
+===== 2.0.0.10 =====
+  * Fixed endicia issue with mailclass
+  * Fixed consider Mage_Advancedsmtp enabled flag
+
+===== 2.0.0.9 =====
+  * Fixed use fallback rates problem when order of carrier in request chain different then estimate/override/default
+
+===== 2.0.0.8 =====
+  * Added separate customer address templates for vendor pdf/html
+  * Show order items PO Info on order view page
+
+===== 2.0.0.7 =====
+  * Fixed import orders on ce1.6
+  * Fixed manual import orders via "paste content"
+  
+===== 2.0.0.6 =====
+  * Added option "udropship/vendor/special_cost_attribute" support for special_cost attribute
+
+===== 2.0.0.5 =====
+  * Fixed empty batches on CE1.6
+  * Added show original order item vendor on order view page
+  * Fixed possible "PHP Fatal error: Nesting level too deep - recursive dependency? in Protected.php"
+
+===== 2.0.0 =====
+  * Fixed "Delivery Method" filter in vendor interface
+  * Fixed vendor::getShippingMethods now shows only methods that could be used by vendor
+    based on preferred carrier and overrides, otherwise filter them out
+  * Added shipping methods validation on vendor save - notify of methods that can't be saved
+  * Added carriers/udropship/free_shipping_allowed wrapper to enable/disable both free shipping at once
+  * Added carriers/udropship/freeweight_allowed to control usage of free weight during free shipping
+  * Added extended dependSelect in config to support chain of depends
+  * Added Unirgy_Dropship_Model_Mysql4_Setup::createDependConfigPath
+    to add new config depend fields that have existing dependent fields
+  * Fixed vendor area "inform retailer" $partialQty = 0 not included in notification email
+  * Fixed Fedex label printing after magento moved to webservice rates (ce 1.6.0)
+  * Fixed workaround for duplicate PO problem
+  * Added ability to modify shipping origin from vendor  interface
+  * Fixed compatibility with 1401 when payment method action is sale (order not split to POs during place)
+  * Fixed handling calculation for Item Separate Rate with Fixed handling fee per package
+  * Changed "Limit to zipcodes" vendor preference.
+    Now expect rules to be separated by new line, comma or semicolon.
+    And does not clear whitespace inside rules to be compatible with UK zipcodes that contain spaces.
+  * Added array_merge_n helper function to recursive merge with numeric keys preserve carrier methods on
+    Sales > Dropship > Shipping Methods > Shipping Edit > "Associated System Methods" tab
+    to support carriers that have numeric method codes like Webshopapps_Wsaupsfreight module
+  * Fixed compatibility with ce1.6/ee1.11
+    related to db field change from sales_flat_shipment_track.number to sales_flat_shipment_track.track_number
+  * Added show gift messages in vendor notification emails
+  * Fixed addVendorSku caused by inconsistency between Varien_Object::__call and Varien_Object::hasData methods
+    (first use isset, second array_key_exists - not compatible for NULL values)
+  * Added '* Use Estimate' carrier override option to stick with 'Use Rates Fallback Chain' functionality
+  * Added vendor option 'Use Rates Fallback Chain'
+  * Fixed statement pdf adjustment in po rows price formatted
+  * Added product attribute 'Dropship Rates Calculation Type' (calculate rate separately per row/item in cart)
+
+===== 1.10.8.0 =====
+  * Added better hook to apply vendors to quote items when add product to cart
+  * Added check if status actually changed in completeShipment method
+  * Added processShipmentStatusSave and general processPoStatusSave methods
+  * Added ability to have depend fields on select field value in vendor preferences and global config
+  * Added <frontend_model> in vendor preferences config to have custom form field types
+  * Added advanced vendor handling fee configuration (tier based)
+  * Added udropship_adminhtml_shipping_edit_prepare_form event
+  * Added udropship_carrier_collect_before event
+  * Added "* Any available" method code to be used as wildcard
+    this allows build udropship shipping methods as proxy on top of system methods
+    also add support for system carriers that does not have getAllowedMethods implemented
+    or does not return immutable results
+  * Added addVendorSku functionality and revamp assignVendorSku
+    from now vendor_sku stored in po items rather then constantly fetched from products
+  * Added poll tracking error processing and notifications
+  * Added option udropship/vendor/show_pid_in_manage_stock
+    to show product ids in vendor interface > manage stock
+  * Added option udropship/admin/show_order_view_vendor_rates
+    to show collected vendor rates during checkout
+  * Changed label batch file prefix from "batch-" to "label-batch"
+  * Extended udropship/vendor/auto_shipment_complete global option
+    to allow complete shipment when at least one track picked up
+    for those vendors who use subset of generated labels
+  * Fixed broken main_location_id field in vendor edit page
+  * Fixed vendor::getAssociatedProducts
+  * Fixed calculation bug in Statement/Abstract.php processPos function
+  * Fixed few compatibility issues for magento <1.3.2.4
+  * Fixed expand/collapse styles in basic udropship
+    bg_collapse.gif removed starting from 1.4 (bkg_collapse.gif used instead)
+
+===== 1.10.7.0 =====
+  * Added configuration to not allow vendors to change PO status (from/to)
+  * Added integration with new module uDropship PO MPS
+  * Added display of system shipping method on shipment view page
+  * Added error notifications by email (label_request_failed,poll_tracking_failed,poll_tracking_limit_exceeded)
+  * Added configuration "Repeat Poll Tracking"
+  * Added configuration "Automatically complete vendor shipment" to support No/All/Any trackings
+  * Fixed adding udropship_vendor attribute and values to flat tables
+  * Fixed setting order_item.total_weight
+  * Fixed compatibility with 1.3.2.4
+  * Fixed showing correct vendor associated products
+
+===== 1.10.6.0 =====
+  * Added runtime update of statement date for legacy shipment/PO records
+  * Added global configuration to disable/delete products for inactive/deleted vendors
+  * Fixed reports compatibility with 1.4.0.1 (related to Magento core bug)
+  * Fixed cost column in reports
+
+===== 1.10.5.0 =====
+  * Fixed htmlEscape() in templates for 1.3.x
+  * Fixed default filter status can't be cleared in vendor interface
+  * Fixed free_shipping by free_method_weight when carrier,method maps to multiple udropship shipping methods
+  * Fixed adminhtml create po page for udsplit orders and other cases when can't determine selected shipping metho
+  * Fixed negative signs in statement PDF for transaction fee and commission
+  * Fixed printing UPS labels when Pickup/Container/Destination types are not default
+  * Added statement date (PO ready) field to POs, improved statements and payouts logic
+  * Added support to use multiple shipping mapping for more flexible estimate override
+  * Added commission amount field in statements rows
+
+===== 1.10.4.0 =====
+  * Fixed shipment comment with notify vendor by email
+  * Fixed using frontend_input_renderer rather than frontend_input for vendor autocomplete
+  * Fixed processPostMultiselects for vendor interface when no visible preferences are selected
+  * Added initial new PO status per vendor
+  * Added configuration per vendor for default PO sorting, PO status filter in vendor interface
+
+===== 1.10.3.2 =====
+  * Fixed issues with SQL reinstalls
+
+===== 1.10.3.1 =====
+  * Fixed handling 5+4 zip codes in USPS/Endicia labels
+
+===== 1.10.3.0 =====
+  * Added UPS label API transaction void on label deletion
+  * Added Endicia label API account recrediting on balance threshold
+  * Fixed Endicia label API password change code
+  * Fixed using simple subproduct's cost for configurable products
+  * Fixed issues with SQL reinstalls
+  * Fixed compatibility with 1.3.2.4
+  * Improved integration with 3rd party extensions (udropship_shipping_details)
+
+===== 1.10.2.0 =====
+  * Added specifying shipping label options in vendor interface for UPS, USPS, FedEx
+
+===== 1.10.1.0 =====
+  * Added Endicia configuration for automatic account funding
+
+===== 1.10.0.1 =====
+  * Fixed foreign keys when Magento tables have local prefix
+
+===== 1.10.0.0 =====
+  * Tested for compatibility with CE 1.5.0.1
+  * Fixed login to vendor interface when AdvancedPO is installed
+  * Moved from "withhold" option to "in payout" options (reflected in PDF and statement/payout details page)
+  * Fixed URL Key exists check for new vendor registrations (in admin, when Microsite is installed)
+  * Fixed saving vendor data for new vendors after form submission error (in admin)
+  * Removed handling from statement/payout (calculation and display)
+  * Added note to handling fee field in vendor preferences, if default handling fee is desired
+  * Worked around Magento bug with internal forwarding by frontName
+  * Fixed potential issues with saving in order items vendor SKU, item price, shipping price
+
+===== 1.9.3.5 =====
+  * Fixed batch printing packings slips and shipping labels when AdvancedPO is installed
+
+===== 1.9.3.4 =====
+  * Fixed race condition error during installation on live sites
+  * Fixed IE JS error in vendor interface when running action on multiple POs
+
+===== 1.9.3.3 =====
+  * Fixed disabling uDropship per website/store
+
+===== 1.9.3.2 =====
+  * Fixed filters in uDropship reports
+
+===== 1.9.3.1 =====
+  * Added vendor configuration for Fedex ITN for EEI/SED shipments (from AES)
+
+===== 1.9.3 =====
+  * Added separate handling of multiple PO action and status update in vendor interface
+  * Added limiting vendor product availability by destination zipcode
+  * Added new columns in general report
+  * Added new item level report
+
+===== 1.9.2 =====
+  * Added per-vendor configuration to hide shipping price in packing slip
+  * Added global configuration to restrict PO statuses in vendor interface
+  * Added support for FedEx MPS (Multi-Package Shipments)
+  * Added low stock vendor email notifications
+  * Fixed multiple product attributes edit mass action
+  * Fixed editing vendor product stock qty in admin and vendor interface
+
+===== 1.9.1.1 =====
+  * Fixed editing orders in admin with out of stock items when "Use local vendor if available" is enabled
+  * Fixes for MultiVendor add-on
+
+===== 1.9.1 =====
+  * Added configuration to use product cost instead of price for statements and payouts
+  * Added configuration to replace Vendor dropdowns with auto-complete for large number of vendors
+
+===== 1.9.0.1 =====
+  * Fixed using locale timezone in vendor's shipment grid and filters
+
+===== 1.9.0 =====
+  * Additions and refactoring for AdvancedPO and Payout add-ons
+  * Added user tracking for statement adjustments
+  * Fixes in handling statements mass actions
+  * Fixed handling multi-address checkout with Split add-on (PE 1.9.1.0 & CE 1.4.1.1)
+  * Fixed changing vendor shipment status without comment
+
+===== 1.8.2.7 =====
+  * Fixed USPS long method names
+  * Fixed printing Endicia international labels
+
+===== 1.8.2.6 =====
+  * More major statements refactoring
+  * Added statement details tab
+
+===== 1.8.2.5 =====
+  * Refactored statement models
+  * Added advanced adjustments management
+  * Added refresh statements functionality as oppose to deleting to refresh
+
+===== 1.8.2.3 =====
+  * Fixed vendor interface shipment comments for CE 1.3.x
+  * Fixed estimate calculation logic when some of carrier requests fail
+
+===== 1.8.2.2 =====
+  * Fixed issue with statement totals when non-US currency format is used
+
+===== 1.8.2.1 =====
+  * Fixed decimal precision in flat shipment item table fields
+
+===== 1.8.2 =====
+  * Fixed statement adjustments when sales tables flat
+  * Fixed calculation for totals saved in shipment records (for future use)
+
+===== 1.8.1.2 =====
+  * Fixed intermittent issue when calculating shipping estimates
+
+===== 1.8.1.1 =====
+  * Fixed vendor interface compatibility for IE7
+
+===== 1.8.1 =====
+  * Fixed vendor interface order info in some installations
+  * Fixed error on unknown shipping method in vendor interface
+  * Added vendor notification flag fields to shipment entity tables
+
+===== 1.8.0 =====
+  * Fixed mass vendor status update
+  * Added support for custom estimate total price calculation method
+  * Added support for AdvancedPO add-on
+
+===== 1.7.12 =====
+  * Fixed preventing Magento from decreasing stock qty when Vendor Decision Method is local+vendor
+
+===== 1.7.11 =====
+  * Fixed ignoring vendor specific handling fee when not set
+
+===== 1.7.10 =====
+  * Added compatibility with CE 1.4.1.x for stock item override
+  * Fixed generating statement PDF when logo image is invalid
+
+===== 1.7.9 =====
+  * Fixed intermittent error when qty in cart is 0
+  * Fixed statements compatibility with flat sales tables (CE 1.4.1.0)
+
+===== 1.7.8 =====
+  * Fixed Reports > Dropship > General Details for non-flat sales tables (<1.4.1.0)
+  * Added WYSIWYG control option in vendor preferences
+
+===== 1.7.7 =====
+  * Theme updates for MultiVendor and Microsite add-ons
+
+===== 1.7.6 =====
+  * Added admin notifications for important updates
+  * Added standalone udropship interface theme
+
+===== 1.7.5 =====
+  * Fixed Dropship report for flat sales tables (CE 1.4.1.0 and EE 1.8.0.0)
+
+===== 1.7.4 =====
+  * Fixed using vendor SKU when MultiVendor add-on is installed
+  * Added option to use custom product attribute for vendor SKU
+  * Added option to use light fonts for smaller PDF file size
+  * Added compatibility fixes with EE 1.8 and CE 1.4.1.0
+
+===== 1.7.3 =====
+  * Fixed usage of udropship_vendor product attribute in price rules for CE 1.4.x
+  * Fixed installation script for EE 1.8
+  * Added free shipping on minimum subtotal configuration for uDropship carrier
+
+===== 1.7.2.2 =====
+  * Fixed updating product stock qty from vendor interface
+
+===== 1.7.2.1 =====
+  * Fixed error showing carrier shipping methods in vendor interface (bug in 1.7.2 only)
+
+===== 1.7.2 =====
+  * Fixed setting correct shipping methods in new self-registered vendors for uMicrosite
+  * Fixed "unsecure content" warning for IE6
+  * Added "udropship_adminhtml_vendor_tabs_after" event for custom vendor tabs
+  * Preparing for separation between POs and customer shipment entities
+
+===== 1.7.1.3 =====
+  * Fixed javascript issues for CE 1.4 in Vendor Edit > Shipping Methods
+
+===== 1.7.1.2 =====
+  * Improved vendor statement withhold logic
+
+===== 1.7.1.1 =====
+  * Vendor Interface: fixed Stock Edit pagination
+  * Fixed reseting multiselect values for vendor preferences
+  * Fixes for compatibility with EE 1.7.1.0
+
+===== 1.7.1.0 =====
+  * Preparing for refactoring of vendor decision method framework
+  * Vendor Interface: fixed sorting by dates
+
+===== 1.7.0.3 =====
+  * Added field for vendor fax
+
+===== 1.7.0.2 =====
+  * Fixed local_if_in_stock method calculation
+
+===== 1.7.0.1 =====
+  * Fixed sending final shipment complete notification to customers
+  * Fixed handling tax calculation for some customizations
+
+===== 1.7.0 =====
+  * Added ability to send customer notification for both tracking id and shipment
+  * Added different email templates for tracking and shipment notifications
+
+===== 1.6.6.3 =====
+  * In new installations catalog_product.udropship_vendor attribute is not required anymore
+
+===== 1.6.6.2 =====
+  * Fixed sending customer shipment notification emails for Tracking IDs
+  * Fixed showing only vendor's products in "Manage stock"
+
+===== 1.6.6.1 =====
+  * Fixed $quoteItem->getChildrenItems() compatibility with CE1.4 and EE1.7
+  * Added vendor shipment status 'Acknowledged'
+
+===== 1.6.6 =====
+  * Added stock management in vendor interface
+
+===== 1.6.5 =====
+  * Confusing wording changes - Partial->Label(s) printed, Print Label->Generate Label, Reprint->Print
+  * Added email transport choice for vendor notifications with -f sendmail parameter
+  * Added "Delivered" shipment status for optional use
+  * Added vendor notification emails recipient field for use with custom vendor preferences
+  * Added custom input filtering for vendor preferences
+  * Added event 'udropship_vendor_preferences_save_before'
+
+===== 1.6.4.2 =====
+  * Fixed error while printing FedEx label, when courtesy rates are not returned in API request
+
+===== 1.6.4.1 =====
+  * Fixed handling vendor Tax Regions for CE1.4 and EE1.7
+
+===== 1.6.4 =====
+  * Internal installation script changes
+  * Fixed UPS label delivery confirmation XML nodes
+
+===== 1.6.3.4 =====
+  * Fixed first name in admin order shipments grid
+  * Fixed ignoring failures to attach shipping labels to vendor notifications
+  * Better handling of re-installation scripts
+
+===== 1.6.3.3 =====
+  * Fixed marking shipping as complete in admin interface when there are no tracking ids
+
+===== 1.6.3.2 =====
+  * Fixed marking order as shipped in vendor interface when there are no tracking ids
+
+===== 1.6.3.1 =====
+  * Added integration with Aschroder_GoogleAppsEmail
+
+===== 1.6.3 =====
+  * Fixed calculation of bundle item qtys for stock check
+  * Added "Download Existing Labels Batch" in vendor interface
+  * Added "Change Shipments Status" in vendor interface
+  * Added Gift Message in vendor interface
+
+===== 1.6.2 ======
+  * Fixed handling "Use Local Vendor If In Stock" scenario
+  * Fixed statement date format according to http://framework.zend.com/issues/browse/ZF-8277
+  * Added integration with ArtsOnIT_AdvancedSmtp
+  * Added multiple carriers per vendor
+  * Alert: changed Unirgy_Dropship_Helper_Protected::getRequestsByVendor() return value
+
+===== 1.6.1.2 ======
+  * Improved vendor-product association javascript to allow updates on large product sets
+
+===== 1.6.1.1 ======
+  * Fixed showing correct vendor enabled shipping methods in vendor interface
+  * Fixed filtering by shipping method in vendor interface
+  * Fixed calculation of shipment items total qty for bundles and configurable
+
+===== 1.6.1 ======
+  * Fixed adding bundle items to vendor shipments
+  * Fixed auto-completing vendor shipment when tracking ID added manually
+  * Fixed UPS International Paperless Invoice Label request
+  * Added unique db key for vendor product combination
+  * Added per vendor UPS Pickup Type, UPS Container and UPS Destination Type
+  * Added vendor-product association from vendor edit page
+  * Added vendors informing retailer of items limited availability
+
+===== 1.6.0.2 =====
+  * Refactored and improved checking for shipped packages
+  * Added shipment_track.next_check to avoid checking the same package too often
+  * Added track status Delivered to avoid sending shipment notification for already delivered packages.
+
+===== 1.6.0.1 =====
+  * Fixed marking shipments as complete
+  * Added configuration to prefer shipments as complete after first package
+
+===== 1.6.0 =====
+  * Fixed shipping price in packing slip
+  * Fixed canceling vendor order requests when customer order is canceled
+  * Refactored processing tracking status change
+  * Refactored custom vendor notifications
+  * Changed size of vendor password hash for Magento Enterprise
+  * Added unique db key for vendor shipping combination
+  * Added custom stock qty check configuration per vendor
+  * Added polling carrier tracking API (FedEx) to verify packages pick up
+  * Added generation of vendor PDF statements, sending by email, and export as CSV for ACH
+
+===== 1.5.4 =====
+  * Fixed compatibility with GoogleCheckout
+  * Fixed label batch order IDs in title
+  * Fixed dropship observer to load protected helper only when needed
+  * Fixed sending only vendor's items in shipping $request->getAllItems()
+  * Added multiple free shipping method
+  * Added compatibility with Aschroder_SMTPPro
+
+===== 1.5.3 =====
+  * Added few udropship_vendor_product fields for multi-vendor logic
+
+===== 1.5.2 =====
+  * Preparation for multi-vendor add-on logic
+  * Replacing vendor custom vars combined format from serialized to json
+  * Fixed creating FedEx labels on weekends and holidays
+
+===== 1.5.1 =====
+  * Added General Drop Shipping Report exportable as CSV
+  * Added Admin Master Password for vendor interface
+  * Fixed some 1.2.x compatibility issues
+
+===== 1.5.0 =====
+  * Minor bug fixes and enhancements
+
+===== 1.4.6 =====
+  * Added multi-address checkout compatibility
+
+===== 1.4.4 =====
+  * Fixed setting order as complete after all shipments have been shipped
+  * Fixed handling of inactive vendors
+  * Fixed validation for email+pass duplicate vendors
+  * Fixed deletion of dropship shipping methods
+  * Added configuration for unique vendor email or email/password combination
+  * Added 'Pending' vendor status
+  * Added vendor preference of type date/datetime
+
+===== 1.4.2 =====
+  * Refactoring of shipping estimates calculation and shipping generation process
+  * DB, logic and interface changes to allow separate shipping methods for vendor shipments in the same order
+  * Changed to atomic vendor notifications (if one notification fails, not sending anyone)
+  * Added default vendor order (shipment) status
+  * Added optional attachment of packing slip and shipping label to vendor notifications
+  * Added "created_at" for vendors and method for showing new vendors
+  * Added uploading images for vendors
+  * Added multiselect and file/image input types in vendor interface preferences
+
+===== 1.3.3 =====
+  * Fixed vendor interface ajax for submission on IE
+  * Fixed loading default local vendor on new product form
+  * Fixed logging in of different vendors with the same emails and different passwords
+  * Fixed UPS Shipping label XML request
+  * Fixed calculation of shipment total qtys
+  * Updated compatibility with Magento 1.3.2 for some configurations
+  * Improved algorithm of combining estimates for different vendors in cart
+  * Changed vendor password to be saved as hash only
+  * Added vendor password reset procedure
+  * Added FedEx shipping labels printing
+  * Added detailed price information in quote and order objects for each vendor
+  * Added vendor shipping price in shipment grids
+  * Added vendor tax regions
+
+===== 1.3.0 =====
+  * Added UPS, USPS shipping label printing
+  * Added Batch label printing
+  * Added Batch packing slip printing
+  * Added free format custom data and vendor preferences
+  * More fixes for Magento 1.3.x compatibility
+
+===== 1.2.0 =====
+  * Fixed vendor interface IE javascript bugs
+  * Fixed not sending vendor notifications if shipping method is not udropship
+  * Fixed vendor email validation
+  * Fixed admin interface when "Use store code in URL" is enabled
+  * Added compatibility with Magento 1.3.x
+  * Added vendor stock management switch
+  * Added new order vendor notification preference
+  * Added associated products tab in vendor edit form
+  * Added customizable product page (and more) data per vendor
+  * Added customizable customer shipment notification email per vendor
+  * Added PDF and thermal shipping labels batch printing
+  * Added batch printing of packing slips
+  * Code cleanup
+
+===== 1.0 - Initial release =====

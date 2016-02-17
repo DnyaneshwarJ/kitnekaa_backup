@@ -1,0 +1,19 @@
+<?xml version="1.0"?>   
+<layout version="0.1.0">   
+<!--<customer_account>
+    <reference name="customer_account_navigation">
+        <action method="addLink">
+            <name>Add Users</name>
+            <path>users</path>
+            <label>Add Users</label>
+        </action>
+    </reference>
+</customer_account>
+
+<users_index_index>
+        <update handle="customer_account" />
+        <reference name="my.account.wrapper">
+            <block type="customer/form_register" name="create_user" template="users/create_user.phtml"/>
+        </reference>
+    </users_index_index>  -->
+</layout>  

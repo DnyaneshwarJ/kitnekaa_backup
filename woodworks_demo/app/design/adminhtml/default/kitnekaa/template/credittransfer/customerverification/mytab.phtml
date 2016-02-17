@@ -1,0 +1,11 @@
+<?php
+
+echo"<h5 style='color:red;'>".Mage::registry('verifyingname')."</h5>";
+  echo $this->getLayout()
+            ->createBlock('credittransfer/adminhtml_credittransfer_docgrid')
+            ->toHtml();
+ //echo $this->_addContent(Mage::app()->getLayout()->createBlock('credittransfer/adminhtml_customerverification_docupload'));
+            //   echo $this->getLayout()
+            // ->createBlock('credittransfer/adminhtml_customerverification_docupload')
+            // ->toHtml();
+?>

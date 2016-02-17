@@ -1,0 +1,54 @@
+<!--@subject {{var quote.getStoreGroupName()}}: New Quote request # {{var quote.increment_id}} @-->
+
+<!--@styles
+body,td { color:#2f2f2f; font:11px/1.35em Verdana, Arial, Helvetica, sans-serif; }
+@-->
+<div style="font:11px/1.35em Verdana, Arial, Helvetica, sans-serif;">
+    <table cellspacing="0" cellpadding="0" border="0" width="98%"
+           style="margin-top:10px; font:11px/1.35em Verdana, Arial, Helvetica, sans-serif; margin-bottom:10px;">
+        <tr>
+            <td align="center" valign="top">
+                <!-- [ header starts here] -->
+                <table cellspacing="0" cellpadding="0" border="0" width="650">
+                    <tr>
+                        <td valign="top"><a href="{{store url=''}}"><img src="{{skin url='images/logo_email.gif'
+                            _area='frontend'}}" alt="Magento" style="margin-bottom:10px;" border="0"/></a></td>
+                    </tr>
+                </table>
+                <!-- [ middle starts here] -->
+                <table cellspacing="0" cellpadding="0" border="0" width="650">
+                    <tr>
+                        <td valign="top">
+                            <p>
+                                <strong>Ciao {{var customer.name}}</strong>,<br/><br>
+                                Grazie per la tua richiesta di preventivo da {{var quote.getStoreGroupName()}}.<br><br>
+                                In meno di 24 ore riceverai la nostra proposta.<br>
+
+                            <h3
+                                    style="border-bottom: 3px solid rgb(238, 238, 238); font-size: 1.05em; padding-bottom: 1px;">
+                                Il tuo
+                                preventivo #{{var quote.increment_id}}
+                                <small>(posizionato su {{var quote.getCreatedAtFormated('long')}})</small>
+                            </h3>
+                            {{if quote.getCompany()}}{{var quote.getCompany()}} <br>{{/if}}
+                            {{var customer.name}} <br>
+                            {{var quote.getBillingAddress()}}
+                            {{layout handle="qquoteadv_email_qquoteadv_items" quote=$quote}} <br>
+
+                            Puoi controllare lo stato del preventivo effettuando il <a href="{{store url='customer/account/'}}"
+                            style="color:#1E7EC8;">login</a>.<br><br>
+                            Per qualsiasi domanda non esitare a contattarci <a href="mailto:{{config path='trans_email/ident_support/email'}}"
+                                                                               style="color:#1E7EC8;">{{config path='trans_email/ident_support/email'}}</a>
+                            o chiamaci al <span class="nobr">{{config path='general/store_information/phone'}}</span> dal Lunedi al Venerdi, 8.00 - 19.00 .
+                            </p><br>
+
+                            <p>Grazie per la fiducia.</p>
+
+                        </td>
+                    </tr>
+                </table>
+
+            </td>
+        </tr>
+    </table>
+</div>

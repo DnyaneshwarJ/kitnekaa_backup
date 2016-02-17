@@ -1,0 +1,79 @@
+<?xml version="1.0"?>
+<config>
+  <modules>
+    <Kitnekaa_Chequetransfer>
+      <version>1.0.0.0</version>
+    </Kitnekaa_Chequetransfer>
+  </modules>
+ 
+  <global>
+    <fieldsets>
+      <sales_convert_quote_payment>
+        <cust_chq_number>
+          <to_order_payment>*</to_order_payment>
+        </cust_chq_number>
+        <cust_bank_name>
+          <to_order_payment>*</to_order_payment>
+        </cust_bank_name>
+        <cust_branch_name>
+          <to_order_payment>*</to_order_payment>
+        </cust_branch_name>
+         <cust_trans_date>
+          <to_order_payment>*</to_order_payment>
+        </cust_trans_date>
+      </sales_convert_quote_payment>
+    </fieldsets>
+     
+    <helpers>
+      <chequetransfer>
+        <class>Kitnekaa_Chequetransfer_Helper</class>
+      </chequetransfer>
+    </helpers>
+ 
+    <blocks>
+      <chequetransfer>
+        <class>Kitnekaa_Chequetransfer_Block</class>
+      </chequetransfer>
+    </blocks>
+         
+    <models>
+      <chequetransfer>
+        <class>Kitnekaa_Chequetransfer_Model</class>
+      </chequetransfer>
+    </models>
+ 
+    <resources>
+      <chequetransfer_setup>
+        <setup>
+          <module>Kitnekaa_Chequetransfer</module>
+        </setup>
+      </chequetransfer_setup>
+    </resources>
+    
+  </global>
+ 
+  <default>
+    <payment>
+      <chequetransfer>
+        <active>1</active>
+        <model>chequetransfer/paymentmethod</model>
+        <order_status>pending</order_status>
+        <title>Cheque</title>
+        <allowspecific>0</allowspecific>
+        <payment_action>sale</payment_action>
+      </chequetransfer>
+    </payment>
+  </default>
+   
+  <frontend>
+    <routers>
+      <chequetransfer>
+        <use>standard</use>
+        <args>
+          <module>Kitnekaa_Chequetransfer</module>
+          <frontName>chequetransfer</frontName>
+        </args>
+      </chequetransfer>
+    </routers>
+  </frontend>
+</config>

@@ -1,0 +1,57 @@
+<?php
+$_tsHlp = Mage::helper('udtiership');
+$_htmlId = $this->getHtmlId() ? $this->getHtmlId() : '_' . uniqid();
+$_element = $this->getElement();
+if ($hasShipClass = Mage::helper('udropship')->isModuleActive('udshipclass')) {
+    $cShipClass = Mage::getSingleton('udshipclass/source')->setPath('customer_ship_class')->toOptionHash();
+}
+$rateBlock = Mage::app()->getLayout()->createBlock('udtiership/adminhtml_systemConfigField_simpleRateSingle');
+$rateBlock->setBaseName($_element->getName())->setDataObject(new Varien_Object($_element->getValue()));
+
+$subkeyColumns = array(
+    'cost' => 'cost',
+    'additional' => 'additional'
+);
+
+$tableWidth = '650px';
+
+
+?>
+<div class="grid">
+    <table cellspacing="0" class="data" cellpadding="0" id="global_tiership_simple_rates-grid" style="width: <?php echo $tableWidth?>">
+        <col width="150">
+        <?php for ($i=0; $i<count($subkeyColumns); $i+=2): ?>
+        <col width="120">
+        <?php endfor ?>
+        <thead>
+        <tr class="headings">
+            <th class="a-center"><?php echo Mage::helper('udropship')->__('Customer') ?></th>
+            <?php for ($i=0; $i<count($subkeyColumns); $i++): ?>
+            <th class="a-center"><?php echo $this->getColumnTitle($subkeyColumns, $i) ?></th>
+            <?php endfor ?>
+        </tr>
+        </thead>
+        <tbody id="global_tiership_simple_rates-table">
+
+            <?php foreach($cShipClass as $cscId => $cscLabel): ?>
+
+            <tr class="option-row">
+
+                <td class="a-left"><?php echo $cscLabel?></td>
+                <?php $rateBlock->setKey($cscId);  ?>
+
+                <?php foreach ($subkeyColumns as $subKey=>$subKeyType): ?>
+                <td class="a-center"><?php echo $rateBlock->setSubkey($subKey)->setSubkeyType($subKeyType)->toHtml() ?></td>
+                <?php endforeach ?>
+
+            </tr>
+
+            <?php endforeach ?>
+
+        </tbody>
+    </table>
+</div>
+
+<style type="text/css">
+    #global_tiership_category_rates-table input {width: 80px}
+</style>

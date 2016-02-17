@@ -1,0 +1,95 @@
+<?php $_request = $this->getRequest(); ?>
+<?php 
+$createdDate = $this->formatDate($_request->getCreated_at(), 'medium', true);
+?>
+<div class="box-left">
+    <!--Request Information-->
+    <div class="entry-edit">
+        <div class="entry-edit-head">
+            <a href="<?php echo $this->getViewUrl($_request->getId()) ?>"><?php echo Mage::helper('quote2sales')->__('Request # %s', $_request->getId()) ?></a>
+        </div>
+        
+        <div class="fieldset">
+            <table cellspacing="0" class="form-list">
+            <tr>
+                <td class="label"><label><?php echo Mage::helper('quote2sales')->__('Request Date') ?></label></td>
+                <td class="value"><strong><?php echo $createdDate ?></strong></td>
+            </tr>
+            <tr>
+                <td class="label"><label><?php echo Mage::helper('quote2sales')->__('Request From') ?></label></td>
+                <td class="value"><strong><?php echo $_request->getName() ?></strong></td>
+            </tr>
+             <tr>
+                    <td class="label"><label><?php echo Mage::helper('quote2sales')->__('Preferred Email') ?></label></td>
+                    <td class="value"><a href="mailto:<?php echo $_request->getEmail() ?>"><strong><?php echo $_request->getEmail() ?></strong></a></td>
+             </tr>
+             <tr>
+                    <td class="label"><label><?php echo Mage::helper('quote2sales')->__('Preferred Telephone') ?></label></td>
+                    <td class="value"><strong><?php echo $_request->getPhone() ?></strong></td>
+             </tr>
+            <?php /* if($_order->getRemoteIp() && $this->shouldDisplayCustomerIp()): ?>
+            <tr>
+                <td class="label"><label><?php echo Mage::helper('quote2sales')->__('Placed from IP') ?></label></td>
+                <td class="value"><strong><?php echo $_order->getRemoteIp(); echo ($_order->getXForwardedFor())?' (' . $this->escapeHtml($_order->getXForwardedFor()) . ')':''; ?></strong></td>
+            </tr>
+            <?php endif; */?>
+            </table>
+        </div>
+        
+        
+    </div>
+</div>
+<?php ?>
+<div class="box-right">
+    <!--Account Information-->
+    <div class="entry-edit">
+        <div class="entry-edit-head">
+            <h4 class="icon-head head-account"><?php echo Mage::helper('quote2sales')->__('Account Information') ?></h4>
+        </div>
+        <div class="fieldset">
+            <div class="hor-scroll">
+                <table cellspacing="0" class="form-list">
+                <tr>
+                    <td class="label"><label><?php echo Mage::helper('quote2sales')->__('Customer Name') ?></label></td>
+                    <td class="value">
+                    <?php if ($_customerUrl=$this->getCustomerViewUrl()) : ?>
+                        <a href="<?php echo $_customerUrl ?>" target="_blank"><strong><?php echo $this->htmlEscape($this->getCustomerName()) ?></strong></a>
+                    <?php else: ?>
+                        <strong><?php echo $this->htmlEscape($this->getCustomerName()) ?></strong>
+                    <?php endif; ?>
+                    </td>
+                </tr>
+               <tr>
+                    <td class="label"><label><?php echo Mage::helper('quote2sales')->__('Customer Email') ?></label></td>
+                    <td class="value"><a href="mailto:<?php echo $this->getCustomerEmail() ?>"><strong><?php echo $this->getCustomerEmail() ?></strong></a></td>
+             	</tr>
+                <?php if ($_groupName = $this->getCustomerGroupName()) : ?>
+                <tr>
+                    <td class="label"><label><?php echo Mage::helper('quote2sales')->__('Customer Group') ?></label></td>
+                    <td class="value"><strong><?php echo $_groupName ?></strong></td>
+                </tr>
+                <?php endif; ?>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</div>
+<div class="clear"></div>
+
+<div class="grid np">
+  <div class="entry-edit">
+  	<div class="entry-edit-head">
+            <h4 class="icon-head head-account"><?php echo Mage::helper('quote2sales')->__('Request details') ?></h4>
+    </div>
+    <div class="fieldset">
+  		<?php echo "Comment: " . $_request->comment . "</br>"; ?>
+        <?php echo "Price: " . $_request->demo ."</br>" ?>
+        <?php echo "Delivery Date: " . $_request->deliverydate ."</br>" ?>
+        <?php echo "Delivery Location: " . $_request->deliverylocation ."</br>"?>
+        <?php echo "Payment Terms: " . $_request->paymentterms ."</br>"?>
+        <?php echo "Shipping Method: " . $_request->shippingmethod ."</br>"?>
+        
+  	</div>
+	</div>
+</div>

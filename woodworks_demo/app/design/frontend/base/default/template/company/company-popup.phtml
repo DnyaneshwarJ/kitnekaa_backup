@@ -1,0 +1,54 @@
+<script type="text/javascript">
+    jQuery(document).ready(function() {
+        var check_cookie = "<?php echo Mage::getModel('core/cookie')->get('popup-shown'); ?>";
+        var current_url = "<?php echo Mage::helper('core/url')->getCurrentUrl(); ?>";
+        var customer_edit_url = "<?php echo Mage::getUrl('customer/account/edit'); ?>";
+        var customer_is_loggedin = "<?php echo Mage::getSingleton('customer/session')->isLoggedIn(); ?>";
+        var company_id = "<?php echo Mage::getSingleton('customer/session')->getCustomer()->getCompanyId(); ?>";
+        if(customer_is_loggedin && current_url != customer_edit_url && !company_id){
+            if(!check_cookie) {
+                beginNewsletterForm();
+                <?php Mage::getModel('core/cookie')->set('popup-shown', 'true', 5);?>
+            }
+        }
+    });
+
+    function beginNewsletterForm(){
+        jQuery.fancybox({
+            'width': '400px',
+            'height': 'auto',
+            'padding': '0px',
+            'autoDimensions': false,
+            'autoScale': false,
+            'autoSize': false,
+            'transitionIn': 'fade',
+            'transitionOut': 'fade',
+            'closeBtn': false,
+            'type': 'inline',
+            'href': '#notify-abt-company-popup',
+            helpers: {
+              overlay: { closeClick: false } //Disable click outside event
+            }
+        });
+        jQuery("#newsletter-popup").trigger('click');
+    }
+</script>
+
+<div style="display:none;">
+      <div id="notify-abt-company-popup" class="containerssss">
+            <div class="sub-container">
+                  <div class="content">
+                    <?php
+                      if(Mage::getSingleton('customer/session')->isLoggedIn()){
+                        $customer_edit_url = Mage::getUrl('customer/account/edit');
+                        $customer_edit_url_html = "<a href=$customer_edit_url>here</a>";
+                        $company_id = Mage::getSingleton('customer/session')->getCustomer()->getCompanyId();
+                        if(!$company_id){
+                          echo "We have noticed that you have not updated your company details please click ".$customer_edit_url_html." to update your details";
+                        }
+                      }
+                    ?>
+                  </div>
+            </div>
+      </div>
+</div>

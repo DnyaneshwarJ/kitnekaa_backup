@@ -1,0 +1,174 @@
+<?php
+   /*------------------------------------------------------------------------
+    # SM Mega Menu - Version 1.1
+    # Copyright (c) 2013 YouTech Company. All Rights Reserved.
+    # @license - Copyrighted Commercial Software
+    # Author: YouTech Company
+    # Websites: http://www.magentech.com
+   -------------------------------------------------------------------------*/
+   include_once 'Mobile_Detect.php';
+   $prefix = Sm_Megamenu_Model_System_Config_Source_Html::PREFIX;
+   $smarthelper= Mage::helper('megamenu/utils');
+   $itemsStartLv = $this->getItems();
+   $config = $this->getConfigObject();
+   $uq = uniqid($prefix.'menu');
+   $detect = new Mobile_Detect();
+   if($config['theme']==Sm_Megamenu_Model_System_Config_Source_ListTheme::HORIZONTAL){
+   $theme = 'horizontal';
+   }
+   if($config['theme']==Sm_Megamenu_Model_System_Config_Source_ListTheme::VERTICAL){
+   $theme = 'vertical'; 
+   }
+   $instance	= rand().time();
+   //echo $this->getScriptTags();
+   ?>
+<?php if(count($itemsStartLv)):?>
+<?php include dirname(__FILE__) . '/js/add_js_by_effect.phtml'; ?>
+<?php include dirname(__FILE__) . '/css/add_css_by_theme.phtml'; ?>
+<?php if (!empty($config['title'])): ?>
+<div class="<?php echo $prefix; ?>block-title" style="font-size: 16px; font-weight: bold;"><?php echo $config['title']; ?></div>
+<?php endif; ?>
+<div class="<?php echo $prefix; ?>wrapper_<?php echo $theme?>_menu sambar" id="<?php echo $uq; ?>" data-sam="<?php echo $instance; ?>">
+   <div class="sambar-inner">
+      <a class="btn-sambar" data-sapi="collapse" href="<?php echo '#'.$uq; ?>">
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      </a>	
+      <ul data-jsapi="on" class="sm-megamenu-hover sm_megamenu_menu sm_megamenu_menu_black">
+         <?php $cat_id = Mage::getModel('catalog/layer')->getCurrentCategory()->getId(); ?>
+         <?php $category = Mage::getModel('catalog/category')->load($cat_id); ?>
+         <?php $catIDcurrent= $category->getId(); ?>
+         <?php 
+            $layer = Mage::getSingleton('catalog/layer');
+            $_category = $layer->getCurrentCategory();
+            $currentCategoryId= $_category->getId();
+            $currentCategoryName= $_category->getName();
+            if(($catIDcurrent == 85) || ($catIDcurrent == 86) || ($catIDcurrent == 87) || ($currentCategoryName == 'Catalogs'))
+            {
+            	//echo "1";
+            	$children = Mage::getModel('catalog/category')->getCategories($catIDcurrent);
+            	if($currentCategoryName == 'Catalogs'){
+                  $digi_cat_id = $catIDcurrent;
+                  $demo = $digi_cat_id;
+               }
+               else
+               {
+                  $demo = $catIDcurrent;
+               }
+               
+            	
+            }else if(Mage::getSingleton('cms/page')->getIdentifier() == 'home'  &&
+            Mage::app()->getFrontController()->getRequest()->getRouteName() == 'cms') {
+            	//echo "2";
+            $children = Mage::getModel('catalog/category')->getCategories(85);
+            $demo = 85;
+            }
+            else if(($catIDcurrent != 85) || ($catIDcurrent != 86) || ($catIDcurrent != 87) )
+            {
+            	//echo "3";
+            $_category = $layer->getCurrentCategory()->getParentCategory()->getId();
+            $path = $layer->getCurrentCategory()->getParentCategory()->getPath();
+            $phoneChunks = explode("/", $path);
+            $currentCategoryName= $layer->getCurrentCategory()->getParentCategory()->getName();
+            if($currentCategoryName=="Catalogs")
+            {
+                $digi_cat_id = $_category; 
+                $demo = $digi_cat_id;
+            }else
+            {
+               $demo =  $phoneChunks[2];
+            }
+            	//$currentCategoryId= $_category->getId();
+            //$inner =  Mage::registry('current_category')->getParentCategory()->getName();
+            if($demo == ""){
+            	$demo = 85;
+            }
+            $children = Mage::getModel('catalog/category')->getCategories($demo);
+            }
+            else
+            {
+            	//echo "4";
+            $children = Mage::getModel('catalog/category')->getCategories(85);
+            $demo = 85;
+            
+            }
+            
+            
+            foreach ($children as $category)
+            { 
+            	//print_r($category->getData());
+            	$catid=$category->getID();
+            	$_category = Mage::getModel('catalog/category')->load($catid);
+            	$caticonimage = $_category->getIconcategory();
+            	$mediaurl = Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA);
+	            $imageurl = $mediaurl."catalog/category/".$caticonimage;
+	            $catname=$category->getName();
+            	$urlRequest = Mage::getBaseUrl().$category->getRequestPath();
+            
+                     
+            	?>
+         <?php
+            if($demo == 85){
+            	$finalcatname = "Products";
+            }else if($demo == 86){
+            	$finalcatname = "Services";
+            }else if($demo == 87){
+            	$finalcatname = "Consultant";
+            }elseif ($demo == $digi_cat_id) {
+               $finalcatname = "Catalogs";
+            }else{
+            	$finalcatname = "Products";
+            }
+            ?>
+         <input type="hidden" value="<?php echo $finalcatname;?>" id="categorynamehead"/>
+         <li class=" other-toggle   
+            sm_megamenu_lv1 sm_megamenu_drop  parent  ">
+            <a id="sm_megamenu_6" href="<?php echo $urlRequest?>" class="sm_megamenu_head sm_megamenu_drop ">
+            <span class="sm_megamenu_icon sm_megamenu_nodesc" style="background: url('<?php echo $imageurl;?>') no-repeat scroll 0% 50% transparent;">		
+            <span class="sm_megamenu_title"><?php echo $catname ?></span>
+            </span>
+            </a>
+            <?php $childrencat = Mage::getModel('catalog/category')->getCategories($catid); ?>
+
+            <div class="sm_megamenu_dropdown_1column " style="min-height: 524px;">
+               <div class="sm_megamenu_col_1 sm_megamenu_firstcolumn  sm_megamenu_id15 ">
+                  <?php foreach ($childrencat as $categoryname){ 
+                  	$catid=$categoryname->getID();
+            		$_category = Mage::getModel('catalog/category')->load($catid);
+                  	$caticonimage = $_category->getIconcategory();
+	            	$mediaurl = Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA);
+		            $imageurl = $mediaurl."catalog/category/".$caticonimage;
+
+                     $urlRequestinner = Mage::getBaseUrl().$categoryname->getRequestPath();?>
+                  <div class="sm_megamenu_col_6 sm_megamenu_firstcolumn  sm_megamenu_id79 ">
+                     <div class="sm_megamenu_head_item ">
+                        <div class="sm_megamenu_title"><a href="<?php echo $urlRequestinner;?>" class="sm_megamenu_nodrop "><span class="sm_megamenu_icon" style="background: url(<?php echo $imageurl;?>) no-repeat scroll 0% 50%  transparent;"><span class="sm_megamenu_title_lv2"><?php echo $categoryname->getName(); ?></span></span></a></div>
+                     </div>
+                  </div>
+                  <?php } 
+                     ?>
+               </div>
+            </div>
+            <?php  ?>
+         </li>
+         <?php }?>
+      </ul>
+   </div>
+</div>
+<!--End Module-->
+<?php else: ?>
+<p class="note-msg"><?php echo $this->__('There are no items matching the selection.') ?></p>
+<?php endif; ?>
+<script type="text/javascript">
+   jQuery(document).ready(function($){
+      $('.yt-menu-content ul > li.parent').each(function(){
+         if(!$(this).find('div').hasClass('sm_megamenu_col_6')){
+            $(this).removeClass('parent').find('.sm_megamenu_dropdown_1column ').remove();
+         }
+      });
+      $('.category-products,.category-services').find('div.yt-menu-content').css({'opacity':1, 'visibility':'visible', 'top':'50px'});
+      $('.category-products,.category-services').find('div#yt_pathway, div.yt-left-wrap').hide();
+      //#yt_header #yt_menu_short:hover .yt-menu-content
+   });
+</script>

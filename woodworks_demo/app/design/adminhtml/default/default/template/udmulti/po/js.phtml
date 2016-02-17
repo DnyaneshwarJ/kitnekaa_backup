@@ -1,0 +1,48 @@
+<style type="text/css">
+.udmulti-vendor-select, .udmulti-vendor-method { margin:3px; }
+.udmulti-vendor-save { margin:10px; }
+#udmulti-message span { padding:4px; }
+#udmulti-message .success { background:#CFC; }
+#udmulti-message .error { background:#FCC; }
+</style>
+<script type="text/javascript">
+
+var addVendorSku = <?php echo intval(Mage::getStoreConfigFlag('udropship/purchase_order/admin_show_vendorsku')) ?>;
+var vendors = <?php echo $this->getVendorsJson(); ?>;
+var vendorCosts = <?php echo $this->getVendorCostsJson() ?>;
+
+$$('.po-item-vendor').each(function (el) {
+    var itemId = el.id.replace(/[^0-9]/g, ''), i, v
+    var html = '<select name="udpo[vendors]['+itemId+'][id]" class="udmulti-vendor-select" id="udmulti-vendor-'+itemId+'">'
+    $H(vendors[itemId].all).each(function (allV) {
+        console.log(allV)
+        html += '<option value="'+allV.key+'" '
+        html += allV.key==vendors[itemId].current ? 'selected="selected"' : ''
+        html += '>'+allV.value.name+(addVendorSku && allV.value.vendor_sku ? '; Vendor SKU: '+allV.value.vendor_sku : '')+'</option>'
+    })
+    html += '</select>'
+    el.update(html)
+})
+
+$$('.po-item-cost').each(function (el) {
+    var itemId = el.id.replace(/[^0-9]/g, ''), i, v
+    var html = '';
+    $H(vendorCosts[itemId]).each(function (vCost) {
+        html += '<input type="hidden" name="udpo[default_vendor_costs]['+itemId+']['+vCost.key+']" value="'+vCost.value+'" />'
+    });
+    if (!el.down('.default-vendor-costs')) {
+        el.insert('<span class="default-vendor-costs"></span>')
+    }
+    el.down('.default-vendor-costs').update(html)
+})
+
+$$('.udmulti-vendor-select').each(function (el) {
+    el.baseValue = el.value
+    window.udpoFields.push(el)
+    $(el).observe('change', function (e) {
+        window.checkButtonsRelation()
+        var itemId = el.id.replace(/[^0-9]/g, '')
+        $(el.id+'-cost').value = vendors[itemId].all[el.value].cost
+    })
+})
+</script>

@@ -1,0 +1,382 @@
+<?php
+/**
+ * Unirgy LLC
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the EULA
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://www.unirgy.com/LICENSE-M1.txt
+ *
+ * @category   Unirgy
+ * @package    Unirgy_DropshipPo
+ * @copyright  Copyright (c) 2008-2009 Unirgy LLC (http://www.unirgy.com)
+ * @license    http:///www.unirgy.com/LICENSE-M1.txt
+ */
+?>
+<?php
+$_hlp = Mage::helper('udropship');
+$_poHlp = Mage::helper('ustockpo');
+$_ustockpos = Mage::helper('core')->decorateArray($_poHlp->getVendorPoCollection(), '');
+$_vendor = Mage::getSingleton('udropship/session')->getVendor();
+$_statuses = $_poHlp->getVendorStockpoStatuses();
+$_ajaxInfoUrl = $this->getUrl('ustockpo/vendor/ustockpoInfo/id/ID/ajax/1');
+$_ajaxAddCommentUrl = $this->getUrl('ustockpo/vendor/addUstockpoComment/id/ID/ajax/1');
+$_sortBy = $this->getRequest()->getParam('sort_by');
+$_sortDir = $this->getRequest()->getParam('sort_dir');
+$_filterStatuses = $this->getRequest()->getParam('filter_status');
+$_dateFormat = Varien_Date::convertZendToStrFtime(Mage::app()->getLocale()->getDateFormat(Mage_Core_Model_Locale::FORMAT_TYPE_SHORT), true, false);
+?>
+<form method="get" id="ustockpo-filter-form">
+    <div class="generic-box filter">
+    	<div class="box-head">
+            <div class="col3-set">
+                <div class="col-1">
+                    <a class="action" href="javascript:void(0);" onclick="toggleSGFilterBox(this)"><span class="open"></span></a>
+                </div>
+                <div class="col-2">Filter Stock POs</div>
+                <div class="col-3">&nbsp;</div>
+            </div>
+        </div>
+        <div class="col3-set">
+        <div class="col-1">
+            <ul class="form-list">
+                <li>
+                    <label for="filter-po_id-from"><?php echo Mage::helper('udropship')->__('Stock PO ID') ?></label><br/>
+                    <input id="filter-po_id-from" name="filter_po_id_from" title="<?php echo Mage::helper('udropship')->__('From PO ID') ?>" type="text" class="input-text" style="width:120px;" value="<?php echo $this->getRequest()->getParam('filter_po_id_from') ?>" /> -
+                    <input id="filter-po_id-to" name="filter_po_id_to" title="<?php echo Mage::helper('udropship')->__('To PO ID') ?>" type="text" class="input-text" style="width:120px;" value="<?php echo $this->getRequest()->getParam('filter_po_id_to') ?>" />
+                </li>
+                <li>
+                    <label for="filter-po_date-from"><?php echo Mage::helper('udropship')->__('Stock PO Date') ?></label><br/>
+                    <input id="filter-po_date-from" name="filter_po_date_from" title="<?php echo Mage::helper('udropship')->__('From PO Date') ?>" type="text" class="input-text" style="width:120px;" value="<?php echo $this->getRequest()->getParam('filter_po_date_from') ?>" /> -
+                    <input id="filter-po_date-to" name="filter_po_date_to" title="<?php echo Mage::helper('udropship')->__('To PO Date') ?>" type="text" class="input-text" style="width:120px;" value="<?php echo $this->getRequest()->getParam('filter_po_date_to') ?>" />
+                </li>
+                <li>
+                    <label for="filter-sort-by"><?php echo Mage::helper('udropship')->__('Sort By') ?></label><br/>
+                    <select id="filter-sort-by" name="sort_by" title="<?php echo Mage::helper('udropship')->__('Sort By') ?>" class="select" style="width:120px;">
+                        <option value="increment_id" <?php if ($_sortBy=='increment_id'):?>selected="selected"<?php endif ?>><?php echo Mage::helper('udropship')->__('PO ID') ?></option>
+                        <option value="po_date" <?php if ($_sortBy=='po_date'):?>selected="selected"<?php endif ?>><?php echo Mage::helper('udropship')->__('PO Date') ?></option>
+                        <option value="udropship_status" <?php if ($_sortBy=='udropship_status'):?>selected="selected"<?php endif ?>><?php echo Mage::helper('udropship')->__('PO Status') ?></option>
+                    </select>
+                    <select id="filter-sort-dir" name="sort_dir" title="<?php echo Mage::helper('udropship')->__('Direction') ?>" class="select" style="width:100px;">
+                        <option value="asc" <?php if ($_sortDir=='asc'):?>selected="selected"<?php endif ?>><?php echo Mage::helper('udropship')->__('Ascending') ?></option>
+                        <option value="desc" <?php if ($_sortDir=='desc'):?>selected="selected"<?php endif ?>><?php echo Mage::helper('udropship')->__('Descending') ?></option>
+                    </select>
+                </li>
+            </ul>
+        </div>
+        <div class="col-2">
+            <ul class="form-list">
+            </ul>
+        </div>
+        <div class="col-3">
+            <ul class="form-list">
+                <li>
+                    <label><?php echo Mage::helper('udropship')->__('Status') ?></label><br/>
+                    <?php foreach ($_statuses as $_v=>$_l): ?>
+                        <label for="filter-status-<?php echo $_v ?>"><input id="filter-status-<?php echo $_v ?>" name="filter_status[<?php echo $_v ?>]" value="1" title="<?php echo Mage::helper('udropship')->__($_l) ?>" type="checkbox" class="checkbox" <?php if (!empty($_filterStatuses[$_v])):?>checked="checked"<?php endif ?> /> <?php echo Mage::helper('udropship')->__($_l)?></label><br/>
+                    <?php endforeach ?>
+                </li>
+            </ul>
+        </div>
+        </div>
+        <div class="buttons-set">
+            <input type="submit" value="search" style="display:none" />
+            <input type="hidden" name="apply_filter" value="search"/>
+            <button class="form-button" name="apply_filter" type="submit" id="filter-search" value="search"><span><?php echo Mage::helper('udropship')->__('Apply Filter') ?></span></button>
+        </div>
+    </div>
+</form>
+
+<div class="generic-box">
+
+<form id="ustockpo-massaction-form">
+    <div class="batch-actions">
+        <h3 class="f-left">Orders</h3>
+        <strong style="margin-right:5px;">
+            <?php echo Mage::helper('udropship')->__('Perform on all retrieved records') ?>:
+        </strong>
+        <select id="submit_action" name="submit_action">
+            <option value=""><?php echo Mage::helper('udropship')->__('* No action')?></option>
+            <option value="ustockpoMultiPdf"><?php echo Mage::helper('udropship')->__('PDF Stock POs')?></option>
+                    <option value="updateUstockpoStatus"><?php echo Mage::helper('udropship')->__('Update Status')?></option>
+        </select>
+        <select id="batch_update_status" name="update_status">
+            <option value=""><?php echo Mage::helper('udropship')->__('* Automatic') ?></option>
+            <?php foreach ($_statuses as $_v=>$_l): ?>
+                <option value="<?php echo $_v ?>"><?php echo Mage::helper('udropship')->__($_l) ?></option>
+            <?php endforeach ?>
+        </select>
+        <input type="hidden" name="limit" value="<?php echo $this->getRequest()->getParam('limit')?>"/>
+        <input type="hidden" name="p" value="<?php echo $this->getRequest()->getParam('p')?>"/>
+        <button class="form-button" type="button" onclick="return massActionSubmit(this.form)"><span><?php echo Mage::helper('udropship')->__('Submit') ?></span></button>
+    </div>
+</form>
+
+<p>
+    <a href="#" onclick="collapseAllRows(); return false"><?php echo Mage::helper('udropship')->__('Collapse all rows') ?></a> / <a href="#" onclick="expandAllRows(); return false"><?php echo Mage::helper('udropship')->__('Expand all rows') ?></a>
+</p>
+
+<div id="debug"></div>
+
+<?php echo $this->getChildHtml('toolbar') ?>
+<table cellspacing="0" class="data-table" id="ustockpo-grid">
+    <col width="1" />
+    <col />
+    <col />
+    <col />
+    <col />
+    <col />
+    <col width="1" />
+    <col />
+    <thead>
+        <tr>
+            <th><?php echo Mage::helper('udropship')->__('')?></th>
+            <th><?php echo Mage::helper('udropship')->__('PO ID')?></th>
+            <th><?php echo Mage::helper('udropship')->__('PO Date')?></th>
+            <th><?php echo Mage::helper('udropship')->__('Status')?></th>
+            <th><?php echo Mage::helper('udropship')->__('Items')?></th>
+            <th><?php echo Mage::helper('udropship')->__('Download')?></th>
+        </tr>
+    </thead>
+    <tbody>
+<?php if ($_ustockpos): ?>
+    <?php foreach ($_ustockpos as $_id=>$_po): ?>
+        <tr id="row-<?php echo $_id?>" class="trigger <?php echo $_po->getIsEven() ? 'even' : 'odd'?>">
+            <td><a class="action" href="#" onclick="return false"><span></span></a></td>
+            <td><?php echo $_po->getIncrementId() ?></td>
+            <td><?php echo Mage::helper('core')->formatDate($_po->getCreatedAt(), 'short', true) ?></td>
+            <td id="status-<?php echo $_id ?>"><?php echo $_po->getUdropshipStatusName() ?></td>
+            <td><?php echo $_po->getTotalQty()*1 ?></td>
+            <td>
+                <a style="white-space:nowrap" href="<?php echo $this->getUrl('ustockpo/vendor/ustockpoPdf', array('ustockpo_id'=>$_po->getId()))?>"><strong><?php echo Mage::helper('udropship')->__('PDF')?></strong></a>
+            </td>
+        </tr>
+        <tr id="info-<?php echo $_id?>" style="display:none">
+            <td id="container-<?php echo $_id?>" colspan="10" style="padding:25px; border-top:1px solid #ddd;">
+                <span class="ustockpo-info-loader"><?php echo Mage::helper('udropship')->__('Please wait, loading stock PO information...')?></span>
+            </td>
+        </tr>
+    <?php endforeach ?>
+<?php endif ?>
+    </tbody>
+</table>
+<?php echo $this->getChildHtml('toolbar') ?>
+</div>
+
+<script type="text/javascript">
+var dateFields = [ 'filter-po_date-from', 'filter-po_date-to'];
+
+for (var i=0, l=dateFields.length; i<l; i++) {
+    Calendar.setup({inputField : dateFields[i], ifFormat : "<?php echo $_dateFormat?>", showsTime : false});
+}
+
+$$('#ustockpo-grid tbody tr.trigger').each(function (row) {
+    var a = row.down('a.action');
+    a.observe('click', expandRow.curry(false, row));
+});
+
+function expandRow(openFlag, row) {
+    var a = row.down('a.action');
+    var id = row.id.split('-')[1];
+    var info = $('info-'+id), container = $('container-'+id), img = a.down('span');
+    if (!info.isInfoLoaded) {
+        info.isInfoLoaded = true;
+        new Ajax.Updater(container, '<?php echo $_ajaxInfoUrl ?>'.replace('ID', id), {
+            onComplete: function (transport) { initUstockpoForm.defer(id); },
+            evalScripts: true
+        });
+    }
+    if (openFlag) info.show();
+    else info.toggle();
+    if (info.style.display!='none') {
+        img.addClassName('open');
+    } else {
+        img.removeClassName('open');
+    }
+}
+
+function onSubmitActionChange(el) {
+    if (el.value=='updateUstockpoStatus') {
+        $('batch_update_status').show();
+    } else {
+        $('batch_update_status').hide();
+    }
+}
+
+function massActionSubmit(form) {
+    if (validateSearch(form)) {
+        action = '<?php echo $this->getUrl('ustockpo/vendor') ?>'+'?'
+        action = action + '&' + serializeFormElements('ustockpo-filter-form')
+        action = action + '&' + serializeFormElements(form.id)
+        setLocation(action)
+        return true;
+    }
+    return false;
+}
+
+function validateSearch(form) {
+    switch ($('submit_action').value) {
+    case 'ustockpoMultiPdf':
+        if (confirm('<?php echo Mage::helper('udropship')->__('This action will print PDF for all filtered purchase orders.') ?>')) {
+            downloadAction = true
+        }
+        break
+    case 'updateUstockpoStatus':
+        if (!$('batch_update_status').value) {
+            alert('<?php echo Mage::helper('udropship')->__('Please select a status.') ?>');
+            return false;
+        }
+        return confirm('<?php echo Mage::helper('udropship')->__('This action will update status for all filtered stock POs.') ?>');
+    }
+    if (downloadAction) {
+        var qs = serializeFormElements('ustockpo-filter-form', true)
+        Object.extend(qs, serializeFormElements('ustockpo-massaction-form', true))
+        qs.update_status = ''
+        qs.use_json_response = 1
+        var ifrId = 'ifr_id_'+(new Date()).getTime()
+        if (Prototype.Browser.IE) {
+            Element.insert($('download_iframe'), {after: '<iframe id="'+ifrId+'" src="?'+Object.toQueryString(qs)
+                +'" style="display:none" onreadystatechange="ieDownloadSubmitWrapper(\''+ifrId+'\')"></iframe>'
+            })
+        } else {
+            Element.insert($('download_iframe'), {after: '<iframe id="'+ifrId+'" src="?'+Object.toQueryString(qs)
+                +'" style="display:none" onload="afterDownloadSubmit(\''+ifrId+'\')"></iframe>'
+            })
+        }
+    }
+    return false;
+}
+
+function ieDownloadSubmitWrapper(ifrId) {
+    if ($(ifrId) && ($(ifrId).readyState=='complete' || $(ifrId).readyState=='interactive')) {
+        afterDownloadSubmit.defer(ifrId)
+        $(ifrId).onreadystatechange = Prototype.emptyFunction
+    }
+}
+
+function afterDownloadSubmit(ifrId) {
+    var response
+    try {
+        response = $(ifrId).contentDocument.body.innerHTML.evalJSON()
+    } catch(e) {}
+    if (response && response.error) {
+        if (response.message) {
+            alert(response.message)
+        } else {
+            alert('Unknown error')
+        }
+    } else {
+        var qs = serializeFormElements('udpo-filter-form', true)
+        if ($('batch_update_status').value) {
+            qs.submit_action = 'updateUdpoStatus'
+        } else {
+            qs.submit_action = ''
+        }
+        setLocation('?'+Object.toQueryString(qs))
+    }
+    //Element.remove($(ifrId))
+}
+
+// fix of Prototype.js Form.serialize for IE
+function serializeFormElements(form, options) {
+    var elements = [];
+    $$('#'+form+' *').each(function(child) {
+        if (Form.Element.Serializers[child.tagName.toLowerCase()]) {
+            elements.push(Element.extend(child));
+        }
+    });
+    return Form.serializeElements(elements, options);
+}
+
+function initUstockpoForm(id) {
+    var statusUpdate = $('status-update-'+id), statusCell = $('status-'+id);
+    if (statusUpdate && statusUpdate.innerHTML!=statusCell.innerHTML) {
+        statusCell.innerHTML = statusUpdate.innerHTML;
+        var h = new Effect.Highlight(statusCell);
+    }
+
+    $$('#container-'+id+' .highlight').each(function(el){ var h = new Effect.Highlight(el); });
+
+    $('addcomment-'+id) && $('addcomment-'+id).observe('click', function () {
+        var parameters = serializeFormElements('ustockpo-form-'+id);
+        $('submit-'+id) && ($('submit-'+id).disabled = true);
+        $('addcomment-'+id) && ($('addcomment-'+id).disabled = true);
+        $('submit-loader-'+id).show();
+//alert(parameters);
+        new Ajax.Updater($('container-'+id), '<?php echo $_ajaxAddCommentUrl ?>'.replace('ID', id), {
+            method: 'post',
+            evalScripts: true,
+            parameters: parameters,
+            onComplete: function (transport) { initUstockpoForm.defer(id); }
+        });
+    });
+}
+
+function selectCarrier(elem, titleId) {
+    option = elem.options[elem.selectedIndex];
+    if (option.value && option.value != 'custom') {
+        $(titleId).value = option.text;
+    }
+    else {
+        $(titleId).value = '';
+    }
+}
+
+function switchPoPartialAvailability(el, id) {
+    $$('#order-items-'+id+' .partial-qty').each(function(el) {
+        $(el).remove();
+    });
+
+    switch (el.value) {
+    case 'inform':
+        $$('#order-items-'+id+' thead tr').each(function(el) {
+            $(el).insert({bottom:'<th class="partial-qty"><?php echo Mage::helper('udropship')->__('Qty Available')?></th>'});
+        });
+        $$('#order-items-'+id+' tbody tr').each(function(el) {
+            var idx = el.id.match(/[0-9]+/);
+            if (!idx) {
+                $(el).insert({bottom:'<td class="partial-qty">&nbsp;</td>'});
+            } else {
+                $(el).insert({bottom:'<td class="partial-qty"><input type="text" class="input-text" name="partial_qty['+idx+']" id="partial_qty-'+idx+'"/></td>'});
+            }
+        });
+        break;
+    }
+}
+
+function deleteTrack(poId, trackId) {
+    if (!confirm('<?php echo Mage::helper('udropship')->__('Proceed with tracking ID deletion?')?>')) {
+        return;
+    }
+    new Effect.Highlight($('old_tracking_id-'+trackId));
+    new Ajax.Updater($('container-'+poId), '<?php echo $_ajaxAddCommentUrl ?>'.replace('ID', poId), {
+        method: 'post',
+        parameters: { delete_track:trackId },
+        onComplete: function (transport) { initUstockpoForm(poId).defer(); }
+    });
+}
+
+function toggleSGFilterBox(elem)
+{
+    $(elem).select('span').invoke('toggleClassName', 'open');
+    $(elem).up(4).down('.col3-set',1).toggle();
+    $(elem).up(4).down('.buttons-set').toggle();
+}
+
+function collapseAllRows() {
+    $$('#ustockpo-grid tbody tr.trigger').each(function(row) {
+        var id = row.id.split('-')[1];
+        $('info-'+id).hide();
+        row.down('a.action span').removeClassName('open');
+    });
+}
+
+function expandAllRows() {
+    $$('#ustockpo-grid tbody tr.trigger').each(expandRow.curry(true));
+}
+
+</script>
+
+<iframe id="download_iframe" name="download_iframe" src="<?php echo $this->helper('core/js')->getJsUrl('blank.html') ?>" style="display:none"></iframe>

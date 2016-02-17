@@ -1,0 +1,169 @@
+<?php
+/*------------------------------------------------------------------------
+ # SM Search Box Pro - Version 1.0
+ # Copyright (c) 2013 YouTech Company. All Rights Reserved.
+ # @license - Copyrighted Commercial Software
+ # Author: YouTech Company
+ # Websites: http://www.magentech.com
+-------------------------------------------------------------------------*/
+global $var_yttheme;
+echo $this->getScriptTags();
+$tag_id = 'sm_serachbox_pro'.rand().time();
+$cat_list = $this->getCategories();
+$options = $this->getConfigObject();?>
+<?php if( $options->isenabled == 1 ){?>
+	<div id="<?php echo $tag_id;?>" class="sm-serachbox-pro">
+	<?php if( $var_yttheme->getParam('device_responsive') == 1 ){?>
+	<a id="btn-searchbox-mobile" href="javascript:void(0)" class="searchbox-mobile">search</a>
+	
+	<script>	
+		jQuery(document).ready(function($){
+			$('#btn-searchbox-mobile').click(function() {
+				$('.mini-cartpro .block-content').hide();
+				$('.sm-searbox-content').slideToggle(200);
+			});
+			$('.sm-searbox-content,#btn-searchbox-mobile').click(function(e) {
+				e.stopPropagation();
+			});
+			$(document).click(function() {
+				$('.sm-searbox-content').hide();
+			});
+		});
+	</script>
+	<?php }?>		
+	<?php if( $options->pretext != ""){ ?>
+	<div class="serachbox-pro-pretext">
+		<?php echo $options->pretext;?>
+	</div>
+	<?php }?>
+		<?php if( $options->show_popular == 1 ){?>
+			<div class="sm-searchbox-popular">
+				<div class="sm-searchbox-popular-title"><?php echo $this->__('Top Search:');?></div>
+				<div class="sm-searchbox-keyword">
+					<?php if( sizeof($this->getTerms()) > 0 ): //var_dump(count($this->getTerms));?>
+						<ul class="sm-searchbox-keyword-list">
+							<?php $c=0; $comma="";
+							foreach ($this->getTerms() as $_term): 
+								$c++;
+								if($c==$options->limit_popular) {$comma = "";} else {$comma = ",";}
+							?>
+
+								<li><a href="<?php echo $this->getSearchUrl($_term) ?>"><?php echo $this->htmlEscape($_term->getName()).$comma ?></a></li>
+							<?php endforeach; ?>
+							<?php if( $options->show_more == 1 ){?>
+								<li>
+									<a class="sm-searchbox-more" data_sb_ajaxurl="<?php echo Mage::getBaseUrl()."searchboxpro/index/ajax";?>" data_count="<?php echo $options->limit_popular;?>"><?php echo $options->more_text;?></a>
+								</li>
+							<?php }?>
+						</ul>
+					<?php else: ?>
+						<p class="note-msg"><?php echo $this->__('There are no search terms available.'); ?></p>
+					<?php endif; ?>
+				</div>
+			</div>
+		<?php }?>
+		<?php if( $options->show_advanced == 1 ){?>
+			<div class="sm-searchbox-advanced">
+				<a href="<?php echo $this->getBaseUrl()?>catalogsearch/advanced/"><?php echo $this->__('Advanced +')?></a>
+			</div>
+		<?php }?>
+		<div class="sm-searbox-content">
+			<form id="search_mini_form" action="<?php echo $this->helper('catalogsearch')->getResultUrl() ?>" method="get">
+				<div class="form-search">
+					<?php $categorySearchHelper = $this->helper('searchboxpro'); ?>
+					<select id="<?php echo $categorySearchHelper->getCategoryParamName() ?>" name="<?php echo $categorySearchHelper->getCategoryParamName() ?>">
+						<option value=""><?php echo $this->__('All Categories') ?></option>
+
+						<?php foreach ( $cat_list as $cat):?>
+							<option value="<?php echo $cat['value'];?>"><?php echo $cat['label']; ?></option>
+						<?php endforeach;?>
+						
+						
+					</select>
+					<!-- Search Added Part -->
+						<!-- <div class="search-dropbox">
+							<div class="search-in-block">
+								<p>PRODUCTS</p>
+								<ul>
+									<li>Abrasives</li>
+									<li>Accessories</li>
+									<li>Adhesives</li>
+									<li>CNC</li>
+								</ul>
+								<a href="javascript:void(0)" class="search-readmore">more</a>
+							</div>
+							<div class="search-in-block">
+								<p>SERVICES</p>
+								<ul>
+									<li>Abrasives</li>
+									<li>Accessories</li>
+									<li>Adhesives</li>
+									<li>CNC</li>
+								</ul>
+								<a href="javascript:void(0)" class="search-readmore">more</a>
+							</div>
+							<div class="search-in-block">
+								<p>CONSULTANTS</p>
+								<ul>
+									<li>Abrasives</li>
+									<li>Accessories</li>
+									<li>Adhesives</li>
+									<li>CNC</li>
+								</ul>
+								<a href="javascript:void(0)" class="search-readmore">more</a>
+							</div>
+						</div> -->
+					<!-- Search Added Part -->
+
+					<!-- <input size="30" id="search" type="text" name="<?php echo $this->helper('catalogSearch')->getQueryParamName() ?>" class="input-text" onfocus="if(this.value=='Enter keywords to search your gadgets in entire store here...') this.value='';" onblur="if(this.value=='') this.value='Enter keywords to search your gadgets in entire store here...';" value="Enter keywords to search your gadgets in entire store here..."  /> -->
+					<input size="30" id="search" type="text" name="<?php echo $this->helper('catalogSearch')->getQueryParamName() ?>" class="input-text" onfocus="if(this.value=='Enter keywords to search...') this.value='';" onblur="if(this.value=='') this.value='Enter keywords to search...';" value="Enter keywords to search..."  />
+					<button type="submit" title="<?php echo $this->__('Search') ?>" class="button form-button"><span class="icon-search"><?php //echo $this->__('Search') ?></span></button>
+					<div id="search_autocomplete" class="search-autocomplete"></div>
+					<script type="text/javascript">
+			        //<![CDATA[
+			            var searchForm = new Varien.searchForm('search_mini_form', 'search', '<?php echo $this->__('Search...') ?>');
+			            searchForm.initAutocomplete('<?php echo $this->helper('catalogsearch')->getSuggestUrl() ?>', 'search_autocomplete');
+			        //]]>
+			        </script>
+				</div>
+			</form>
+		</div>
+		<?php if($options->posttext!= ''){ ?>
+			<div class="serachbox-pro-posttext">
+				<?php echo $options->posttext;?>
+			</div>
+		<?php }?>
+        
+        
+	</div>
+<?php }?>
+
+<script type="text/javascript">
+	jQuery(document).ready(function($){
+		$('.sm-searchbox-more').click(function(){
+			$('a.sm-searchbox-more').attr('data_count') == 10; 
+			var sb_ajaxurl = $('a.sm-searchbox-more').attr('data_sb_ajaxurl');
+			var firt_load = <?php echo $options->limit_popular;?>;
+			var count = $('a.sm-searchbox-more').attr('data_count'); 
+			count = parseInt(count);
+			if( firt_load >= count ){
+				count = count + parseInt(firt_load);
+			}
+			$.ajax({
+				type: 'POST',
+				url: sb_ajaxurl,
+				data:{
+					is_ajax: 1,
+					count_term: count
+				},
+				success: function(data){
+					$('.sm-serachbox-pro').html(data.htm);				
+					$('a.sm-searchbox-more').attr({
+					'data_count': count + parseInt(firt_load)
+					}); 					
+				}, 
+				dataType:'json'
+			});
+		});
+	});
+</script>

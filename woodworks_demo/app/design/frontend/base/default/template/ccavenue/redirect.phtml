@@ -1,0 +1,36 @@
+<?php
+/**
+ * Redirect Form
+ *
+ * @category    PHTML
+ * @package     Gremlin_Ccavenue
+ * @author      Junaid Bhura <info@gremlin.io>
+ */
+
+$_ccavenue = Mage::registry( 'ccavenue' );
+?>
+
+	<div id="ccavenue-redirect-message">
+
+		<p>You are being re-directed to CC Avenue... <a href="javascript:void(0);" onclick="document.getElementById( 'ccavenue-redirect-form' ).submit();">Click here</a> if you have been here for a while...</p>
+
+	</div>
+
+	<form method="post" action="<?php echo $_ccavenue['action']; ?>" id="ccavenue-redirect-form">
+
+		<input type="hidden" name="encRequest" value="<?php echo $_ccavenue['encrypted_data']; ?>">
+		<input type="hidden" name="access_code" value="<?php echo $_ccavenue['access_code']; ?>">
+
+	</form>
+
+	<script type="text/javascript">
+	// Submit the form on DOM load
+	var ccavenue_form_submitted = false;
+	Event.observe( window, 'load', function() {
+		if ( ccavenue_form_submitted )
+			return;
+
+		document.getElementById( 'ccavenue-redirect-form' ).submit();
+		ccavenue_form_submitted = true;
+	});
+	</script>

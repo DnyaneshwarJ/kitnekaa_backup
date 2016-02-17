@@ -1,0 +1,69 @@
+<!--@subject {{var quote.getStoreGroupName()}}: New Quote request # {{var quote.increment_id}} @-->
+
+{{template config_path="design/email/header"}}
+{{inlinecss file="email-inline.css"}}
+
+<table cellpadding="0" cellspacing="0" border="0">
+    <tr>
+        <td>
+            <table cellpadding="0" cellspacing="0" border="0">
+                <tr>
+                    <td class="email-heading">
+                        <h2>Dear {{var customer.name}}</h2>
+                        <h1>Thank you for your Quote Request from {{var store.getFrontendName()}}.</h1>
+                        <p>Within the next 48 hours you can expect our proposal.
+                            Your quotation details are below. Thank you again for your interest.</p>
+                    </td>
+                    <td class="store-info">
+                        <h4>Questions on your quotation?</h4>
+                        <p>
+                            {{depend store_phone}}
+                            <b>Call Us:</b>
+                            <a href="tel:{{var phone}}">{{var store_phone}}</a><br>
+                            {{/depend}}
+                            {{depend store_hours}}
+                            <span class="no-link">{{var store_hours}}</span><br>
+                            {{/depend}}
+                            {{depend store_email}}
+                            <b>Email:</b> <a href="mailto:{{var store_email}}">{{var store_email}}</a>
+                            {{/depend}}
+                        </p>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+    <tr>
+        <td class="quote-details">
+            <h3>Your Quote Request<span class="no-link">#{{var
+                                quote.increment_id}}</span></h3>
+            <p>Placed on {{var quote.getCreatedAtFormated('long')}}</p>
+        </td>
+    </tr>
+    <tr class="quote-information">
+        <td>
+            <table cellspacing="0" cellpadding="0" class="message-container">
+                <tr>
+                    <td class="address-details">
+                        <h6>Remarks with Request</h6>
+                        <p>{{var quote.getClientRequest()}}</p></td>
+                </tr>
+            </table>
+            {{layout handle="qquoteadv_email_qquoteadv_items" quote=$quote}}
+            <table cellpadding="0" cellspacing="0" border="0">
+                <tr>
+                    <td class="address-details">
+                        <h6>Bill to:</h6>
+                        <p><span class="no-link">{{var quote.getBillingAddress().format('html')}}</span></p>
+                    </td>
+                    <td class="address-details">
+                        <h6>Ship to:</h6>
+                        <p><span class="no-link">{{var quote.getShippingAddress().format('html')}}</span></p>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>
+
+{{template config_path="design/email/footer"}}

@@ -1,0 +1,130 @@
+<style>
+    .validation-advice
+    {
+        font-size:9px;
+    }
+</style>
+<?php
+    $shopp_list_items = $this->getShoppingListItems(Mage::registry('current_list_id'));
+    $quote2sales=Mage::helper('quote2sales')->getClassObject();
+?>
+
+<?php if (count($shopp_list_items) > 0) { ?>
+
+<input type="hidden" value="" name="single_get_quote"/>
+<input type="hidden" value="<?php echo Mage::getBaseUrl() . 'shoppinglist/index/saveShoppingItems' ?>"
+       id="form_url"/>
+<?php foreach ($shopp_list_items as $key => $_item) { ?>
+
+<div class="shop-pro-cont">
+    <form action="<?php echo Mage::getBaseUrl() . 'shoppinglist/index/saveShoppingItems' ?>" method="post" id="form-shopp-items<?php echo $key ?>" name="form-shopp-items<?php echo $key ?>" class="shopp_form_items">
+        <input type="hidden" name="shopp_list_items[list_id][]" value="<?php echo $_item->getListId() ?>"/>
+        <input type="hidden" name="shopp_list_items[id][]" value="<?php echo $_item->getId() ?>"/>
+        <div class="shop-mid">
+            <div class="shop-mid-checkbox">
+                <input type="checkbox" value="<?php echo $_item->getProductId() ?>" class="chk_shopp_items" data-item-id="<?php echo $_item->getId() ?>"/>
+                <input type="hidden" value="<?php echo $_item->getProductId() ?>" name="shopp_list_items[product_id][]"/>
+            </div>
+
+            <div class="shop-mid-img">
+                <?php $_product = Mage::getModel('catalog/product')->load($_item->getProductId());
+                //$url = Mage::getBaseUrl('media').'catalog/product/'.$_product->getImage();
+                ?>
+                <a class="product-image" href="#" title="<?php echo $_item->getItemName(); ?>">
+                    <img src="<?php echo $this->helper('catalog/image')->init($_product, 'small_image')->resize(120,120); ?>" alt="<?php echo $_item->getItemName(); ?>">
+                </a>
+            </div>
+            <a href="#kit_file_popup_main" class="btn_file_popup" data-item-id="<?php echo $_item->getId() ?>"><div class="shop-attach"></div></a>
+        </div>
+        <div class="shop-left">
+            <input type="hidden" name="shopp_list_items[item_name][]" value="<?php echo $_item->getItemName() ?>" />
+            <input type="hidden" name="shopp_list_items[sku][]" value="<?php echo $_item->getSku() ?>" />
+            <h2><?php echo $_item->getItemName() ?></h2>
+            <!--<p>Thick-Kerf Multi-Rip Saw Blades with Rakers Thick-Kerf Multi-Rip Saw Blades with Rakers</p>-->
+            <ul>
+                <li>
+                    <strong>Manufacturer's SKU Code :</strong>
+                </li>
+                <li>
+                    <span><?php echo $_item->getSku() ?></span>
+                </li>
+                <li>
+                    <strong>Status :</strong>
+                </li>
+                <li>
+                    <?php if ($_item->getProductId() == 0) { ?>
+                        <span style="color: red"><?php echo Mage::helper('quote2sales')->getQuoteProductStatus($quote2sales::QUOTE_PRODUCT_STATUS_DOES_NOT_EXIST) ?></span><br/>
+                    <?php } else { ?>
+                        <span style="color: #3ab54a"><?php echo Mage::helper('quote2sales')->getQuoteProductStatus($quote2sales::QUOTE_PRODUCT_STATUS_ACTIVE) ?></span><br/>
+                    <?php } ?>
+                </li>
+            </ul>
+            <ul>
+                <li>
+                    <strong>Price : </strong>
+                </li>
+                <li>
+                    <span><?php echo $_item->getPrice() ?></span>
+                </li>
+            </ul>
+            <ul>
+                <li>
+                    <h3>When Needed</h3>
+                    <?php $_need = $_item->getWhenNeed(); ?>
+                    <?php echo Mage::helper('quote2sales')->getWhenNeedHtmlSelect('shopp_list_items[when_need][]',FALSE,$_need); ?>
+                </li>
+                <li>
+                    <h3>Frequency</h3>
+                    <?php $_freq = $_item->getFrequency() ?>
+                    <?php echo Mage::helper('quote2sales')->getFrequencyHtmlSelect('shopp_list_items[frequency][]',FALSE,$_freq); ?>
+                </li>
+                <li>
+                    <h3>Qty</h3>
+                    <input id="qty<?php echo $key ?>" type="text" name="shopp_list_items[qty][]" value="<?php echo $_item->getQty() ?>" class="qty<?php echo $_item->getProductId() ?> required-entry"/>
+                </li>
+                <li>
+                    <h3>Target Price</h3>
+                    <input id="price<?php echo $key ?>" type="text" name="shopp_list_items[target_price][]" value="<?php echo $_item->getTargetPrice() ?>" class="required-entry"/>
+                </li>
+            </ul>
+            <ul class="addsLabel">
+                <li><label><strong>Billing Address : </strong></label></li>
+                <li><?php echo Mage::helper('quote2sales')->getAddressesHtmlSelect('shopp_list_items[billing_address_id][]',$_item->getBillingAddressId()); ?></li>
+            </ul>
+            <ul class="addsLabel">
+                <li><label><strong>Delivery Location : </strong></label></li>
+                <li><?php echo Mage::helper('quote2sales')->getAddressesHtmlSelect('shopp_list_items[delivery_location][]',$_item->getDeliveryLocation()); ?></li>
+            </ul>
+             <textarea rows="10" cols="22"  class="shop-comment" name="shopp_list_items[comment][] "><?php echo $_item->getComment() ?></textarea>
+        </div>
+
+        <div class="shop-right">
+           <!-- <input type="button" class="shop-save" value="SAVE">
+            <input type="button" class="shop-quote" value="GET QUOTE">
+            <input type="button" class="shop-order" value="ORDER NOW">-->
+
+            <input type="button" class="shop-quote" value="SAVE" onclick="saveListItems('form-shopp-items<?php echo $key ?>')"/>
+            <input type="button" class="shop-order" value="Get Quote"  onclick="setSingleQuote('form-shopp-items<?php echo $key ?>')"/>
+
+            <?php if ($_item->getProductId() != 0) { ?>
+                <input type="button" class="shop-quote" value="Order Now"  onclick="addToCart('<?php echo $_item->getProductId() ?>')"/>
+            <?php } ?>
+            <input type="button" class="shop-order" value="Remove"  onclick="removeListItem('<?php echo $_item->getId() ?>')"/>
+        </div>
+    </form>
+</div>
+
+<?php } ?>
+<?php } else { ?>
+<div class="shop-pro-cont">
+    <ul class="messages">
+        <li class="notice-msg">
+            <ul>
+                <li>
+                    <span>No Products available in Shopping List! </span>
+                </li>
+            </ul>
+        </li>
+    </ul>
+</div>
+<?php } ?>

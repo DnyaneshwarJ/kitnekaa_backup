@@ -1,0 +1,64 @@
+<table class="data-table" id="wishlist-table" style="background-color: #fff">
+    <thead>
+    <tr class="first last">
+        <th>List Name</th>
+        <th>Created By</th>
+        <th>Updated By</th>
+        <th>Created Date</th>
+        <th>Updated Date</th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    <?php
+    $shopp_lists = $this->getShoppingLists(); ?>
+    <?php
+    if (count($shopp_lists) > 0) {
+        foreach ($shopp_lists as $list) { ?>
+            <tr class="first">
+                <td>
+                    <a class="listid<?php echo $list->getListId() ?> all_list" data-list-id="<?php echo $list->getListId() ?>" data-list-name="<?php echo $list->getListName() ?>"
+                       title="Shopping List">
+                        <b><?php echo $list->getListName() ?></b>
+                    </a>
+                </td>
+                <td>
+                    <?php echo $list->getCreatedBy(); ?>
+                </td>
+                <td>
+                    <?php echo $list->getUpdatedBy(); ?>
+                </td>
+                <td>
+                    <?php echo $list->getCreatedTime(); ?>
+                </td>
+                <td>
+                    <?php
+                    if ($list->getUpdateTime() == '') {echo ''; } 
+                    else { echo $list->getUpdateTime(); }
+                    ?>
+                </td>
+                <td class="last">
+                    <a onclick="confirmRemoveShopplist('<?php echo $list->getListId() ?>');" title="Remove Item" class="icon-remove btn-remove btn-remove2"></a>
+                </td>
+            </tr>
+        <?php }
+    } else {
+        ?>
+        <tr>
+            <td colspan="6">
+                <ul class="messages">
+                    <li class="error-msg">
+                        <ul>
+                            <li><span>No Shopping List Available! </span>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </td>
+        </tr>
+        <?php
+    } ?>
+    </tbody>
+</table>
+
+

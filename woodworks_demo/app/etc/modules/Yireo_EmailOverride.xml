@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Yireo EmailOverride-module for Magento 
+ *
+ * @package     Yireo_EmailOverride
+ * @author      Yireo (http://www.yireo.com/)
+ * @copyright   Copyright 2015 Yireo (http://www.yireo.com/)
+ * @license     Open Software License
+ */
+-->
+<config>
+    <modules>
+        <Yireo_EmailOverride>
+            <active>true</active>
+            <codePool>community</codePool>
+            <depends>
+                <Mage_Core/>
+            </depends>
+        </Yireo_EmailOverride>
+    </modules>
+</config>

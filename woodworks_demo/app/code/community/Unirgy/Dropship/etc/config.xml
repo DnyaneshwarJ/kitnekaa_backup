@@ -1,0 +1,2058 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Unirgy LLC
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the EULA
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://www.unirgy.com/LICENSE-M1.txt
+ *
+ * @category   Unirgy
+ * @package    Unirgy_Dropship
+ * @copyright  Copyright (c) 2008-2009 Unirgy LLC (http://www.unirgy.com)
+ * @license    http:///www.unirgy.com/LICENSE-M1.txt
+ */
+-->
+<config>
+    <modules>
+        <Unirgy_Dropship>
+            <version>2.4.2</version>
+            <usimpleup remote="http://download.unirgy.com/simple/client_api/version/"
+                       changelog="http://unirgy.com/support/portal/announcements"
+                       uninstall="udropship/observer::usimpleup_uninstall"/>
+        </Unirgy_Dropship>
+    </modules>
+
+    <global>
+        <models>
+            <udropship>
+                <class>Unirgy_Dropship_Model</class>
+                <resourceModel>udropship_mysql4</resourceModel>
+            </udropship>
+            <udropship_mysql4>
+                <class>Unirgy_Dropship_Model_Mysql4</class>
+                <entities>
+                    <vendor>
+                        <table>udropship_vendor</table>
+                    </vendor>
+                    <vendor_shipping>
+                        <table>udropship_vendor_shipping</table>
+                    </vendor_shipping>
+                    <vendor_product>
+                        <table>udropship_vendor_product</table>
+                    </vendor_product>
+                    <vendor_product_assoc>
+                        <table>udropship_vendor_product_assoc</table>
+                    </vendor_product_assoc>
+                    <vendor_statement>
+                        <table>udropship_vendor_statement</table>
+                    </vendor_statement>
+                    <vendor_statement_row>
+                        <table>udropship_vendor_statement_row</table>
+                    </vendor_statement_row>
+                    <vendor_statement_refund_row>
+                        <table>udropship_vendor_statement_refund_row</table>
+                    </vendor_statement_refund_row>
+                    <vendor_statement_adjustment>
+                        <table>udropship_vendor_statement_adjustment</table>
+                    </vendor_statement_adjustment>
+                    <vendor_lowstock>
+                        <table>udropship_vendor_lowstock</table>
+                    </vendor_lowstock>
+                    <shipping>
+                        <table>udropship_shipping</table>
+                    </shipping>
+                    <shipping_title>
+                        <table>udropship_shipping_title</table>
+                    </shipping_title>
+                    <shipping_method>
+                        <table>udropship_shipping_method</table>
+                    </shipping_method>
+                    <shipping_website>
+                        <table>udropship_shipping_website</table>
+                    </shipping_website>
+                    <label_batch>
+                        <table>udropship_label_batch</table>
+                    </label_batch>
+                    <label_shipment>
+                        <table>udropship_label_shipment</table>
+                    </label_shipment>
+                </entities>
+            </udropship_mysql4>
+            <cataloginventory>
+                <rewrite>
+                    <stock_item>Unirgy_Dropship_Model_Stock_Item</stock_item>
+                </rewrite>
+            </cataloginventory>
+            <tax>
+                <rewrite>
+                    <!--calculation>Unirgy_Dropship_Model_Tax_Calculation</calculation>
+                    <sales_total_quote_tax>Unirgy_Dropship_Model_Tax_Total14</sales_total_quote_tax-->
+                </rewrite>
+            </tax>
+            <sales>
+                <rewrite>
+                    <!--quote_address_total_tax>Unirgy_Dropship_Model_Tax_Total</quote_address_total_tax-->
+                </rewrite>
+            </sales>
+            <enterprise_admingws>
+                <rewrite>
+                    <collections>Unirgy_Dropship_Model_EE_AdminGwsCollections</collections>
+                </rewrite>
+            </enterprise_admingws>
+        </models>
+
+        <resources>
+            <udropship_setup>
+                <setup>
+                    <module>Unirgy_Dropship</module>
+                    <class>Unirgy_Dropship_Model_Mysql4_Setup</class>
+                </setup>
+                <connection>
+                    <use>core_setup</use>
+                </connection>
+            </udropship_setup>
+            <udropship_write>
+                <connection>
+                    <use>core_write</use>
+                </connection>
+            </udropship_write>
+            <udropship_read>
+                <connection>
+                    <use>core_read</use>
+                </connection>
+            </udropship_read>
+        </resources>
+
+        <blocks>
+            <udropship>
+                <class>Unirgy_Dropship_Block</class>
+            </udropship>
+            <adminhtml>
+                <rewrite>
+                    <sales_order_view_tab_shipments>Unirgy_Dropship_Block_Adminhtml_Order_Shipments</sales_order_view_tab_shipments>
+                    <sales_shipment_grid>Unirgy_Dropship_Block_Adminhtml_Shipment_Grid</sales_shipment_grid>
+                    <sales_order_shipment_view>Unirgy_Dropship_Block_Adminhtml_Shipment_View</sales_order_shipment_view>
+                </rewrite>
+            </adminhtml>
+        </blocks>
+
+        <helpers>
+            <udropship>
+                <class>Unirgy_Dropship_Helper</class>
+            </udropship>
+        </helpers>
+
+        <index>
+            <indexer>
+                <udropship_vendor_product_assoc>
+                    <model>udropship/indexer_vendorProductAssoc</model>
+                </udropship_vendor_product_assoc>
+            </indexer>
+        </index>
+
+        <sales>
+            <quote>
+                <item>
+                    <product_attributes>
+                        <udropship_vendor/>
+                        <udropship_calculate_rates/>
+                    </product_attributes>
+                </item>
+            </quote>
+            <!--
+            <order>
+                <statuses>
+                    <ready_to_ship translate="label" module="udropship">
+                        <label>Ready To Ship</label>
+                    </ready_to_ship>
+                </statuses>
+                <states>
+                    <pending><statuses><ready_to_ship/></statuses></pending>
+                    <processing><statuses><ready_to_ship/></statuses></processing>
+                </states>
+            </order>
+            -->
+        </sales>
+
+        <template>
+            <email>
+                <udropship_vendor_vendor_email_template module="udropship">
+                    <label>Dropship Vendor Notification</label>
+                    <file>udropship_vendor.html</file>
+                    <type>html</type>
+                </udropship_vendor_vendor_email_template>
+                <udropship_vendor_shipment_comment_vendor_email_template module="udropship">
+                    <label>Shipment Comment Vendor Notification</label>
+                    <file>udropship_vendor_shipment_comment.html</file>
+                    <type>html</type>
+                </udropship_vendor_shipment_comment_vendor_email_template>
+                <udropship_vendor_vendor_password_template module="udropship">
+                    <label>Dropship Vendor Password Reminder</label>
+                    <file>udropship_password.html</file>
+                    <type>html</type>
+                </udropship_vendor_vendor_password_template>
+                <udropship_statement_email_template module="udropship">
+                    <label>Statement Email Template</label>
+                    <file>udropship_statement.html</file>
+                    <type>html</type>
+                </udropship_statement_email_template>
+
+                <udropship_customer_tracking_email_template module="udropship">
+                    <label>Customer Tracking ID Notification</label>
+                    <file>sales/shipment_new.html</file>
+                    <type>html</type>
+                </udropship_customer_tracking_email_template>
+                <udropship_customer_tracking_email_template_guest module="udropship">
+                    <label>Customer Tracking ID Notification for Guests</label>
+                    <file>sales/shipment_new_guest.html</file>
+                    <type>html</type>
+                </udropship_customer_tracking_email_template_guest>
+
+                <udropship_vendor_notify_lowstock_email_template module="udropship">
+                    <label>Low stock vendor notification template</label>
+                    <file>udropship_vendor_notify_lowstock.html</file>
+                    <type>html</type>
+                </udropship_vendor_notify_lowstock_email_template>
+            </email>
+        </template>
+
+        <events>
+            <sales_order_shipment_load_after>
+                <observers>
+                    <udropship>
+                        <type>singleton</type>
+                        <class>udropship/observer</class>
+                        <method>sales_order_shipment_load_after</method>
+                    </udropship>
+                </observers>
+            </sales_order_shipment_load_after>
+            <order_cancel_after>
+                <observers>
+                    <udropship>
+                        <class>udropship/observer</class>
+                        <method>order_cancel_after</method>
+                    </udropship>
+                </observers>
+            </order_cancel_after>
+            <sales_order_item_cancel>
+                <observers>
+                    <udropship>
+                        <class>udropship/observer</class>
+                        <method>sales_order_item_cancel</method>
+                    </udropship>
+                </observers>
+            </sales_order_item_cancel>
+            <udropship_order_save_before>
+                <observers>
+                    <udropship>
+                        <class>udropship/observer</class>
+                        <method>udropship_order_save_before</method>
+                    </udropship>
+                </observers>
+            </udropship_order_save_before>
+            <udpo_order_save_before>
+                <observers>
+                    <udropship>
+                        <class>udropship/observer</class>
+                        <method>udpo_order_save_before</method>
+                    </udropship>
+                </observers>
+            </udpo_order_save_before>
+            <udropship_vendor_save_commit_after>
+                <observers>
+                    <udropship>
+                        <class>udropship/observer</class>
+                        <method>udropship_vendor_save_commit_after</method>
+                    </udropship>
+                </observers>
+            </udropship_vendor_save_commit_after>
+            <controller_action_predispatch_checkout_cart_add>
+                <observers>
+                    <udropship>
+                        <type>singleton</type>
+                        <class>udropship/observer</class>
+                        <method>controller_action_predispatch_checkout_cart_add</method>
+                    </udropship>
+                </observers>
+            </controller_action_predispatch_checkout_cart_add>
+            <controller_action_predispatch_checkout_cart_updatePost>
+                <observers>
+                    <udropship>
+                        <type>singleton</type>
+                        <class>udropship/observer</class>
+                        <method>controller_action_predispatch_checkout_cart_updatePost</method>
+                    </udropship>
+                </observers>
+            </controller_action_predispatch_checkout_cart_updatePost>
+            <sales_quote_load_after>
+                <observers>
+                    <udropship>
+                        <type>singleton</type>
+                        <class>udropship/observer</class>
+                        <method>sales_quote_load_after</method>
+                    </udropship>
+                </observers>
+            </sales_quote_load_after>
+            <sales_quote_collect_totals_before>
+                <observers>
+                    <udropship>
+                        <type>singleton</type>
+                        <class>udropship/observer</class>
+                        <method>syncMultiAddressUdropshipVendor</method>
+                    </udropship>
+                </observers>
+            </sales_quote_collect_totals_before>
+            <sales_quote_collect_totals_after>
+                <observers>
+                    <udropship>
+                        <type>singleton</type>
+                        <class>udropship/observer</class>
+                        <method>syncMultiAddressUdropshipVendor</method>
+                    </udropship>
+                </observers>
+            </sales_quote_collect_totals_after>
+            <controller_front_init_before>
+                <observers>
+                    <udropship>
+                        <type>singleton</type>
+                        <class>udropship/observer</class>
+                        <method>controller_front_init_before</method>
+                    </udropship>
+                </observers>
+            </controller_front_init_before>
+            <sales_convert_quote_item_to_order_item>
+                <observers>
+                    <udropship>
+                        <type>singleton</type>
+                        <class>udropship/observer</class>
+                        <method>sales_convert_quote_item_to_order_item</method>
+                    </udropship>
+                </observers>
+            </sales_convert_quote_item_to_order_item>
+            <udropship_init_config_rewrites>
+                <observers>
+                    <udropship>
+                        <type>singleton</type>
+                        <class>udropship/observer</class>
+                        <method>udropship_init_config_rewrites</method>
+                    </udropship>
+                </observers>
+            </udropship_init_config_rewrites>
+            <customer_address_format>
+                <observers>
+                    <udropship>
+                        <type>singleton</type>
+                        <class>udropship/observer</class>
+                        <method>customer_address_format</method>
+                    </udropship>
+                </observers>
+            </customer_address_format>
+            <catalog_product_new_action>
+                <observers>
+                    <udropship>
+                        <type>singleton</type>
+                        <class>udropship/observer</class>
+                        <method>catalog_product_new_action</method>
+                    </udropship>
+                </observers>
+            </catalog_product_new_action>
+            <catalog_product_load_after>
+                <observers>
+                    <udropship>
+                        <type>singleton</type>
+                        <class>udropship/observer</class>
+                        <method>catalog_product_load_after</method>
+                    </udropship>
+                </observers>
+            </catalog_product_load_after>
+            <cataloginventory_stock_item_save_before>
+                <observers>
+                    <udropship>
+                        <type>singleton</type>
+                        <class>udropship/observer</class>
+                        <method>cataloginventory_stock_item_save_before</method>
+                    </udropship>
+                </observers>
+            </cataloginventory_stock_item_save_before>
+
+            <sales_order_save_after>
+                <observers>
+                    <udropship>
+                        <type>singleton</type>
+                        <class>udropship/observer</class>
+                        <method>sales_order_save_after</method>
+                    </udropship>
+                </observers>
+            </sales_order_save_after>
+            <sales_order_save_commit_after>
+                <observers>
+                    <udropship>
+                        <type>singleton</type>
+                        <class>udropship/observer</class>
+                        <method>sales_order_save_commit_after</method>
+                    </udropship>
+                </observers>
+            </sales_order_save_commit_after>
+
+            <!-- CE 1.4.0- -->
+            <sales_order_item_save_before>
+                <observers>
+                    <udropship>
+                        <type>singleton</type>
+                        <class>udropship/observer</class>
+                        <method>sales_order_item_save_before</method>
+                    </udropship>
+                </observers>
+            </sales_order_item_save_before>
+
+            <!-- CE 1.4.1+
+            <sales_model_service_quote_submit_before>
+                <observers>
+                    <udropship>
+                        <class>udropship/observer</class>
+                        <method>sales_model_service_quote_submit_before</method>
+                    </udropship>
+                </observers>
+            </sales_model_service_quote_submit_before>
+            -->
+
+            <!--
+            <sales_quote_item_qty_set_after>
+                <observers>
+                    <udropship>
+                        <type>singleton</type>
+                        <class>udropship/observer</class>
+                        <method>sales_quote_item_qty_set_after</method>
+                    </udropship>
+                </observers>
+            </sales_quote_item_qty_set_after>
+            -->
+            <sales_quote_product_add_after>
+                <observers>
+                    <udropship>
+                        <type>singleton</type>
+                        <class>udropship/observer</class>
+                        <method>sales_quote_product_add_after</method>
+                    </udropship>
+                </observers>
+            </sales_quote_product_add_after>
+            <checkout_cart_product_add_after>
+                <observers>
+                    <udropship>
+                        <type>singleton</type>
+                        <class>udropship/observer</class>
+                        <method>checkout_cart_product_add_after</method>
+                    </udropship>
+                </observers>
+            </checkout_cart_product_add_after>
+            <sales_quote_save_before>
+                <observers>
+                    <udropship>
+                        <type>singleton</type>
+                        <class>udropship/observer</class>
+                        <method>sales_quote_save_before</method>
+                    </udropship>
+                </observers>
+            </sales_quote_save_before>
+            <checkout_cart_update_items_after>
+                <observers>
+                    <udropship>
+                        <type>singleton</type>
+                        <class>udropship/observer</class>
+                        <method>checkout_cart_update_items_after</method>
+                    </udropship>
+                </observers>
+            </checkout_cart_update_items_after>
+            <sales_quote_item_set_product>
+                <observers>
+                    <udropship>
+                        <type>singleton</type>
+                        <class>udropship/observer</class>
+                        <method>sales_quote_item_set_product</method>
+                    </udropship>
+                </observers>
+            </sales_quote_item_set_product>
+            <!--
+            <catalog_product_is_salable_after>
+                <observers>
+                    <udropship>
+                        <type>singleton</type>
+                        <class>udropship/observer</class>
+                        <method>catalog_product_is_salable_after</method>
+                    </udropship>
+                </observers>
+            </catalog_product_is_salable_after>
+
+            <sales_order_shipment_track_save_before>
+                <observers>
+                    <udtrack>
+                        <type>singleton</type>
+                        <class>udropship/observer</class>
+                        <method>sales_order_shipment_track_save_before</method>
+                    </udtrack>
+                </observers>
+            </sales_order_shipment_track_save_before>
+            -->
+            <sales_order_shipment_save_before>
+                <observers>
+                    <udropship>
+                        <type>singleton</type>
+                        <class>udropship/observer</class>
+                        <method>sales_order_shipment_save_before</method>
+                    </udropship>
+                </observers>
+            </sales_order_shipment_save_before>
+            <udropship_shipment_status_save_after>
+                <observers>
+                    <udropship>
+                        <type>singleton</type>
+                        <class>udropship/observer</class>
+                        <method>udropship_shipment_status_save_after</method>
+                    </udropship>
+                </observers>
+            </udropship_shipment_status_save_after>
+            <checkout_type_multishipping_create_orders_single>
+                <observers>
+                    <udropship>
+                        <type>singleton</type>
+                        <class>udropship/observer</class>
+                        <method>multishipping_before_submit_order</method>
+                    </udropship>
+                </observers>
+            </checkout_type_multishipping_create_orders_single>
+            <checkout_submit_all_after>
+                <observers>
+                    <udropship>
+                        <type>singleton</type>
+                        <class>udropship/observer</class>
+                        <method>multishipping_after_submit_order</method>
+                    </udropship>
+                </observers>
+            </checkout_submit_all_after>
+            <sales_model_service_quote_submit_before>
+                <observers>
+                    <udropship>
+                        <type>singleton</type>
+                        <class>udropship/observer</class>
+                        <method>before_submit_order</method>
+                    </udropship>
+                </observers>
+            </sales_model_service_quote_submit_before>
+            <sales_model_service_quote_submit_success>
+                <observers>
+                    <udropship>
+                        <type>singleton</type>
+                        <class>udropship/observer</class>
+                        <method>after_submit_order</method>
+                    </udropship>
+                </observers>
+            </sales_model_service_quote_submit_success>
+            <sales_model_service_quote_submit_after>
+                <observers>
+                    <udropship>
+                        <type>singleton</type>
+                        <class>udropship/observer</class>
+                        <method>after_submit_order1400</method>
+                    </udropship>
+                </observers>
+            </sales_model_service_quote_submit_after>
+            <sales_quote_config_get_product_attributes>
+                <observers>
+                    <udropship>
+                        <type>singleton</type>
+                        <class>udropship/observer</class>
+                        <method>sales_quote_config_get_product_attributes</method>
+                    </udropship>
+                </observers>
+            </sales_quote_config_get_product_attributes>
+            <core_config_data_save_commit_after>
+                <observers>
+                    <udropship>
+                        <class>udropship/observer</class>
+                        <method>core_config_data_save_commit_after</method>
+                    </udropship>
+                </observers>
+            </core_config_data_save_commit_after>
+        </events>
+
+        <fieldsets>
+            <sales_convert_quote_address>
+                <udropship_shipping_details><to_order>*</to_order></udropship_shipping_details>
+            </sales_convert_quote_address>
+            <sales_convert_quote_item>
+                <udropship_vendor><to_order_item>*</to_order_item></udropship_vendor>
+            </sales_convert_quote_item>
+        </fieldsets>
+
+        <pdf>
+            <shipment>
+                <bundle>udropship/pdf_shipmentItems_bundle</bundle>
+            </shipment>
+        </pdf>
+
+        <udropship>
+            <labels>
+                <ups>
+                    <model>udropship/label_ups</model>
+                </ups>
+                <usps>
+                    <model>udropship/label_endicia</model>
+                </usps>
+                <fedex>
+                    <model>udropship/label_fedex</model>
+                </fedex>
+                <fedexsoap>
+                    <model>udropship/label_fedex</model>
+                </fedexsoap>
+            </labels>
+            <label_types>
+                <pdf>
+                    <model>udropship/label_pdf</model>
+                </pdf>
+                <epl>
+                    <model>udropship/label_epl</model>
+                </epl>
+            </label_types>
+            <track_api>
+                <fedex>
+                    <model>Unirgy_Dropship_Model_Label_Fedex</model>
+                    <label>FedEx</label>
+                </fedex>
+                <fedexsoap>
+                    <model>Unirgy_Dropship_Model_Label_Fedex</model>
+                    <label>Webshopapps Fedex</label>
+                </fedexsoap>
+                <ups>
+                    <model>Unirgy_Dropship_Model_Label_Ups</model>
+                    <label>UPS</label>
+                </ups>
+            </track_api>
+            <vendor>
+                <fieldsets>
+                    <vendor_info>
+                        <legend>Vendor Info</legend>
+                        <position>1</position>
+                        <hidden>true</hidden>
+                    </vendor_info>
+                    <shipping_origin>
+                        <legend>Shipping Origin Address</legend>
+                        <position>2</position>
+                        <hidden>true</hidden>
+                    </shipping_origin>
+                    <integration>
+                        <legend>Integration</legend>
+                        <position>10</position>
+                    </integration>
+                    <customer>
+                        <legend>Customer</legend>
+                        <position>12</position>
+                    </customer>
+                    <statement>
+                        <legend>Statement</legend>
+                        <position>15</position>
+                    </statement>
+                    <label>
+                        <legend>Shipping Labels</legend>
+                        <position>20</position>
+                    </label>
+                    <pdf>
+                        <legend>PDF Specific</legend>
+                        <position>30</position>
+                    </pdf>
+                    <epl>
+                        <legend>EPL Specific</legend>
+                        <position>40</position>
+                    </epl>
+                    <ups>
+                        <legend>UPS Specific</legend>
+                        <position>50</position>
+                    </ups>
+                    <endicia>
+                        <legend>Endicia (USPS) Specific</legend>
+                        <position>60</position>
+                    </endicia>
+                    <fedex>
+                        <legend>FedEx Specific</legend>
+                        <position>70</position>
+                    </fedex>
+                </fieldsets>
+
+                <fields>
+                    <custom_html_address_format>
+                        <label>Use Custom HTML Customer Address Template For Vendors</label>
+                        <type>select</type>
+                        <frontend_model>udropship/adminhtml_vendor_helper_form_dependSelect</frontend_model>
+                        <depend_fields>
+                            <html_address_format>1</html_address_format>
+                        </depend_fields>
+                        <fieldset>customer</fieldset>
+                        <source_model>udropship/source</source_model>
+                        <source>yesno_useconfig</source>
+                        <position>10</position>
+                        <default>-1</default>
+                    </custom_html_address_format>
+                    <html_address_format>
+                        <label>HTML Customer Address Template For Vendors</label>
+                        <type>textarea</type>
+                        <fieldset>customer</fieldset>
+                        <source>yesno_useconfig</source>
+                        <position>20</position>
+                    </html_address_format>
+                    <custom_pdf_address_format>
+                        <label>Use Custom PDF Customer Address Template For Vendors</label>
+                        <type>select</type>
+                        <frontend_model>udropship/adminhtml_vendor_helper_form_dependSelect</frontend_model>
+                        <depend_fields>
+                            <pdf_address_format>1</pdf_address_format>
+                        </depend_fields>
+                        <fieldset>customer</fieldset>
+                        <source_model>udropship/source</source_model>
+                        <source>yesno_useconfig</source>
+                        <position>30</position>
+                        <default>-1</default>
+                    </custom_pdf_address_format>
+                    <pdf_address_format>
+                        <label>PDF Customer Address Template For Vendors</label>
+                        <type>wysiwyg</type>
+                        <fieldset>customer</fieldset>
+                        <source>yesno_useconfig</source>
+                        <position>40</position>
+                    </pdf_address_format>
+                    <new_order_notifications>
+                        <label>New Order Notification Method</label>
+                        <type>select</type>
+                        <fieldset>integration</fieldset>
+                        <position>1</position>
+                    </new_order_notifications>
+                    <stockcheck_method>
+                        <label>Stock Check Method</label>
+                        <type>select</type>
+                        <fieldset>integration</fieldset>
+                        <position>2</position>
+                    </stockcheck_method>
+                    <attach_packingslip>
+                        <label>Attach Packing Slip to Notifications</label>
+                        <type>select</type>
+                        <fieldset>integration</fieldset>
+                        <source>yesno</source>
+                        <position>3</position>
+                        <default>0</default>
+                    </attach_packingslip>
+                    <hide_packingslip_amount>
+                        <label>Hide shipping amount in packingslip</label>
+                        <type>select</type>
+                        <fieldset>integration</fieldset>
+                        <source>yesno_useconfig</source>
+                        <position>3.5</position>
+                        <default>-1</default>
+                    </hide_packingslip_amount>
+                    <attach_shippinglabel>
+                        <label>Attach Shipping Label to Notifications</label>
+                        <type>select</type>
+                        <fieldset>integration</fieldset>
+                        <source>yesno</source>
+                        <position>4</position>
+                        <default>0</default>
+                    </attach_shippinglabel>
+                    <notify_lowstock>
+                        <label>Notify on low stock qty</label>
+                        <type>select</type>
+                        <frontend_model>udropship/adminhtml_vendor_helper_form_dependSelect</frontend_model>
+                        <depend_fields>
+                            <notify_lowstock_qty>1</notify_lowstock_qty>
+                        </depend_fields>
+                        <fieldset>integration</fieldset>
+                        <source_model>udropship/source</source_model>
+                        <source>yesno</source>
+                        <position>4.2</position>
+                        <default>0</default>
+                    </notify_lowstock>
+                    <notify_lowstock_qty>
+                        <label>Low stock qty</label>
+                        <fieldset>integration</fieldset>
+                        <position>4.3</position>
+                        <default>0</default>
+                    </notify_lowstock_qty>
+                    <new_order_cc_emails>
+                        <label>New Order Carbon Copy Emails</label>
+                        <fieldset>integration</fieldset>
+                        <position>5</position>
+                        <note>Comma separated</note>
+                    </new_order_cc_emails>
+                    <!--
+                    <handling_integration>
+                        <label>Handling Integration</label>
+                        <type>select</type>
+                        <fieldset>integration</fieldset>
+                        <position>6</position>
+                        <default>replace</default>
+                    </handling_integration>
+                    -->
+                    <use_handling_fee>
+                        <label>Handling Fee</label>
+                        <type>select</type>
+                        <frontend_model>udropship/adminhtml_vendor_helper_form_dependSelect</frontend_model>
+                        <depend_fields>
+                            <handling_fee>1,2</handling_fee>
+                            <handling_rule>2</handling_rule>
+                            <handling_config>2</handling_config>
+                        </depend_fields>
+                        <fieldset>integration</fieldset>
+                        <position>7</position>
+                    </use_handling_fee>
+                    <handling_fee>
+                        <label>Simple Handling Fee (fallback for advanced)</label>
+                        <fieldset>integration</fieldset>
+                        <position>7.1</position>
+                    </handling_fee>
+                    <handling_rule>
+                        <label>Advanced Handling Rule</label>
+                        <type>select</type>
+                        <fieldset>integration</fieldset>
+                        <position>7.3</position>
+                    </handling_rule>
+                    <handling_config>
+                        <label>Advanced Handling Config</label>
+                        <fieldset>integration</fieldset>
+                        <frontend_model>udropship/adminhtml_vendor_helper_form_handlingConfig</frontend_model>
+                        <position>7.4</position>
+                    </handling_config>
+                    <handling_type>
+                        <label>Handling Type</label>
+                        <type>select</type>
+                        <source_model>shipping/source_handlingType</source_model>
+                        <fieldset>integration</fieldset>
+                        <position>8</position>
+                    </handling_type>
+                    <handling_action>
+                        <label>Handling Action</label>
+                        <type>select</type>
+                        <source_model>shipping/source_handlingAction</source_model>
+                        <fieldset>integration</fieldset>
+                        <position>9</position>
+                    </handling_action>
+                    <!--tax_regions>
+                        <label>Tax Regions</label>
+                        <type>multiselect</type>
+                        <fieldset>integration</fieldset>
+                        <position>10</position>
+                        <note><![CDATA[Specifies in which states this vendor's products are taxable.<br/>If no states are selected, the tax will be calculated using regular Magento tax rules.<br/>Only for US.]]></note>
+                    </tax_regions-->
+                    <allowed_countries>
+                        <label>Allowed Countries</label>
+                        <type>multiselect</type>
+                        <source>allowed_countries</source>
+                        <class>countries-multiselect</class>
+                        <default>*</default>
+                        <fieldset>integration</fieldset>
+                        <position>14</position>
+                    </allowed_countries>
+                    <limit_zipcode>
+                        <label>Limit to zipcodes</label>
+                        <type>textarea</type>
+                        <fieldset>integration</fieldset>
+                        <position>15</position>
+                        <note><![CDATA[
+                            Each rule should be separated with new line, comma or semicolon.<br/>
+                            Possible rules:<br/>
+                            1) Simple glob expression<br/>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SK6????<br/>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SK6+<br/>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SK6 12*<br/>
+                            2) Range<br/>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;90000-91000<br/>
+                            3) Exact value<br/>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;90210<br/>
+                            ]]></note>
+                    </limit_zipcode>
+                    <url_key>
+                        <label>URL key</label>
+                        <fieldset>integration</fieldset>
+                        <position>20</position>
+                        <unique>1</unique>
+                    </url_key>
+                    <initial_shipment_status>
+                        <label>Initial Vendor Order (Shipment) Status</label>
+                        <type>select</type>
+                        <fieldset>integration</fieldset>
+                        <source_model>udropship/source</source_model>
+                        <position>40</position>
+                        <default>999</default>
+                    </initial_shipment_status>
+                    <vendor_po_grid_sortby>
+                        <label>Default shipment sort by in vendor interface</label>
+                        <type>select</type>
+                        <fieldset>integration</fieldset>
+                        <source_model>udropship/source</source_model>
+                        <position>50</position>
+                    </vendor_po_grid_sortby>
+                    <vendor_po_grid_sortdir>
+                        <label>Default shipment sort direction in vendor interface</label>
+                        <type>select</type>
+                        <fieldset>integration</fieldset>
+                        <source_model>udropship/source</source_model>
+                        <position>60</position>
+                    </vendor_po_grid_sortdir>
+                    <vendor_po_grid_status_filter>
+                        <label>Default shipment status filter in vendor interface</label>
+                        <type>multiselect</type>
+                        <fieldset>integration</fieldset>
+                        <source_model>udropship/source</source_model>
+                        <position>70</position>
+                    </vendor_po_grid_status_filter>
+                    <logo>
+                        <label>Logo Image</label>
+                        <type>image</type>
+                        <fieldset>integration</fieldset>
+                        <position>100</position>
+                    </logo>
+
+                    <use_packingslip_custom_text>
+                        <label>Use Vendor specific custom text on the bottom of packing slip</label>
+                        <type>select</type>
+                        <frontend_model>udropship/adminhtml_vendor_helper_form_dependSelect</frontend_model>
+                        <depend_fields>
+                            <packingslip_custom_text>1</packingslip_custom_text>
+                        </depend_fields>
+                        <fieldset>integration</fieldset>
+                        <source_model>udropship/source</source_model>
+                        <source>yesno_useconfig</source>
+                        <position>110</position>
+                        <default>-1</default>
+                    </use_packingslip_custom_text>
+
+                    <packingslip_custom_text translate="label">
+                        <label>Vendor specific custom text on the bottom of packing slip</label>
+                        <fieldset>integration</fieldset>
+                        <type>textarea</type>
+                        <position>120</position>
+                    </packingslip_custom_text>
+
+                    <portal_show_totals>
+                        <label>Show totals in vendor portal order view</label>
+                        <type>select</type>
+                        <fieldset>integration</fieldset>
+                        <source_model>udropship/source</source_model>
+                        <source>yesno_useconfig</source>
+                        <position>150</position>
+                        <default>-1</default>
+                    </portal_show_totals>
+
+                    <commission_percent>
+                        <label>Commission Percentage</label>
+                        <fieldset>statement</fieldset>
+                        <hide_modules>Unirgy_DropshipTierCommission</hide_modules>
+                        <position>10</position>
+                        <default>0</default>
+                    </commission_percent>
+                    <transaction_fee>
+                        <label>Transaction Fee</label>
+                        <fieldset>statement</fieldset>
+                        <hide_modules>Unirgy_DropshipTierCommission</hide_modules>
+                        <position>20</position>
+                        <default>0</default>
+                    </transaction_fee>
+                    <!-- statement_withhold_totals>
+                        <label>Withhold Totals</label>
+                        <fieldset>statement</fieldset>
+                        <position>30</position>
+                        <type>multiselect</type>
+                    </statement_withhold_totals-->
+                    <apply_commission_on_discount>
+                        <label>Apply commission on Discount</label>
+                        <fieldset>statement</fieldset>
+                        <position>25</position>
+                        <type>select</type>
+                        <default>999</default>
+                    </apply_commission_on_discount>
+                    <apply_commission_on_tax>
+                        <label>Apply commission on Tax</label>
+                        <fieldset>statement</fieldset>
+                        <position>26</position>
+                        <type>select</type>
+                        <default>999</default>
+                    </apply_commission_on_tax>
+                    <apply_commission_on_shipping>
+                        <label>Apply commission on Shipping</label>
+                        <fieldset>statement</fieldset>
+                        <position>27</position>
+                        <type>select</type>
+                        <default>999</default>
+                    </apply_commission_on_shipping>
+                    <statement_discount_in_payout>
+                        <label>Discount In Payout</label>
+                        <fieldset>statement</fieldset>
+                        <position>29</position>
+                        <type>select</type>
+                        <default>999</default>
+                    </statement_discount_in_payout>
+                    <statement_tax_in_payout>
+                        <label>Tax In Payout</label>
+                        <fieldset>statement</fieldset>
+                        <position>30</position>
+                        <type>select</type>
+                        <default>999</default>
+                    </statement_tax_in_payout>
+                    <statement_shipping_in_payout>
+                        <label>Shipping In Payout</label>
+                        <fieldset>statement</fieldset>
+                        <position>31</position>
+                        <type>select</type>
+                        <default>999</default>
+                    </statement_shipping_in_payout>
+                    <shipping_tax_in_shipping>
+                        <label>Include shipping tax in shipping amount</label>
+                        <fieldset>statement</fieldset>
+                        <position>32</position>
+                        <type>select</type>
+                        <default>999</default>
+                    </shipping_tax_in_shipping>
+                    <statement_subtotal_base>
+                        <label>Statement subtotal calculation based on </label>
+                        <type>select</type>
+                        <fieldset>statement</fieldset>
+                        <source_model>udropship/source</source_model>
+                        <source>statement_subtotal_base</source>
+                        <position>33</position>
+                        <default>999</default>
+                    </statement_subtotal_base>
+                    <statement_po_type>
+                        <label>Statement calculation based on </label>
+                        <type>statement_po_type</type>
+                        <fieldset>statement</fieldset>
+                        <source_model>udropship/source</source_model>
+                        <source>statement_po_type</source>
+                        <position>35</position>
+                        <default>999</default>
+                    </statement_po_type>
+                    <statement_shipment_status>
+                        <name>statement_po_status</name>
+                        <label>Statement on following shipment statuses</label>
+                        <type>multiselect</type>
+                        <fieldset>statement</fieldset>
+                        <source_model>udropship/source</source_model>
+                        <position>40</position>
+                        <default>999</default>
+                    </statement_shipment_status>
+
+                    <poll_tracking>
+                        <label>Poll Tracking API</label>
+                        <type>select</type>
+                        <fieldset>label</fieldset>
+                        <position>1</position>
+                    </poll_tracking>
+                    <label_type>
+                        <label>Label Type</label>
+                        <type>select</type>
+                        <fieldset>label</fieldset>
+                        <position>5</position>
+                    </label_type>
+                    <dimension_units>
+                        <label>Dimension Units</label>
+                        <type>select</type>
+                        <fieldset>label</fieldset>
+                        <position>10</position>
+                        <default>IN</default>
+                    </dimension_units>
+                    <default_pkg_length>
+                        <label>Default Package Length</label>
+                        <fieldset>label</fieldset>
+                        <position>11</position>
+                        <default>1</default>
+                    </default_pkg_length>
+                    <default_pkg_width>
+                        <label>Default Package Width</label>
+                        <fieldset>label</fieldset>
+                        <position>12</position>
+                        <default>1</default>
+                    </default_pkg_width>
+                    <default_pkg_height>
+                        <label>Default Package Height</label>
+                        <fieldset>label</fieldset>
+                        <position>13</position>
+                        <default>1</default>
+                    </default_pkg_height>
+
+                    <pdf_page_size>
+                        <label>PDF Page Size</label>
+                        <type>select</type>
+                        <fieldset>pdf</fieldset>
+                        <position>1</position>
+                        <default>letter</default>
+                    </pdf_page_size>
+                    <pdf_page_width>
+                        <label>PDF Page Width</label>
+                        <fieldset>pdf</fieldset>
+                        <position>2</position>
+                        <default>8.5</default>
+                    </pdf_page_width>
+                    <pdf_page_height>
+                        <label>PDF Page Height</label>
+                        <fieldset>pdf</fieldset>
+                        <position>3</position>
+                        <default>11</default>
+                    </pdf_page_height>
+                    <pdf_label_rotate>
+                        <label>PDF Label Rotation</label>
+                        <type>select</type>
+                        <fieldset>pdf</fieldset>
+                        <position>4</position>
+                    </pdf_label_rotate>
+                    <pdf_label_left>
+                        <label>PDF Label Left Offset</label>
+                        <fieldset>pdf</fieldset>
+                        <position>5</position>
+                        <default>.5</default>
+                    </pdf_label_left>
+                    <pdf_label_top>
+                        <label>PDF Label Top Offset</label>
+                        <fieldset>pdf</fieldset>
+                        <position>6</position>
+                        <default>.5</default>
+                    </pdf_label_top>
+
+                    <epl_doctab>
+                        <label>Enable Printing DocTab</label>
+                        <fieldset>epl</fieldset>
+                        <type>select</type>
+                        <source>yesno</source>
+                        <position>1</position>
+                    </epl_doctab>
+
+                    <ups_api_url>
+                        <label>UPS API URL</label>
+                        <fieldset>ups</fieldset>
+                        <position>1</position>
+                        <default>https://wwwcie.ups.com/ups.app/xml/</default>
+                    </ups_api_url>
+
+                    <ups_shipper_number>
+                        <label>UPS Shipper Number</label>
+                        <fieldset>ups</fieldset>
+                        <position>2</position>
+                    </ups_shipper_number>
+                    <ups_thirdparty_account_number>
+                        <label>3rd Party Account Number</label>
+                        <fieldset>ups</fieldset>
+                        <type>text</type>
+                        <position>4</position>
+                    </ups_thirdparty_account_number>
+                    <ups_thirdparty_country>
+                        <label>3rd Party Country</label>
+                        <fieldset>ups</fieldset>
+                        <type>select</type>
+                        <source_model>adminhtml/system_config_source_country</source_model>
+                        <position>5</position>
+                    </ups_thirdparty_country>
+                    <ups_thirdparty_postcode>
+                        <label>3rd Party Postal Code</label>
+                        <fieldset>ups</fieldset>
+                        <type>text</type>
+                        <position>6</position>
+                    </ups_thirdparty_postcode>
+
+                    <ups_insurance>
+                        <label>Insurance</label>
+                        <fieldset>ups</fieldset>
+                        <type>select</type>
+                        <source>yesno</source>
+                        <position>11</position>
+                    </ups_insurance>
+                    <ups_delivery_confirmation>
+                        <label>Delivery Confirmation</label>
+                        <fieldset>ups</fieldset>
+                        <type>select</type>
+                        <position>12</position>
+                    </ups_delivery_confirmation>
+                    <ups_verbal_confirmation>
+                        <label>Verbal Confirmation</label>
+                        <fieldset>ups</fieldset>
+                        <type>select</type>
+                        <source>yesno</source>
+                        <position>13</position>
+                    </ups_verbal_confirmation>
+
+                    <ups_pickup>
+                        <label>Pickup Type</label>
+                        <fieldset>ups</fieldset>
+                        <type>select</type>
+                        <position>20</position>
+                    </ups_pickup>
+                    <ups_container>
+                        <label>Container Type</label>
+                        <fieldset>ups</fieldset>
+                        <type>select</type>
+                        <position>21</position>
+                    </ups_container>
+                    <ups_dest_type>
+                        <label>Destination Type</label>
+                        <fieldset>ups</fieldset>
+                        <type>select</type>
+                        <position>22</position>
+                    </ups_dest_type>
+
+                    <ups_pdf_label_width>
+                        <label>PDF Label Width</label>
+                        <fieldset>ups</fieldset>
+                        <position>50</position>
+                        <default>4</default>
+                    </ups_pdf_label_width>
+                    <ups_pdf_label_height>
+                        <label>PDF Label Height</label>
+                        <fieldset>ups</fieldset>
+                        <position>51</position>
+                        <default>7</default>
+                    </ups_pdf_label_height>
+
+                    <endicia_api_url>
+                        <label>Endicia API URL</label>
+                        <fieldset>endicia</fieldset>
+                        <position>1</position>
+                        <default>https://elstestserver.endicia.com/LabelService/EwsLabelService.asmx</default>
+                    </endicia_api_url>
+                    <endicia_test_mode>
+                        <label>Label Test Mode</label>
+                        <type>select</type>
+                        <source>yesno</source>
+                        <fieldset>endicia</fieldset>
+                        <position>2</position>
+                    </endicia_test_mode>
+
+                    <endicia_requester_id>
+                        <label>Requester ID</label>
+                        <fieldset>endicia</fieldset>
+                        <position>30</position>
+                    </endicia_requester_id>
+                    <endicia_account_id>
+                        <label>Account ID</label>
+                        <fieldset>endicia</fieldset>
+                        <position>40</position>
+                    </endicia_account_id>
+                    <endicia_pass_phrase>
+                        <label>Pass Phrase</label>
+                        <encrypted>1</encrypted>
+                        <type>password</type>
+                        <fieldset>endicia</fieldset>
+                        <position>50</position>
+                    </endicia_pass_phrase>
+                    <endicia_new_pass_phrase>
+                        <label>New Pass Phrase</label>
+                        <encrypted>1</encrypted>
+                        <type>password</type>
+                        <fieldset>endicia</fieldset>
+                        <position>55</position>
+                        <note>Entering new passpharse will issue Endicia ChangePassPhraseXML API call</note>
+                    </endicia_new_pass_phrase>
+                    <endicia_new_pass_phrase_confirm>
+                        <label>Confirm New Pass Phrase</label>
+                        <encrypted>1</encrypted>
+                        <type>password</type>
+                        <fieldset>endicia</fieldset>
+                        <position>56</position>
+                    </endicia_new_pass_phrase_confirm>
+
+                    <endicia_label_type>
+                        <label>Label Type</label>
+                        <type>select</type>
+                        <fieldset>endicia</fieldset>
+                        <position>60</position>
+                    </endicia_label_type>
+                    <endicia_mail_class>
+                        <label>Default Mail Class</label>
+                        <type>select</type>
+                        <fieldset>endicia</fieldset>
+                        <position>90</position>
+                    </endicia_mail_class>
+                    <endicia_mailpiece_shape>
+                        <label>Default Mail Piece Shape</label>
+                        <type>select</type>
+                        <fieldset>endicia</fieldset>
+                        <position>100</position>
+                    </endicia_mailpiece_shape>
+
+                    <endicia_stealth>
+                        <label>Stealth</label>
+                        <fieldset>endicia</fieldset>
+                        <type>select</type>
+                        <source>yesno</source>
+                        <position>110</position>
+                        <default>1</default>
+                    </endicia_stealth>
+                    <endicia_delivery_confirmation>
+                        <label>Delivery Confirmation</label>
+                        <fieldset>endicia</fieldset>
+                        <type>select</type>
+                        <source>yesno</source>
+                        <position>112</position>
+                    </endicia_delivery_confirmation>
+                    <endicia_signature_confirmation>
+                        <label>Signature Confirmation</label>
+                        <fieldset>endicia</fieldset>
+                        <type>select</type>
+                        <source>yesno</source>
+                        <position>113</position>
+                    </endicia_signature_confirmation>
+                    <endicia_return_receipt>
+                        <label>Return Receipt</label>
+                        <fieldset>endicia</fieldset>
+                        <type>select</type>
+                        <source>yesno</source>
+                        <position>114</position>
+                    </endicia_return_receipt>
+                    <endicia_electronic_return_receipt>
+                        <label>Electronic Return Receipt</label>
+                        <fieldset>endicia</fieldset>
+                        <type>select</type>
+                        <source>yesno</source>
+                        <position>115</position>
+                    </endicia_electronic_return_receipt>
+                    <endicia_insured_mail>
+                        <label>Insured Mail</label>
+                        <fieldset>endicia</fieldset>
+                        <type>select</type>
+                        <position>116</position>
+                    </endicia_insured_mail>
+                    <endicia_restricted_delivery>
+                        <label>Restricted Delivery</label>
+                        <fieldset>endicia</fieldset>
+                        <type>select</type>
+                        <source>yesno</source>
+                        <position>117</position>
+                    </endicia_restricted_delivery>
+                    <endicia_cod>
+                        <label>COD</label>
+                        <fieldset>endicia</fieldset>
+                        <type>select</type>
+                        <source>yesno</source>
+                        <position>118</position>
+                    </endicia_cod>
+
+                    <endicia_balance_threshold>
+                        <label>Balance Threshold</label>
+                        <fieldset>endicia</fieldset>
+                        <position>120</position>
+                        <note><![CDATA[Leave empty to disable automatic funding of the account]]></note>
+                    </endicia_balance_threshold>
+                    <endicia_recredit_amount>
+                        <label>Recredit Amount</label>
+                        <fieldset>endicia</fieldset>
+                        <position>121</position>
+                    </endicia_recredit_amount>
+
+                    <endicia_pdf_label_width>
+                        <label>PDF Label Width</label>
+                        <fieldset>endicia</fieldset>
+                        <position>150</position>
+                        <default>4</default>
+                    </endicia_pdf_label_width>
+                    <endicia_pdf_label_height>
+                        <label>PDF Label Height</label>
+                        <fieldset>endicia</fieldset>
+                        <position>151</position>
+                        <default>6</default>
+                    </endicia_pdf_label_height>
+
+                    <fedex_test_mode>
+                        <label>Test Mode</label>
+                        <fieldset>fedex</fieldset>
+                        <type>select</type>
+                        <source>yesno</source>
+                        <default>1</default>
+                        <position>10</position>
+                    </fedex_test_mode>
+
+                    <fedex_user_key>
+                        <label>User Key</label>
+                        <fieldset>fedex</fieldset>
+                        <position>20</position>
+                    </fedex_user_key>
+                    <fedex_user_password>
+                        <label>User Password</label>
+                        <fieldset>fedex</fieldset>
+                        <type>password</type>
+                        <position>22</position>
+                    </fedex_user_password>
+                    <fedex_account_number>
+                        <label>Account Number</label>
+                        <fieldset>fedex</fieldset>
+                        <position>24</position>
+                    </fedex_account_number>
+                    <fedex_meter_number>
+                        <label>Meter Number</label>
+                        <fieldset>fedex</fieldset>
+                        <position>26</position>
+                    </fedex_meter_number>
+                    <fedex_smartpost_hubid>
+                        <label>Smart Post Hub ID</label>
+                        <fieldset>fedex</fieldset>
+                        <position>27</position>
+                    </fedex_smartpost_hubid>
+
+                    <fedex_payment_type>
+                        <label>Payment Type</label>
+                        <fieldset>fedex</fieldset>
+                        <type>select</type>
+                        <frontend_model>udropship/adminhtml_vendor_helper_form_dependSelect</frontend_model>
+                        <depend_fields>
+                            <fedex_thirdparty_account_number>THIRD_PARTY</fedex_thirdparty_account_number>
+                            <fedex_thirdparty_name>THIRD_PARTY</fedex_thirdparty_name>
+                            <fedex_thirdparty_company>THIRD_PARTY</fedex_thirdparty_company>
+                            <fedex_thirdparty_phone>THIRD_PARTY</fedex_thirdparty_phone>
+                        </depend_fields>
+                        <source>fedex_payment_type</source>
+                        <default>SENDER</default>
+                        <position>30</position>
+                    </fedex_payment_type>
+
+                    <fedex_thirdparty_account_number>
+                        <label>3rd Party Account Number</label>
+                        <fieldset>fedex</fieldset>
+                        <position>31</position>
+                    </fedex_thirdparty_account_number>
+                    <fedex_thirdparty_name>
+                        <label>3rd Party Contact Name</label>
+                        <fieldset>fedex</fieldset>
+                        <position>32</position>
+                    </fedex_thirdparty_name>
+                    <fedex_thirdparty_company>
+                        <label>3rd Party Company</label>
+                        <fieldset>fedex</fieldset>
+                        <position>33</position>
+                    </fedex_thirdparty_company>
+                    <fedex_thirdparty_phone>
+                        <label>3rd Party Phone</label>
+                        <fieldset>fedex</fieldset>
+                        <position>34</position>
+                    </fedex_thirdparty_phone>
+
+                    <fedex_dry_ice_weight>
+                        <label>Default Dry Ice Weight (KG)</label>
+                        <fieldset>fedex</fieldset>
+                        <position>40</position>
+                    </fedex_dry_ice_weight>
+
+                    <fedex_dropoff_type>
+                        <label>Drop Off Type</label>
+                        <fieldset>fedex</fieldset>
+                        <type>select</type>
+                        <source>fedex_dropoff_type</source>
+                        <position>50</position>
+                    </fedex_dropoff_type>
+
+                    <fedex_label_stock_type>
+                        <label>Label Stock Type</label>
+                        <fieldset>fedex</fieldset>
+                        <type>select</type>
+                        <source>fedex_label_stock_type</source>
+                        <position>60</position>
+                    </fedex_label_stock_type>
+                    <fedex_pdf_label_width>
+                        <label>PDF Label Width</label>
+                        <fieldset>fedex</fieldset>
+                        <position>70</position>
+                        <default>4</default>
+                    </fedex_pdf_label_width>
+                    <fedex_pdf_label_height>
+                        <label>PDF Label Height</label>
+                        <fieldset>fedex</fieldset>
+                        <position>80</position>
+                        <default>6</default>
+                    </fedex_pdf_label_height>
+
+                    <fedex_signature_option>
+                        <label>Signature Option</label>
+                        <fieldset>fedex</fieldset>
+                        <type>select</type>
+                        <source>fedex_signature_option</source>
+                        <position>100</position>
+                    </fedex_signature_option>
+
+                    <fedex_insurance>
+                        <label>Insurance</label>
+                        <fieldset>fedex</fieldset>
+                        <type>select</type>
+                        <source>yesno</source>
+                        <position>105</position>
+                    </fedex_insurance>
+
+                    <fedex_notify_on>
+                        <label>Shipment notification types</label>
+                        <fieldset>fedex</fieldset>
+                        <type>multiselect</type>
+                        <source>fedex_notify_on</source>
+                        <position>110</position>
+                    </fedex_notify_on>
+
+                    <fedex_notify_email>
+                        <label>Shipment notification email(s)</label>
+                        <fieldset>fedex</fieldset>
+                        <type>text</type>
+                        <position>120</position>
+                        <note>Comma separated</note>
+                    </fedex_notify_email>
+
+                    <fedex_itn>
+                        <label>ITN (Internal Transaction Number)</label>
+                        <fieldset>fedex</fieldset>
+                        <position>150</position>
+                        <note><![CDATA[For shipments requiring an EEI/SED, enter the ITN number received from AES when you filed your shipment or the FTR (Foreign Trade Regulations) exemption number.<br/>Proper format: <strong>AES XYYYYMMDDNNNNNN</strong> where YYYYMMDD is date and NNNNNN are numbers generated by the AES.<br/>Apply at <a href="http://www.aesdirect.gov">http://www.aesdirect.gov</a>]]></note>
+                    </fedex_itn>
+                </fields>
+            </vendor>
+
+            <notification_methods>
+            </notification_methods>
+
+            <stockcheck_methods>
+                <local translate="title">
+                    <callback>udropship/stock_availability::checkLocalStockLevel</callback>
+                </local>
+            </stockcheck_methods>
+
+            <shipcheck_methods>
+            </shipcheck_methods>
+
+            <availability_methods>
+                <always_assigned translate="title">
+                    <active>true</active>
+                    <label>Always use assigned vendor</label>
+                    <callback>udropship/stock_availability::alwaysAssigned</callback>
+                    <collectstock_callback>udropship/stock_availability::collectStockLevels</collectstock_callback>
+                </always_assigned>
+                <local_if_in_stock translate="title">
+                    <active>true</active>
+                    <label>When in stock use local, otherwise use vendor</label>
+                    <callback>udropship/stock_availability::localIfInStock</callback>
+                    <collectstock_callback>udropship/stock_availability::collectStockLevels</collectstock_callback>
+                </local_if_in_stock>
+            </availability_methods>
+
+            <runtime_product_attributes_config_paths>
+                <udropship-vendor-vendor_sku_attribute />
+                <udropship-vendor-special_cost_attribute />
+            </runtime_product_attributes_config_paths>
+
+            <runtime_product_attributes>
+
+            </runtime_product_attributes>
+        </udropship>
+
+    </global>
+
+    <frontend>
+        <product>
+            <collection>
+                <attributes>
+                    <udropship_vendor/>
+                </attributes>
+            </collection>
+        </product>
+        <routers>
+            <udropship>
+                <use>standard</use>
+                <args>
+                    <module>Unirgy_Dropship</module>
+                    <frontName>udropship</frontName>
+                </args>
+            </udropship>
+        </routers>
+        <layout>
+            <updates>
+                <udropship>
+                    <file>udropship.xml</file>
+                </udropship>
+                <udropship_front>
+                    <file>udropship_front.xml</file>
+                </udropship_front>
+            </updates>
+        </layout>
+        <translate>
+            <modules>
+                <unirgy_dropship>
+                    <files>
+                        <default>Unirgy_Dropship.csv</default>
+                    </files>
+                </unirgy_dropship>
+            </modules>
+        </translate>
+        <secure_url>
+            <udropship_vendor>/udropship/vendor/</udropship_vendor>
+        </secure_url>
+        <events>
+            <catalog_product_collection_load_before>
+                <observers>
+                    <udropship>
+                        <type>singleton</type>
+                        <class>udropship/observer</class>
+                        <method>catalog_product_collection_load_before</method>
+                    </udropship>
+                </observers>
+            </catalog_product_collection_load_before>
+            <catalog_product_collection_load_after>
+                <observers>
+                    <udropship>
+                        <type>singleton</type>
+                        <class>udropship/observer</class>
+                        <method>catalog_product_collection_load_after</method>
+                    </udropship>
+                </observers>
+            </catalog_product_collection_load_after>
+            <controller_action_predispatch_checkout>
+                <observers>
+                    <udropship>
+                        <type>singleton</type>
+                        <class>udropship/observer</class>
+                        <method>controller_action_predispatch_checkout</method>
+                    </udropship>
+                </observers>
+            </controller_action_predispatch_checkout>
+            <controller_action_postdispatch_checkout>
+                <observers>
+                    <udropship>
+                        <type>singleton</type>
+                        <class>udropship/observer</class>
+                        <method>controller_action_postdispatch_checkout</method>
+                    </udropship>
+                </observers>
+            </controller_action_postdispatch_checkout>
+        </events>
+    </frontend>
+
+    <admin>
+        <routers>
+            <adminhtml>
+                <args>
+                    <modules>
+                        <udropshipadmin after="Mage_Adminhtml">Unirgy_Dropship</udropshipadmin>
+                    </modules>
+                </args>
+            </adminhtml>
+        </routers>
+    </admin>
+
+    <adminhtml>
+        <layout>
+            <updates>
+                <udropship>
+                    <file>udropship.xml</file>
+                </udropship>
+            </updates>
+        </layout>
+        <menu>
+            <sales>
+                <children>
+                    <udropship translate="title" module="udropship">
+                        <title>Dropship</title>
+                        <sort_order>100</sort_order>
+                        <children>
+                            <vendor translate="title">
+                                <title>Vendors</title>
+                                <sort_order>10</sort_order>
+                                <action>adminhtml/udropshipadmin_vendor</action>
+                            </vendor>
+                            <shipping translate="title">
+                                <title>Shipping Methods</title>
+                                <sort_order>20</sort_order>
+                                <action>adminhtml/udropshipadmin_shipping</action>
+                            </shipping>
+                            <label_batch translate="title">
+                                <title>Label Batches</title>
+                                <sort_order>30</sort_order>
+                                <action>adminhtml/udropshipadmin_batch</action>
+                            </label_batch>
+                            <statement translate="title">
+                                <title>Vendor Statements</title>
+                                <sort_order>35</sort_order>
+                                <action>adminhtml/udropshipadmin_vendor_statement</action>
+                            </statement>
+                        </children>
+                    </udropship>
+                </children>
+            </sales>
+            <report>
+                <children>
+                    <udropship translate="title" module="udropship">
+                        <title>Dropship</title>
+                        <sort_order>100</sort_order>
+                        <children>
+                            <general translate="title">
+                                <title>General Details</title>
+                                <sort_order>10</sort_order>
+                                <action>adminhtml/udropshipadmin_report</action>
+                            </general>
+                            <item translate="title">
+                                <title>Item Details</title>
+                                <sort_order>20</sort_order>
+                                <action>adminhtml/udropshipadmin_report/item</action>
+                            </item>
+                        </children>
+                    </udropship>
+                </children>
+            </report>
+        </menu>
+        <acl>
+            <resources>
+                <admin>
+                    <children>
+                        <sales>
+                            <children>
+                                <udropship translate="title" module="udropship">
+                                    <title>Dropship</title>
+                                    <sort_order>40</sort_order>
+                                    <children>
+                                        <vendor translate="title">
+                                            <title>Vendors</title>
+                                            <sort_order>10</sort_order>
+                                        </vendor>
+                                        <shipping translate="title">
+                                            <title>Shipping</title>
+                                            <sort_order>20</sort_order>
+                                        </shipping>
+                                        <label_batch translate="title">
+                                            <title>Label Batches</title>
+                                            <sort_order>30</sort_order>
+                                        </label_batch>
+                                        <statement translate="title">
+                                            <title>Vendor Statements</title>
+                                            <sort_order>35</sort_order>
+                                        </statement>
+                                    </children>
+                                </udropship>
+                            </children>
+                        </sales>
+                        <report>
+                            <children>
+                                <udropship translate="title" module="udropship">
+                                    <title>Dropship</title>
+                                    <sort_order>100</sort_order>
+                                    <children>
+                                        <general translate="title">
+                                            <title>General Details</title>
+                                            <sort_order>10</sort_order>
+                                        </general>
+                                        <item translate="title">
+                                            <title>Item Details</title>
+                                            <sort_order>20</sort_order>
+                                        </item>
+                                    </children>
+                                </udropship>
+                            </children>
+                        </report>
+                        <system>
+                            <children>
+                                <config>
+                                    <children>
+                                        <udropship translate="title" module="udropship">
+                                            <title>Dropship</title>
+                                            <sort_order>50</sort_order>
+                                        </udropship>
+                                        <udropship_label translate="title" module="udropship">
+                                            <title>Dropship Labels</title>
+                                            <sort_order>60</sort_order>
+                                        </udropship_label>
+                                    </children>
+                                </config>
+                            </children>
+                        </system>
+                    </children>
+                </admin>
+            </resources>
+        </acl>
+        <events>
+            <controller_action_predispatch_adminhtml_customer_edit>
+                <observers>
+                    <udropship>
+                        <type>singleton</type>
+                        <class>udropship/observer</class>
+                        <method>controller_action_predispatch_adminhtml_customer_carts</method>
+                    </udropship>
+                </observers>
+            </controller_action_predispatch_adminhtml_customer_edit>
+            <controller_action_predispatch_adminhtml_customer_carts>
+                <observers>
+                    <udropship>
+                        <type>singleton</type>
+                        <class>udropship/observer</class>
+                        <method>controller_action_predispatch_adminhtml_customer_carts</method>
+                    </udropship>
+                </observers>
+            </controller_action_predispatch_adminhtml_customer_carts>
+            <controller_action_layout_render_before_udropshipadmin_adminhtml_vendor_index>
+                <observers>
+                    <udropship>
+                        <type>singleton</type>
+                        <class>udropship/observer</class>
+                        <method>adminhtml_version</method>
+                    </udropship>
+                </observers>
+            </controller_action_layout_render_before_udropshipadmin_adminhtml_vendor_index>
+            <controller_action_layout_render_before_adminhtml_sales_order_shipment_view>
+                <observers>
+                    <udropship>
+                        <type>singleton</type>
+                        <class>udropship/observer</class>
+                        <method>adminhtml_sales_order_shipment_view</method>
+                    </udropship>
+                </observers>
+            </controller_action_layout_render_before_adminhtml_sales_order_shipment_view>
+            <controller_action_predispatch>
+                <observers>
+                    <udropship>
+                        <type>singleton</type>
+                        <class>udropship/observer</class>
+                        <method>adminhtml_controller_action_predispatch</method>
+                    </udropship>
+                </observers>
+            </controller_action_predispatch>
+            <adminhtml_catalog_product_edit_element_types>
+                <observers>
+                    <udropship>
+                        <type>singleton</type>
+                        <class>udropship/observer</class>
+                        <method>adminhtml_catalog_product_edit_element_types</method>
+                    </udropship>
+                </observers>
+            </adminhtml_catalog_product_edit_element_types>
+            <core_block_abstract_to_html_before>
+                <observers>
+                    <udropship>
+                        <type>singleton</type>
+                        <class>udropship/observer</class>
+                        <method>core_block_abstract_to_html_before</method>
+                    </udropship>
+                </observers>
+            </core_block_abstract_to_html_before>
+            <!--
+            <udropship_admin_validate>
+                <observers>
+                    <udropship>
+                        <type>singleton</type>
+                        <class>udropship/observer</class>
+                        <method>udropship_admin_validate</method>
+                        <args>
+                            <module>Unirgy_Dropship</module>
+                        </args>
+                    </udropship>
+                </observers>
+            </udropship_admin_validate>
+            -->
+        </events>
+        <translate>
+            <modules>
+                <unirgy_dropship>
+                    <files>
+                        <default>Unirgy_Dropship.csv</default>
+                    </files>
+                </unirgy_dropship>
+            </modules>
+        </translate>
+    </adminhtml>
+
+    <crontab>
+        <jobs>
+            <udropship_collect_tracking>
+                <schedule><cron_expr>* * * * *</cron_expr></schedule>
+                <run><model>udropship/observer::cronCollectTracking</model></run>
+            </udropship_collect_tracking>
+            <udropship_vendor_notify_lowstock>
+                <schedule><cron_expr>*/5 * * * *</cron_expr></schedule>
+                <run><model>udropship/observer::vendorNotifyLowstock</model></run>
+            </udropship_vendor_notify_lowstock>
+            <udropship_vendor_clean_lowstock>
+                <schedule><cron_expr>*/5 * * * *</cron_expr></schedule>
+                <run><model>udropship/observer::vendorCleanLowstock</model></run>
+            </udropship_vendor_clean_lowstock>
+        </jobs>
+    </crontab>
+
+    <default>
+        <udropship>
+            <admin>
+                <vendor_comments_receiver>general</vendor_comments_receiver>
+                <vendor_comments_subject><![CDATA[A comment from {{vendor_name}} regarding Order # {{order_id}}]]></vendor_comments_subject>
+                <vendor_comments_template><![CDATA[Dear Administrator,
+
+A dropship vendor has just submitted a comment regarding an order shipment.
+
+Vendor Name: {{vendor_name}}
+Order ID: {{order_id}}
+Shipment ID: {{shipment_id}}
+
+Vendor URL: {{vendor_url}}
+Order URL: {{order_url}}
+Shipment URL: {{shipment_url}}
+
+Comment: {{comment}}
+]]></vendor_comments_template>
+                <interface_theme>default/default</interface_theme>
+                <notifications>1</notifications>
+                <show_order_view_vendor_rates>0</show_order_view_vendor_rates>
+                <letterhead_logo_ratio>2x1</letterhead_logo_ratio>
+            </admin>
+            <vendor>
+                <strict_change_order_status_after_po>1</strict_change_order_status_after_po>
+                <autocomplete_htmlselect>0</autocomplete_htmlselect>
+                <vendor_sku_attribute>sku</vendor_sku_attribute>
+                <attach_packingslip>0</attach_packingslip>
+                <hide_packingslip_amount>useconfig</hide_packingslip_amount>
+                <attach_shippinglabel>0</attach_shippinglabel>
+                <local_vendor></local_vendor>
+                <auto_shipment_complete>0</auto_shipment_complete>
+                <unique_email>1</unique_email>
+                <email_local_vendor>0</email_local_vendor>
+                <vendor_email_template>udropship_vendor_vendor_email_template</vendor_email_template>
+                <shipment_comment_vendor_email_template>udropship_vendor_shipment_comment_vendor_email_template</shipment_comment_vendor_email_template>
+                <notify_lowstock_email_template>udropship_vendor_notify_lowstock_email_template</notify_lowstock_email_template>
+                <vendor_password_template>udropship_vendor_vendor_password_template</vendor_password_template>
+                <vendor_email_identity>general</vendor_email_identity>
+                <interface_theme>default/udropship</interface_theme>
+                <make_available_to_dropship>processing</make_available_to_dropship>
+                <ready_on_packingslip>1</ready_on_packingslip>
+                <tax_by_vendor>0</tax_by_vendor>
+                <default_shipment_status>0</default_shipment_status>
+                <master_password backend_model="adminhtml/system_config_backend_encrypted"/>
+                <manual_shipment_status>1</manual_shipment_status>
+                <preferences_allowed_tags><![CDATA[<p><b><i><em><strong><br>]]></preferences_allowed_tags>
+                <reassign_available_shipping>all</reassign_available_shipping>
+                <is_restrict_shipment_status>0</is_restrict_shipment_status>
+                <hide_packingslip_amount>0</hide_packingslip_amount>
+                <label_carrier_allow_all>0</label_carrier_allow_all>
+                <label_method_allow_all>0</label_method_allow_all>
+            </vendor>
+            <statement>
+                <statement_usage>payout</statement_usage>
+                <email_template>udropship_statement_email_template</email_template>
+                <email_identity>general</email_identity>
+                <adjustment_trigger>ADJUSTMENT</adjustment_trigger>
+                <statement_po_type>shipment</statement_po_type>
+                <statement_shipment_status>1</statement_shipment_status>
+                <statement_shipping_in_payout>include</statement_shipping_in_payout>
+                <statement_tax_in_payout>include</statement_tax_in_payout>
+                <statement_subtotal_base>cost</statement_subtotal_base>
+                <apply_commission_on_tax>0</apply_commission_on_tax>
+                <apply_commission_on_shipping>0</apply_commission_on_shipping>
+                <enable_refunds>0</enable_refunds>
+            </statement>
+            <customer>
+                <vendor_enable_disable_action>noaction</vendor_enable_disable_action>
+                <vendor_delete_action>noaction</vendor_delete_action>
+                <tracking_email_template>udropship_customer_tracking_email_template</tracking_email_template>
+                <tracking_email_template_guest>udropship_customer_tracking_email_template_guest</tracking_email_template_guest>
+                <estimate_error_action>fail</estimate_error_action>
+                <repeat_poll_tracking>12</repeat_poll_tracking>
+                <allow_shipping_extra_charge>0</allow_shipping_extra_charge>
+            </customer>
+            <stock>
+                <availability>always_assigned</availability>
+                <skip_bundle_limit>0</skip_bundle_limit>
+                <split_bundle_by_vendors>0</split_bundle_by_vendors>
+            </stock>
+            <error_notifications>
+                <enabled>0</enabled>
+                <sender>general</sender>
+                <receiver>general</receiver>
+                <label_request_failed_subject><![CDATA[Label Request Failed On Order # {{order_id}}]]></label_request_failed_subject>
+                <label_request_failed_template><![CDATA[Dear Administrator,
+
+Label Request Failed On Order
+
+Vendor Name: {{vendor_name}}
+Order ID: {{order_id}}
+Shipment ID: {{shipment_id}}
+
+Vendor URL: {{vendor_url}}
+Order URL: {{order_url}}
+Shipment URL: {{shipment_url}}
+
+Error: {{error}}
+]]></label_request_failed_template>
+                <poll_tracking_failed_subject><![CDATA[Poll Tracking Failed Notification]]></poll_tracking_failed_subject>
+                <poll_tracking_failed_template><![CDATA[Dear Administrator,
+
+Poll Tracking Failed Notification
+
+Order IDs:
+{{order_ids}}
+
+Shipment IDs:
+{{shipment_ids}}
+
+Tracking IDs:
+{{tracking_ids}}
+
+Error: {{error}}
+]]></poll_tracking_failed_template>
+                <poll_tracking_limit_exceeded_subject><![CDATA[Poll Tracking Limit Exceeded Notification]]></poll_tracking_limit_exceeded_subject>
+                <poll_tracking_limit_exceeded_template><![CDATA[Dear Administrator,
+
+Poll Tracking Limit Exceeded
+
+Order IDs:
+{{order_ids}}
+
+Shipment IDs:
+{{shipment_ids}}
+
+Tracking IDs:
+{{tracking_ids}}
+
+Limit: {{limit}} days
+]]></poll_tracking_limit_exceeded_template>
+            </error_notifications>
+        </udropship>
+        <carriers>
+            <udropship>
+                <active>0</active>
+                <force_active>1</force_active>
+                <model>udropship/carrier</model>
+                <title>Drop Shipping</title>
+                <handling_type>F</handling_type>
+                <free_method>ground</free_method>
+                <specificerrmsg>This shipping method is currently unavailable. If you would like to ship using this shipping method, please contact us.</specificerrmsg>
+                <min_package_weight>0.07</min_package_weight>
+            </udropship>
+        </carriers>
+        <udropship_label>
+            <general>
+                <use_global>0</use_global>
+            </general>
+            <label>
+                <dimension_units>IN</dimension_units>
+                <default_pkg_length>1</default_pkg_length>
+                <default_pkg_width>1</default_pkg_width>
+                <default_pkg_height>1</default_pkg_height>
+            </label>
+            <pdf>
+                <pdf_page_size>letter</pdf_page_size>
+                <pdf_page_width>8.5</pdf_page_width>
+                <pdf_page_height>11</pdf_page_height>
+                <pdf_label_left>.5</pdf_label_left>
+                <pdf_label_top>.5</pdf_label_top>
+            </pdf>
+            <epl>
+                <epl_doctab>0</epl_doctab>
+            </epl>
+            <fedex>
+                <fedex_test_mode>1</fedex_test_mode>
+                <fedex_pdf_label_width>4</fedex_pdf_label_width>
+                <fedex_pdf_label_height>6</fedex_pdf_label_height>
+                <fedex_payment_type>SENDER</fedex_payment_type>
+            </fedex>
+            <endicia>
+                <endicia_api_url>https://elstestserver.endicia.com/LabelService/EwsLabelService.asmx</endicia_api_url>
+                <endicia_pdf_label_width>4</endicia_pdf_label_width>
+                <endicia_pdf_label_height>6</endicia_pdf_label_height>
+                <endicia_stealth>1</endicia_stealth>
+            </endicia>
+            <ups>
+                <ups_api_url>https://wwwcie.ups.com/ups.app/xml/</ups_api_url>
+                <ups_pdf_label_width>4</ups_pdf_label_width>
+                <ups_pdf_label_height>7</ups_pdf_label_height>
+            </ups>
+        </udropship_label>
+    </default>
+</config>

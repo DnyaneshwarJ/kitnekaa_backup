@@ -1,0 +1,68 @@
+<?php $_element = $this->getElement()?>
+<tr>
+    <td class="label"><?php echo trim($_element->getLabelHtml()) ?></td>
+    <td class="grid" colspan=10>
+        <input id="<?php echo $_element->getName()?>" type="hidden" />
+        <table cellspacing="0" class="data" cellpadding="0" id="udprod_template_sku-grid">
+            <col width="200">
+            <col width="200">
+            <thead>
+                <tr class="headings">
+                    <th class="a-center"><?php echo Mage::helper('udropship')->__('Attribute Set') ?></th>
+                    <th class="a-center"><?php echo Mage::helper('udropship')->__('Template SKU') ?></th>
+                    <th class="a-center"><?php echo Mage::helper('udropship')->__('Default Template SKU') ?></th>
+                    <th class="a-center"><?php echo Mage::helper('udropship')->__('Configurable Attributes') ?></th>
+                    <th class="a-center"><?php echo Mage::helper('udropship')->__('Default Configurable Attributes') ?></th>
+                    <th class="a-center"><?php echo Mage::helper('udropship')->__('Attributes Used To Identify Images') ?></th>
+                    <th class="a-center"><?php echo Mage::helper('udropship')->__('Default Attributes Used To Identify Images') ?></th>
+                </tr>
+            </thead>
+            <tbody id="udprod_template_sku-table">
+                <?php $_curTS = $this->getTemplateSkus(); $_globalTSC = $this->getGlobalTemplateSkuConfig(); ?>
+                <?php $i=0; foreach($this->getSetIds() as $sId=>$sName): ?>
+                <tr class="option-row">
+                    <td class="a-left"><?php echo $sName?></td>
+                    <td class="a-center"><input name="<?php echo $_element->getName()?>[<?php echo $sId?>][value]" class="input-text" type="text" value="<?php echo @$_curTS[$sId]['value']?>" /></td>
+                    <td class="a-right"><?php echo isset($_globalTSC[$sId]['value']) && $_globalTSC[$sId]['value']!=='' ? $_globalTSC[$sId]['value'] : ''?></td>
+                    <td class="a-center">
+                        <select multiple="multiple" name="<?php echo $_element->getName()?>[<?php echo $sId?>][cfg_attributes][]">
+                            <option value=""><?php echo Mage::helper('udropship')->__('* Check to use default')?></option>
+                            <?php foreach ($this->getConfigurableAttributes($sId) as $cfgAttrId=>$cfgAttrLbl): ?>
+                                <option value="<?php echo $cfgAttrId?>" <?php if (@in_array($cfgAttrId, @$_curTS[$sId]['cfg_attributes'])) echo 'selected="selected"' ?>><?php echo $this->htmlEscape($cfgAttrLbl)?></option>
+                            <?php endforeach ?>
+                        </select>
+                    </td>
+                    <td class="a-center">
+                        <?php foreach ($this->getConfigurableAttributes($sId) as $cfgAttrId=>$cfgAttrLbl): ?>
+                            <?php if (@in_array($cfgAttrId, @$_globalTSC[$sId]['cfg_attributes'])): ?>
+                            <span><?php echo $this->htmlEscape($cfgAttrLbl)?></span><br />
+                            <?php endif ?>
+                        <?php endforeach ?>
+                    </td>
+                    <td class="a-center">
+                        <select multiple="multiple" name="<?php echo $_element->getName()?>[<?php echo $sId?>][cfg_identify_image][]">
+                            <option value=""><?php echo Mage::helper('udropship')->__('* Check to use default')?></option>
+                            <?php foreach ($this->getConfigurableAttributes($sId) as $cfgAttrId=>$cfgAttrLbl): ?>
+                                <option value="<?php echo $cfgAttrId?>" <?php if (@in_array($cfgAttrId, @$_curTS[$sId]['cfg_identify_image'])) echo 'selected="selected"' ?>><?php echo $this->htmlEscape($cfgAttrLbl)?></option>
+                            <?php endforeach ?>
+                        </select>
+                    </td>
+                    <td class="a-center">
+                        <?php foreach ($this->getConfigurableAttributes($sId) as $cfgAttrId=>$cfgAttrLbl): ?>
+                            <?php if (@in_array($cfgAttrId, @$_globalTSC[$sId]['cfg_identify_image'])): ?>
+                            <span><?php echo $this->htmlEscape($cfgAttrLbl)?></span><br />
+                            <?php endif ?>
+                        <?php endforeach ?>
+                    </td>
+                </tr>
+                <?php endforeach ?>
+            </tbody>
+        </table>
+
+    </td>
+    <td<?php if ($_element->getNote()): ?> class="note"<?php endif ?> id="note_<?php echo $_element->getId()?>"><small><?php echo $_element->getNote()?$_element->getNote():'&nbsp;' ?></small></td>
+</tr>
+
+<style type="text/css">
+#udprod_template_sku-table input {width: 150px}
+</style>

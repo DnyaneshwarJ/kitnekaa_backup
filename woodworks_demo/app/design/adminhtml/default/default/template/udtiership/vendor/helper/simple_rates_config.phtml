@@ -1,0 +1,87 @@
+<?php
+$vendor = Mage::registry('vendor_data');
+$_tsHlp = Mage::helper('udtiership');
+$_element = $this->getElement();
+$cShipClass = array();
+if ($hasShipClass = Mage::helper('udropship')->isModuleActive('udshipclass')) {
+    $cShipClass = Mage::getSingleton('udshipclass/source')->setPath('customer_ship_class')->toOptionHash();
+}
+
+$_curTS     = $this->getTiershipSimpleRates();
+$_globalTSC = $this->getGlobalTierShipConfigSimple();
+
+$rateBlock = Mage::app()->getLayout()->createBlock('udtiership/adminhtml_vendorEditTab_shippingRates_renderer_simpleRateSingle');
+$rateBlock->setBaseName($_element->getName());
+$rateBlock->setDataObject(new Varien_Object($_curTS));
+$rateBlock->setGlobalDataObject(new Varien_Object($_globalTSC));
+
+$subkeyColumns = array(
+    'cost' => array('a-center', 'cost', 'cost', 'max_cost'),
+    'cost_default' => array('a-right', 'cost', 'cost'),
+    'additional' => array('a-center', 'additional', 'additional', 'max_additional'),
+    'additional_default' => array('a-right', 'additional', 'additional')
+);
+
+$catRowspan = 2+count($cShipClass);
+
+?>
+<tr>
+    <td class="label"><?php echo trim($_element->getLabelHtml()) ?></td>
+    <td class="grid" colspan=10>
+        <input id="<?php echo $_element->getName()?>" type="hidden" />
+        <table cellspacing="0" class="data" cellpadding="0" id="tiership_simple_rates-grid">
+            <col width="200">
+            <?php for ($i=0; $i<count($subkeyColumns); $i+=2): ?>
+            <col width="200">
+            <col width="100">
+            <?php endfor ?>
+            <thead>
+            <tr class="headings">
+                <th class="a-center" rowspan=2><?php echo Mage::helper('udropship')->__('Customer') ?></th>
+                <?php for ($i=0; $i<count($subkeyColumns); $i+=2): ?>
+                <th class="a-center" colspan=2><?php echo $this->getColumnTitle($subkeyColumns, $i) ?></th>
+                <?php endfor ?>
+            </tr>
+            <tr class="headings">
+                <?php for ($i=0; $i<count($subkeyColumns); $i+=2): ?>
+                <th class="a-center"><?php echo Mage::helper('udropship')->__('Value') ?></th>
+                <th class="a-right"><?php echo Mage::helper('udropship')->__('Default') ?></th>
+                <?php endfor ?>
+            </tr>
+            </thead>
+            <tbody id="tiership_simple_rates-table">
+
+            <?php foreach($cShipClass as $cscId => $cscLabel): ?>
+                <tr class="option-row">
+                    <td class="a-left"><?php echo $cscLabel?></td>
+                    <?php
+                    $rateBlock->initKey($cscId, $cscId);
+                    ?>
+
+                    <?php foreach ($subkeyColumns as $subKey=>$subKeyType): ?>
+                    <td class="<?php echo $subKeyType[0]?>"><?php echo $rateBlock->initSubkey($subKeyType)->toHtml() ?></td>
+                    <?php endforeach ?>
+
+                </tr>
+            <?php endforeach ?>
+
+            </tbody>
+        </table>
+
+    </td>
+    <td<?php if ($_element->getNote()): ?> class="note"<?php endif ?> id="note_<?php echo $_element->getId()?>"><small><?php echo $_element->getNote()?$_element->getNote():'&nbsp;' ?></small></td>
+</tr>
+
+<style type="text/css">
+    #tiership_category_rates-table input {width: 150px}
+</style>
+
+<script type="text/javascript">
+    Validation.addAllThese([
+        ['validate-less-then-eq', 'Invalid input or value exceed maximum.', function(v, elm) {
+            var val = parseNumber(v);
+            var maxVal = parseNumber(elm.alt);
+            return v=='' || ((!isNaN(val) || v=='') && (elm.alt=='' || val<=maxVal));
+        }]
+    ]);
+</script>

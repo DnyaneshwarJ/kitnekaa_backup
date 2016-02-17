@@ -1,0 +1,190 @@
+<?php $_request = $this->getRequest();
+//Mage::helper('users')->printPre($_request->getItemName());die;
+?>
+<?php 
+$createdDate = $this->formatDate($_request->getCreated_at(), 'medium', true);
+?>
+<div class="box-left">
+    <!--Request Information-->
+    <div class="entry-edit">
+        <div class="entry-edit-head">
+            <a href="<?php echo $this->getViewUrl($_request->getId()) ?>"><?php echo Mage::helper('quote2sales')->__('Request # %s', $_request->getId()) ?></a>
+        </div>
+        
+        <div class="fieldset">
+            <table cellspacing="0" class="form-list">
+            <tr>
+                <td class="label"><label><?php echo Mage::helper('quote2sales')->__('Request Date') ?></label></td>
+                <td class="value"><strong><?php echo $createdDate ?></strong></td>
+            </tr>
+            <tr>
+                <td class="label"><label><?php echo Mage::helper('quote2sales')->__('Request From') ?></label></td>
+                <td class="value"><strong><?php echo $_request->getName() ?></strong></td>
+            </tr>
+             <tr>
+                    <td class="label"><label><?php echo Mage::helper('quote2sales')->__('Preferred Email') ?></label></td>
+                    <td class="value"><a href="mailto:<?php echo $_request->getEmail() ?>"><strong><?php echo $_request->getEmail() ?></strong></a></td>
+             </tr>
+            <!-- <tr>
+                    <td class="label"><label><?php /*echo Mage::helper('quote2sales')->__('Preferred Telephone') */?></label></td>
+                    <td class="value"><strong><?php /*echo $_request->getPhone() */?></strong></td>
+             </tr>-->
+            <?php /* if($_order->getRemoteIp() && $this->shouldDisplayCustomerIp()): ?>
+            <tr>
+                <td class="label"><label><?php echo Mage::helper('quote2sales')->__('Placed from IP') ?></label></td>
+                <td class="value"><strong><?php echo $_order->getRemoteIp(); echo ($_order->getXForwardedFor())?' (' . $this->escapeHtml($_order->getXForwardedFor()) . ')':''; ?></strong></td>
+            </tr>
+            <?php endif; */?>
+            </table>
+        </div>
+        
+        
+    </div>
+</div>
+<?php ?>
+<div class="box-right">
+    <!--Account Information-->
+    <div class="entry-edit">
+        <div class="entry-edit-head">
+            <h4 class="icon-head head-account"><?php echo Mage::helper('quote2sales')->__('Account Information') ?></h4>
+        </div>
+        <div class="fieldset">
+            <div class="hor-scroll">
+                <table cellspacing="0" class="form-list">
+                    <tr>
+                        <td class="label"><label><?php echo Mage::helper('quote2sales')->__('Company') ?></label></td>
+                        <td class="value">
+                            <strong><?php echo $this->getCompany()->getCompanyName() ?></strong>
+                        </td>
+                    </tr>
+                <tr>
+                    <td class="label"><label><?php echo Mage::helper('quote2sales')->__('Customer Name') ?></label></td>
+                    <td class="value">
+                    <?php if ($_customerUrl=$this->getCustomerViewUrl()) : ?>
+                        <a href="<?php echo $_customerUrl ?>" target="_blank"><strong><?php echo $this->htmlEscape($this->getCustomerName()) ?></strong></a>
+                    <?php else: ?>
+                        <strong><?php echo $this->htmlEscape($this->getCustomerName()) ?></strong>
+                    <?php endif; ?>
+                    </td>
+                </tr>
+               <tr>
+                    <td class="label"><label><?php echo Mage::helper('quote2sales')->__('Customer Email') ?></label></td>
+                    <td class="value"><a href="mailto:<?php echo $this->getCustomerEmail() ?>"><strong><?php echo $this->getCustomerEmail() ?></strong></a></td>
+             	</tr>
+                <?php if ($_groupName = $this->getCustomerGroupName()) : ?>
+                <tr>
+                    <td class="label"><label><?php echo Mage::helper('quote2sales')->__('Customer Group') ?></label></td>
+                    <td class="value"><strong><?php echo $_groupName ?></strong></td>
+                </tr>
+                <?php endif; ?>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</div>
+<div class="clear"></div>
+<?php if($_request->billing_address_id){ ?>
+<div class="box-left">
+    <!--Billing Address-->
+    <div class="entry-edit">
+        <div class="entry-edit-head">
+            <h4 class="icon-head head-billing-address"><?php echo Mage::helper('sales')->__('Billing Address') ?></h4>
+            <div class="tools"><?php //echo $this->getAddressEditLink($_order->getBillingAddress())  ?></div>
+        </div>
+        <fieldset>
+            <address><?php echo $this->getOnelineAddress($_request->billing_address_id)  ?></address>
+        </fieldset>
+    </div>
+</div>
+<?php } ?>
+<?php if($_request->deliverylocation){ ?>
+<div class="box-right">
+    <!--Shipping Address-->
+    <div class="entry-edit">
+        <div class="entry-edit-head">
+            <h4 class="icon-head head-shipping-address"><?php echo Mage::helper('sales')->__('Shipping Address') ?></h4>
+            <div class="tools"><?php //echo $this->getAddressEditLink($_order->getShippingAddress())  ?></div>
+        </div>
+        <fieldset>
+            <address><?php echo $this->getOnelineAddress($_request->deliverylocation) ?></address>
+        </fieldset>
+    </div>
+</div>
+<?php } ?>
+<div class="grid np">
+  <div class="entry-edit">
+  	<div class="entry-edit-head">
+            <h4 class="icon-head head-account"><?php echo Mage::helper('quote2sales')->__('Request details') ?></h4>
+    </div>
+<?php $quote2sales=Mage::helper('quote2sales')->getClassObject(); ?>
+      <div class="grid np">
+          <table cellspacing="0" >
+              <colgroup>
+                  <col width="80">
+                  <col width="1">
+                  <col width="100">
+                  <col width="1">
+                  <col width="1">
+                  <col width="1">
+                  <col width="1">
+                  <col width="1">
+                  <col width="1">
+              </colgroup>
+              <thead>
+              <tr class="headings">
+                  <th><span class="nobr"><?php echo Mage::helper('quote2sales')->__('Item Name') ?></span></th>
+                  <th><span class="nobr"><?php echo Mage::helper('quote2sales')->__('SKU') ?></span></th>
+                  <th><span class="nobr"><?php echo Mage::helper('quote2sales')->__('Comment') ?></span></th>
+                  <th><span class="nobr"><?php echo Mage::helper('quote2sales')->__('When Needed') ?></span></th>
+                  <th><span class="nobr"><?php echo Mage::helper('quote2sales')->__('Frequency') ?></span></th>
+                  <th><span class="nobr"><?php echo Mage::helper('quote2sales')->__('Qty') ?></span></th>
+                  <th><span class="nobr"><?php echo Mage::helper('quote2sales')->__('Target Price') ?></span></th>
+                  <th><span class="nobr"><?php echo Mage::helper('quote2sales')->__('Attachments') ?></span></th>
+                  <th><span class="nobr"><?php echo Mage::helper('quote2sales')->__('Status') ?></span></th>
+              </tr>
+              </thead>
+              <tbody>
+              <?php
+              $req_products=$_request->getRequestProducts();
+              foreach($req_products as $item)
+              {
+                  ?>
+                  <tr class="even" >
+                      <td><?php echo $item->getItemName() ?></td>
+                      <td><?php echo $item->getSku() ?></td>
+                      <td><?php echo $item->getComment() ?></td>
+                      <td><?php echo $item->getWhenNeed() ?></td>
+                      <td><?php echo $item->getFrequency() ?></td>
+                      <td><?php echo $item->getQty() ?></td>
+                      <td><?php echo $item->getTargetPrice() ?></td>
+                      <td>
+                          <?php $attachments=$_request->getRequestQuoteAttachments($item->getId());
+                          foreach($attachments as $attachment)
+                          {
+                              ?>
+                              <a href="<?php echo Mage::helper('quote2sales')->getQuoteAttachmentUrl().$attachment->getFileName() ?>" target="_blank">
+                                  <?php echo $attachment->getFileName() ?>
+                              </a><br/>
+                              <?php
+                          }
+                          ?>
+                      </td>
+                      <td><?php if($item->getStatus()==$quote2sales::QUOTE_PRODUCT_STATUS_ACTIVE){$color='green';
+                          $status=Mage::helper('quote2sales')->getQuoteProductStatus($quote2sales::QUOTE_PRODUCT_STATUS_ACTIVE);
+                          }else{$color='red';
+                              $status=Mage::helper('quote2sales')->getQuoteProductStatus($quote2sales::QUOTE_PRODUCT_STATUS_DOES_NOT_EXIST);
+                          } ?>
+                      <span style="color:<?php echo $color ?>"><?php echo $status ?></span>
+                      </td>
+                  </tr>
+                  <?php
+              }
+              ?>
+              </tbody>
+          </table>
+      </div>
+
+	</div><br/>
+    <!--<button class="button" onclick="">Convert To Quote</button>-->
+</div>

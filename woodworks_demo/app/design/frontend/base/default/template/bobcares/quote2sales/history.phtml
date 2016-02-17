@@ -1,0 +1,52 @@
+<?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
+<?php $_quotes = $this->getQuotes(); ?>
+<div class="page-title">
+    <h1><?php echo $this->__('My Quotes') ?></h1>
+</div>
+<?php echo $this->getPagerHtml(); ?>
+<?php if($_quotes->getSize()): ?>
+<table class="data-table my-account-table" id="my-orders-table">
+    <col width="1" />
+    <col width="1" />
+    <col />
+    <col width="1" />
+    <col width="1" />
+    <col width="1" />
+    <thead>
+        <tr>
+            <th class="rfq-pr"><?php echo $this->__('Quote #') ?></th>
+            <th class="rfq-pr"><?php echo $this->__('Date') ?></th>
+            <th class=""><?php echo $this->__("Items")?></th>
+            <th class="rfq-pr"><span class="nobr"><?php echo $this->__('Subtotal') ?></span></th>
+            <th class="rfq-pr"><span class="nobr"><?php echo $this->__('Quote Total') ?></span></th>
+            <th class="rfq-pr">Quote's</th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php $_odd = ''; ?>
+        <?php foreach ($_quotes as $_quote): 
+        $items = $_quote->getItemsCollection();
+        ?>
+        <tr>
+            <td><?php echo $this->getQuoteIdFromQuote($_quote) ?></td>
+            <td><span class="nobr"><?php echo $this->formatDate($_quote->getCreatedAt()) ?></span></td>
+            <td><?php foreach ($items as $item){echo $item->name .'<br>';}?></td>
+            <td><?php echo $_quote->getSubtotal()?></td>
+            <td><?php echo $_quote->getGrandTotal() ?></td>
+            <td class="a-center">
+                <span class="nobr"><a href="<?php echo $this->getViewUrl($_quote) ?>"><?php echo $this->__('View Quote') ?></a>
+                    <?php /*<span class="separator">|</span><a href="<?php echo $this->getTrackUrl($_quote) ?>"><?php echo $this->__('Track Order') ?></a>&nbsp;*/ ?>
+                    <?php /* if ($this->helper('sales/reorder')->canReorder($_quote)) : ?>
+                    <span class="separator">|</span> <a href="<?php echo $this->getReorderUrl($_quote) ?>" class="link-reorder"><?php echo $this->__('Reorder') ?></a>
+                <?php endif */?>
+                </span>
+            </td>
+        </tr>
+        <?php endforeach; ?>
+    </tbody>
+</table>
+<script type="text/javascript">decorateTable('my-orders-table');</script>
+<?php echo $this->getPagerHtml(); ?>
+<?php else: ?>
+    <p><?php echo $this->__('You have received no quotes.'); ?></p>
+<?php endif ?>

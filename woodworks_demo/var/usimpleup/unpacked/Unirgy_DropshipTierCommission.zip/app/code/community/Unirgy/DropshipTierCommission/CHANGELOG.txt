@@ -1,0 +1,77 @@
+===== 2.4.0 =====
+  * CE 1.9.2.2 compatibility
+
+===== 2.1.1 =====
+  * Fixed vendor edit > tier commissions possible js error
+
+===== 2.1.0 =====
+  * Central translations file
+
+===== 2.0.1 =====
+  * Fixed commission calculation when exclude tax in payout
+
+===== 2.0.0 =====
+  * Major release
+
+===== 1.1.17 =====
+  * Fixed rounding in statement/payout calculation
+
+===== 1.1.16 =====
+  * Fixed shipping tax to include in first row
+
+===== 1.1.15 =====
+  * Fixed statement refunds' pos status filter
+
+===== 1.1.14 =====
+  * Fixed refunds break statement
+
+===== 1.1.13 =====
+  * Fixed refunds calculated twice for some cases
+
+===== 1.1.12 =====
+  * Added support for dropship option to use statements as invoice
+
+===== 1.1.11 =====
+  * Fixed refunds calculation when calculate on cost but cost not available
+  * Added rounding deltas for item tax
+
+===== 1.1.10 =====
+  * Added logic to support Unirgy_DropshipPaypalAdaptive add-on
+
+===== 1.1.9 =====
+  * Show tax/discount in item line to apply proper tier commissions (if applicable)
+  * Added apply commissions on shipping
+
+===== 1.1.8 =====
+  * Added support to vendor reports module
+
+===== 1.1.7 =====
+  * Added option "Include shipping tax in shipping amount"
+
+===== 1.1.6 =====
+  * Added better processing of shipping tax in statements
+
+===== 1.1.5 =====
+  * Added "Commission fallback lookup method" global and per vendor option
+
+===== 1.1.4 =====
+  * Added option to include discount in statement
+
+===== 1.1.3 =====
+  * Fixed payout rows save in umarketplace
+
+===== 1.1.2 =====
+  * Fixed commission fallback when all tiers empty
+
+===== 1.1.1 =====
+  * Fixed transaction fee not include in statement/payout for some of latest calculation scenarios
+  * Fixed cost based statement calculation
+
+===== 1.1.0 =====
+  * Added per product commissions
+  * Added more flexibility and fallback to transaction fee calculation
+
+===== 1.0.1 =====
+  * Fixed getId() on non-object error in udtiercom/vendorStatement
+
+===== 1.0 - Initial release =====

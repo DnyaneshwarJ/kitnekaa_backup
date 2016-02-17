@@ -1,0 +1,166 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magento.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magento.com for more information.
+ *
+ * @category    Mage
+ * @package     Mage_wishlist
+ * @copyright   Copyright (c) 2006-2015 X.commerce, Inc. (http://www.magento.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+-->
+<config>
+    <api>
+        <resources>
+            <wishlist translate="title" module="wishlist">
+                <model>wishlist/wishlist_api</model>
+                <title>wishlist API</title>
+                <acl>wishlist</acl>
+                <methods>
+                    <list translate="title" module="wishlist">
+                        <title>Retrieve wishlists</title>
+                        <method>items</method>
+                        <acl>wishlist/info</acl>
+                    </list>
+                    <create translate="title" module="wishlist">
+                        <title>Create wishlist</title>
+                        <acl>wishlist/create</acl>
+                    </create>
+                    <info translate="title" module="wishlist">
+                        <title>Retrieve wishlist data</title>
+                        <acl>wishlist/info</acl>
+                    </info>
+                    <update translate="title" module="wishlist">
+                        <title>Update wishlist data</title>
+                        <acl>wishlist/update</acl>
+                    </update>
+                    <delete translate="title" module="wishlist">
+                        <title>Delete wishlist</title>
+                        <acl>wishlist/delete</acl>
+                    </delete>
+                </methods>
+                <faults module="wishlist">
+                    <data_invalid>
+                        <code>100</code>
+                        <message>Invalid wishlist data. Details in error message.</message>
+                    </data_invalid>
+                    <filters_invalid>
+                        <code>101</code>
+                        <message>Invalid filters specified. Details in error message.</message>
+                    </filters_invalid>
+                    <not_exists>
+                        <code>102</code>
+                        <message>wishlist not exists.</message>
+                    </not_exists>
+                    <not_deleted>
+                        <code>103</code>
+                        <message>wishlist not deleted. Details in error message.</message>
+                    </not_deleted>
+                </faults>
+            </wishlist>
+            <wishlist_item>
+                <model>wishlist/wishlist_item_api</model>
+                <title>wishlist item API</title>
+                <acl>wishlist/wishlist_item</acl>
+                <methods>
+                    <list translate="title" module="wishlist">
+                        <title>Retrieve wishlist items</title>
+                        <method>items</method>
+                        <acl>wishlist/wishlist_item/info</acl>
+                    </list>
+                    <create translate="title" module="wishlist">
+                        <title>Create wishlist item</title>
+                        <acl>wishlist/wishlist_item/create</acl>
+                    </create>
+                    <info translate="title" module="wishlist">
+                        <title>Retrieve wishlist_item data</title>
+                        <acl>wishlist/wishlist_item/info</acl>
+                    </info>
+                    <update translate="title" module="wishlist">
+                        <title>Update wishlist item data</title>
+                        <acl>wishlist/wishlist_item/update</acl>
+                    </update>
+                    <delete translate="title" module="wishlist">
+                        <title>Delete wishlist item</title>
+                        <acl>wishlist/wishlist_item/delete</acl>
+                    </delete>
+                </methods>
+                <faults module="wishlist">
+                    <data_invalid>
+                        <code>100</code>
+                        <message>Invalid wishlist item data. Details in error message.</message>
+                    </data_invalid>
+                    <wishlist_not_exists>
+                        <code>101</code>
+                        <message>wishlist not exists.</message>
+                    </wishlist_not_exists>
+                    <not_exists>
+                        <code>102</code>
+                        <message>wishlist item not exists.</message>
+                    </not_exists>
+                    <not_deleted>
+                        <code>103</code>
+                        <message>wishlist item not deleted. Details in error message.</message>
+                    </not_deleted>
+                </faults>
+            </wishlist_item>
+        </resources>
+        <v2>
+            <resources_function_prefix>
+                <wishlist_item>wishlist item</wishlist_item>
+            </resources_function_prefix>
+        </v2>
+        <acl>
+            <resources>
+                <wishlist translate="title" module="wishlist">
+                     <title>wishlists</title>
+                     <sort_order>3</sort_order>
+                     <create translate="title" module="wishlist">
+                        <title>Create</title>
+                     </create>
+                     <update translate="title" module="wishlist">
+                        <title>Update</title>
+                     </update>
+                     <delete translate="title" module="wishlist">
+                        <title>Delete</title>
+                     </delete>
+                     <info translate="title" module="wishlist">
+                        <title>Retrieve wishlist info</title>
+                     </info>
+                     <wishlist_item translate="title" module="wishlist">
+                         <title>wishlist items</title>
+                         <sort_order>100</sort_order>
+                         <create translate="title" module="wishlist">
+                            <title>Create</title>
+                         </create>
+                         <update translate="title" module="wishlist">
+                            <title>Update</title>
+                         </update>
+                         <delete translate="title" module="wishlist">
+                            <title>Delete</title>
+                         </delete>
+                         <info translate="title" module="wishlist">
+                            <title>Retrieve wishlist item info</title>
+                         </info>
+                     </wishlist_item>
+                </wishlist>
+            </resources>
+        </acl>
+    </api>
+</config>

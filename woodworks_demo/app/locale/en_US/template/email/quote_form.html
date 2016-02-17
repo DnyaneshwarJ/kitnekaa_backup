@@ -1,0 +1,94 @@
+<!-- Modified to create the RFQ email template -->
+<!--@subject Quote Request@-->
+<!--@vars
+{"var data.name":"Sender Name",
+"var data.email":"Sender Email",
+"var data.telephone":"Sender Telephone",
+"var data.comment":"Comment"}
+@-->
+<!--@subject {{var store.getFrontendName()}}: New Quote # {{var quoteid}} @-->
+<!--@vars
+{"store url=\"\"":"Store Url",
+"var logo_url":"Email Logo Image Url",
+"var logo_alt":"Email Logo Image Alt",
+"var customer":"Customer Name",
+"var store.getFrontendName()":"Store Name",
+"store url=\"customer/account/\"":"Customer Account Url",
+{{var customer}} : "Customer name",
+{{var quoteid}} :"Quote Id",
+{{var createdAt}} :"Created Date",
+{{var currency_code}} :"Currency Code",
+{{var currency_symbol}} :"Currency Symbol",
+{{var subTotal}} : "Subtotal",
+{{var subTotalDiscount}} :"Subtotal Discount",
+{{var discount}}:"Discount",
+{{var shippingTitle}} :"Shipping Title",
+{{var shippingAmount : "Shipping Amount",
+{{var grandTotal}} :"Grand Total",
+{{var website}} : "Website Name",
+{{var quoteDetails}} : "quoteDetails Table rows. (contains product, unit price, qty, row price.)"
+{{var quote_footer}} : "quote_footer is the table of the subTotal, discount, grandTotal, and shippingAmount, shippingTitle etc Table"
+
+@-->
+<!--@styles
+body,td { color:#2f2f2f; font:11px/1.35em Verdana, Arial, Helvetica, sans-serif; }
+@-->
+<body style="background:#F6F6F6; font-family:Verdana, Arial, Helvetica, sans-serif; font-size:12px; margin:0; padding:0;" >
+    <div style="background:#F6F6F6; font-family:Verdana, Arial, Helvetica, sans-serif; font-size:12px; margin:0; padding:0;">
+        <table cellspacing="0" cellpadding="0" border="0" width="100%">
+            <tr>
+                <td align="center" valign="top" style="padding:20px 0 20px 0">
+                    <table bgcolor="#FFFFFF" cellspacing="0" cellpadding="10" border="0" width="650" style="border:1px solid #E0E0E0;">
+                        <!-- [ header starts here] -->
+                        <tr>
+                            <td valign="top">
+                                <a href='{{store url=""}}' ><img src='{{var logo_url}}' alt="{{var logo_alt}}" style="margin-bottom:10px;" border="0" /></a>
+                            </td>
+                        </tr>
+                        <!-- [ middle starts here] -->
+                        <tr>
+                            <td valign="top">
+                                <h1 style="font-size:22px; font-weight:normal; line-height:22px; margin:0 0 11px 0;" >Hello {{var store.getFrontendName()}},</h1><br>
+                                <p style=" font-family:Verdana, Arial, Helvetica, sans-serif; font-size:12px; line-height:16px; margin:0;">
+                                    A request for the custom quote has been created by <strong style="text-transform: capitalize;">{{var customerName}}</strong>
+                                </p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <p>&nbsp;&nbsp;&nbsp;{{var comment}}</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <table class="data-table" id="my-quotes-table" summary="Customer Info" style=" font-family:Verdana, Arial, Helvetica, sans-serif;">
+                                    <tr>
+                                        <td align="teft" style="font-size: 12px;">Email</td>
+                                        <td align="center" style="font-size: 12px;">:</td>
+                                        <td align="left" style="font-size: 12px;">{{var customerEmail}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td align="left" style="font-size: 12px;">Contact Number</td>
+                                        <td align="center" style="font-size: 12px;">:</td>
+                                        <td align="left" style="font-size: 12px;">{{var telephone}}</td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                        <tr  style="background:#FFFFFF;">
+                            <td width="100%" align="center">
+                                <table border="0" cellpadding="0" cellspacing="5" style="background-color:#29a529; border:0px solid #001E3D; border-radius:5px;">
+                                    <tr>
+                                        <td align="center" valign="middle" style="color:#FFFFFF; font-family:Helvetica, Arial, sans-serif; font-size:14px; font-weight:bold; letter-spacing:.5px; line-height:150%; padding-top:5px; padding-right:5px; padding-bottom:5px; padding-left:5px;">
+                                            <a href='{{store_url=""}}quote2sales/adminhtml_quote_create/index/request_id/{{var requestid}}' target="_blank" style="color:#FFFFFF; text-decoration:none;">Create Quote</a>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+    </div>
+</body>

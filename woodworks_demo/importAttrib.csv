@@ -1,0 +1,156 @@
+attribute_id|entity_type_id|attribute_code|attribute_model|backend_model|backend_type|backend_table|frontend_model|frontend_input|frontend_label|frontend_class|source_model|is_required|is_user_defined|default_value|is_unique|note|frontend_input_renderer|is_global|is_visible|is_searchable|is_filterable|is_comparable|is_visible_on_front|is_html_allowed_on_front|is_used_for_price_rules|is_filterable_in_search|used_in_product_listing|used_for_sort_by|is_configurable|apply_to|is_visible_in_advanced_search|position|is_wysiwyg_enabled|is_used_for_promo_rules|_options
+71|4|name|||varchar|||text|Name|||1|0||0|||0|1|1|0|0|0|0|0|0|1|1|1||1|0|0|0|
+72|4|description|||text|||textarea|Description|||1|0||0|||0|1|1|0|1|0|1|0|0|0|0|1||1|0|1|0|
+73|4|short_description|||text|||textarea|"Short Description"|||1|0||0|||0|1|1|0|1|0|1|0|0|1|0|1||1|0|1|0|
+74|4|sku||catalog/product_attribute_backend_sku|static|||text|"Seller's SKU"|||1|0||1|||1|1|1|0|1|0|0|0|0|0|0|1||1|0|0|0|
+75|4|price||catalog/product_attribute_backend_price|decimal|||price|Price|||1|0||0|||2|1|1|1|0|0|0|0|0|1|1|1|simple,configurable,virtual,bundle,downloadable|1|0|0|0|
+76|4|special_price||catalog/product_attribute_backend_price|decimal|||price|"Special Price"|||0|0||0|"The Special Price is active only when lower than the Actual Price"||2|1|0|0|0|0|0|0|0|1|0|1|simple,configurable,virtual,bundle,downloadable|0|0|0|0|
+77|4|special_from_date||catalog/product_attribute_backend_startdate_specialprice|datetime|||date|"Special Price From Date"|||0|0||0|||2|1|0|0|0|0|0|0|0|1|0|1|simple,configurable,virtual,bundle,downloadable|0|0|0|0|
+78|4|special_to_date||eav/entity_attribute_backend_datetime|datetime|||date|"Special Price To Date"|||0|0||0|||2|1|0|0|0|0|0|0|0|1|0|1|simple,configurable,virtual,bundle,downloadable|0|0|0|0|
+79|4|cost||catalog/product_attribute_backend_price|decimal|||price|Cost|||0|1||0|||2|1|0|0|0|0|0|0|0|0|0|1|virtual,downloadable|0|0|0|0|
+80|4|weight|||decimal|||weight|Weight|||1|0||0|||1|1|0|0|0|0|0|0|0|0|0|1|simple,bundle|0|0|0|0|
+81|4|manufacturer|||int|||select|Manufacturer|||0|1||0|||1|1|1|1|1|0|0|0|0|0|0|0||1|0|0|0|
+82|4|meta_title|||varchar|||text|"Meta Title"|||0|0||0|||0|1|0|0|0|0|0|0|0|0|0|1||0|0|0|0|
+83|4|meta_keyword|||text|||textarea|"Meta Keywords"|||0|0||0|||0|1|0|0|0|0|0|0|0|0|0|1||0|0|0|0|
+84|4|meta_description|||varchar|||textarea|"Meta Description"|||0|0||0|"Maximum 255 chars"||0|1|0|0|0|0|0|0|0|0|0|1||0|0|0|0|
+85|4|image|||varchar||catalog/product_attribute_frontend_image|media_image|"Base Image"|||0|0||0|||0|1|0|0|0|0|0|0|0|0|0|1||0|0|0|0|
+86|4|small_image|||varchar||catalog/product_attribute_frontend_image|media_image|"Small Image"|||0|0||0|||0|1|0|0|0|0|0|0|0|1|0|1||0|0|0|0|
+87|4|thumbnail|||varchar||catalog/product_attribute_frontend_image|media_image|Thumbnail|||0|0||0|||0|1|0|0|0|0|0|0|0|1|0|1||0|0|0|0|
+88|4|media_gallery||catalog/product_attribute_backend_media|varchar|||gallery|"Media Gallery"|||0|0||0|||1|1|0|0|0|0|0|0|0|0|0|1||0|0|0|0|
+89|4|old_id|||int|||text||||0|0||0|||1|0|0|0|0|0|0|0|0|0|0|1||0|0|0|0|
+90|4|group_price||catalog/product_attribute_backend_groupprice|decimal|||text|"Group Price"|||0|0||0|||2|1|0|0|0|0|0|0|0|0|0|1|simple,configurable,virtual,bundle,downloadable|0|0|0|0|
+91|4|tier_price||catalog/product_attribute_backend_tierprice|decimal|||text|"Tier Price"|||0|0||0|||2|1|0|0|0|0|0|0|0|0|0|1|simple,configurable,virtual,bundle,downloadable|0|0|0|0|
+92|4|color|||int|||select|Color|||0|1||0|||1|1|1|1|1|0|0|0|0|0|0|1|simple|1|0|0|0|
+93|4|news_from_date||catalog/product_attribute_backend_startdate|datetime|||date|"Set Product as New from Date"|||0|0||0|||2|1|0|0|0|0|0|0|0|1|0|1||0|0|0|0|
+94|4|news_to_date||eav/entity_attribute_backend_datetime|datetime|||date|"Set Product as New to Date"|||0|0||0|||2|1|0|0|0|0|0|0|0|1|0|1||0|0|0|0|
+95|4|gallery|||varchar|||gallery|"Image Gallery"|||0|0||0|||1|1|0|0|0|0|0|0|0|0|0|1||0|0|0|0|
+96|4|status|||int|||select|Status||catalog/product_status|1|0||0|||2|1|1|0|0|0|0|0|0|1|0|1||0|0|0|0|
+97|4|url_key||catalog/product_attribute_backend_urlkey|varchar|||text|"URL Key"|||0|0||0|||0|1|0|0|0|0|0|0|0|1|0|1||0|0|0|0|
+98|4|url_path|||varchar|||text||||0|0||0|||0|0|0|0|0|0|0|0|0|0|0|1||0|0|0|0|
+99|4|minimal_price|||decimal|||price|"Minimal Price"|||0|0||0|||0|0|0|0|0|0|0|0|0|0|0|1|simple,configurable,virtual,bundle,downloadable|0|0|0|0|
+100|4|is_recurring|||int|||select|"Enable Recurring Profile"||eav/entity_attribute_source_boolean|0|0||0|"Products with recurring profile participate in catalog as nominal items."||1|1|0|0|0|0|0|0|0|0|0|0|simple,virtual|0|0|0|0|
+101|4|recurring_profile||catalog/product_attribute_backend_recurring|text|||text|"Recurring Payment Profile"|||0|0||0|||1|1|0|0|0|0|0|0|0|0|0|0|simple,virtual|0|0|0|0|
+102|4|visibility|||int|||select|Visibility||catalog/product_visibility|1|0|4|0|||0|1|0|0|0|0|0|0|0|0|0|1||0|0|0|0|
+103|4|custom_design|||varchar|||select|"Custom Design"||core/design_source_design|0|0||0|||0|1|0|0|0|0|0|0|0|0|0|1||0|0|0|0|
+104|4|custom_design_from||catalog/product_attribute_backend_startdate|datetime|||date|"Active From"|||0|0||0|||0|1|0|0|0|0|0|0|0|0|0|1||0|0|0|0|
+105|4|custom_design_to||eav/entity_attribute_backend_datetime|datetime|||date|"Active To"|||0|0||0|||0|1|0|0|0|0|0|0|0|0|0|1||0|0|0|0|
+106|4|custom_layout_update||catalog/attribute_backend_customlayoutupdate|text|||textarea|"Custom Layout Update"|||0|0||0|||0|1|0|0|0|0|0|0|0|0|0|1||0|0|0|0|
+107|4|page_layout|||varchar|||select|"Page Layout"||catalog/product_attribute_source_layout|0|0||0|||0|1|0|0|0|0|0|0|0|0|0|1||0|0|0|0|
+108|4|category_ids|||static|||text||||0|0||0|||1|0|0|0|0|0|0|0|0|0|0|1||0|0|0|0|
+109|4|options_container|||varchar|||select|"Display Product Options In"||catalog/entity_product_attribute_design_options_container|0|0|container1|0|||0|1|0|0|0|0|0|0|0|0|0|1||0|0|0|0|
+110|4|required_options|||static|||text||||0|0||0|||1|0|0|0|0|0|0|0|0|1|0|1||0|0|0|0|
+111|4|has_options|||static|||text||||0|0||0|||1|0|0|0|0|0|0|0|0|0|0|1||0|0|0|0|
+112|4|image_label|||varchar|||text|"Image Label"|||0|0||0|||0|0|0|0|0|0|0|0|0|1|0|0||0|0|0|0|
+113|4|small_image_label|||varchar|||text|"Small Image Label"|||0|0||0|||0|0|0|0|0|0|0|0|0|1|0|0||0|0|0|0|
+114|4|thumbnail_label|||varchar|||text|"Thumbnail Label"|||0|0||0|||0|0|0|0|0|0|0|0|0|1|0|0||0|0|0|0|
+115|4|created_at||eav/entity_attribute_backend_time_created|static|||text||||1|0||0|||1|0|0|0|0|0|0|0|0|0|0|1||0|0|0|0|
+116|4|updated_at||eav/entity_attribute_backend_time_updated|static|||text||||1|0||0|||1|0|0|0|0|0|0|0|0|0|0|1||0|0|0|0|
+117|4|country_of_manufacture|||varchar|||select|"Country of Manufacture"||catalog/product_attribute_source_countryofmanufacture|0|0||0|||2|1|0|0|0|0|0|0|0|0|0|0|simple,configurable,bundle,grouped|0|0|0|0|
+118|4|msrp_enabled||catalog/product_attribute_backend_msrp|varchar|||select|"Apply MAP"||catalog/product_attribute_source_msrp_type_enabled|0|0|2|0||adminhtml/catalog_product_helper_form_msrp_enabled|2|1|0|0|0|0|0|0|0|1|0|1|simple,bundle,configurable,virtual,downloadable|0|0|0|0|
+119|4|msrp_display_actual_price_type||catalog/product_attribute_backend_boolean|varchar|||select|"Display Actual Price"||catalog/product_attribute_source_msrp_type_price|0|0|4|0||adminhtml/catalog_product_helper_form_msrp_price|2|1|0|0|0|0|0|0|0|1|0|1|simple,bundle,configurable,virtual,downloadable|0|0|0|0|
+120|4|msrp||catalog/product_attribute_backend_price|decimal|||price|"Manufacturer's Suggested Retail Price"|||0|0||0|||2|1|0|0|0|0|0|0|0|1|0|1|simple,bundle,configurable,virtual,downloadable|0|0|0|0|
+121|4|tax_class_id|||int|||select|"Tax Class"||tax/class_source_product|1|0||0|||2|1|1|0|0|0|0|0|0|1|0|1|simple,configurable,virtual,downloadable,bundle|1|0|0|0|
+122|4|gift_message_available||catalog/product_attribute_backend_boolean|varchar|||select|"Allow Gift Message"||eav/entity_attribute_source_boolean|0|0||0||giftmessage/adminhtml_product_helper_form_config|1|1|0|0|0|0|0|0|0|0|0|0||0|0|0|0|
+123|4|price_type|||int|||||||1|0||0|||1|0|0|0|0|0|0|0|0|1|0|0|bundle|0|0|0|0|
+124|4|sku_type|||int|||||||1|0||0|||1|0|0|0|0|0|0|0|0|0|0|0|bundle|0|0|0|0|
+125|4|weight_type|||int|||||||1|0||0|||1|0|0|0|0|0|0|0|0|1|0|0|bundle|0|0|0|0|
+126|4|price_view|||int|||select|"Price View"||bundle/product_attribute_source_price_view|1|0||0|||1|1|0|0|0|0|0|0|0|1|0|0|bundle|0|0|0|0|
+127|4|shipment_type|||int||||Shipment|||1|0||0|||1|0|0|0|0|0|0|0|0|1|0|0|bundle|0|0|0|0|
+128|4|links_purchased_separately|||int||||"Links can be purchased separately"|||1|0||0|||1|0|0|0|0|0|0|0|0|1|0|0|downloadable|0|0|0|0|
+129|4|samples_title|||varchar||||"Samples title"|||1|0||0|||0|0|0|0|0|0|0|0|0|0|0|0|downloadable|0|0|0|0|
+130|4|links_title|||varchar||||"Links title"|||1|0||0|||0|0|0|0|0|0|0|0|0|0|0|0|downloadable|0|0|0|0|
+131|4|links_exist|||int|||||||0|0|0|0|||1|0|0|0|0|0|0|0|0|1|0|0|downloadable|0|0|0|0|
+132|4|kitnekaa_product_code|||varchar|||text|"Kitnekaa Product Code"|||0|1||0|||1|1|0|0|0|0|0|0|0|0|0|0||0|0|0|0|
+140|4|csb_diameter_in_mm|||int|||select|"Diameter (mm)"||eav/entity_attribute_source_table|0|1||0|||1|1|1|1|0|0|0|0|1|0|0|0||1|3|0|0|100;450;400;350;315;300;280;250;200;180;160;150;120
+141|4|csb_bore_diameter_in_mm|||int|||select|"Bore Diameter (mm)"||eav/entity_attribute_source_table|0|1||0|||1|1|0|1|1|1|1|0|0|1|1|0||1|5|0|0|65;45;32;30;22;20
+142|4|csb_coating|||varchar|||text|Coating|||0|1|None|0|||1|1|0|0|1|1|1|0|0|1|1|0||1|0|0|0|
+146|4|csb_pin_hole|||varchar|||text|"Pin Hole"|||0|1||0|||1|1|0|0|1|1|1|0|0|1|0|0||0|0|0|0|
+147|4|csb_no_of_edges|||int|||select|"No Of Edges"||eav/entity_attribute_source_table|0|1||0|||1|1|0|1|0|1|1|0|0|1|1|0||1|4|0|0|108;96;92;84;80;72;64;60;54;48;40;36;28;24;20;12;12+12;10+10
+148|4|csb_kerf_thickness|||int|||select|"Kerf Thickness"||eav/entity_attribute_source_table|0|1||0|||1|1|0|1|1|1|1|0|0|1|0|0||1|6|0|0|"6.35 - 22.23;4.4;4.3 - 5.5;3.8;3.5;3.2;3.1 - 4;2.8 - 3.6;2.6;2"
+149|4|csb_plate_thickness|||varchar|||text|"Plate Thickness"|||0|1||0|||1|1|0|0|1|1|1|0|0|1|1|0||1|0|0|0|
+150|4|csb_hook_angle_degrees|||varchar|||text|"Hook Angle (Degrees)"|||0|1||0|||1|1|0|0|1|1|1|0|0|0|0|0||1|0|0|0|
+151|4|csb_types_of_grind|||varchar|||text|"Types Of Grind"|||0|1||0|||1|1|0|0|1|1|1|0|0|0|0|0||1|0|0|0|
+155|4|price_currency|||varchar|||text|Currency|||0|1|INR|0|||1|1|0|0|1|1|1|0|0|1|1|0||1|0|0|0|
+156|4|manufacturer_product_code|||varchar|||text|"Manufacturer's Product Code"|||0|1||0|||1|1|0|0|1|1|1|0|0|1|1|0||1|0|0|0|
+157|4|country_of_origin|||int|||select|"Country Of Origin"||eav/entity_attribute_source_table|0|1||0|||1|1|0|1|1|1|1|0|1|1|1|0||1|90|0|0|India;Germany;Italy
+158|4|condition|||varchar|||text|Condition|||0|1|New|0|||1|1|0|0|1|1|1|0|0|1|1|0||1|0|0|0|
+159|4|minimum_order_quantity|||varchar|||text|"Minimum Order Quantity"|validate-number||0|1||0|||0|1|0|0|1|1|1|0|0|1|1|0||0|0|0|0|
+160|4|minimum_order_unit|||varchar|||text|"Minimum Order Unit"|||0|1||0|||0|1|0|0|1|1|1|0|0|1|1|0||0|0|0|0|
+161|4|che_coating|||varchar|||text|Coating|||0|1||0|||1|1|1|1|1|1|1|0|1|1|1|0||1|0|0|0|
+165|4|che_material_to_cut||eav/entity_attribute_backend_array|varchar|||multiselect|"Material To Cut"|||0|1||0|||1|1|0|1|1|1|1|0|1|1|1|0||1|10|0|0|"Brass;Aluminium;Solidwood;Softwood;Plywood;Plastic Laminated Panels;Plastic;Particle Board;Melamine;MDF;Laminated Panels;HDF;Hardwood;Drywood;Composite;Copper Alloys;Chipboard"
+166|4|che_diameter_in_mm|||int|||select|"Diameter (mm)"||eav/entity_attribute_source_table|0|1||0|||1|1|0|1|1|1|1|0|1|1|1|0||1|30|0|0|149;125;80
+168|4|che_cutter_height|||int|||select|"Cutter Height (mm)"||eav/entity_attribute_source_table|0|1||0|||1|1|0|1|1|1|1|0|0|1|1|0||1|50|0|1|80;51;44.8
+169|4|che_cutter_edge|||int|||select|"Cutter Edge"||eav/entity_attribute_source_table|0|1||0|||1|1|0|1|1|1|1|0|0|1|1|0||1|60|0|0|12;2+4;2+2
+170|4|che_rpm|||varchar|||text|RPM|||0|1||0|||1|1|0|0|1|1|1|0|0|1|1|0||1|0|0|0|
+171|4|brand|||varchar|||text|Brand|||0|1||0|||1|1|1|0|1|1|1|0|0|1|1|0||1|0|0|0|
+172|4|che_bore_in_mm|||int|||select|"Bore (mm)"||eav/entity_attribute_source_table|0|1||0|||1|1|0|1|1|1|1|0|1|1|1|0||1|40|0|0|"50;40;30 - 35"
+173|4|tools_construction||eav/entity_attribute_backend_array|varchar|||multiselect|Construction|||0|1||0|||1|1|1|1|1|1|1|0|1|1|1|0||1|20|0|1|Steel
+174|4|tools_tip_material||eav/entity_attribute_backend_array|varchar|||multiselect|"Tip Material"|||0|1||0|||1|1|1|0|1|1|1|0|0|1|1|0||1|0|0|0|"Alloy;Tungsten Carbide;Polycrystalline Diamond;High Speed Steel"
+175|4|che_type|||varchar|||text|Type|||0|1||0|||1|1|0|0|1|1|1|0|0|1|1|0||1|0|0|0|
+177|4|kni_material_to_cut||eav/entity_attribute_backend_array|varchar|||multiselect|"Material To Cut"|||0|1||0|||1|1|0|1|1|1|1|0|1|1|1|0||1|10|0|0|"Aluminium;Brass;Chipboard;Copper Alloys;Composite;Drywood;Hardwood;Laminated Panels;MDF;Melamine;Particle Board;Plastic;Plastic Laminated Panels;Plywood;Softwood;Solidwood;HDF"
+178|4|kni_length_in_mm|||int|||select|"Length (mm)"||eav/entity_attribute_source_table|0|1||0|||1|1|0|1|1|1|1|0|1|1|1|0||1|30|0|0|7.5;8.5;9.6;12;14;14.6;15;16;17;18;19.6;20;22;28;29.5;30;40;48.3;49.5;50
+179|4|kni_height_of_cut_in_mm|||int|||select|"Height Of Cut (mm)"||eav/entity_attribute_source_table|0|1||0|||1|1|0|1|1|1|1|0|1|1|1|0||1|40|0|0|3;4.1;5.5;7;8;9;12;14;14.6;15;15.2;16;17;17.5;18;19
+180|4|kni_thickness_in_mm|||int|||select|"Thickness (mm)"||eav/entity_attribute_source_table|0|1||0|||1|1|0|1|1|1|1|0|1|1|1|0||1|50|0|0|1.1;1.2;1.5;1.7;1.95;2;2.5
+181|4|kni_angle_in_degrees|||varchar|||text|"Angle (degrees)"|||0|1||0|||1|1|0|0|1|1|1|0|0|1|1|0||1|0|0|0|
+182|4|kitnekaa_manufacturer|||int|||select|Manufacturer||eav/entity_attribute_source_table|0|1||0|||1|1|0|1|1|1|1|0|0|1|1|0||0|0|0|0|"Tigra;CMT Utensili"
+183|4|seller|||varchar|||text|Seller|||0|1||0|||1|1|0|0|1|0|1|0|0|0|0|0||0|0|0|0|
+184|4|rbi_material_to_cut||eav/entity_attribute_backend_array|varchar|||multiselect|"Material To Cut"|||0|1||0|||1|1|0|1|1|1|1|0|1|1|1|0||1|10|0|0|"Solidwood;Softwood;Plywood;Plastic Laminated Panels;Plastic;Particle Board;Melamine;MDF;Laminated Panels;Hardwood;Drywood;Copper Alloys;Composite;Chipboard;Brass;Aluminium;Alucobond"
+185|4|rbi_coating||eav/entity_attribute_backend_array|varchar|||multiselect|Coating|||0|1||0|||1|1|0|1|1|1|1|0|1|1|1|0||1|30|0|0|"PTFE Coated;No Coating"
+186|4|rbi_machine||eav/entity_attribute_backend_array|varchar|||multiselect|Machine|||0|1||0|||1|1|0|1|1|1|1|0|1|1|1|0||1|70|0|0|"Table Mounted Router;Portable Router;Mortising Machine;CNC Machine"
+187|4|rbi_inner_diameter_in_mm|||varchar|||text|"Inner Diameter (mm)"|||0|1||0|||1|1|0|0|1|1|1|0|0|1|1|0||1|0|0|0|
+188|4|rbi_radius_in_mm|||varchar|||text|"Radius (mm)"|||0|1||0|||1|1|0|0|1|1|1|0|0|1|1|0||1|0|0|0|
+189|4|rbi_diameter_in_mm|||varchar|||text|"Diameter (mm)"|||0|1||0|||1|1|0|0|1|1|1|0|0|1|1|0||1|0|0|0|
+190|4|rbi_height_of_cut_in_mm|||varchar|||text|"Height of Cut (mm)"|||0|1||0|||1|1|0|0|1|1|1|0|0|1|1|0||1|0|0|0|95
+191|4|rbi_cutting_depth_in_mm|||varchar|||text|"Cutting Depth (mm)"|||0|1||0|||1|1|0|0|1|1|1|0|0|1|1|0||1|0|0|0|
+192|4|rbi_angle_in_degrees|||varchar|||text|"Angle In Degrees"|||0|1||0|||1|1|0|0|1|1|1|0|0|1|1|0||1|0|0|0|
+193|4|rbi_length_in_mm|||int|||select|"Length (mm)"||eav/entity_attribute_source_table|0|1||0|||1|1|0|1|1|1|1|0|1|1|1|0||1|50|0|0|150;135;111;110;108;103.7;100;95;90;86.6;83;80;74;70.7;70;68.2;67;65;63.5;60;58.3;57.2;55;52;50.8;50;44.5;43.8
+194|4|rbi_diameter_of_shank_in_mm|||int|||select|"Diameter of Shank (mm)"||eav/entity_attribute_source_table|0|1||0|||1|1|0|1|1|1|1|0|1|1|1|0||1|60|0|0|M12X1;12X40;20;18;16;13;12.7;12;10;9.5;8;6.35;6
+195|4|rbi_rotation||eav/entity_attribute_backend_array|varchar|||multiselect|Rotation|||0|1||0|||1|1|0|1|1|1|1|0|1|1|1|0||1|40|0|1|RH/LH;RH;LH
+196|4|dbb_angle_in_degrees|||varchar|||text|"Angle In Degrees"|||0|1||0|||1|1|0|0|1|1|1|0|0|1|1|0||1|0|0|0|
+198|4|dbb_cutting_depth_in_mm|||varchar|||text|"Cutting Depth (mm)"|||0|1||0|||1|1|0|0|1|1|1|0|0|1|1|0||1|0|0|0|
+201|4|dbb_height_of_cut_in_mm|||varchar|||text|"Height of Cut (mm)"|||0|1||0|||1|1|0|0|1|1|1|0|0|1|1|0||1|0|0|0|
+202|4|dbb_inner_diameter_in_mm|||varchar|||text|"Inner Diameter (mm)"|||0|1||0|||1|1|0|0|1|1|1|0|0|1|1|0||1|0|0|0|
+206|4|dbb_radius_in_mm|||varchar|||text|"Radius (mm)"|||0|1||0|||1|1|0|0|1|1|1|0|0|1|1|0||1|0|0|0|
+208|4|dbb_diameter_in_mm|||varchar|||text|"Diameter (mm)"|||0|1||0|||1|1|0|0|1|1|1|0|0|1|1|0||1|0|0|0|
+210|4|ada_outer_diameter_in_mm|||varchar|||text|"Outer Diameter (mm)"|||0|1||0|||1|1|0|0|1|1|1|0|0|1|1|0||1|0|0|0|
+228|4|cou_height_in_mm|||varchar|||text|"Height (mm)"|||0|1||0|||1|1|0|0|1|1|1|0|0|1|1|0||1|0|0|0|
+230|4|drh_diameter_in_mm|||varchar|||text|"Diameter (mm)"|||0|1||0|||1|1|0|0|1|1|1|0|0|1|1|0||1|0|0|0|
+231|4|drh_bore_diameter_in_mm|||varchar|||text|"Bore Diameter (mm)"|||0|1||0|||1|1|0|0|1|1|1|0|0|1|1|0||1|0|0|0|
+233|4|wed_dimension|||varchar|||text|Dimension|||0|1||0|||1|1|0|0|1|1|1|0|0|1|1|0||1|0|0|0|
+234|4|demo_test|||int|||select|demo||eav/entity_attribute_source_table|0|1||0|||1|1|0|1|1|1|1|0|1|1|1|0||1|0|0|0|demo
+235|4|csb_material_to_cut||eav/entity_attribute_backend_array|varchar|||multiselect|"Material To Cut"|||0|1||0|||1|1|1|1|1|1|1|0|1|1|0|0||1|1|0|0|"Solidwood;Softwood;Plywood;Plastic Laminated Panels;Plastic;Particle Board;Melamine;MDF;Hardwood;Composite;Copper Alloys;Brass;Aluminium;Laminated Panels;Drywood;Chipboard"
+236|4|csb_application||eav/entity_attribute_backend_array|varchar|||multiselect|Application|||0|1||0|||1|1|0|1|1|1|1|0|1|1|0|0||1|2|0|0|"Scoring;Ripping;Panel Sizing;Grooving;Fine Cutoff;Crosscutting;Rebating;Multiple Panel Sizing;Multi Ripping;Cutting Solid Blocks;Cutting Non Ferrous Metal;Cutting Hollow Tubes;Chamfering"
+237|4|che_application||eav/entity_attribute_backend_array|varchar|||multiselect|Application|||0|1||0|||0|1|0|1|1|1|1|0|1|1|0|0||1|20|0|0|"Rabbeting;Planing;Panel Raising;Jointing"
+238|4|dbb_material_to_cut||eav/entity_attribute_backend_array|varchar|||multiselect|"Material To Cut"|||0|1||0|||1|1|0|1|1|1|1|0|1|1|0|0||1|10|0|0|"Solidwood;Softwood;Plywood;Plastic Laminated Panels;Plastic;Particle Board;Melamine;MDF;Laminated Panels;Hardwood;Drywood;Copper Alloy;Composite;Chipboard;Brass;Aluminium;Alucobond"
+239|4|dbb_coating||eav/entity_attribute_backend_array|varchar|||multiselect|Coating|||0|1||0|||1|1|0|1|1|1|1|0|0|1|0|0||1|30|0|0|"PTFE Coated;No Coating"
+240|4|dbb_machine||eav/entity_attribute_backend_array|varchar|||multiselect|Machine|||0|1||0|||1|1|0|1|1|1|1|0|1|1|0|0||1|40|0|0|"Mortising Machine;Boring Machine"
+241|4|dbb_rotation|||int|||select|Rotation||eav/entity_attribute_source_table|0|1||0|||1|1|0|1|1|1|1|0|1|1|1|0||1|50|0|0|RH/LH;RH;LH
+242|4|dbb_length_in_mm|||int|||select|"Length (mm)"||eav/entity_attribute_source_table|0|1||0|||1|1|0|1|1|1|1|0|1|1|1|0||1|60|0|0|140;125;105;90;70;57.5
+243|4|dbb_diameter_of_shank_in_mm|||int|||select|"Diameter Of Shank (mm)"||eav/entity_attribute_source_table|0|1||0|||1|1|0|1|1|1|1|0|0|1|1|0||1|70|0|0|10x60;10x27;10x26;10x20;19;13;9
+244|4|ada_machine||eav/entity_attribute_backend_array|varchar|||multiselect|Machine|||0|1||0|||1|1|0|1|1|1|1|0|1|1|0|0||1|20|0|0|Vitap;Masterwood
+245|4|ada_rotation|||int|||select|Rotation||eav/entity_attribute_source_table|0|1||0|||1|1|0|1|1|1|1|0|1|1|1|0||1|30|0|0|RH/LH;RH;LH
+246|4|ada_inner_diameter_in_mm|||int|||select|"Inner Diameter (mm)"||eav/entity_attribute_source_table|0|1||0|||1|1|0|1|1|1|1|0|1|1|1|0||1|40|0|0|10
+247|4|ada_height_in_mm|||int|||select|"Height (mm)"||eav/entity_attribute_source_table|0|1||0|||1|1|0|1|1|1|1|0|1|1|1|0||1|50|0|0|42;40
+248|4|bea_bore_diameter_in_mm|||int|||select|"Bore Diameter (mm)"||eav/entity_attribute_source_table|0|1||0|||1|1|0|1|1|1|1|0|1|1|1|0||1|20|0|0|40
+249|4|bea_diameter_in_mm|||int|||select|"Diameter (mm)"||eav/entity_attribute_source_table|0|1||0|||1|1|0|1|1|1|1|0|1|1|1|0||1|30|0|0|80
+250|4|bea_plate_thickness_in_mm|||int|||select|"Plate Thickness (mm)"||eav/entity_attribute_source_table|0|1||0|||1|1|0|1|1|1|1|0|1|1|1|0||1|40|0|0|18
+251|4|bre_diameter_in_mm|||int|||select|"Diameter (mm)"||eav/entity_attribute_source_table|0|1||0|||1|1|0|1|1|1|1|0|1|1|1|0||1|20|0|0|40
+252|4|bre_bore_diameter_in_mm|||int|||select|"Bore Diameter (mm)"||eav/entity_attribute_source_table|0|1||0|||1|1|0|1|1|1|1|0|1|1|1|0||1|30|0|0|32
+253|4|bus_bore_diameter_in_mm|||int|||select|"Bore Diameter (mm)"||eav/entity_attribute_source_table|0|1||0|||1|1|0|1|1|1|1|0|1|1|1|0||1|20|0|0|8
+254|4|bus_diameter_in_mm|||int|||select|"Diameter (mm)"||eav/entity_attribute_source_table|0|1||0|||1|1|0|1|1|1|1|0|1|1|1|0||1|30|0|1|12
+255|4|bus_length_in_mm|||int|||select|"Length (mm)"||eav/entity_attribute_source_table|0|1||0|||1|1|0|1|1|1|1|0|1|1|1|0||1|40|0|0|25
+256|4|rbi_application|||varchar|||text|Application|||0|1||0|||1|1|0|0|1|1|1|0|0|1|1|0||1|0|0|0|
+257|4|dbb_no_of_edges|||int|||select|"No Of Edges"||eav/entity_attribute_source_table|0|1||0|||1|1|0|1|1|1|1|0|1|0|0|0||1|80|0|0|4;2;1
+258|4|col_max_diameter_in_mm|||int|||select|"Max. Diameter (mm)"||eav/entity_attribute_source_table|0|1||0|||1|1|0|1|0|1|1|0|1|1|1|0||1|20|0|0|41;35;33;26
+259|4|col_min_diameter_in_mm|||int|||select|"Min. Diameter (mm)"||eav/entity_attribute_source_table|0|1||0|||1|1|0|1|1|1|1|0|1|1|1|0||1|30|0|0|20;16;14;12;10;8;6
+260|4|col_height_in_mm|||int|||select|"Height (mm)"||eav/entity_attribute_source_table|0|1||0|||1|1|0|1|1|1|1|0|1|1|1|0||1|40|0|0|52;46;40;35
+261|4|cou_outer_diameter_in_mm|||int|||select|"Outer Diameter (mm)"||eav/entity_attribute_source_table|0|1||0|||1|1|0|1|1|1|1|0|1|1|1|0||1|20|0|0|22;20;18;16
+262|4|cou_inner_diameter_in_mm|||int|||select|"Inner Diameter (mm)"||eav/entity_attribute_source_table|0|1||0|||1|1|0|1|1|1|1|0|1|1|1|0||1|30|0|0|11-12;8;5-10;5
+264|4|cou_rotation|||int|||select|Rotation||eav/entity_attribute_source_table|0|1||0|||1|1|0|1|1|1|1|0|1|1|1|0||1|40|0|0|RH/LH;RH;LH
+265|4|lnk_size|||int|||select|Size||eav/entity_attribute_source_table|0|1||0|||1|1|0|1|1|1|1|0|1|1|1|0||1|20|0|0|T15;T8
+266|4|lnk_type|||int|||select|Type||eav/entity_attribute_source_table|0|1||0|||1|1|0|1|1|1|1|0|1|1|1|0||1|30|0|0|"Torx;Allen (Hex)"
+267|4|chu_machine||eav/entity_attribute_backend_array|varchar|||multiselect|Machine|||0|1||0|||1|1|0|1|1|1|1|0|1|1|0|0||1|20|0|0|Biesse
+268|4|chu_use_with_collet||eav/entity_attribute_backend_array|varchar|||multiselect|"Use With Collet"|||0|1||0|||1|1|0|1|1|1|1|0|1|1|0|0||1|30|0|0|ER40;ER32
+269|4|chu_rotation|||int|||select|Rotation||eav/entity_attribute_source_table|0|1||0|||1|1|0|1|1|1|1|0|1|1|1|0||1|40|0|0|RH/LH;RH;LH
+270|4|cnu_diameter_in_mm|||int|||select|"Diameter (mm)"||eav/entity_attribute_source_table|0|1||0|||1|1|0|1|1|1|1|0|1|1|1|0||1|20|0|0|12.7
+271|4|scr_size|||int|||select|Size||eav/entity_attribute_source_table|0|1||0|||1|1|0|1|1|1|1|0|1|1|1|0||1|20|0|0|M5X4.75X6.5;M5X4;M4X6;M4X3.5;M4X3X3;M3.5X5.7X8.2;M3.5X3.5;M2.5X4.5X6

@@ -1,0 +1,48 @@
+
+<?php
+// echo $this->getLayout()
+//             ->createBlock('credittrshoansfer/adminhtml_customerverification_docupload')
+//             ->toHtml();
+
+                        ?>
+
+<script type="text/javascript">
+    //<![CDATA[
+
+
+
+
+
+  Validation.add('validate-value-exist-depend-on','Already Exist!',function(v,elm){
+      var jelm=jQuery("#"+elm.id);
+      var model=jelm.data('model');
+      var field=jelm.data('field');
+      var value=jelm.val();
+      var depend_on=jelm.data('depend-on');
+      var depend_value=jelm.data('depend-value');
+      var is_true=false;
+      jQuery.ajax({
+          url: '<?php echo Mage::getBaseUrl()."kitnekaa_core/validation/validateDependUnique" ?>',
+          type:'POST',
+          async:false,
+          data: {model:model,field:field,value:value,depend_on:depend_on,depend_value:depend_value},
+          success: function (response) {
+            if(parseInt(response))
+            {
+             // alert("sdasd");
+                is_true= true;
+            }
+            else
+            {
+                is_true=false;
+            }
+          }
+      });
+    return is_true;
+    });
+
+    var dataForm = new varienForm('editForm', true);
+    //]]>
+
+</script>
+

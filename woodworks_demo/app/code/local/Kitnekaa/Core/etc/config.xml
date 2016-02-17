@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Kitnekaa_Core>
+            <version>0.1.0</version>
+        </Kitnekaa_Core>
+    </modules>
+    <frontend>
+        <routers>
+            <core>
+                <use>standard</use>
+                <args>
+                    <module>Kitnekaa_Core</module>
+                    <frontName>kitnekaa_core</frontName>
+                </args>
+            </core>
+        </routers>
+        <layout>
+            <updates>
+                <kitnekaa_core>
+                    <file>kitnekaa_core.xml</file>
+                </kitnekaa_core>
+            </updates>
+        </layout>
+    </frontend>
+   <!-- <global>
+        <blocks>
+            <customer>
+                <rewrite>
+                    <account_navigation>Kitnekaa_Core_Block_Customer_Account_Navigation</account_navigation>
+                </rewrite>
+            </customer>
+        </blocks>
+    </global>-->
+</config>

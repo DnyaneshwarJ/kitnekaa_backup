@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<config>
+    <global>
+        <blocks>
+            <adminhtml>
+                <rewrite>
+                    <customer_grid>Neo_Adminhtml_Block_Customer_Grid</customer_grid>
+                </rewrite>
+            </adminhtml>
+            <Neo_adminhtml>
+                <class>Neo_Adminhtml_Block</class>
+            </Neo_adminhtml>
+        </blocks>
+    </global>
+</config>

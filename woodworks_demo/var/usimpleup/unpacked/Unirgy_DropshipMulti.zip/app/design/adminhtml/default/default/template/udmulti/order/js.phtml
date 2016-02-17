@@ -1,0 +1,162 @@
+
+<style type="text/css">
+.udmulti-vendor-select, .udmulti-vendor-method { margin:3px;} 
+<?php if (Mage::helper('udropship')->isUdpoActive()): ?>
+.udmulti-vendor-method { display: none !important;}
+<?php endif ?>
+.udmulti-vendor-save { margin:10px; }
+#udmulti-message span { padding:4px; }
+#udmulti-message .notice { background: #ffff99; }
+#udmulti-message .success { background:#CFC; }
+#udmulti-message .error { background:#FCC; }
+</style>
+<script type="text/javascript">
+
+(function () {
+    var vendors = <?php echo $this->getVendorsJson() ?>;
+    var timeout;
+
+    var itemsGridEl;
+    $$('.item-container,.udmulti-reassign-container').each(function (el) {
+        var itemId = el.id.replace(/[^0-9]/g, ''), i, v
+        var html = '<select class="udmulti-vendor-select" id="udmulti-vendor-'+itemId+'">'
+        if (vendors[itemId]) {
+            $H(vendors[itemId].all).each(function (allV) {
+                html += '<option value="'+allV.key+'" '
+                html += allV.key==vendors[itemId].current ? 'selected="selected"' : ''
+                html += '>'+allV.value.name+'</option>'
+            })
+            html += '</select>'
+            html += '<select class="udmulti-vendor-method" id="udmulti-vendor-'+itemId+'-method" style="display:none"></select>'
+            html += '<input type="hidden" id="udmulti-vendor-'+itemId+'-method-name" />'
+            el.insert(html)
+            if (!itemsGridEl) {
+                itemsGridEl = el.up('.grid');
+            }
+        }
+    })
+
+    $$('.udmulti-vendor-select').each(function (el) {
+        $(el).observe('change', function (e) {
+            var itemId = el.id.replace(/[^0-9]/g, ''), method = $(el.id+'-method'), html
+            method.show()
+            method.childElements().invoke('remove')
+            method.options.length = 0
+            var vMethods = vendors[itemId].all[el.value].methods
+            html = ''
+            optInd = 0
+            selInd = 0
+            if (!Object.isArray(vMethods)) {
+                $H(vMethods).each(function (vMi) {
+                    html += '<optgroup label="'+vMi.value['__title']+'" style="background: lightgray">'
+                    $H(vMi.value).each(function (vMij) {
+                        if (vMij.key=='__title') return
+                        if (!!vMij.value['__selected']) selInd = optInd
+                        optInd++
+                        $H(vMij.value).each(function(vMijh) {
+                            if (vMijh.key=='__selected') return
+                            html += '<option value="'+vMijh.key+'">'+vMijh.value+'</option>'
+                            throw $break;
+                        })
+                    })
+                    html += '</optgroup>'
+                })
+            }
+            method.insert(html)
+            if (method.options.length>0) {
+                method.selectedIndex = selInd
+                $(el.id+'-method-name').value = method.options[method.selectedIndex].text
+            }
+        })
+    })
+
+    $$('.udmulti-vendor-method').each(function (el) {
+        $(el).observe('change', function (e) {
+            $(el.id+'-name').value = el.options[el.selectedIndex].text
+        })
+    })
+
+    if (itemsGridEl) {
+        var html = '<button type="button" class="scalable save udmulti-vendor-save"><?php echo Mage::helper('udropship')->__('Save Vendor Updates') ?></button>'
+        html += ' <button type="button" class="scalable udmulti-vendor-check"><?php echo Mage::helper('udropship')->__('Check Vendors Stock') ?></button>'
+        html += ' <span id="udmulti-message"></span>'
+        itemsGridEl.insert({after:html})
+    }
+
+    $$('.udmulti-vendor-save').each(function (el) {
+        $(el).observe('click', function (e) {
+            if (!confirm('<?php echo Mage::helper('udropship')->__('Are you sure you want to change the vendors and send notifications?') ?>')) {
+                return;
+            }
+            var selects = $$('.udmulti-vendor-select'), i, itemId, s
+            var parameters = {order_id: '<?php echo $this->getOrder()->getId() ?>'}
+            for (i=0; i<selects.length; i++) {
+                s = selects[i]
+                itemId = s.id.replace(/[^0-9]/g, '')
+                parameters['vendors['+itemId+'][id]'] = s.value
+                parameters['vendors['+itemId+'][cost]'] = vendors[itemId].all[s.value].cost
+                parameters['vendors['+itemId+'][method]'] = $(s.id+'-method').value
+                parameters['vendors['+itemId+'][method_name]'] = $(s.id+'-method-name').value
+            }
+            new Ajax.Updater('udmulti-message', '<?php echo $this->getUrl('udmultiadmin/adminhtml_order/updateVendors') ?>', {
+                parameters: parameters,
+                onSuccess: function () {
+                    $$('.udmulti-vendor-method').each(function (el) { $(el).hide() })
+                    $('udmulti-message').show()
+                    clearTimeout(timeout);
+                    (function () {
+                        if ($('udmulti-message').down('.success')) {
+                            timeout = setTimeout(function () {
+                                $('udmulti-message').hide();
+                                setLocation('<?php echo $this->getUrl('*/*/*', array('_current'=>true));?>')
+                            }, 1000);
+                        } else {
+                            timeout = setTimeout(function () {
+                                $('udmulti-message').hide();
+                            }, 5000);
+                    }}).defer();
+                }
+            })
+        })
+    })
+
+    $$('.udmulti-vendor-check').each(function (el) {
+        $(el).observe('click', function (e) {
+            var parameters = {order_id: '<?php echo $this->getOrder()->getId() ?>'}, iId, vId
+            for (iId in vendors) {
+                for (vId in vendors[iId].all) {
+                    parameters['vendors['+iId+'][]'] = vId
+                }
+            }
+            new Ajax.Request('<?php echo $this->getUrl('udmultiadmin/adminhtml_order/checkVendors') ?>', {
+                parameters: parameters,
+                onSuccess: function(transport) {
+                    var result = eval('('+transport.responseText+')')
+                    var selects = $$('.udmulti-vendor-select'), i, j, itemId, s, html
+
+                    for (i=0; i<selects.length; i++) {
+                        s = selects[i]
+                        itemId = s.id.replace(/[^0-9]/g, '')
+                        if (!result.stock[itemId]) {
+                            s.options.length = 0
+                            html = '<option value=""><?php echo $this->htmlEscape(Mage::helper('udropship')->__('No stock available')) ?></option>'
+                            $(s).insert(html)
+                            continue
+                        }
+                        for (j=0; j<s.options.length; j++) {
+                            if (!result.stock[itemId][s.options[j].value]) {
+                                $(s.options[j]).remove()
+                                j--
+                            }
+                        }
+                    }
+
+                    $('udmulti-message').innerHTML = result.message
+                    clearTimeout(timeout)
+                    timeout = setTimeout(function () { $('udmulti-message').hide() }, 5000)
+                }
+            })
+        })
+    })
+})()
+</script>

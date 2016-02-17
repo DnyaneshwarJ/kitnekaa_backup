@@ -1,0 +1,50 @@
+<?xml version="1.0"?>
+
+<config>
+    <acl>
+        <resources>
+            <quote2sales>
+                <title>Allow Everything</title>
+            </quote2sales>
+            <admin>
+                <children>
+                    <quote2sales translate="title" module="sales">
+                        <title>Sales</title>
+                        <children>
+                            <quote translate="title">
+                                <title>Quotes</title>
+                                <children>
+                                    <actions translate="title">
+                                        <title>Actions</title>
+                                        <children>
+                                            <create translate="title"><title>Create</title></create><!-- Added by shebin to fix the Bug #61599 -->
+                                            <edit translate="title"><title>Edit</title></edit>
+                                            <cancel translate="title"><title>Cancel</title></cancel>
+                                            <quotetoorder translate="title"><title>quotetoorder</title></quotetoorder>
+                                            <duplicate translate="title"><title>duplicate</title></duplicate>
+                                        </children>
+                                    </actions>
+                                </children>
+                                <sort_order>10</sort_order>
+                            </quote><!--
+                            <request translate="title">
+                                <title>Requests</title>
+                            </request>-->
+                        </children>
+                    </quote2sales>
+                    <system>
+                        <children>
+                            <config>
+                                <children>
+                                    <quotes translate="title" module="quote2sales">
+                                        <title>Quote2sales</title>
+                                    </quotes>
+                                </children>
+                            </config>
+                        </children>
+                    </system>
+                </children>
+            </admin>
+        </resources>
+    </acl>
+</config>

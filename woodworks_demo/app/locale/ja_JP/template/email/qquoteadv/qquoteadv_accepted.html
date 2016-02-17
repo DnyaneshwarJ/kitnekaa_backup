@@ -1,0 +1,41 @@
+<!--@subject {{var quote.getStoreGroupName()}}: お見積依頼 # {{var quote.increment_id}} を受け付けました @-->
+
+<!--@styles
+body,td { color:#2f2f2f; font:11px/1.35em Verdana, Arial, Helvetica, sans-serif; }
+@-->
+<div style="font:11px/1.35em Verdana, Arial, Helvetica, sans-serif;">
+    <table cellspacing="0" cellpadding="0" border="0" width="98%"
+           style="margin-top:10px; font:11px/1.35em Verdana, Arial, Helvetica, sans-serif; margin-bottom:10px;">
+        <tr>
+            <td align="center" valign="top">
+                <!-- [ header starts here] -->
+                <table cellspacing="0" cellpadding="0" border="0" width="650">
+                    <tr>
+                        <td valign="top"><a href="{{store url=''}}"><img src="{{skin url='images/logo_email.png' _area='frontend'}}" alt="Magtec" style="margin-bottom:10px;" border="0"/></a></td>
+                    </tr>
+                </table>
+                <!-- [ middle starts here] -->
+                <table cellspacing="0" cellpadding="0" border="0" width="650">
+                    <tr>
+                        <td valign="top">
+                            <p>
+                                <strong>こんにちは {{var adminname}}さん</strong><br/><br>
+                            </p>
+
+                            <h3 style="font-size: 1.05em; padding-bottom: 1px;">
+                                あなたの見積依頼に対する提案 #{{var quote.increment_id}}
+                                <small>(placed on {{var quote.getCreatedAtFormated('long')}})</small>
+                                がお客様に承認されました。
+                            </h3>
+                            <p>
+                                お客様がマイページ上で承認ボタンをクリックしたため、このお知らせはあなたに向けて送信しました。
+                                お客様は提案内容を注文に完全に変換する前にチェックアウト処理を行う必要があります。
+                            </p>
+                        </td>
+                    </tr>
+                </table>
+
+            </td>
+        </tr>
+    </table>
+</div>

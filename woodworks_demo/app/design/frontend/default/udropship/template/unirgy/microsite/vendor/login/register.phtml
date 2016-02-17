@@ -1,0 +1,74 @@
+<?php if (Mage::getStoreConfig('udropship/microsite/allow_quick_register')): ?>
+
+<?php
+$_hlp = Mage::helper('umicrosite');
+$_session = Mage::getSingleton('udropship/session');
+$_carriers = Mage::getSingleton('umicrosite/source')->setPath('registration_carriers')->toOptionHash();
+$_data = $_session->getRegistrationFormData(true);
+$_isQuickRegister = Mage::getStoreConfig('udropship/microsite/allow_quick_register');
+$_qrRequiredSel = $_isQuickRegister ? '' : ' validate-select';
+$_qrRequired = $_isQuickRegister ? '' : ' <span class="required">*</span>';
+$_qrRequired2 = $_isQuickRegister ? '' : ' required-entry';
+$_r = new Varien_Object();
+if ($_data) {
+    foreach ($_data as $_k=>$_v) {
+        if (!is_array($_v)) {
+            $_r->setData($_k, htmlspecialchars($_v));
+        }
+    }
+}
+if (!$_r->getCarrierCode()) {
+    $_r->setCarrierCode($this->getDefPreferedCarrier());
+}
+?>
+
+<form action="<?php echo $this->getUrl('umicrosite/vendor/registerPost', array('quick'=>1))?>" method="post" id="login-register-form">
+<div class="login-box generic-box">
+    <div class="box-head"><h3><?php echo Mage::helper('udropship')->__('Register Vendor Account') ?></h3></div>
+    <div class="registered-users">
+        <div class="content">
+            <ul class="form-list">
+            <li>
+                <label for="vendor_name"><?php echo Mage::helper('udropship')->__('Business Name') ?> <span class="required">*</span></label><br />
+                <input name="vendor_name" value="<?php echo $_r->getVendorName()?>" title="<?php echo Mage::helper('udropship')->__('Business Name') ?>" id="vendor_name" type="text" class="input-text required-entry" />
+            </li>
+            <li>
+            <div class="fields">
+                <div class="field">
+                    <label for="telephone"><?php echo Mage::helper('udropship')->__('Phone Number') ?> <span class="required">*</span></label><br />
+                    <input name="telephone" value="<?php echo $_r->getTelephone()?>" title="<?php echo Mage::helper('udropship')->__('Phone Number') ?>" id="telephone" type="text" class="input-text required-entry" />
+                </div>
+                <div class="field">
+                    <label for="email"><?php echo Mage::helper('udropship')->__('Email Address') ?> <span class="required">*</span></label><br />
+                    <input name="email" value="<?php echo $_r->getEmail()?>" title="<?php echo Mage::helper('udropship')->__('Email Address') ?>" id="email" type="text" class="input-text required-entry validate-email" />
+                </div>
+            </div>
+            </li>
+            <li>
+            <div class="fields">
+                <div class="field">
+                    <label for="password"><?php echo Mage::helper('udropship')->__('Password') ?> <span class="required">*</span></label><br />
+                    <input name="password" type="password" class="input-text required-entry validate-password" id="password" />
+                </div>
+                <div class="field">
+                    <label for="password_confirm"><?php echo Mage::helper('udropship')->__('Confirm Password') ?> <span class="required">*</span></label><br />
+                    <input name="password_confirm" type="password" class="input-text required-entry validate-cpassword" id="password_confirm" />
+                </div>
+            </div>
+            </li>
+            </ul>
+            <p class="required"><?php echo Mage::helper('udropship')->__('* Required Fields') ?></p>
+        </div>
+        <div class="buttons-set" style="margin-top:10px;">
+            <button class="form-button" type="submit" name="send"><span><?php echo Mage::helper('udropship')->__('Quick Register') ?></span></button>
+            <button class="form-button" type="button" name="send" onclick="location.href='<?php echo Mage::helper('umicrosite')->getVendorRegisterUrl()?>'"><span><?php echo Mage::helper('udropship')->__('Setup Wizard') ?></span></button>
+        </div>
+    </div>
+</div>
+</form>
+
+<script type="text/javascript">
+    var dataForm = new VarienForm('login-register-form', true);
+</script>
+    
+<?php endif?>

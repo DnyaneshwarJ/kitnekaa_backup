@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<layout>
+
+    <udtiercom_vendor_rates>
+        <update handle="udropship_vendor" />
+        <reference name="content">
+            <block type="udtiercom/vendor_rates" template="unirgy/tiercom/vendor/rates.phtml" name="tiercom_rates" />
+        </reference>
+    </udtiercom_vendor_rates>
+
+</layout>

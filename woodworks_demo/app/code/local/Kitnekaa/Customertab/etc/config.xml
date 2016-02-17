@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<config>
+	<modules>
+		<Kitnekaa_Customertab>
+			<version>0.1.0</version>
+		</Kitnekaa_Customertab>
+	</modules>
+	<adminhtml>
+		<layout>
+			<updates>
+				<customertab>
+					<file>customertab.xml</file>
+				</customertab>
+			</updates>
+		</layout>
+		<events>
+			<customer_save_before>
+				<observers>
+					<kitnekaa_customertab_observer>
+						<class>Kitnekaa_Customertab_Model_Observer</class>
+						<method>approveCustomer</method>
+					</kitnekaa_customertab_observer>
+				</observers>
+			</customer_save_before>
+			<customer_save_after>
+				<observers>
+					<kitnekaa_customertab_observer>
+						<class>Kitnekaa_Customertab_Model_Observer</class>
+						<method>getCustomerData</method>
+					</kitnekaa_customertab_observer>
+				</observers>
+			</customer_save_after>
+		</events>
+	</adminhtml>
+	<global>
+		<blocks>
+			<customertab>
+				<class>Kitnekaa_Customertab_Block</class>
+			</customertab>
+		</blocks>
+
+	</global>
+</config>

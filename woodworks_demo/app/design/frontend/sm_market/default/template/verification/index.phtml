@@ -1,0 +1,76 @@
+<?php
+
+/*echo "<pre>";
+var_dump($this->customer);
+echo "</pre>";*/
+?>
+<div style="width: 100%;">
+    <div class="item-fields" style="max-width:500px;float: none; margin: 0 auto;">
+        <div class="page-title">
+            <h1><?php echo $this->__('OTP Verification') ?></h1>
+        </div>
+
+        <form method="post" action="<?php echo Mage::getBaseUrl(); ?>index.php/verification/index/verifyno"
+              name="frm-otp" id="frm-otp">
+            <input type="hidden" value="<?php echo $this->customer->getEmail(); ?>" name="email"/>
+            <div class="inputfiled iteminput" id="otp_section">
+                <p><?php echo $this->__('Enter OTP which have been sent to the your mobile number.') ?></p>
+                <br/>
+                <input type="text" class="enter-desc required-entry"
+                       placeholder="<?php echo $this->__('* Enter OTP') ?>" name="otp"/>
+
+            </div>
+            <div class="inputfiled iteminput" style="display: none" id="new_mob">
+                <div style="width:100%;float: left">
+                    <div style="float: left;">
+                        <input type="text" class="enter-desc  maximum-length-12 minimum-length-5 validate-digits"
+                               placeholder="<?php echo $this->__('* Enter New Mobile Number') ?>" name="phoneno"
+                               style="width:400px;" maxlength="12" id="phone_no"/>
+                    </div>
+                    <div style="float: right;width:20px;">
+                        <a style="cursor: pointer" class="icon-remove btn-remove" title="Remove New Mobile Number"
+                           onclick="removeMobField()"></a>
+                    </div>
+                </div>
+                <br/>
+                <div style="width:100%;margin:10px 5px 5px 5px;float: left">
+                    <p><?php echo $this->__('Enter mobile number with country code eg. (+91 7987946641).') ?></p>
+                    <p><?php echo $this->__('( New OTP will send to this number! )') ?></p>
+
+                    <p style="color: red"><?php echo $this->__('( Your old mobile number will be replaced with new number. )') ?></p>
+                </div>
+            </div>
+            <div class="buttons-set">
+                <a class="f-left" style="color: green;cursor: pointer"
+                   onclick="viewMobField()"><?php echo $this->__('Try another mobile number?') ?></a>
+                <a class="button"
+                   href="<?php echo Mage::getBaseUrl(); ?>index.php/verification/index/resendotp?q=<?php echo $this->customer->getEmail(); ?>"
+                   id="send2">
+                    Resend OTP
+                </a>
+                <button type="submit" class="button" title="<?php echo $this->__('Continue') ?>" name="send">
+                    <span><span><?php echo $this->__('Continue') ?></span></span></button>
+            </div>
+        </form>
+    </div>
+
+</div>
+
+<script type="text/javascript">
+    //<![CDATA[
+    var dataForm = new VarienForm('frm-otp', true);
+    //]]>
+
+    function viewMobField() {
+        jQuery("#otp_section").css('display', 'none');
+        jQuery("#send2").css('display', 'none');
+        jQuery("#new_mob").css('display', 'block');
+    }
+    function removeMobField() {
+        jQuery("#new_mob").css('display', 'none');
+        jQuery("#phone_no").val('');
+        jQuery("#otp_section").css('display', 'block');
+        jQuery("#send2").css('display', 'block');
+    }
+</script>
+

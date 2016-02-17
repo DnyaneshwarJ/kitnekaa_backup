@@ -1,0 +1,158 @@
+<?xml version="1.0"?>
+
+<config>
+	<modules>
+		<Junaidbhura_Ccavenue>
+			<version>0.2.8</version>
+		</Junaidbhura_Ccavenue>
+	</modules>
+	
+	<global>
+		<helpers>
+			<ccavenue>
+				<class>Junaidbhura_Ccavenue_Helper</class>
+			</ccavenue>
+		</helpers>
+		
+		<models>
+			<ccavenue>
+				<class>Junaidbhura_Ccavenue_Model</class>
+				<resourceModel>ccavenue_mysql4</resourceModel>
+			</ccavenue>
+			
+			<ccavenue_mysql4>
+				<class>Junaidbhura_Ccavenue_Model_Mysql4</class>
+				<entities>		  
+					<ccavenueredirect>
+						<table>junaidbhura_ccavenue_redirect</table>
+					</ccavenueredirect>		  
+					
+					<ccavenueresponse>
+						<table>junaidbhura_ccavenue_response</table>
+					</ccavenueresponse>
+				</entities>
+			</ccavenue_mysql4>
+		</models>
+		
+		<blocks>
+			<ccavenue>
+				<class>Junaidbhura_Ccavenue_Block</class>
+			</ccavenue>
+		</blocks>
+		
+		<resources>
+			<ccavenue_setup>
+				<setup>
+					<module>Junaidbhura_Ccavenue</module>
+				</setup>
+				
+				<connection>
+					<use>core_setup</use>
+				</connection>
+			</ccavenue_setup>
+			
+			<ccavenue_write>
+				<connection>
+					<use>core_write</use>
+				</connection>
+			</ccavenue_write>
+			
+			<ccavenue_read>
+				<connection>
+					<use>core_read</use>
+				</connection>
+			</ccavenue_read>
+		</resources>
+	</global>
+	
+	<default>
+		<payment>
+			<ccavenue>
+				<model>ccavenue/standard</model>
+				<active>1</active>
+				<order_status>pending</order_status>
+				<title>CC Avenue</title>
+				<payment_action>sale</payment_action>
+				<submit_url>https://www.ccavenue.com/shopzone/cc_details.jsp</submit_url>
+				<merchant_id></merchant_id>
+				<working_key></working_key>
+				<enable_auth_query></enable_auth_query>
+				<allowspecific>0</allowspecific>
+				<sort_order>0</sort_order>
+			</ccavenue>
+		</payment>
+	</default>
+	
+	<frontend>
+		<routers>
+			<ccavenue>
+				<use>standard</use>
+				<args>
+					<module>Junaidbhura_Ccavenue</module>
+					<frontName>ccavenue</frontName>
+				</args>
+			</ccavenue>
+		</routers>
+	</frontend>
+	
+	<admin>
+		<routers>
+			<ccavenue>
+				<use>admin</use>
+				<args>
+					<module>Junaidbhura_Ccavenue</module>
+					<frontName>ccavenue</frontName>
+				</args>
+			</ccavenue>
+		</routers>
+	</admin>
+	
+	<adminhtml>
+		<menu>
+		
+			<ccavenuelogsmenu translate="title" module="ccavenue">
+				<title>CC Avenue Logs</title>
+				<sort_order>85</sort_order>
+				<children>
+					
+					<ccavenueredirectlogs module="ccavenue">
+						<title>Redirect Log</title>
+						<action>ccavenue/redirectlog</action>
+					</ccavenueredirectlogs>
+					
+					<ccavenueresponselogs module="ccavenue">
+						<title>Response Log</title>
+						<action>ccavenue/responselog</action>
+					</ccavenueresponselogs>
+					
+				</children>
+			</ccavenuelogsmenu>
+		
+		</menu>
+	
+		<acl>
+			<resources>
+				<admin>
+					<children>
+						<ccavenuelogsmenu translate="title" module="ccavenue">
+							<title>CC Avenue Logs</title>
+							<sort_order>85</sort_order>
+							<children>
+							
+								<ccavenueredirectlogs>
+									<title>Redirect Log</title>
+								</ccavenueredirectlogs>
+								
+								<ccavenueresponselogs>
+									<title>Response Log</title>
+								</ccavenueresponselogs>
+								
+							</children>
+						</ccavenuelogsmenu>
+					</children>
+				</admin>
+			</resources>
+		</acl>
+	</adminhtml>
+
+</config> 

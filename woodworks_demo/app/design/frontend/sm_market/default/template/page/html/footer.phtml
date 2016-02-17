@@ -1,0 +1,250 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+
+/*global $var_yttheme;?>
+
+    <div class="social-fixed">        
+    <?php echo $this->getChildHtml('social'); ?>
+    </div>
+	<div class="footer-top">  
+        <div class="container">
+            <div class="row">          				                                            
+               
+                <?php if($this->getChildHtml('spotlight')) { ?>
+                    <div class="spotlight-wrap">
+                        <?php echo $this->getChildHtml('spotlight'); ?>
+                    </div>
+                <?php } ?>
+                <?php if($this->getLayout()->createBlock('cms/block')->setBlockId('footer-links')->toHtml()) { ?>
+              
+                    <?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('footer-links')->toHtml(); ?>
+               
+                <?php } ?>
+            </div>
+        </div>
+    </div>
+    
+    <div class="footer-bottom"> 
+        <div class="container">
+            <div class="row">          	
+            	<div class="col-lg-8 col-md-8 col-sm-8 col-xs-12 yt-copyright">
+        			<?php if( $var_yttheme->getParam('custom_copyright') == 1 ){
+        				echo $var_yttheme->getParam('copyright');
+        			}else{?>                	
+                    <?php echo $this->getCopyright() ?>
+        			<?php }?>
+            	</div>
+            	<div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 yt-payment">
+            		<?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('block-payment')->toHtml(); ?>
+            	</div>
+            </div>
+        </div>
+    </div>
+    
+<?php
+include (dirname(__FILE__).'/new_cpanel.phtml');
+if ( $var_yttheme->getParam('showontop') == 1 ){
+    include (dirname(__FILE__).'/backtotop.phtml');
+}
+?>
+*/
+?>
+
+<div class="container">
+    <div class="row">
+        <div class="footer-general">
+        <div class="col-sm-3 foot-block">
+            <div class="row">
+                <h4>HELP</h4>
+                <ul>
+                    <li><a href="#">Payments</a></li>
+                    <li><a href="#">Saved Cards </a></li>
+                    <li><a href="#">Shipping</a></li>
+                    <li><a href="#">Cancellation & Returns</a></li>
+                    <li><a href="#">FAQ</a></li>
+                    <li><a href="#">Report Infringement</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="col-sm-3 foot-block">
+            <div class="row">
+                <h4>KITNEKAA</h4>
+                <ul>
+                    <li><a href="#">Kitnekaa</a></li>
+                    <li><a href="#">Contact Us</a></li>
+                    <li><a href="<?php echo Mage::getBaseUrl(); ?>about-us">About Us</a></li>
+                    <li><a href="#">Careers</a></li>
+                    <li><a href="#">Blog</a></li>
+                    <li><a href="#">Press</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="col-sm-3 foot-block">
+            <div class="row">
+                <h4>MISC</h4>
+                <ul>
+                    <li><a href="#">Online Shopping</a></li>
+                    <li><a href="#">Affiliate</a></li>
+                    <li><a href="#">Gift Card</a></li>
+                    <li><a href="#">Kitnekaa First Subscription</a></li>
+                    <li><a href="#">eLearning FAQ</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="col-sm-3 foot-block"></div>
+            </div>
+            <div class="termslinks">
+                <a href="<?php echo Mage::getBaseUrl(); ?>terms_of_use">Terms of use</a> Infringement © 2015 Kitnekaa.com.
+            </div>
+            <!-- <div class="termslinks">
+                <strong>Top Stores :</strong> <a href="#">Brand Directory </a><a href="#">Store Directory</a>
+            </div> -->
+
+            <div class="brand-cate-links">
+                <div class="brandlinks">
+                    <strong>Most searched for on Kitnekaa :</strong> <a href="<?php echo Mage::getBaseUrl(); ?>products/tools.html">Tools</a><a href="<?php echo Mage::getBaseUrl(); ?>products/machinery.html">Machines</a><a href="<?php echo Mage::getBaseUrl(); ?>products/hardware.html">Hardware</a><a href="<?php echo Mage::getBaseUrl(); ?>products/materials.html">Materials</a>
+                </div>
+                <div class="brandlinks">
+                    <strong>TOOLS :</strong> <?php 
+                    $children = Mage::getModel('catalog/category')->getCategories(88);
+                            foreach ($children as $category) {
+                                $footername = $category->getName();
+                                $footerurl = $category->getRequestPath();
+                                ?>
+                                
+                    <a href="<?php echo Mage::getBaseUrl().$footerurl ;?>"><?php echo $footername;?></a>
+                    <?php
+                                                }
+                    ?>
+
+                </div>
+                <div class="brandlinks">
+                    <strong>MACHINERY :</strong> <?php 
+                    $children = Mage::getModel('catalog/category')->getCategories(138);
+                            foreach ($children as $category) {
+                                $footername = $category->getName();
+                                $footerurl = $category->getRequestPath();
+                                ?>
+                                
+                    <a href="<?php echo Mage::getBaseUrl().$footerurl ;?>"><?php echo $footername;?></a>
+                    <?php
+                                                }
+                    ?>
+                </div>
+                <div class="brandlinks">
+                    <strong>MATERIALS :</strong> <?php 
+                    $children = Mage::getModel('catalog/category')->getCategories(127);
+                            foreach ($children as $category) {
+                                $footername = $category->getName();
+                                $footerurl = $category->getRequestPath();
+                                ?>
+                                
+                    <a href="<?php echo Mage::getBaseUrl().$footerurl ;?>"><?php echo $footername;?></a>
+                    <?php
+                                                }
+                    ?>
+                </div>
+                <div class="brandlinks">
+                    <strong>HARDWARE :</strong><?php 
+                    $children = Mage::getModel('catalog/category')->getCategories(126);
+                            foreach ($children as $category) {
+                                $footername = $category->getName();
+                                $footerurl = $category->getRequestPath();
+                                ?>
+                                
+                    <a href="<?php echo Mage::getBaseUrl().$footerurl ;?>"><?php echo $footername;?></a>
+                    <?php
+                                                }
+                    ?>
+                </div>
+                <div class="brandlinks">
+                    <strong>HAND & POWER TOOLS :</strong> <?php 
+                    $children = Mage::getModel('catalog/category')->getCategories(120);
+                            foreach ($children as $category) {
+                                $footername = $category->getName();
+                                $footerurl = $category->getRequestPath();
+                                ?>
+                                
+                    <a href="<?php echo Mage::getBaseUrl().$footerurl ;?>"><?php echo $footername;?></a>
+                    <?php
+                                                }
+                    ?>
+                </div>
+                <div class="brandlinks">
+                    <strong>COATING & PAINTS :</strong><?php 
+                    $children = Mage::getModel('catalog/category')->getCategories(113);
+                            foreach ($children as $category) {
+                                $footername = $category->getName();
+                                $footerurl = $category->getRequestPath();
+                                ?>
+                                
+                    <a href="<?php echo Mage::getBaseUrl().$footerurl ;?>"><?php echo $footername;?></a>
+                    <?php
+                                                }
+                    ?>
+                </div>
+                
+                <div class="brandlinks">
+                    <strong>ABRASIVES :</strong> <?php 
+                    $children = Mage::getModel('catalog/category')->getCategories(104);
+                            foreach ($children as $category) {
+                                $footername = $category->getName();
+                                $footerurl = $category->getRequestPath();
+                                ?>
+                                
+                    <a href="<?php echo Mage::getBaseUrl().$footerurl ;?>"><?php echo $footername;?></a>
+                    <?php
+                                                }
+                    ?>
+                </div>
+            </div>
+
+            <div class="payment-method">
+                <h4>PAYMENT METHOD</h4>
+                <div class="pay-row">
+                    <label>CREDIT CARDS</label>
+                    <span><img src="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_SKIN); ?>frontend/sm_market/default/images/american-express-logo.png"></span>
+                    <span><img src="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_SKIN); ?>frontend/sm_market/default/images/master-card-logo.png"></span>
+                    <span><img src="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_SKIN); ?>frontend/sm_market/default/images/visa-logo.png"></span>
+                    <span><img src="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_SKIN); ?>frontend/sm_market/default/images/jcb-logo.png"></span>
+                    <span><img src="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_SKIN); ?>frontend/sm_market/default/images/diners-club-logo.png"></span>
+                    <span><img src="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_SKIN); ?>frontend/sm_market/default/images/ezeclick-logo.png"></span>
+                </div>
+                <div class="pay-row">
+                    <label>NET BANKING</label>
+                    <span><img src="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_SKIN); ?>frontend/sm_market/default/images/kotak-logo.png"></span>
+                    <span><img src="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_SKIN); ?>frontend/sm_market/default/images/union-bank-logo.png"></span>
+                    <span><img src="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_SKIN); ?>frontend/sm_market/default/images/standard-chartered-logo.png"></span>
+                    <span><img src="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_SKIN); ?>frontend/sm_market/default/images/yes-bank.png"></span>
+                    <span><img src="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_SKIN); ?>frontend/sm_market/default/images/citibank-logo.png"></span>
+                    <span><img src="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_SKIN); ?>frontend/sm_market/default/images/axis-bank-logo.png"></span>
+                    <!-- <span><img src="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_SKIN); ?>frontend/sm_market/default/images/dbs-logo.png"></span> -->
+                    <label>AND MORE</label>
+                </div>
+            </div>
+    </div>
+</div>
+			

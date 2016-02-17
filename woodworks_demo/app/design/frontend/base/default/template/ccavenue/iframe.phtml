@@ -1,0 +1,22 @@
+<?php
+/**
+ * IFRAME Page
+ *
+ * @category    PHTML
+ * @package     Gremlin_Ccavenue
+ * @author      Junaid Bhura <info@gremlin.io>
+ */
+
+$_ccavenue = Mage::registry( 'ccavenue' );
+$production_url = $_ccavenue['action'] . '&encRequest=' . $_ccavenue['encrypted_data'] . '&access_code=' . $_ccavenue['access_code'];
+?>
+
+	<iframe src="<?php echo $production_url; ?>" id="ccavenue-payment-frame" width="700" height="600" frameborder="0" scrolling="No" style="display: block; margin: 0 auto;"></iframe>
+
+	<script type="text/javascript">
+	document.observe( 'dom:loaded', function() {
+		window.addEventListener( 'message' , function( e ) {
+			$( 'ccavenue-payment-frame' ).setStyle( { height: e.data['newHeight'] + 'px' } );
+		}, false );
+	});
+	</script>

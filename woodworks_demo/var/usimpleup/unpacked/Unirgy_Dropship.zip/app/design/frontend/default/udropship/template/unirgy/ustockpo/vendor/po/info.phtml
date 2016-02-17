@@ -1,0 +1,176 @@
+<?php
+/**
+ * Unirgy LLC
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the EULA
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://www.unirgy.com/LICENSE-M1.txt
+ *
+ * @category   Unirgy
+ * @package    Unirgy_Dropship
+ * @copyright  Copyright (c) 2008-2009 Unirgy LLC (http://www.unirgy.com)
+ * @license    http:///www.unirgy.com/LICENSE-M1.txt
+ */
+?>
+
+<?php
+$_hlp = Mage::helper('udropship');
+$_poHlp = Mage::helper('ustockpo');
+$_session = Mage::getSingleton('udropship/session');
+$_vendor = $_session->getVendor();
+$_highlight = $_session->getHighlight(true);
+
+$_po = $this->getPo();
+$_id = $_po->getId();
+
+$_items = $_po->getAllItems();
+
+$_tracking = $_po->getTracksCollection();
+$_comments = $_po->getVendorCommentsCollection();
+
+$_statuses = $_poHlp->getVendorStockpoStatuses();
+$_statusId = $_po->getUdropshipStatus();
+
+$_udVendor = $_po->getVendor();
+
+?>
+<?php if ($this->getRequest()->isPost()): ?>
+    <span id="status-update-<?php echo $_id ?>" style="display:none"><?php echo $_po->getUdropshipStatusName() ?></span>
+<?php endif ?>
+<form id="ustockpo-form-<?php echo $_id?>" method="post" action="<?php echo $this->getUrl('udropship/vendor/ustockpoPost', array('id'=>$_id))?>">
+
+    <div class="col2-set shipment-items">
+        <div class="col-1">
+            <div class="content">
+                <div class="col2-set">
+                    <div class="col-1">
+                        <strong><?php echo Mage::helper('udropship')->__('Shipping Address')?></strong><br/>
+                        <?php echo $_udVendor->getFormatedAddress('html') ?>
+                    </div>
+                    <div class="col-2" <?php if (!empty($_highlight['tracking'])): ?>class="highlight"<?php endif ?>>
+                        <?php if (count($_tracking)): ?>
+                        <h4><?php echo Mage::helper('udropship')->__('Tracking IDs') ?></h4>
+                        <ul class="tracking-numbers">
+                        <?php $_prevTmtId = null; foreach ($_tracking as $_t): $_tId = $_t->getId(); $_tmtId = $_t->getMasterTrackingId(); $_pckCnt = $_t->getPackageCount(); $_tbId = $_t->getBatchId() ?>
+                            <?php if ($_tmtId!=$_prevTmtId && !is_null($_tmtId) && $_pckCnt>1): ?>
+                            <li id="old_tracking_id-<?php echo $_tId?>" <?php if (!empty($_highlight['tracking_'.$_tId])): ?>class="highlight"<?php endif ?> >
+                                 <!--<a class="toggle" href="#" onclick="return false"><span></span></a>-->
+                                 <nobr>
+                                <?php echo $this->htmlEscape($_tmtId) ?>
+                                <a class="delete" href="#" onclick="deleteTrack(<?php echo $_id ?>, <?php echo $_tId ?>); return false" title="<?php echo Mage::helper('udropship')->__('Delete tracking number') ?>"><span></span></a>
+                                </nobr>
+                            </li>
+                            <?php $_prevTmtId = $_tmtId; continue; endif ?>
+
+                            <li <?php if (!is_null($_tmtId) && $_pckCnt>1): ?>style="padding-left: 10px"<?php endif ?> id="old_tracking_id-<?php echo $_tId?>" <?php if (!empty($_highlight['tracking_'.$_tId])): ?>class="highlight"<?php endif ?> >
+                                <!--<a class="toggle" href="#" onclick="return false"><span></span></a>-->
+                                <?php echo $this->htmlEscape($_t->getNumber()) ?>
+                                <?php if (is_null($_tmtId) || $_pckCnt==1): ?>
+                                <a class="delete" href="#" onclick="deleteTrack(<?php echo $_id ?>, <?php echo $_tId ?>); return false" title="<?php echo Mage::helper('udropship')->__('Delete tracking number')?>"><span></span></a>
+                                <?php endif ?>
+                            </li>
+                            <?php $_prevTmtId = $_tmtId ?>
+                        <?php endforeach ?>
+                        </ul>
+                        <?php endif ?>
+                    </div>
+                </div>
+                <div class="clear"></div>
+                <br />
+                <div style="float:right">
+                    <label for="partial_availability-<?php echo $_id?>"><?php echo Mage::helper('udropship')->__('Partial Availability: ')?></label>
+                    <select type="checkbox" name="partial_availability" id="partial_availability-<?php echo $_id?>" onchange="switchPoPartialAvailability(this, <?php echo $_id?>)">
+                        <option value=""><?php echo Mage::helper('udropship')->__('* Select action') ?></option>
+                        <option value="inform"><?php echo Mage::helper('udropship')->__('Inform retailer') ?></option>
+                    </select>
+                </div>
+
+                <h4><?php echo Mage::helper('udropship')->__('Stock PO Items') ?></h4>
+                <table cellspacing="0" class="data-table" id="order-items-<?php echo $_id ?>">
+                    <col />
+                    <col width="25%" />
+                    <col width="1" />
+                    <thead>
+                        <tr>
+                            <th><?php echo Mage::helper('udropship')->__('Product Name') ?></th>
+                            <th><?php echo Mage::helper('udropship')->__('SKU') ?></th>
+                            <th class="a-center"><span class="nobr"><?php echo Mage::helper('udropship')->__('Qty') ?></span></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    <?php foreach ($_items as $_item): ?>
+                        <?php if ($_item->getOrderItem()->getParentItem()) continue; ?>
+                        <?php echo $this->getItemHtml($_item) ?>
+                    <?php endforeach; ?>
+                    </tbody>
+                </table>
+
+                <br><br>
+
+            </div>
+        </div>
+        <div class="col-2">
+            <div class="content">
+                <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
+
+                <ul class="form-list">
+                    <li id="carrier-1-<?php echo $_id?>">
+                        <label for="carrier-<?php echo $_id?>"><?php echo Mage::helper('udropship')->__('Carrier') ?></label>
+                        <select id="carrier-<?php echo $_id?>" name="carrier" class="select" style="width:250px" onchange="selectCarrier(this, 'carrier_title-<?php echo $_id?>')">
+                            <?php foreach ($this->getCarriers() as $_code=>$_name): ?>
+                            <option value="<?php echo $_code ?>"><?php echo $_name ?></option>
+                            <?php endforeach; ?>
+                        </select>
+                    </li>
+                    <li id="carrier_title-1-<?php echo $_id?>">
+                        <label for="carrier_title-<?php echo $_id?>"><?php echo Mage::helper('udropship')->__('Carrier Title') ?></label>
+                        <input id="carrier_title-<?php echo $_id?>" name="carrier_title" value="" title="<?php echo Mage::helper('udropship')->__('Carrier Title') ?>" type="text" class="input-text" style="width:250px;" />
+                    </li>
+                    <li id="tracking_id-1-<?php echo $_id?>">
+                        <label for="tracking_id-<?php echo $_id?>"><?php echo Mage::helper('udropship')->__('Add Tracking ID') ?></label>
+                        <input id="tracking_id-<?php echo $_id?>" name="tracking_id" value="" title="<?php echo Mage::helper('udropship')->__('Add Tracking ID') ?>" type="text" class="input-text" style="width:250px;" />
+                    </li>
+                    <li>
+                        <label for="comment-<?php echo $_id?>"><?php echo Mage::helper('udropship')->__('Add Comment<br/>(for retailer)') ?></label>
+                        <textarea id="comment-<?php echo $_id?>" name="comment" class="textarea" style="width:250px; height:70px;" title="<?php echo Mage::helper('udropship')->__('Add Comment') ?>" ></textarea>
+                    </li>
+                    <li id="tracking_id-2-<?php echo $_id?>">
+                        <label for="change_status-<?php echo $_id?>"><?php echo Mage::helper('udropship')->__('Change Status') ?></label>
+                        <select id="change_status-<?php echo $_id?>" name="status" title="<?php echo Mage::helper('udropship')->__('Change Status') ?>" class="select"/>
+                            <option value=""><?php echo Mage::helper('udropship')->__('* Automatic') ?></option>
+                        <?php foreach ($_statuses as $_k=>$_v): ?>
+                            <option value="<?php echo $_k ?>"><?php echo $_v ?></option>
+                        <?php endforeach ?>
+                        </select>
+                    </li>
+                    <li>
+                        <label>&nbsp;</label>
+                        <button class="form-button" type="button" id="addcomment-<?php echo $_id ?>"><span><?php echo Mage::helper('udropship')->__('Add PO Comment') ?></span></button>
+                        <span class="shipment-info-loader" style="display:none" id="submit-loader-<?php echo $_id ?>"><?php echo Mage::helper('udropship')->__('Please wait, submitting...')?></span>
+                    </li>
+                </ul>
+
+                <?php if (count($_comments)): ?>
+                <br />
+                <h4><?php echo Mage::helper('udropship')->__('Comments history') ?></h4>
+                <table cellspacing="0" class="data-table" <?php if (!empty($_highlight['comment'])): ?>class="highlight"<?php endif ?>><tbody>
+                    <?php foreach ($_comments as $_c): ?>
+                    <tr <?php if (!empty($_highlight['comment_'.$_c->getId()])): ?>class="highlight"<?php endif ?> >
+                        <td>
+                            <nobr><strong><?php echo Mage::helper('core')->formatDate($_c->getCreatedAt(), 'short', true) ?></strong></nobr><br/>
+                            <nobr><strong><?php echo $_c->getUdropshipStatus()?></strong></nobr><br>
+                        </td>
+                        <td>
+                            <?php echo nl2br($this->htmlEscape($_c->getComment())) ?>
+                        </td>
+                    </tr>
+                    <?php endforeach ?>
+                </tbody></table>
+                <?php endif ?>
+            </div>
+        </div>
+    </div>
+</form>

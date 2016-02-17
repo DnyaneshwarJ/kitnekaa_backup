@@ -1,0 +1,85 @@
+<?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
+<div style="width: 100%">
+
+    <div class="item-fields">
+        <form action="<?php echo $this->getPostActionUrl() ?>" method="post" id="form-validate">
+
+            <input type="hidden" name="success_url" value="<?php echo $this->getSuccessUrl() ?>"/>
+            <input type="hidden" name="error_url" value="<?php echo $this->getErrorUrl() ?>"/>
+
+            <div class="page-title">
+                <h1><?php echo $this->__('Create New User') ?></h1>
+            </div>
+            <div class="inputfiled iteminput">
+                <input type="text" class="enter-desc required-entry" placeholder="<?php echo $this->__('* Company Name') ?>" id="company"
+                       title="<?php echo $this->__('* Company Name') ?>" name="company"
+                       value="<?php echo $this->escapeHtml($this->getFormData()->getCompany()) ?>"/>
+
+            </div>
+            <div class="inputfiled iteminput">
+                <input type="text" class="enter-desc required-entry" placeholder="<?php echo $this->__('* First Name') ?>"
+                       name="firstname" maxlength="255" title="<?php echo $this->__('* First Name') ?>" id="firstname"
+                       value="<?php echo $this->escapeHtml($this->getFormData()->getFirstName()) ?>"/>
+
+            </div>
+            <div class="inputfiled iteminput">
+                <input id="lastname" type="text" class="enter-desc required-entry" maxlength="255"
+                       title="<?php echo $this->__('* Last Name') ?>" placeholder="<?php echo $this->__('* Last Name') ?>"
+                       name="lastname"
+                       value="<?php echo $this->escapeHtml($this->getFormData()->getLastName()) ?>"/>
+
+            </div>
+            <div class="inputfiled iteminput">
+                <input id="email_address" type="text" class="enter-desc required-entry validate-email" placeholder="<?php echo $this->__('* Email Address') ?>"
+                       name="email" value="<?php echo $this->escapeHtml($this->getFormData()->getEmail()) ?>"
+                       title="<?php echo $this->__('* Email Address') ?>"/>
+
+            </div>
+            <div class="inputfiled iteminput">
+                <input type="text"
+                       class="enter-desc required-entry validate-length maximum-length-12 minimum-length-5 validate-digits"
+                       placeholder="<?php echo $this->__('* Mobile Number') ?>" name="phoneno" id="phoneno"
+                       title="<?php echo $this->__('Mobile Number') ?>"
+                       value="<?php echo $this->escapeHtml($this->getFormData()->getPhoneno()) ?>"/>
+
+            </div>
+            <div class="fieldrow" style="width: 97%">
+                <div class="inputfiled iteminput2">
+                    <input type="password"  name="password" id="password" title="<?php echo $this->__('* Password') ?>" placeholder="<?php echo $this->__('* Password') ?>" class="required-entry validate-password" />
+                </div>
+                <div class="inputfiled iteminput2">
+                    <input type="password" name="confirmation" title="<?php echo $this->__('* Confirm Password') ?>" placeholder="<?php echo $this->__('* Confirm Password') ?>" id="confirmation" class="required-entry validate-cpassword" />
+                </div></div>
+            <?php if ($this->isNewsletterEnabled()): ?>
+                <?php if (!Mage::getSingleton('customer/session')->isLoggedIn()) { ?>
+                    <div class="input-box">
+                        <input type="checkbox" name="is_subscribed" title="<?php echo $this->__('Sign Up for Newsletter') ?>"
+                               value="1"
+                               id="is_subscribed"<?php if ($this->getFormData()->getIsSubscribed()): ?> checked="checked"<?php endif; ?>
+                               class="checkbox"/>
+                    </div>
+                    <label for="is_subscribed"><?php echo $this->__('Sign Up for Newsletter') ?></label>
+                <?php } ?>
+            <?php endif ?>
+            <div class="buttons-set">
+                <p class="required"><span class="required-filed">* </span><?php echo $this->__('Required Fields') ?></p>
+                <button type="submit" title="<?php echo $this->__('Submit') ?>" class="button"><span><span><?php echo $this->__('Submit') ?></span></span></button>
+            </div>
+        </form>
+
+        <script type="text/javascript">
+            //<![CDATA[
+            var dataForm = new VarienForm('form-validate', true);
+            //]]>
+        </script>
+    </div>
+
+</div>
+
+
+
+
+
+
+
+

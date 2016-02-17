@@ -1,0 +1,233 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Unirgy LLC
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the EULA
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://www.unirgy.com/LICENSE-M1.txt
+ *
+ * @category   Unirgy
+ * @package    Unirgy_DropshipTierCommission
+ * @copyright  Copyright (c) 2008-2009 Unirgy LLC (http://www.unirgy.com)
+ * @license    http:///www.unirgy.com/LICENSE-M1.txt
+ */
+
+-->
+<config>
+    <modules>
+        <Unirgy_DropshipTierCommission>
+            <version>2.4.0</version>
+        </Unirgy_DropshipTierCommission>
+    </modules>
+
+    <global>
+        <models>
+            <udtiercom>
+                <class>Unirgy_DropshipTierCommission_Model</class>
+                <resourceModel>udtiercom_mysql4</resourceModel>
+            </udtiercom>
+            <udtiercom_mysql4>
+                <class>Unirgy_DropshipTierCommission_Model_Mysql4</class>
+            </udtiercom_mysql4>
+            <udropship>
+                <rewrite>
+                    <vendor_statement>Unirgy_DropshipTierCommission_Model_VendorStatement</vendor_statement>
+                </rewrite>
+            </udropship>
+            <udpayout>
+                <rewrite>
+                    <payout>Unirgy_DropshipTierCommission_Model_Payout</payout>
+                </rewrite>
+            </udpayout>
+        </models>
+
+        <resources>
+            <udtiercom_setup>
+                <setup>
+                    <module>Unirgy_DropshipTierCommission</module>
+                    <class>Mage_Sales_Model_Mysql4_Setup</class>
+                </setup>
+                <connection>
+                    <use>core_setup</use>
+                </connection>
+            </udtiercom_setup>
+            <udtiercom_write>
+                <connection>
+                    <use>core_write</use>
+                </connection>
+            </udtiercom_write>
+            <udtiercom_read>
+                <connection>
+                    <use>core_read</use>
+                </connection>
+            </udtiercom_read>
+        </resources>
+
+        <blocks>
+            <udtiercom>
+                <class>Unirgy_DropshipTierCommission_Block</class>
+            </udtiercom>
+            <udropship>
+                <rewrite>
+                    <adminhtml_vendor_statement_edit_tab_rows>Unirgy_DropshipTierCommission_Block_Adminhtml_VendorStatementEditTabRows</adminhtml_vendor_statement_edit_tab_rows>
+                </rewrite>
+            </udropship>
+            <udpayout>
+                <rewrite>
+                    <adminhtml_payout_edit_tab_rows>Unirgy_DropshipTierCommission_Block_Adminhtml_PayoutEditTabRows</adminhtml_payout_edit_tab_rows>
+                </rewrite>
+            </udpayout>
+        </blocks>
+
+        <helpers>
+            <udtiercom>
+                <class>Unirgy_DropshipTierCommission_Helper</class>
+            </udtiercom>
+        </helpers>
+
+        <udropship>
+            <vendor>
+                <fields>
+                    <tiercom_fallback_lookup>
+                        <label>Commission fallback lookup method</label>
+                        <type>select</type>
+                        <source_model>udtiercom/source</source_model>
+                        <position>59</position>
+                        <default>-1</default>
+                    </tiercom_fallback_lookup>
+                </fields>
+            </vendor>
+            <runtime_product_attributes_config_paths>
+                <udropship-tiercom-comm_attribute />
+                <udropship-tiercom-fixed_rate_attribute />
+            </runtime_product_attributes_config_paths>
+        </udropship>
+
+        <template>
+            <email>
+            </email>
+        </template>
+
+        <events>
+            <udropship_vendor_load_after>
+                <observers>
+                    <udtiercom>
+                        <type>singleton</type>
+                        <class>udtiercom/observer</class>
+                        <method>udropship_vendor_load_after</method>
+                    </udtiercom>
+                </observers>
+            </udropship_vendor_load_after>
+            <udropship_vendor_save_after>
+                <observers>
+                    <udtiercom>
+                        <type>singleton</type>
+                        <class>udtiercom/observer</class>
+                        <method>udropship_vendor_save_after</method>
+                    </udtiercom>
+                </observers>
+            </udropship_vendor_save_after>
+            <udropship_vendor_save_before>
+                <observers>
+                    <udtiercom>
+                        <type>singleton</type>
+                        <class>udtiercom/observer</class>
+                        <method>udropship_vendor_save_before</method>
+                    </udtiercom>
+                </observers>
+            </udropship_vendor_save_before>
+            <udpo_order_save_before>
+                <observers>
+                    <udtiercom>
+                        <type>singleton</type>
+                        <class>udtiercom/observer</class>
+                        <method>udpo_order_save_before</method>
+                    </udtiercom>
+                </observers>
+            </udpo_order_save_before>
+            <udpo_po_shipment_save_before>
+                <observers>
+                    <udtiercom>
+                        <type>singleton</type>
+                        <class>udtiercom/observer</class>
+                        <method>udpo_po_shipment_save_before</method>
+                    </udtiercom>
+                </observers>
+            </udpo_po_shipment_save_before>
+            <udropship_order_save_before>
+                <observers>
+                    <udtiercom>
+                        <type>singleton</type>
+                        <class>udtiercom/observer</class>
+                        <method>udpo_po_shipment_save_before</method>
+                    </udtiercom>
+                </observers>
+            </udropship_order_save_before>
+        </events>
+
+    </global>
+
+    <frontend>
+        <routers>
+            <udtiercom>
+                <use>standard</use>
+                <args>
+                    <module>Unirgy_DropshipTierCommission</module>
+                    <frontName>udtiercom</frontName>
+                </args>
+            </udtiercom>
+        </routers>
+        <layout>
+            <updates>
+                <udtiercom>
+                    <file>udtiercom.xml</file>
+                </udtiercom>
+            </updates>
+        </layout>
+        <events>
+        </events>
+    </frontend>
+
+    <admin>
+        <routers>
+        </routers>
+    </admin>
+
+    <adminhtml>
+        <layout>
+            <updates>
+                <udtiercom>
+                </udtiercom>
+            </updates>
+        </layout>
+        <events>
+            <udropship_adminhtml_vendor_tabs_after>
+                <observers>
+                    <udtiercom>
+                        <class>udtiercom/observer</class>
+                        <method>udropship_adminhtml_vendor_tabs_after</method>
+                    </udtiercom>
+                </observers>
+            </udropship_adminhtml_vendor_tabs_after>
+        </events>
+    </adminhtml>
+
+    <default>
+        <udropship>
+            <tiercom>
+                <match_subcategories>1</match_subcategories>
+                <fixed_calculation_type>flat_tier_rule</fixed_calculation_type>
+                <fallback_lookup>tier</fallback_lookup>
+            </tiercom>
+	    </udropship>
+    </default>
+
+    <crontab>
+        <jobs>
+        </jobs>
+    </crontab>
+</config>

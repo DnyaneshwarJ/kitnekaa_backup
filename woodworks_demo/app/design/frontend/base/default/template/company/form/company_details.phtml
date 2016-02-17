@@ -1,0 +1,26 @@
+<?php if(Mage::getSingleton('customer/session')->isLoggedIn()): ?>
+	<?php $customer = Mage::getSingleton('customer/session')->getCustomer(); ?>
+	<?php $company=Mage::getModel('users/company')->load($customer->getCompanyId()); ?>
+	<?php $uploaded_docs = Mage::getModel('uploaddocs/companydocs')->getCollection()->addFieldToFilter('customer_id',$customer->getId()); ?>
+	<li class="wide">
+		<label for="vat_no"><?php echo $this->__('Vat Number') ?></label>
+		<div class="input-box">
+			<input type="text" name="vat_no" id="vat_no" value="<?php echo $this->escapeHtml($company->getVatNo()) ?>" title="<?php echo Mage::helper('core')->quoteEscape($this->__('Vat Number')) ?>" class="input-text" />
+		</div>
+	</li>
+	<li class="wide">
+		<label for="tin_no"><?php echo $this->__('Tin Number') ?></label>
+		<div class="input-box">
+			<input type="text" name="tin_no" id="tin_no" value="<?php echo $this->escapeHtml($company->getTinNo()) ?>" title="<?php echo Mage::helper('core')->quoteEscape($this->__('Tin Number')) ?>" class="input-text" />
+		</div>
+	</li>
+	<li class="wide">
+		<label for="tin_no"><?php echo $this->__('Upload Documents') ?></label>
+		<div class="input-box">
+			<input type="file" name="upload_docs[]" id="upload_docs" value="" title="<?php echo Mage::helper('core')->quoteEscape($this->__('Upload Documents')) ?>" class="input-file" multiple="multiple"/>
+		</div>
+		<?php foreach($uploaded_docs as $uploaded_doc): ?>
+			<p><a href="<?php echo Mage::getUrl('media').'company/documents/'.$uploaded_doc->getCustomerId().'/'.$uploaded_doc->getFileName(); ?>" download="<?php echo $uploaded_doc->getFileName(); ?>"><?php echo $uploaded_doc->getFileName(); ?></a></p>
+		<?php endforeach;?>
+	</li>
+<?php endif; ?>

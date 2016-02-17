@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<layout>
+    <udmulti_vendor_product_index>
+        <update handle="udropship_vendor" />
+        <reference name="content">
+            <block type="core/template" template="unirgy/dmulti/vendor/wrapper.phtml" name="wrapper">
+                <block type="udmulti/vendor_product_pager" name="product.grid.toolbar" />
+                <block type="udmulti/vendor_product_grid" template="unirgy/dmulti/vendor/product/grid.phtml" name="udmulti.product.grid" as="products"/>
+            </block>
+        </reference>
+    </udmulti_vendor_product_index>
+</layout>

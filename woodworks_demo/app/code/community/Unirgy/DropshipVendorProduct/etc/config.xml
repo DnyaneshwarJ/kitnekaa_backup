@@ -1,0 +1,563 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Unirgy LLC
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the EULA
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://www.unirgy.com/LICENSE-M1.txt
+ *
+ * @category   Unirgy
+ * @package    Unirgy_DropshipVendorProduct
+ * @copyright  Copyright (c) 2008-2009 Unirgy LLC (http://www.unirgy.com)
+ * @license    http:///www.unirgy.com/LICENSE-M1.txt
+ */
+
+-->
+<config>
+    <modules>
+        <Unirgy_DropshipVendorProduct>
+            <version>2.4.0</version>
+        </Unirgy_DropshipVendorProduct>
+    </modules>
+
+    <global>
+        <models>
+            <udprod>
+                <class>Unirgy_DropshipVendorProduct_Model</class>
+                <resourceModel>udprod_mysql4</resourceModel>
+            </udprod>
+            <udprod_mysql4>
+                <class>Unirgy_DropshipVendorProduct_Model_Mysql4</class>
+            </udprod_mysql4>
+            <catalog>
+                <rewrite>
+                    <product_status>Unirgy_DropshipVendorProduct_Model_ProductStatus</product_status>
+                    <product_type_configurable>Unirgy_DropshipVendorProduct_Model_ProductTypeConfigurable</product_type_configurable>
+                    <product_attribute_backend_media>Unirgy_DropshipVendorProduct_Model_ProductAttributeBackendMedia</product_attribute_backend_media>
+                </rewrite>
+            </catalog>
+            <catalog_resource_eav_mysql4>
+                <rewrite>
+                    <product_attribute_backend_media>Unirgy_DropshipVendorProduct_Model_Mysql4_ProductAttributeBackendMedia</product_attribute_backend_media>
+                    <product_type_configurable_attribute_collection>Unirgy_DropshipVendorProduct_Model_Mysql4_PTCACollection</product_type_configurable_attribute_collection>
+                </rewrite>
+            </catalog_resource_eav_mysql4>
+        </models>
+
+        <resources>
+            <udprod_setup>
+                <setup>
+                    <module>Unirgy_DropshipVendorProduct</module>
+                    <class>Mage_Sales_Model_Mysql4_Setup</class>
+                </setup>
+                <connection>
+                    <use>core_setup</use>
+                </connection>
+            </udprod_setup>
+            <udprod_write>
+                <connection>
+                    <use>core_write</use>
+                </connection>
+            </udprod_write>
+            <udprod_read>
+                <connection>
+                    <use>core_read</use>
+                </connection>
+            </udprod_read>
+        </resources>
+
+        <blocks>
+            <udprod>
+                <class>Unirgy_DropshipVendorProduct_Block</class>
+            </udprod>
+            <adminhtml>
+                <rewrite>
+                    <catalog_product_edit_tab_super_config>Unirgy_DropshipVendorProduct_Block_Adminhtml_CatalogProductEditTabSuper_Config</catalog_product_edit_tab_super_config>
+                    <catalog_product_helper_form_gallery_content>Unirgy_DropshipVendorProduct_Block_Adminhtml_CatalogProductHelperFormGalleryContent</catalog_product_helper_form_gallery_content>
+                </rewrite>
+            </adminhtml>
+        </blocks>
+
+        <helpers>
+            <udprod>
+                <class>Unirgy_DropshipVendorProduct_Helper</class>
+            </udprod>
+            <udropship>
+                <rewrite>
+                    <catalog>Unirgy_DropshipVendorProduct_Helper_Udcatalog</catalog>
+                </rewrite>
+            </udropship>
+        </helpers>
+
+        <udropship>
+            <vendor>
+                <fieldsets>
+                    <udprod>
+                        <legend>Vendor Portal Product Edit</legend>
+                        <position>200</position>
+                    </udprod>
+                </fieldsets>
+                <fields>
+                    <is_custom_udprod_unpublish_actions>
+                        <label>Use custom value for global "Unpublish vendor product on following changes"</label>
+                        <type>select</type>
+                        <frontend_model>udropship/adminhtml_vendor_helper_form_dependSelect</frontend_model>
+                        <depend_fields>
+                            <udprod_unpublish_actions>1</udprod_unpublish_actions>
+                        </depend_fields>
+                        <fieldset>udprod</fieldset>
+                        <source>yesno</source>
+                        <position>10</position>
+                        <default>0</default>
+                    </is_custom_udprod_unpublish_actions>
+                    <udprod_unpublish_actions>
+                        <label>Unpublish vendor product on following changes</label>
+                        <type>multiselect</type>
+                        <fieldset>udprod</fieldset>
+                        <source_model>udprod/source</source_model>
+                        <position>20</position>
+                        <default>0</default>
+                    </udprod_unpublish_actions>
+                    <is_custom_udprod_allowed_types>
+                        <label>Use custom value for global "Allowed types of product"</label>
+                        <type>select</type>
+                        <frontend_model>udropship/adminhtml_vendor_helper_form_dependSelect</frontend_model>
+                        <depend_fields>
+                            <udprod_allowed_types>1</udprod_allowed_types>
+                        </depend_fields>
+                        <fieldset>udprod</fieldset>
+                        <source>yesno</source>
+                        <position>30</position>
+                        <default>0</default>
+                    </is_custom_udprod_allowed_types>
+                    <udprod_allowed_types>
+                        <label>Allowed types of product</label>
+                        <type>multiselect</type>
+                        <fieldset>udprod</fieldset>
+                        <source_model>udprod/source</source_model>
+                        <position>40</position>
+                        <default>0</default>
+                    </udprod_allowed_types>
+                    <is_udprod_manage_stock>
+                        <label>Use custom value for global "Inventory Manage Stock"</label>
+                        <type>select</type>
+                        <fieldset>udprod</fieldset>
+                        <frontend_model>udropship/adminhtml_vendor_helper_form_dependSelect</frontend_model>
+                        <depend_fields>
+                            <udprod_manage_stock>1</udprod_manage_stock>
+                        </depend_fields>
+                        <source>yesno</source>
+                        <position>100</position>
+                        <default>0</default>
+                    </is_udprod_manage_stock>
+                    <udprod_manage_stock>
+                        <label>Inventory Manage Stock</label>
+                        <type>select</type>
+                        <fieldset>udprod</fieldset>
+                        <source>yesno</source>
+                        <position>110</position>
+                        <default>0</default>
+                    </udprod_manage_stock>
+                    <is_udprod_backorders>
+                        <label>Use custom value for global "Inventory Backorders"</label>
+                        <type>select</type>
+                        <fieldset>udprod</fieldset>
+                        <frontend_model>udropship/adminhtml_vendor_helper_form_dependSelect</frontend_model>
+                        <depend_fields>
+                            <udprod_backorders>1</udprod_backorders>
+                        </depend_fields>
+                        <source>yesno</source>
+                        <position>120</position>
+                        <default>0</default>
+                    </is_udprod_backorders>
+                    <udprod_backorders>
+                        <label>Inventory Backorders</label>
+                        <type>select</type>
+                        <fieldset>udprod</fieldset>
+                        <source_model>udprod/source</source_model>
+                        <source>udprod_backorders</source>
+                        <position>130</position>
+                        <default>0</default>
+                    </udprod_backorders>
+                    <is_udprod_min_qty>
+                        <label>Use custom value for global "Inventory Qty for Item's Status to Become Out of Stock"</label>
+                        <type>select</type>
+                        <fieldset>udprod</fieldset>
+                        <frontend_model>udropship/adminhtml_vendor_helper_form_dependSelect</frontend_model>
+                        <depend_fields>
+                            <udprod_min_qty>1</udprod_min_qty>
+                        </depend_fields>
+                        <source>yesno</source>
+                        <position>140</position>
+                        <default>0</default>
+                    </is_udprod_min_qty>
+                    <udprod_min_qty>
+                        <label>Inventory Qty for Item's Status to Become Out of Stock</label>
+                        <fieldset>udprod</fieldset>
+                        <position>150</position>
+                        <default>0</default>
+                    </udprod_min_qty>
+                    <is_udprod_min_sale_qty>
+                        <label>Use custom value for global "Inventory Minimum Qty Allowed in Shopping Cart"</label>
+                        <type>select</type>
+                        <fieldset>udprod</fieldset>
+                        <frontend_model>udropship/adminhtml_vendor_helper_form_dependSelect</frontend_model>
+                        <depend_fields>
+                            <udprod_min_sale_qty>1</udprod_min_sale_qty>
+                        </depend_fields>
+                        <source>yesno</source>
+                        <position>160</position>
+                        <default>0</default>
+                    </is_udprod_min_sale_qty>
+                    <udprod_min_sale_qty>
+                        <label>Inventory Minimum Qty Allowed in Shopping Cart</label>
+                        <fieldset>udprod</fieldset>
+                        <position>170</position>
+                        <default>0</default>
+                    </udprod_min_sale_qty>
+                    <is_udprod_max_sale_qty>
+                        <label>Use custom value for global "Inventory Maximum Qty Allowed in Shopping Cart"</label>
+                        <type>select</type>
+                        <fieldset>udprod</fieldset>
+                        <frontend_model>udropship/adminhtml_vendor_helper_form_dependSelect</frontend_model>
+                        <depend_fields>
+                            <udprod_max_sale_qty>1</udprod_max_sale_qty>
+                        </depend_fields>
+                        <source>yesno</source>
+                        <position>180</position>
+                        <default>0</default>
+                    </is_udprod_max_sale_qty>
+                    <udprod_max_sale_qty>
+                        <label>Inventory Maximum Qty Allowed in Shopping Cart</label>
+                        <fieldset>udprod</fieldset>
+                        <position>190</position>
+                        <default>0</default>
+                    </udprod_max_sale_qty>
+
+                    <is_limit_categories>
+                        <label>Limit Categories</label>
+                        <type>select</type>
+                        <frontend_model>udropship/adminhtml_vendor_helper_form_dependSelect</frontend_model>
+                        <depend_fields>
+                            <limit_categories>1,2</limit_categories>
+                        </depend_fields>
+                        <fieldset>udprod</fieldset>
+                        <source_model>udprod/source</source_model>
+                        <source>is_limit_categories</source>
+                        <position>500</position>
+                        <default></default>
+                    </is_limit_categories>
+                    <limit_categories>
+                        <label>Limit Categories</label>
+                        <type>text</type>
+                        <frontend_model>udprod/adminhtml_vendor_helper_form_categoriesCheckboxes</frontend_model>
+                        <fieldset>udprod</fieldset>
+                        <source>yesno</source>
+                        <position>600</position>
+                        <default></default>
+                    </limit_categories>
+                </fields>
+            </vendor>
+        </udropship>
+
+        <template>
+            <email>
+                <udprod_notification_pending_vendor_email_template module="udprod">
+                    <label>Pending Products Vendor Notification</label>
+                    <file>udprod_pending.html</file>
+                    <type>html</type>
+                </udprod_notification_pending_vendor_email_template>
+                <udprod_notification_pending_admin_email_template module="udprod">
+                    <label>Pending Products Admin Notification</label>
+                    <file>udprod_pending_admin.html</file>
+                    <type>html</type>
+                </udprod_notification_pending_admin_email_template>
+                <udprod_notification_approved_vendor_email_template module="udprod">
+                    <label>Approved Products Vendor Notification</label>
+                    <file>udprod_approved.html</file>
+                    <type>html</type>
+                </udprod_notification_approved_vendor_email_template>
+                <udprod_notification_approved_admin_email_template module="udprod">
+                    <label>Approved Products Admin Notification</label>
+                    <file>udprod_approved_admin.html</file>
+                    <type>html</type>
+                </udprod_notification_approved_admin_email_template>
+                <udprod_notification_fix_vendor_email_template module="udprod">
+                    <label>Fix Products Vendor Notification</label>
+                    <file>udprod_fix.html</file>
+                    <type>html</type>
+                </udprod_notification_fix_vendor_email_template>
+                <udprod_notification_fix_admin_email_template module="udprod">
+                    <label>Fix Products Admin Notification</label>
+                    <file>udprod_fix_admin.html</file>
+                    <type>html</type>
+                </udprod_notification_fix_admin_email_template>
+            </email>
+        </template>
+
+        <events>
+            <catalog_product_save_before>
+                <observers>
+                    <udprod>
+                        <type>singleton</type>
+                        <class>udprod/observer</class>
+                        <method>catalog_product_save_before</method>
+                    </udprod>
+                </observers>
+            </catalog_product_save_before>
+            <udropship_vendor_load_after>
+                <observers>
+                    <udprod>
+                        <type>singleton</type>
+                        <class>udprod/observer</class>
+                        <method>udropship_vendor_load_after</method>
+                    </udprod>
+                </observers>
+            </udropship_vendor_load_after>
+            <udropship_vendor_save_after>
+                <observers>
+                    <udprod>
+                        <type>singleton</type>
+                        <class>udprod/observer</class>
+                        <method>udropship_vendor_save_after</method>
+                    </udprod>
+                </observers>
+            </udropship_vendor_save_after>
+            <udropship_vendor_save_before>
+                <observers>
+                    <udprod>
+                        <type>singleton</type>
+                        <class>udprod/observer</class>
+                        <method>udropship_vendor_save_before</method>
+                    </udprod>
+                </observers>
+            </udropship_vendor_save_before>
+            <sales_quote_config_get_product_attributes>
+                <observers>
+                    <udprod>
+                        <type>singleton</type>
+                        <class>udprod/observer</class>
+                        <method>sales_quote_config_get_product_attributes</method>
+                    </udprod>
+                </observers>
+            </sales_quote_config_get_product_attributes>
+            <sales_quote_load_after>
+                <observers>
+                    <udprod>
+                        <type>singleton</type>
+                        <class>udprod/observer</class>
+                        <method>sales_quote_load_after</method>
+                    </udprod>
+                </observers>
+            </sales_quote_load_after>
+            <controller_front_init_before>
+                 <observers>
+                     <udprod>
+                         <type>singleton</type>
+                         <class>udprod/observer</class>
+                         <method>controller_front_init_before</method>
+                     </udprod>
+                 </observers>
+            </controller_front_init_before>
+            <udropship_init_config_rewrites>
+                <observers>
+                    <udprod>
+                        <type>singleton</type>
+                        <class>udprod/observer</class>
+                        <method>udropship_init_config_rewrites</method>
+                    </udprod>
+                </observers>
+            </udropship_init_config_rewrites>
+            <catalog_product_save_commit_after>
+                <observers>
+                    <udprod>
+                        <type>singleton</type>
+                        <class>udprod/observer</class>
+                        <method>catalog_product_save_commit_after</method>
+                    </udprod>
+                </observers>
+            </catalog_product_save_commit_after>
+            <catalog_product_attribute_update_before>
+                <observers>
+                    <udprod>
+                        <type>singleton</type>
+                        <class>udprod/observer</class>
+                        <method>catalog_product_attribute_update_before</method>
+                    </udprod>
+                </observers>
+            </catalog_product_attribute_update_before>
+        </events>
+
+    </global>
+
+    <frontend>
+        <routers>
+            <udprod>
+                <use>standard</use>
+                <args>
+                    <module>Unirgy_DropshipVendorProduct</module>
+                    <frontName>udprod</frontName>
+                </args>
+            </udprod>
+        </routers>
+        <layout>
+            <updates>
+                <udprod>
+                    <file>udprod.xml</file>
+                </udprod>
+            </updates>
+        </layout>
+        <events>
+            <controller_action_layout_load_before>
+                <observers>
+                    <udprod>
+                        <type>singleton</type>
+                        <class>udprod/observer</class>
+                        <method>controller_action_layout_load_before</method>
+                    </udprod>
+                </observers>
+            </controller_action_layout_load_before>
+        </events>
+        <secure_url>
+            <udprod_vendor>/udprod/vendor/</udprod_vendor>
+        </secure_url>
+    </frontend>
+
+    <admin>
+        <routers>
+            <adminhtml>
+                <args>
+                    <modules>
+                        <adminudprod before="Mage_Adminhtml">Unirgy_DropshipVendorProduct_Adminhtml</adminudprod>
+                        <udprodadmin after="Mage_Adminhtml">Unirgy_DropshipVendorProduct</udprodadmin>
+                    </modules>
+                </args>
+            </adminhtml>
+        </routers>
+    </admin>
+
+    <adminhtml>
+        <layout>
+            <updates>
+                <udprod>
+                    <file>udprod.xml</file>
+                </udprod>
+            </updates>
+        </layout>
+        <events>
+            <catalog_product_edit_action>
+                <observers>
+                    <udprod>
+                        <class>udprod/observer</class>
+                        <method>catalog_product_edit_action</method>
+                    </udprod>
+                </observers>
+            </catalog_product_edit_action>
+            <core_block_abstract_prepare_layout_after>
+                <observers>
+                    <udprod>
+                        <class>udprod/observer</class>
+                        <method>core_block_abstract_prepare_layout_after</method>
+                    </udprod>
+                </observers>
+            </core_block_abstract_prepare_layout_after>
+            <udropship_adminhtml_vendor_tabs_after>
+                <observers>
+                    <udprod>
+                        <class>udprod/observer</class>
+                        <method>udropship_adminhtml_vendor_tabs_after</method>
+                    </udprod>
+                </observers>
+            </udropship_adminhtml_vendor_tabs_after>
+            <controller_action_layout_render_before_adminhtml_system_config_edit>
+                <observers>
+                    <udprod>
+                        <class>udprod/observer</class>
+                        <method>controller_action_layout_render_before_adminhtml_system_config_edit</method>
+                    </udprod>
+                </observers>
+            </controller_action_layout_render_before_adminhtml_system_config_edit>
+        </events>
+        <acl>
+            <resources>
+                <admin>
+                    <children>
+                        <system>
+                            <children>
+                                <config>
+                                    <children>
+                                        <udprod translate="title" module="udropship">
+                                            <title>Vendor Products Edit</title>
+                                            <sort_order>51</sort_order>
+                                        </udprod>
+                                    </children>
+                                </config>
+                            </children>
+                        </system>
+                    </children>
+                </admin>
+            </resources>
+        </acl>
+    </adminhtml>
+
+    <default>
+        <udprod>
+            <general>
+                <allow_remove>1</allow_remove>
+                <use_product_zoom>0</use_product_zoom>
+                <auto_sku>1</auto_sku>
+                <show_hidden_categories>1</show_hidden_categories>
+                <cfg_upload_images_simple>0</cfg_upload_images_simple>
+                <cfg_show_media_gallery>0</cfg_show_media_gallery>
+                <cfg_show_media_attributes>0</cfg_show_media_attributes>
+            </general>
+            <notification>
+                <admin_email_identity>general</admin_email_identity>
+                <vendor_email_identity>general</vendor_email_identity>
+
+                <send_pending_notifications>0</send_pending_notifications>
+                <send_pending_admin_notifications>0</send_pending_admin_notifications>
+                <send_approved_notifications>0</send_approved_notifications>
+                <send_approved_admin_notifications>0</send_approved_admin_notifications>
+                <send_fix_notifications>0</send_fix_notifications>
+                <send_fix_admin_notifications>0</send_fix_admin_notifications>
+
+                <pending_vendor_email_template>udprod_notification_pending_vendor_email_template</pending_vendor_email_template>
+                <approved_vendor_email_template>udprod_notification_approved_vendor_email_template</approved_vendor_email_template>
+                <fix_vendor_email_template>udprod_notification_fix_vendor_email_template</fix_vendor_email_template>
+                <pending_admin_email_template>udprod_notification_pending_admin_email_template</pending_admin_email_template>
+                <approved_vendor_email_template>udprod_notification_approved_vendor_email_template</approved_vendor_email_template>
+                <fix_vendor_email_template>udprod_notification_fix_vendor_email_template</fix_vendor_email_template>
+            </notification>
+            <quick_create_layout>
+                <cfg_attributes>one_column</cfg_attributes>
+                <cfg_attributes_title>Configurable Attributes</cfg_attributes_title>
+                <columns><![CDATA[[{"title":"Product Data","columns_def":[{"column_field":"product.name","sort_order":"0"},{"column_field":"product.sku","sort_order":"10"},{"column_field":"product.weight","sort_order":"20"}],"sort_order":"12","fields_extra":{"product.name":[],"product.sku":[],"product.weight":[]},"required_fields":[],"columns":["product.name","product.sku","product.weight"]},{"title":"Stock","columns_def":[{"column_field":"udmulti.stock_qty","is_required":"1","sort_order":"0"}],"sort_order":"20","fields_extra":{"udmulti.stock_qty":[]},"required_fields":["udmulti.stock_qty"],"columns":["udmulti.stock_qty"]},{"title":"State (Condition)","columns_def":[{"column_field":"udmulti.state","is_required":"1","sort_order":"0"},{"column_field":"udmulti.state_descr","sort_order":"10"},{"column_field":"udmulti.vendor_title","sort_order":"20"}],"sort_order":"30","fields_extra":{"udmulti.state":[],"udmulti.state_descr":[],"udmulti.vendor_title":[]},"required_fields":["udmulti.state"],"columns":["udmulti.state","udmulti.state_descr","udmulti.vendor_title"]}]]]></columns>
+            </quick_create_layout>
+            <form>
+                <fieldsets><![CDATA[[{"title":"Enter Product Information","sort_order":"0","top_columns_def":[{"column_field":"product.name","is_required":"1","sort_order":"5"},{"column_field":"product.description","sort_order":"10"}],"bottom_columns_def":[{"column_field":"udmulti.vendor_sku","sort_order":"0"},{"column_field":"udmulti.vendor_title","use_limit_type":"1","limit_type":["simple"],"sort_order":"0"},{"column_field":"udmulti.state_descr","use_limit_type":"1","limit_type":["simple"],"sort_order":"0"},{"column_field":"udmulti.stock_qty","is_required":"1","use_limit_type":"1","limit_type":["simple"],"sort_order":"5"},{"column_field":"udmulti.state","is_required":"1","use_limit_type":"1","limit_type":["simple"],"sort_order":"10"}],"left_columns_def":[{"column_field":"udmulti.vendor_price","is_required":"1","sort_order":"0"},{"column_field":"udmulti.special_price","sort_order":"10"}],"right_columns_def":[{"column_field":"udmulti.special_from_date","sort_order":"0"},{"column_field":"udmulti.special_to_date","sort_order":"10"}],"fields_extra":{"product.name":{"use_limit_type":null,"limit_type":null},"product.description":{"use_limit_type":null,"limit_type":null},"udmulti.vendor_sku":{"use_limit_type":null,"limit_type":null},"udmulti.vendor_title":{"use_limit_type":"1","limit_type":["simple"]},"udmulti.state_descr":{"use_limit_type":"1","limit_type":["simple"]},"udmulti.stock_qty":{"use_limit_type":"1","limit_type":["simple"]},"udmulti.state":{"use_limit_type":"1","limit_type":["simple"]},"udmulti.vendor_price":{"use_limit_type":null,"limit_type":null},"udmulti.special_price":{"use_limit_type":null,"limit_type":null},"udmulti.special_from_date":{"use_limit_type":null,"limit_type":null},"udmulti.special_to_date":{"use_limit_type":null,"limit_type":null}},"required_fields":["product.name","udmulti.stock_qty","udmulti.state","udmulti.vendor_price"],"top_columns":["product.name","product.description"],"bottom_columns":["udmulti.vendor_sku","udmulti.vendor_title","udmulti.state_descr","udmulti.stock_qty","udmulti.state"],"left_columns":["udmulti.vendor_price","udmulti.special_price"],"right_columns":["udmulti.special_from_date","udmulti.special_to_date"]}]]]></fieldsets>
+            </form>
+	    </udprod>
+    </default>
+
+    <crontab>
+        <jobs>
+            <udprod_notify_pending>
+                <schedule><cron_expr>*/30 * * * *</cron_expr></schedule>
+                <run><model>udprod/observer::notifyPending</model></run>
+            </udprod_notify_pending>
+            <udprod_notify_approved>
+                <schedule><cron_expr>*/30 * * * *</cron_expr></schedule>
+                <run><model>udprod/observer::notifyApproved</model></run>
+            </udprod_notify_approved>
+            <udprod_notify_fix>
+                <schedule><cron_expr>*/30 * * * *</cron_expr></schedule>
+                <run><model>udprod/observer::notifyFix</model></run>
+            </udprod_notify_fix>
+        </jobs>
+    </crontab>
+</config>

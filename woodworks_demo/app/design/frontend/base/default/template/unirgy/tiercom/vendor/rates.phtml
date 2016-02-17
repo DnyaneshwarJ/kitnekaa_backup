@@ -1,0 +1,24 @@
+<?php $tsHlp = Mage::helper('udtiercom');?>
+
+<?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
+
+<table cellspacing="0" class="data-table" id="tiercom_category_rates-grid">
+        <col width="200">
+        <col width="100">
+        <thead>
+            <tr>
+                <th class="a-center"><?php echo Mage::helper('udropship')->__('Category') ?></th>
+                <th class="a-center"><?php echo Mage::helper('udropship')->__('Commission Percent') ?></th>
+            </tr>
+        </thead>
+    <tbody id="tiercom_category_rates-table">
+    <?php $_curTS = $this->getTiercomRates(); $_globalTSC = $this->getGlobalTierComConfig(); ?>
+    <?php $i=0; foreach($this->getTopCategories() as $_topCat): ?>
+    <?php $_catId = $_topCat->getId(); $useTS = (isset($_curTS[$_catId]['value']) && $_curTS[$_catId]['value']!=='') ? $_curTS[$_catId] : $_globalTSC[$_catId]?>
+        <tr>
+            <td class="a-left"><?php echo $_topCat->getName()?></td>
+            <td class="a-right"><?php echo (isset($useTS['value']) && $useTS['value']!=='') ? $useTS['value']*1 : ''?></td>
+        </tr>
+    <?php endforeach ?>
+    </tbody>
+</table>

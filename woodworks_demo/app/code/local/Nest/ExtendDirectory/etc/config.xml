@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<config>
+  <modules>
+    <Nest_ExtendDirectory>
+      <version>0.1.0</version>
+    </Nest_ExtendDirectory>
+  </modules>
+  <global>
+    <helpers>
+      <extenddirectory>
+        <class>Nest_ExtendDirectory_Helper</class>
+      </extenddirectory>
+    </helpers>
+	<resources>
+	  <extenddirectory_setup>
+		<setup>
+		  <module>Nest_ExtendDirectory</module>
+		</setup>
+		<connection>
+		  <use>core_setup</use>
+		</connection>
+	  </extenddirectory_setup>
+	  <extenddirectory_write>
+		<connection>
+		  <use>core_write</use>
+		</connection>
+	  </extenddirectory_write>
+	  <extenddirectory_read>
+		<connection>
+		  <use>core_read</use>
+		</connection>
+	  </extenddirectory_read>
+	</resources>
+  </global>
+</config> 

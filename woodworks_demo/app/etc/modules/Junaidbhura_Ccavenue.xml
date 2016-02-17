@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+
+<config>
+    <modules>
+        <Junaidbhura_Ccavenue>
+            <active>false</active>
+            <codePool>local</codePool>
+        </Junaidbhura_Ccavenue>
+    </modules>
+</config>

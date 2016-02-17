@@ -1,0 +1,33 @@
+<?php 
+$_tsHlp = Mage::helper('udtiercom');
+$_htmlId = $this->getHtmlId() ? $this->getHtmlId() : '_' . uniqid();
+$_element = $this->getElement()
+?>
+<div class="grid">
+<table cellspacing="0" class="data" cellpadding="0" id="global_tiercom_category_rates-grid" style="width: 650px">
+    <col width="150">
+    <col width="120">
+    <thead>
+        <tr class="headings">
+            <th class="a-center"><?php echo Mage::helper('udropship')->__('Category') ?></th>
+            <th class="a-center"><?php echo Mage::helper('udropship')->__('Default Commission Percent (per item)') ?></th>
+            <th class="a-center"><?php echo Mage::helper('udropship')->__('Default Fixed Rate (per item)') ?></th>
+        </tr>
+    </thead>
+    <tbody id="global_tiercom_category_rates-table">
+        <?php $_globalTSC = $_element->getValue(); ?>
+        <?php $i=0; foreach($this->getTopCategories() as $_topCat): ?>
+        <?php $_catId = $_topCat->getId(); ?>
+        <tr class="option-row">
+            <td class="a-left"><?php echo $_topCat->getName()?></td>
+            <td class="a-center"><input name="<?php echo $_element->getName()?>[<?php echo $_catId?>][value]" class="input-text" type="text" value="<?php echo @$_globalTSC[$_catId]['value']?>"/></td>
+            <td class="a-center"><input name="<?php echo $_element->getName()?>[<?php echo $_catId?>][fixed]" class="input-text" type="text" value="<?php echo @$_globalTSC[$_catId]['fixed']?>"/></td>
+        </tr>
+        <?php endforeach ?>
+    </tbody>
+</table>
+</div>
+
+<style type="text/css">
+#global_tiercom_category_rates-table input {width: 80px}
+</style>

@@ -1,0 +1,51 @@
+<!--@subject {{var quote.getStoreGroupName()}}: Proposal for Quote Request # {{var quote.increment_id}} @-->
+
+<!--@styles
+body,td { color:#2f2f2f; font:11px/1.35em Verdana, Arial, Helvetica, sans-serif; }
+@-->
+<div style="font:11px/1.35em Verdana, Arial, Helvetica, sans-serif;">
+    <table cellspacing="0" cellpadding="0" border="0" width="98%"
+           style="margin-top:10px; font:11px/1.35em Verdana, Arial, Helvetica, sans-serif; margin-bottom:10px;">
+        <tr>
+            <td align="center" valign="top">
+                <!-- [ header starts here] -->
+                <table cellspacing="0" cellpadding="0" border="0" width="650">
+                    <tr>
+                        <td valign="top"><a href="{{store url=''}}"><img src="{{skin url='images/logo_email.gif'
+                            _area='frontend'}}" alt="Magento" style="margin-bottom:10px;" border="0"/></a></td>
+                    </tr>
+                </table>
+                <!-- [ middle starts here] -->
+                <table cellspacing="0" cellpadding="0" border="0" width="650">
+                    <tr>
+                        <td valign="top">
+                            <p>
+                                <strong>Ciao {{var customer.name}}</strong>,<br/><br>
+                                Grazie per la tua richiesta di preventivo da {{var quote.getStoreGroupName()}}.
+                                {{if attach_pdf}}<br><br>Trovi il nostro preventivo allegato in PDF.{{/if}}
+                                {{if attach_doc}}<br>Anche le nostre condizioni le puoi trovare in allegato in
+                                PDF.{{/if}}
+
+                                {{if quote.getPath()}}<br><br>Il {{var quote.getFileTitle()}} puo' essere scaricato da
+                                qui: {{var quote.getFullPath()}}{{/if}}
+
+                                <br>
+                                {{layout handle="qquoteadv_email_qquoteadv_items" quote=$quote}}
+                                <br><br>
+                                Osservazioni:
+                                {{depend quote.getClientRequest()}}<br>{{var
+                                quote.getClientRequest()}}<br>{{/depend}}<br>
+                                Tu puoi modificare, rifiutare e accettare la nostra offerta online effettuando <a
+                                    href='{{var link}}' style="color:#1E7EC8;">il login.</a></p>
+                            <i>Condizioni:{{depend remark}}<br/>{{var remark}}<br/>{{/depend}}</i><br>
+                            Per qualsiasi domanda non esitare a contattarci <a href="mailto:{{config path='trans_email/ident_support/email'}}"
+                                                                               style="color:#1E7EC8;">{{config path='trans_email/ident_support/email'}}</a>
+                            o chiamaci al <span class="nobr">{{config path='general/store_information/phone'}}</span> dal Lunedi al Venerdi, 8.00 - 19.00 .
+                            </p><br>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+</div>               

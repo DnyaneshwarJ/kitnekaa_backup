@@ -1,0 +1,371 @@
+/**
+ *
+ * CART2QUOTE CONFIDENTIAL
+ * __________________
+ *
+ *  [2009] - [2015] Cart2Quote B.V.
+ *  All Rights Reserved.
+ *
+ * NOTICE OF LICENSE
+ *
+ * All information contained herein is, and remains
+ * the property of Cart2Quote B.V. and its suppliers,
+ * if any.  The intellectual and technical concepts contained
+ * herein are proprietary to Cart2Quote B.V.
+ * and its suppliers and may be covered by European and Foreign Patents,
+ * patents in process, and are protected by trade secret or copyright law.
+ * Dissemination of this information or reproduction of this material
+ * is strictly forbidden unless prior written permission is obtained
+ * from Cart2Quote B.V.
+ *
+ * @category    Ophirah
+ * @package     Qquoteadv
+ * @copyright   Copyright (c) 2015 Cart2Quote B.V. (http://www.cart2quote.com)
+ * @license     http://www.cart2quote.com/ordering-licenses
+ */
+
+/*  Title:    CART 2 QUOTE Stylesheet
+    Author:   David Hund - Valued Standards
+--------------------------------------------------------------------------- */
+.c2q {
+    border-bottom: 1px solid #CCCCCC;
+    display: block;
+    overflow: hidden;
+    margin-bottom: 20px;
+}
+
+.c2q .ul {
+    list-style: disc outside;
+    padding-left: 18px;
+}
+
+.c2q li.section {
+    display: inline;
+}
+
+.c2q .tab-title, .c2q .allow .tab-title {
+    border: 1px solid #F9F3E3;
+    height: 69px
+}
+
+.c2q .tab-title .numeration, .c2q .allow .tab-title .numeration, .c2q .active .tab-title .numeration {
+    float: none;
+    display: block;
+    margin: 0 auto;
+    margin-bottom: 10px;
+}
+
+.c2q .tab-title {
+    position: relative;
+    float: left;
+    text-align: center;
+    padding: 15px 11px 0;
+    background: none;
+}
+
+.c2q .tab-title a {
+    display: none;
+}
+
+.c2q .tab-title .numeration {
+    background: #ccc;
+    color: #fff;
+    width: 30px;
+    height: 30px;
+    line-height: 30px;
+    -moz-border-radius: 20px;
+    -webkit-border-radius: 20px;
+    border-radius: 20px;
+    margin-bottom: 10px;
+    padding: 0;
+    border: 0;
+}
+
+.c2q .tab-title h2 {
+    font-size: 12px;
+    color: #bbb;
+    clear: both;
+}
+
+.c2q .allow .tab-title {
+    cursor: pointer;
+    background: none;
+}
+
+.c2q .allow .tab-title .numeration {
+    background: #000;
+    color: #fff;
+}
+
+.c2q .allow .tab-title h2 {
+    color: #000;
+}
+
+.c2q .active .tab-title {
+    color: #ef0606;
+    cursor: default;
+    border: 1px solid #CCCCCC;
+    border-bottom: 1px solid #FBFAF6;
+    z-index: 2;
+    background-color: #FBFAF6;
+}
+
+.c2q .active .tab-title .numeration {
+    background: #F18200;
+    border-color: #fff;
+    color: #fff;
+}
+
+.c2q .active .tab-title h2 {
+    color: #F18200;
+}
+
+.c2q .tab-title h2, .c2q .allow .tab-title h2, .c2q .active .tab-title h2 {
+    width: 100%;
+    text-align: center;
+}
+
+.c2q .tab-title {
+    width: 25%;
+}
+
+.qquote-client-collaterals td input {
+    width: 250px;
+    padding-right: 10px;
+}
+
+.qquote-client-collaterals td select {
+    width: 265px;
+    padding-right: 0px;
+}
+
+#qquote-tbl-address td input.input-text,
+#qquote-tbl-address td select,
+#qquote-tbl-billing td input.input-text,
+#qquote-tbl-billing td select,
+#qquote-tbl-shipping td input.input-text,
+#qquote-tbl-shipping td select,
+#qquote-tbl-options td input.input-text,
+#qquote-tbl-options td select {
+    background-color: #FBFBFB;
+    color: #000000;
+}
+
+.qquote-cart-collaterals {
+    float: right;
+    padding: 1px 0;
+    width: 605px;
+}
+
+.qquote-cart-collaterals .box {
+    background: url("../images/qquoteadv/css/base_mini_head_bg.gif") repeat-x scroll 0 0 #FFFFFF;
+    border: 1px solid #D0CBC1;
+    margin-bottom: 18px;
+    padding: 12px 15px;
+}
+
+.qquote-cart-collaterals .shipping-adress h4 {
+    background-image: url("../images/qquoteadv/css/icon_lorry.gif");
+    padding-left: 23px;
+    background-position: 0 0;
+    background-repeat: no-repeat;
+    color: #E26703;
+    min-height: 16px;
+    padding: 1px 0 1px 21px;
+    text-transform: uppercase;
+    font-size: 0.95em;
+}
+
+.qquote-client-collaterals {
+    float: right;
+    padding: 25px 0;
+    width: 605px;
+}
+
+.qquote-client-collaterals .box {
+    background: url("../images/qquoteadv/css/base_mini_head_bg.gif") repeat-x scroll 0 0 #FFFFFF;
+    border: 1px solid #D0CBC1;
+    margin-bottom: 18px;
+    padding: 12px 15px;
+}
+
+.qquote-client-collaterals .client-data h4 {
+    background-image: url("../images/qquoteadv/css/fill-form-icon.png");
+    padding-left: 23px;
+    background-position: 0 0;
+    background-repeat: no-repeat;
+    color: #E26703;
+    min-height: 18px;
+    padding: 1px 0 1px 35px;
+    text-transform: uppercase;
+    font-size: 1.1em;
+}
+
+.w224 {
+    width: 224px;
+}
+
+.p5 {
+    padding-left: 5px;
+}
+
+.m5 {
+    margin-top: 5px;
+}
+
+a.pad {
+    color: black;
+    padding-left: 10px;
+}
+
+div#parent {
+    position: relative;
+    height: 180px;
+}
+
+div#comment {
+    position: absolute;
+    padding: 1px;
+    margin: 3px;
+    cursor: pointer;
+    overflow-y: auto;
+    background: none repeat scroll 0 0 #FFFFFF;
+    width: 98%;
+    max-height: 170px;
+}
+
+ol.c2q {
+    /* This is the main Tab Bar on the top */
+    background: rgba(255, 255, 255, 0.5);
+    border: 1px solid #CCC;
+    padding: 12px 12px 6px 12px;
+    *padding-bottom: 12px;
+    -webkit-box-shadow: inset 0 0 3px 0 rgba(0, 0, 0, 0.2);
+    -moz-box-shadow: inset 0 0 3px 0 rgba(0, 0, 0, 0.2);
+    box-shadow: inset 0 0 3px 0 rgba(0, 0, 0, 0.2);
+}
+
+.c2q li.section .tab-title {
+    /* a tab */
+    float: none;
+    display: inline-block;
+    *float: left;
+    width: auto;
+    height: auto;
+
+    background: #618499; /* Old browsers */
+    background: -moz-linear-gradient(top, #d9e5ee 0%, #618499 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #d9e5ee), color-stop(100%, #618499)); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top, #d9e5ee 0%, #618499 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top, #d9e5ee 0%, #618499 100%); /* Opera11.10+ */
+    background: -ms-linear-gradient(top, #d9e5ee 0%, #618499 100%); /* IE10+ */
+    background: linear-gradient(top, #d9e5ee 0%, #618499 100%); /* W3C */
+
+    border: 1px solid #999;
+    -webkit-border-radius: 8px;
+    -khtml-border-radius: 8px;
+    -moz-border-radius: 8px;
+    border-radius: 8px;
+
+    -webkit-box-shadow: 0 0 3px 0 rgba(0, 0, 0, 0.2);
+    -moz-box-shadow: 0 0 3px 0 rgba(0, 0, 0, 0.2);
+    box-shadow: 0 0 3px 0 rgba(0, 0, 0, 0.2);
+
+    padding: 5px 10px;
+    *padding-bottom: 10px;
+    margin: 0 10px 0 0;
+    font-size: 14px;
+    text-shadow: 0 1px 0 #FFF;
+}
+
+.c2q li.section:hover .tab-title,
+.c2q li.section.active .tab-title {
+    /* Active tab */
+    z-index: 100;
+
+    background: #d9e5ee; /* Old browsers */
+    background: -moz-linear-gradient(top, #C5D6E2 0%, #d9e5ee 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #C5D6E2), color-stop(100%, #d9e5ee)); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top, #C5D6E2 0%, #d9e5ee 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top, #C5D6E2 0%, #d9e5ee 100%); /* Opera11.10+ */
+    background: -ms-linear-gradient(top, #C5D6E2 0%, #d9e5ee 100%); /* IE10+ */
+    background: linear-gradient(top, #C5D6E2 0%, #d9e5ee 100%); /* W3C */
+    color: #ff5600;
+
+    border-color: #999 #FFF #FFF #999;
+    -webkit-box-shadow: inset 0 0 3px 0 rgba(0, 0, 0, 0.2);
+    -moz-box-shadow: inset 0 0 3px 0 rgba(0, 0, 0, 0.2);
+    box-shadow: inset 0 0 3px 0 rgba(0, 0, 0, 0.2);
+
+}
+
+.c2q .tab-title .numeration, .c2q .allow .tab-title .numeration, .c2q .active .tab-title .numeration {
+    float: left;
+    height: auto;
+    width: auto;
+    background: transparent;
+    color: #111;
+    line-height: 22px;
+    *line-height: 24px;
+    margin: 0;
+    padding: 0 1em;
+
+    -webkit-border-radius: 0;
+    -khtml-border-radius: 0;
+    -moz-border-radius: 0;
+    border-radius: 0;
+    border-right: 1px solid #618499;
+
+    -webkit-box-shadow: 1px 0 0 0 rgba(255, 255, 255, 0.4);
+    -moz-box-shadow: 1px 0 0 0 rgba(255, 255, 255, 0.4);
+    box-shadow: 1px 0 0 0 rgba(255, 255, 255, 0.4);
+}
+
+.c2q .tab-title h2, .c2q .allow .tab-title h2, .c2q .active .tab-title h2 {
+    clear: right;
+    float: left;
+    width: auto;
+    margin: 5px .8em;
+    color: #111;
+}
+
+.c2q .tab-title h2 {
+    font-size: 14px;
+    margin: 0;
+    line-height: 14px;
+    *line-height: 16px;
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
+}
+
+.c2q .active .tab-title .numeration,
+.c2q .active .tab-title h2 {
+    color: #ff5600;
+    text-shadow: 0 1px 0 #FFF;
+}
+
+.c2q li:hover .tab-title .numeration,
+.c2q li:hover .tab-title h2 {
+    color: #000;
+}
+
+#shopping-cart-table #c2qBtn {
+    margin-right: 10px;
+}
+
+#addressContainer {
+    padding-top: 0;
+}
+
+#addressCheckbox {
+    margin: 15px 0 10px 0;
+}
+
+#accountDiv,
+#shipDiv,
+#billDiv,
+#optionsDiv {
+    margin: 15px 0 10px 0;
+}
+
+.qquote-client-collaterals .left {
+}

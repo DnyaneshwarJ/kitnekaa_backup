@@ -1,0 +1,56 @@
+<?xml version="1.0"?>
+
+<layout version="0.1.0">
+
+    <udpromo_vendor_rules>
+        <update handle="udropship_vendor" />
+        <reference name="head">
+            <action method="addItem"><type>js_css</type><name>calendar/calendar-win2k-1.css</name></action>
+            <action method="addItem"><type>js</type><name>calendar/calendar.js</name></action>
+            <action method="addItem"><type>js</type><name>calendar/calendar-setup.js</name></action>
+        </reference>
+        <reference name="content">
+            <block type="core/html_calendar" name="head.calendar" as="calendar" template="page/js/calendar.phtml"/>
+            <block type="core/template" template="unirgy/udpromo/vendor/rules/wrapper.phtml" name="wrapper">
+                <block type="udpromo/vendor_rules" template="unirgy/udpromo/vendor/rules/grid.phtml" name="udpromo.rules.grid" as="rules">
+                    <block type="page/html_pager" name="udpromo.grid.toolbar" as="toolbar" />
+                </block>
+            </block>
+        </reference>
+    </udpromo_vendor_rules>
+    <_udpromo_vendor_ruleedit>
+        <reference name="head">
+            <action method="addItem"><type>js_css</type><name>calendar/calendar-win2k-1.css</name></action>
+            <action method="addItem"><type>js</type><name>calendar/calendar.js</name></action>
+            <action method="addItem"><type>js</type><name>calendar/lang/calendar-en.js</name></action>
+            <action method="addItem"><type>js</type><name>calendar/calendar-setup.js</name></action>
+
+            <action method="addJs"><script>mage/adminhtml/form.js</script></action>
+            <action method="addJs"><script>mage/adminhtml/events.js</script></action>
+            <action method="addJs"><script>mage/adminhtml/loader.js</script></action>
+            <action method="addJs"><script>mage/adminhtml/tools.js</script></action>
+            <action method="addJs"><script>mage/adminhtml/hash.js</script></action>
+            <action method="addJs"><script>mage/adminhtml/grid.js</script></action>
+
+            <action method="addItem"><type>js</type><name>extjs/ext-tree.js</name></action>
+            <action method="addItem"><type>js</type><name>extjs/fix-defer.js</name></action>
+            <action method="addItem"><type>js</type><name>extjs/ext-tree-checkbox.js</name></action>
+            <action method="addItem"><type>js_css</type><name>extjs/resources/css/ext-all.css</name></action>
+            <action method="addItem"><type>js_css</type><name>extjs/resources/css/ytheme-magento.css</name></action>
+            <action method="addItem"><type>js</type><name>mage/adminhtml/rules.js</name></action>
+        </reference>
+        <reference name="content">
+            <block type="core/html_calendar" name="head.calendar" as="calendar" template="page/js/calendar.phtml"/>
+            <block type="udpromo/vendor_rule" template="unirgy/udpromo/vendor/rule/edit.phtml" name="udpromo.rule.edit" />
+        </reference>
+    </_udpromo_vendor_ruleedit>
+    <udpromo_vendor_ruleedit>
+        <update handle="udropship_vendor" />
+        <update handle="_udpromo_vendor_ruleedit" />
+    </udpromo_vendor_ruleedit>
+    <udpromo_vendor_rulenew>
+        <update handle="udropship_vendor" />
+        <update handle="_udpromo_vendor_ruleedit" />
+    </udpromo_vendor_rulenew>
+
+</layout>

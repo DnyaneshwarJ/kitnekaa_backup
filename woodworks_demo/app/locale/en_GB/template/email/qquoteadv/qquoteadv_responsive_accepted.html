@@ -1,0 +1,26 @@
+<!--@subject {{var quote.getStoreGroupName()}}: Quote # {{var quote.increment_id}} is accepted @-->
+
+<!--@styles
+body,td { color:#2f2f2f; font:11px/1.35em Verdana, Arial, Helvetica, sans-serif; }
+@-->
+
+{{template config_path="design/email/header"}}
+{{inlinecss file="email-inline.css"}}
+
+<table cellpadding="0" cellspacing="0" border="0">
+    <tr>
+        <td>
+            <table cellpadding="0" cellspacing="0" border="0">
+                <tr>
+                    <td class="email-heading">
+                        <h2>Hi {{var adminname}}</h2>
+                        <h1>Your Proposal<span class="no-link">#{{var quote.increment_id}}</span> has been accepted by the customer</h1>
+                        <p>This note is sent to you, because the customer pressed the accept button in the Customer dashboard. The customer still needs to complete the checkout process, before the proposal is fully converted to an order.</p>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>
+
+{{template config_path="design/email/footer"}}

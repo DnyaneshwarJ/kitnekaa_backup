@@ -1,0 +1,129 @@
+<?php
+$countryList = Mage::getModel('directory/country')->getResourceCollection()
+    ->loadByStore()
+    ->toOptionArray(true);
+$allow_countries=array_column($countryList , 'value');
+array_filter($allow_countries[0]);
+?>
+
+<script>
+
+       Validation.add('required-image-pdf','Upload only ( .jpg, .jpeg, .png, .gif, .bmp and .pdf ) files !',function(v,elm){
+            var inputs = $$('input[name="' + elm.name.replace(/([\\"])/g, '\\$1') + '"]');
+
+           if (inputs[0].value == "" ) {
+               return true;
+           }
+
+           for(var i=0;i<inputs.length;i++)
+            {
+                return (/\.(gif|jpg|jpeg|png|pdf)$/i).test(inputs[i].value);
+            }
+
+        });
+
+       
+    Validation.add('validate-email-exists','This email id already exists.',function(v,elm){
+        var value=v;
+        var is_true=false;
+       // showAjaxErrorMsg("fsdfsdf");
+        jQuery(elm).after('<p style="color: red" class="val_load_validate-email-exists">Validating...</p>');
+        jQuery.ajax({
+            url: '<?php echo Mage::getBaseUrl()."kitnekaa_core/validation/validateUniqueEmail" ?>',
+            type:'POST',
+            async:false,
+            data: {value:value},
+            success: function (response) {
+
+                if(parseInt(response))
+                {
+                    is_true= true;
+                }
+                else
+                {
+                    is_true=false;
+                }
+            }
+        });
+        setTimeout(function(){
+            jQuery('.val_load_validate-email-exists').remove();
+        }, 1000);
+        if(is_true){jQuery('.val_load_validate-email-exists').remove();}
+        return is_true;
+    });
+
+    Validation.add('validate-company-exists','This company already exists.',function(v,elm){
+        var value=v;
+        var is_true=false;
+        // showAjaxErrorMsg("fsdfsdf");
+        jQuery(elm).after('<p style="color: red" class="val_load_validate-email-exists">Validating...</p>');
+        jQuery.ajax({
+            url: '<?php echo Mage::getBaseUrl()."kitnekaa_core/validation/validateUniqueCompany" ?>',
+            type:'POST',
+            async:false,
+            data: {value:value},
+            success: function (response) {
+
+                if(parseInt(response))
+                {
+                    is_true= true;
+                }
+                else
+                {
+                    is_true=false;
+                }
+            }
+        });
+        setTimeout(function(){
+            jQuery('.val_load_validate-email-exists').remove();
+        }, 1000);
+        if(is_true){jQuery('.val_load_validate-email-exists').remove();}
+        return is_true;
+    });
+    Validation.add('kit-mob-number','Invalid Mobile Number.',function(v,elm){
+        if (jQuery.trim(v)) {
+            if(jQuery(elm).intlTelInput("isValidNumber")){
+                return true;
+            } else {
+                return false;
+            }
+        }
+    });
+    Validation.add('kit-phone-number','Invalid Phone Number.',function(v,elm){
+        if (jQuery.trim(v)) {
+            if(jQuery(elm).intlTelInput("isValidNumber")){
+                return true;
+            } else {
+                return false;
+            }
+        }
+    });
+    var allowed_countries='<?php echo json_encode($allow_countries) ?>';
+    jQuery(document).ready(function(){
+        var input =jQuery(".kit-mob-number");
+        input.intlTelInput({
+            defaultCountry: "auto",
+            nationalMode: false,
+            preferredCountries: [ "in"],
+            autoPlaceholder: true,
+            onlyCountries: jQuery.parseJSON(allowed_countries),
+            geoIpLookup: function(callback) {
+                jQuery.get('http://ipinfo.io', function() {}, "jsonp").always(function(resp) {
+                    var countryCode = (resp && resp.country) ? resp.country : "";
+                    callback(countryCode);
+                });
+            },
+            utilsScript: "<?php echo Mage::getBaseUrl('skin').'/frontend/sm_market/kitnekaa/libphonenumber/build/utils.js' ?>"
+        });
+
+
+        jQuery(".kit-phone-number").intlTelInput({
+            preferredCountries: [ "in"],
+            autoPlaceholder: true,
+            onlyCountries: jQuery.parseJSON(allowed_countries),
+            utilsScript: "<?php echo Mage::getBaseUrl('skin').'/frontend/sm_market/kitnekaa/libphonenumber/build/utils.js' ?>"
+        });
+    });
+</script>
+
+

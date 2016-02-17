@@ -1,0 +1,89 @@
+<?php $customer = Mage::registry('current_customer'); ?>
+<?php $company_model = Mage::getModel('users/company')->load($customer->getCompanyId()); ?>
+<?php $admin = Mage::getSingleton('admin/session')->getUser(); ?>
+<div id="customer_info_tabs_customer_edit_tab_action_content">
+	<div class="entry-edit">
+		<div class="entry-edit-head">
+		<h4 class="icon-head head-edit-form fieldset-legend">Company Information</h4>
+		</div>
+		<div id="group_fields4" class="fieldset fieldset-wide">
+			<div class="hor-scroll">
+				<?php if($customer){ ?>
+					<input type="hidden" name="edit_customer_account" value="1" />
+				<?php } ?>
+				<input type="hidden" id="old_company_name" value="<?php echo $company_model->getCompanyName(); ?>" />
+				<input type="hidden" name="vat_tin_verified_by" value="<?php echo $admin->getFirstname().' '.$admin->getLastname(); ?>" />
+				<table class="form-list" cellspacing="0">
+					<tbody>
+						<tr>
+							<td class="label"><label for="Account Type">Account Type</label></td>
+							<td>
+							<input type="radio" value="1" <?php echo ($company_model->getCompanyType() == '1' || $customer)?'checked':'' ?> name="company_type"  class="company_type"/> <label><?php echo Mage::helper('users')->getBuyerTypeLabel(1) ?>&nbsp;</label>
+							<input type="radio" value="0" <?php echo $company_model->getCompanyType() == '0'?'checked':'' ?> name="company_type" class="company_type" /> <label><?php echo Mage::helper('users')->getBuyerTypeLabel(0) ?></label>
+							</td>
+						</tr>
+						<tr id="tr_company">
+							<td class="label"><label for="company_name">Company Name</label></td>
+							<td class="value"><input type="text" class="input-text required-entry validate-company-exists" data-old="<?php echo $company_model->getCompanyName(); ?>" value="<?php echo $company_model->getCompanyName(); ?>" name="company" id="company"></td>
+						</tr>
+						<tr>
+							<td class="label"><label for="vat_number">Vat Number</label></td>
+							<td class="value"><input type="text" class="input-text" value="<?php echo $company_model->getVatNo(); ?>" name="vat_no"></td>
+						</tr>
+						<tr>
+							<td class="label"><label for="tin_number">Tin Number</label></td>
+							<td class="value"><input type="text" class="input-text" value="<?php echo $company_model->getTinNo(); ?>" name="tin_no"></td>
+						</tr>
+						<tr>
+							<td class="label"><label for="verify_vat_tin_number">Verify Vat & Tin Number</label></td>
+							<td class="value">
+						        <select class="select" name="vat_tin_verified" id="vat_tin_verified">
+						        	<option value="">Please select of the following</option>
+						    		<option <?php if($company_model->getVatTinVerified() === '1'): ?> selected="selected"<?php endif; ?> value="1">Verified</option>
+									<option <?php if($company_model->getVatTinVerified() === '0'): ?> selected="selected"<?php endif; ?> value="0">Not Verified</option>
+								</select>
+							</td>
+						</tr>
+						<tr>
+							<td class="label"><label for="tin_no"><?php echo $this->__('Upload Documents') ?></label></td>
+							<td class="value">
+								<input type="file" name="upload_docs[]" id="upload_docs" value="" title="<?php echo Mage::helper('core')->quoteEscape($this->__('Upload Documents')) ?>" class="input-file" multiple="multiple"/>
+								<?php $uploaded_docs = Mage::getModel('uploaddocs/companydocs')->getCollection()->addFieldToFilter('customer_id',$customer->getId()); ?>
+				                <?php foreach($uploaded_docs as $uploaded_doc): ?>
+				                    <p><a href="<?php echo Mage::getBaseUrl('media').'company/documents/'.$uploaded_doc->getCustomerId().'/'.$uploaded_doc->getFileName(); ?>" download><?php echo $uploaded_doc->getFileName(); ?></a></p>
+				                <?php endforeach;?>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript">
+	jQuery(document).ready(function(){
+		jQuery('.company_type').click(function(){
+			var company=jQuery('#company');
+			var s_text = jQuery(this).val();
+			var old_company_name=jQuery("#old_company_name");
+			company.val('');
+			if(s_text == 0){
+				jQuery('#tr_company').hide();
+				company.val('<?php echo Mage::helper('users')->getBuyerTypeLabel(0) ?>');
+				//alert(company.val());
+			}else{
+				if(old_company_name.val()=='<?php echo Mage::helper('users')->getBuyerTypeLabel(0) ?>')
+				{
+					company.val('');
+				}
+				else
+				{
+					company.val(old_company_name.val());
+				}
+				jQuery('#tr_company').show();
+			}
+			//alert(company.val());
+		});
+	});
+</script>

@@ -1,0 +1,77 @@
+<?php if($this->isSubAccount()) : ?>
+    <style>
+        .button.btn-cart {
+            display: none !important;
+        }
+        .add-to-cart {
+            display: none !important;
+        }
+
+        .catalog-category-view .link-wishlist {
+          display:none;
+        }
+    </style>
+<div class="body-overlay" style="background: rgba(0,0,0,0.4);
+      width: 100%;
+      height: 100%;
+      min-height: 100%;
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 999;display:none;"></div>
+<div class="multiuser-overlay" style="z-index: 1000; position:absolute; top: 40%; left: 40%; background-color: #fff; padding : 20px; border: 1px solid black; display: none;">
+    <div class="list">
+        <h3><?php echo $this->__("Please select pick list"); ?></h3>
+        <select name="wishlist_id" id="multi_user_wishlist_id">
+            <option value="">Create new Pick List</option>
+            <?php foreach($this->getAccountWishlists() AS $item): ?>
+                <option value="<?php echo $item->getId(); ?>"><?php echo $item->getName(); ?></option>
+            <?php endforeach; ?>
+        </select>
+        <button class="button btn-add-to-wishlist"><?php echo $this->__("Add"); ?></button>
+    </div>
+</div>
+
+<script type="text/javascript">
+    //<![CDATA[
+        document.observe("dom:loaded", function() {
+            if($$('.link-wishlist').length) {
+                $$('.link-wishlist')[0].writeAttribute('onclick', '');
+
+                $$('.link-wishlist')[0].observe('click', function (e) {
+
+                    e.stopPropagation();
+                    e.preventDefault();
+                    handleMultipleWishlists(e, this);
+                    return false;
+                });
+            }
+
+            function handleMultipleWishlists(e, el) {
+                var addtocartForm = new VarienForm('product_addtocart_form');
+                if(addtocartForm.validator.validate()) {
+                    $$('.multiuser-overlay').invoke('show');
+                    $$('.body-overlay').invoke('show');
+
+                    $$('.btn-add-to-wishlist')[0].observe('click', function (e) {
+                        var href = $(el).getAttribute('href');
+                        var t = $('product_addtocart_form');
+
+                        href += 'wishlist_id/' + $('multi_user_wishlist_id').value;
+                        href += '?' + t.serialize();
+                        if (!$('multi_user_wishlist_id').value) {
+                            var t = confirm('<?php echo $this->__("No pick list selected, do you want to create new one ?"); ?>');
+                            if (t) {
+                                href += '&create_wishlist=true';
+                            } else {
+                                return;
+                            }
+                        }
+                        window.location = href;
+                    });
+                }
+            }
+        });
+    //]]>
+</script>
+<?php endif; ?>

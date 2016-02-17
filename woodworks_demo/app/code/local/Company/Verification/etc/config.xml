@@ -1,0 +1,86 @@
+<?xml version="1.0"?>
+<config>
+  <modules>
+    <Company_Verification>
+      <version>0.1.0</version>
+    </Company_Verification>
+  </modules>
+  <frontend>
+    <routers>
+      <verification>
+        <use>standard</use>
+          <args>
+            <module>Company_Verification</module>
+            <frontName>verification</frontName>
+          </args>
+      </verification>
+    </routers>
+		<layout>
+		  <updates>
+			<verification>
+			  <file>verification.xml</file>
+			</verification>
+		  </updates>
+		</layout>
+
+    <events>
+      <customer_login>
+        <observers>
+          <company_verification_login><!--User Defined Unique Name-->
+            <class>company_verification/observer</class>
+            <method>customerLogin</method>
+          </company_verification_login>
+        </observers>
+      </customer_login>
+
+      <customer_register_success>
+        <observers>
+          <kit_customer_register_success>
+            <class>company_verification/observer</class>
+            <method>registrationSuccess</method>
+          </kit_customer_register_success>
+        </observers>
+      </customer_register_success>
+    </events>
+  </frontend>
+  <global>
+    <models>
+      <company_verification>
+        <class>Company_Verification_Model</class>
+      </company_verification>
+    </models>
+    <helpers>
+      <verification>
+        <class>Company_Verification_Helper</class>
+      </verification>
+    </helpers>
+	<blocks>
+	  <verification>
+		<class>Company_Verification_Block</class>
+	  </verification>
+	</blocks>
+
+    <resources>
+      <verification_setup>
+        <setup>
+          <module>Company_Verification</module>
+          <class>Mage_Eav_Model_Entity_Setup</class>
+        </setup>
+        <connection>
+          <use>core_setup</use>
+        </connection>
+      </verification_setup>
+      <verification_write>
+        <connection>
+          <use>core_write</use>
+        </connection>
+      </verification_write>
+      <verificationt_read>
+        <connection>
+          <use>core_read</use>
+        </connection>
+      </verificationt_read>
+    </resources>
+  </global>
+
+</config> 

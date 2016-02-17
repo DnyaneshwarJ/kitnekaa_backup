@@ -1,0 +1,25 @@
+<?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
+<div class="col2-set" id="udropship-login-wrapper">
+    <div id="udropship-login-wrapper-col1" class="col-1"><?php echo $this->getChildHtml('login')?></div>
+    <div id="udropship-login-wrapper-col2" class="col-1"><?php echo $this->getChildHtml('right')?></div>
+</div>
+<?php echo $this->getChildHtml('bottom')?>
+<script type="text/javascript">
+    (function() {
+        var contentCol1, contentCol2, ulwColHeight;
+        try {
+            contentCol1 = $('udropship-login-wrapper-col1').down('.content');
+            contentCol2 = $('udropship-login-wrapper-col2').down('.content');
+            ulwColHeight = Math.max(contentCol1.getHeight(), contentCol2.getHeight());
+            contentCol1.setStyle({height: ulwColHeight+'px'});
+            contentCol2.setStyle({height: ulwColHeight+'px'});
+        } catch (e) {}
+        try {
+            contentCol1 = $('udropship-login-wrapper-col1').down('.buttons-set');
+            contentCol2 = $('udropship-login-wrapper-col2').down('.buttons-set');
+            ulwColHeight = Math.max(contentCol1.getHeight(), contentCol2.getHeight());
+            contentCol1.setStyle({height: ulwColHeight+'px'});
+            contentCol2.setStyle({height: ulwColHeight+'px'});
+        } catch (e) {}
+    })();
+</script>

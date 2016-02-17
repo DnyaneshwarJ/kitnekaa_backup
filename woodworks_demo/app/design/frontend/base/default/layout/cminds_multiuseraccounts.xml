@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+
+    <customer_account translate="label">
+        <reference name="customer_account_navigation">
+
+        </reference>
+    </customer_account>
+
+    <customer_account_subaccount translate="label">
+        <update handle="customer_account"/>
+        <reference name="my.account.wrapper">
+            <block type="cminds_multiuseraccounts/subAccount" name="subaccount" template="cminds_multiuseraccounts/subAccount.phtml"/>
+        </reference>
+    </customer_account_subaccount>
+
+    <customer_account_addsubaccount translate="label">
+        <update handle="customer_account"/>
+        <reference name="my.account.wrapper">
+            <block type="cminds_multiuseraccounts/subAccount_new" name="add_subaccount" template="cminds_multiuseraccounts/subAccount/new.phtml"/>
+        </reference>
+    </customer_account_addsubaccount>
+
+    <customer_account_editsubaccount translate="label">
+        <update handle="customer_account"/>
+        <reference name="my.account.wrapper">
+            <block type="cminds_multiuseraccounts/subAccount_edit" name="edit_subaccount" template="cminds_multiuseraccounts/subAccount/edit.phtml"/>
+        </reference>
+    </customer_account_editsubaccount>
+
+    <customer_account_subaccountconfirmation>
+        <update handle="customer_account_confirmation"></update>
+    </customer_account_subaccountconfirmation>
+
+</layout>

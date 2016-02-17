@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<layout version="1.0">
+	<default>
+		<reference name="head">
+			<!--action method="addItem">
+				<type>skin_css</type>
+				<name>sm/categories/css/sm-categories.css</name>
+			</action-->
+		</reference>
+	</default>
+	<categories_index_index>
+		<reference name="content">
+			<block type="categories/list" name="categories.list.default" template="sm/categories/default.phtml">
+			</block>
+		</reference>
+	</categories_index_index>
+</layout>   
+	

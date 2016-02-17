@@ -1,0 +1,178 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Unirgy LLC
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the EULA
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://www.unirgy.com/LICENSE-M1.txt
+ *
+ * @category   Unirgy
+ * @package    Unirgy_DropshipVacation
+ * @copyright  Copyright (c) 2008-2009 Unirgy LLC (http://www.unirgy.com)
+ * @license    http:///www.unirgy.com/LICENSE-M1.txt
+ */
+
+-->
+<config>
+    <modules>
+        <Unirgy_DropshipVacation>
+            <version>2.4.0</version>
+        </Unirgy_DropshipVacation>
+    </modules>
+
+    <global>
+        <models>
+            <udvacation>
+                <class>Unirgy_DropshipVacation_Model</class>
+                <resourceModel>udvacation_mysql4</resourceModel>
+            </udvacation>
+            <udvacation_mysql4>
+                <class>Unirgy_DropshipVacation_Model_Mysql4</class>
+            </udvacation_mysql4>
+        </models>
+
+        <resources>
+            <udvacation_setup>
+                <setup>
+                    <module>Unirgy_DropshipVacation</module>
+                    <class>Mage_Sales_Model_Mysql4_Setup</class>
+                </setup>
+                <connection>
+                    <use>core_setup</use>
+                </connection>
+            </udvacation_setup>
+            <udvacation_write>
+                <connection>
+                    <use>core_write</use>
+                </connection>
+            </udvacation_write>
+            <udvacation_read>
+                <connection>
+                    <use>core_read</use>
+                </connection>
+            </udvacation_read>
+        </resources>
+
+        <blocks>
+            <udvacation>
+                <class>Unirgy_DropshipVacation_Block</class>
+            </udvacation>
+        </blocks>
+
+        <helpers>
+            <udvacation>
+                <class>Unirgy_DropshipVacation_Helper</class>
+            </udvacation>
+        </helpers>
+
+        <udropship>
+            <vendor>
+                <fields>
+                </fields>
+            </vendor>
+        </udropship>
+
+        <template>
+            <email>
+            </email>
+        </template>
+
+        <events>
+            <udropship_vendor_save_commit_after>
+                <observers>
+                    <udvacation>
+                        <type>singleton</type>
+                        <class>udvacation/observer</class>
+                        <method>udropship_vendor_save_commit_after</method>
+                    </udvacation>
+                </observers>
+            </udropship_vendor_save_commit_after>
+        </events>
+
+    </global>
+
+    <frontend>
+        <routers>
+            <udvacation>
+                <use>standard</use>
+                <args>
+                    <module>Unirgy_DropshipVacation</module>
+                    <frontName>udvacation</frontName>
+                </args>
+            </udvacation>
+        </routers>
+        <layout>
+            <updates>
+            </updates>
+        </layout>
+        <events>
+            <udropship_prepare_quote_items_after>
+                <observers>
+                    <udvacation>
+                        <class>udvacation/observer</class>
+                        <method>udropship_prepare_quote_items_after</method>
+                    </udvacation>
+                </observers>
+            </udropship_prepare_quote_items_after>
+            <udropship_vendor_front_preferences>
+                <observers>
+                    <udvacation>
+                        <class>udvacation/observer</class>
+                        <method>udropship_vendor_front_preferences</method>
+                    </udvacation>
+                </observers>
+            </udropship_vendor_front_preferences>
+            <udropship_vendor_preferences_save_before>
+                <observers>
+                    <udvacation>
+                        <class>udvacation/observer</class>
+                        <method>udropship_vendor_preferences_save_before</method>
+                    </udvacation>
+                </observers>
+            </udropship_vendor_preferences_save_before>
+        </events>
+    </frontend>
+
+    <admin>
+        <routers>
+        </routers>
+    </admin>
+
+    <adminhtml>
+        <layout>
+            <updates>
+                <udvacation>
+                </udvacation>
+            </updates>
+        </layout>
+        <events>
+            <udropship_adminhtml_vendor_edit_prepare_form>
+                <observers>
+                    <udvacation>
+                        <class>udvacation/observer</class>
+                        <method>udropship_adminhtml_vendor_edit_prepare_form</method>
+                    </udvacation>
+                </observers>
+            </udropship_adminhtml_vendor_edit_prepare_form>
+        </events>
+    </adminhtml>
+
+    <default>
+        <udropship>
+            <vacation_message>This item will be shipped at {{vacation_end}}</vacation_message>
+	    </udropship>
+    </default>
+
+    <crontab>
+        <jobs>
+            <udvacation_process>
+                <schedule><cron_expr>0 * * * *</cron_expr></schedule>
+                <run><model>udvacation/observer::processVacations</model></run>
+            </udvacation_process>
+        </jobs>
+    </crontab>
+</config>

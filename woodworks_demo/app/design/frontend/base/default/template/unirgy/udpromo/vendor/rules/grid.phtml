@@ -1,0 +1,104 @@
+<?php
+$_cHlp = Mage::helper('core');
+$_hlp = Mage::helper('udropship');
+$_src = Mage::getSingleton('udpromo/source');
+$_dateFormat = Varien_Date::convertZendToStrFtime(Mage::app()->getLocale()->getDateFormat(Mage_Core_Model_Locale::FORMAT_TYPE_SHORT), true, false);
+?>
+<form method="get">
+<fieldset>
+    <div class="generic-box col2-set">
+        <div class="col-1">
+            <ul class="form-list">
+                <li>
+                    <label for="filter_rule_name"><?php echo Mage::helper('udropship')->__('Name') ?></label><br/>
+                    <input id="filter_rule_name" name="filter_rule_name" title="<?php echo Mage::helper('udropship')->__('Name') ?>" type="text" class="input-text" style="width:160px;" value="<?php echo $this->getRequest()->getParam('filter_rule_name') ?>" />
+                </li>
+                <li>
+                    <label for="filter_coupon_code"><?php echo Mage::helper('udropship')->__('Coupon Code') ?></label><br/>
+                    <input id="filter_coupon_code" name="filter_coupon_code" title="<?php echo Mage::helper('udropship')->__('Coupon Code') ?>" type="text" class="input-text" style="width:160px;" value="<?php echo $this->getRequest()->getParam('filter_coupon_code') ?>" />
+                </li>
+            </ul>
+        </div>
+        <div class="col-2">
+            <ul class="form-list">
+                <li>
+                    <label for="filter_rule_date_from"><?php echo Mage::helper('udropship')->__('Date Start') ?></label><br/>
+                    <input id="filter_rule_date_from" name="filter_rule_date_from" title="<?php echo Mage::helper('udropship')->__('From Date Start') ?>" type="text" class="input-text" style="width:80px;" value="<?php echo $this->getRequest()->getParam('filter_rule_date_from') ?>" /> -
+                    <input id="filter_rule_date_to" name="filter_rule_date_to" title="<?php echo Mage::helper('udropship')->__('To Date Start') ?>" type="text" class="input-text" style="width:80px;" value="<?php echo $this->getRequest()->getParam('filter_rule_date_to') ?>" />
+                </li>
+                <li>
+                    <label for="filter_rule_expire_from"><?php echo Mage::helper('udropship')->__('Date Expire') ?></label><br/>
+                    <input id="filter_rule_expire_from" name="filter_rule_expire_from" title="<?php echo Mage::helper('udropship')->__('From Date Expire') ?>" type="text" class="input-text" style="width:80px;" value="<?php echo $this->getRequest()->getParam('filter_rule_expire_from') ?>" /> -
+                    <input id="filter_rule_expire_to" name="filter_rule_expire_to" title="<?php echo Mage::helper('udropship')->__('To Date Expire') ?>" type="text" class="input-text" style="width:80px;" value="<?php echo $this->getRequest()->getParam('filter_rule_expire_to') ?>" />
+                </li>
+                <li>
+                    <label for="filter_rule_status"><?php echo Mage::helper('udropship')->__('Status') ?></label><br/>
+                    <select id="filter_rule_status" name="filter_rule_status" title="<?php echo Mage::helper('udropship')->__('Status') ?>"  style="width:160px;">
+                        <?php $_status = (string)$this->getRequest()->getParam('filter_replied') ?>
+                        <option value="" <?php echo $_status===''?'selected="selected"':'' ?>><?php echo Mage::helper('udropship')->__('Any') ?></option>
+                        <option value="1" <?php echo $_status==='1'?'selected="selected"':'' ?>><?php echo Mage::helper('udropship')->__('Active') ?></option>
+                        <option value="0" <?php echo $_status==='0'?'selected="selected"':'' ?>><?php echo Mage::helper('udropship')->__('Inactive') ?></option>
+                    </select>
+                </li>
+            </ul>
+        </div>
+        <div class="buttons-set">
+            <input type="submit" value="search" style="display:none" />
+
+            <input type="hidden" name="limit" value="<?php echo $this->getRequest()->getParam('limit')?>"/>
+            <input type="hidden" name="p" value="<?php echo $this->getRequest()->getParam('p')?>"/>
+
+            <button class="form-button" name="reset_filter" type="button" onclick="setLocation('<?php echo $this->getUrl('*/*/*')?>')" id="filter-search" value="search"><span><?php echo Mage::helper('udropship')->__('Reset Filter') ?></span></button>
+            <button class="form-button" name="submit_action" type="submit" id="filter-search" value="search"><span><?php echo Mage::helper('udropship')->__('Search') ?></span></button>
+
+        </div>
+    </div>
+</fieldset>
+</form>
+
+<form method="get" action="<?php echo $this->getUrl('udpromo/vendor/ruleNew')?>" id="udpromo-edit-form">
+    <div class="a-right" style="margin:10px 0">
+        <button class="form-button" type="submit"><span><?php echo Mage::helper('udropship')->__('Add New Promotion') ?></span></button>
+    </div>
+</form>
+
+<?php echo $this->getChildHtml('toolbar') ?>
+<table cellspacing="0" cellpadding="0" class="data-table" id="rules-table">
+    <col width="" />
+    <col width="" />
+    <col width="" />
+    <col width="" />
+    <col width="" />
+    <thead>
+        <tr>
+            <th><?php echo Mage::helper('udropship')->__('Name')?></th>
+            <th><?php echo Mage::helper('udropship')->__('Coupon')?></th>
+            <th><?php echo Mage::helper('udropship')->__('Date Start')?></th>
+            <th><?php echo Mage::helper('udropship')->__('Date Expire')?></th>
+            <th><?php echo Mage::helper('udropship')->__('Status')?></th>
+        </tr>
+    </thead>
+    <tbody>
+<?php foreach ($this->getRulesCollection() as $_p): $_id = $_p->getId();
+    $_ruleDate = $_p->getData('from_date') ? $_hlp->dateInternalToLocale($_p->getData('from_date'), null, false) : '';
+    $_expireDate = $_p->getData('to_date') ? $_hlp->dateInternalToLocale($_p->getData('to_date'), null, false) : '';
+?>
+        <tr>
+            <td><a href="<?php echo $this->getUrl('udpromo/vendor/ruleEdit', array('id'=>$_id))?>"><?php echo $this->htmlEscape($_p->getData('name')); ?></a></td>
+            <td><?php echo $this->htmlEscape($_p->getData('code')); ?></td>
+            <td><?php echo $_ruleDate; ?></td>
+            <td><?php echo $_expireDate; ?></td>
+            <td><?php echo $_src->setPath('statuses')->getOptionLabel($_p->getIsActive())?></td>
+        </tr>
+<?php endforeach ?>
+    </tbody>
+</table>
+<?php echo $this->getChildHtml('toolbar') ?>
+
+<script type="text/javascript">
+    decorateTable('rules-table');
+    var dateFields = ['filter_rule_date_from', 'filter_rule_date_to','filter_rule_expire_from', 'filter_rule_expire_to'];
+    for (var i=0, l=dateFields.length; i<l; i++) {
+        Calendar.setup({inputField : dateFields[i], ifFormat : "<?php echo $_dateFormat?>", showsTime : false});
+    }
+</script>

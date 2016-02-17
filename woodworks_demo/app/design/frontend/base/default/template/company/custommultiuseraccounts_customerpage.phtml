@@ -1,0 +1,107 @@
+<?php
+$sub_customer = $this->getCustomer();
+$company = Mage::getModel('users/company')->load($sub_customer->getCustomer()->getCompanyId());
+//echo "<pre>"; print_r($sub_customer->getSubAccount()->getData()); exit;
+?>
+<div class="page-title">
+    <h1><?php echo $this->__('Edit Account Information') ?></h1>
+</div>
+<?php echo $this->getMessagesBlock()->toHtml() ?>
+<form action="<?php echo $this->getUrl('custommultiuseraccounts/index/editSubAccountPost') ?>" enctype="multipart/form-data" method="post" id="form-validate" autocomplete="off">
+    <div class="fieldset">
+        <?php echo $this->getBlockHtml('formkey')?>
+        <input type="hidden" name="edit_customer_account" value="1" />
+        <h2 class="legend"><?php echo $this->__('Account Information') ?></h2>
+        <ul class="form-list">
+            <!--<li id="li_company" >
+                <label for="company" class="required"><em>*</em><?php /*echo $this->__('Company Name') */?></label>
+                <div class="input-box">
+                    <input type="text" name="company" id="company"   value="<?php /*echo $this->escapeHtml($company->getCompanyName()) */?>" title="<?php /*echo Mage::helper('core')->quoteEscape($this->__('Company Name')) */?>" class="input-text required-entry" readonly />
+                </div>
+            </li>-->
+            <li class="fields">
+                <?php echo $this->getLayout()->createBlock('customer/widget_name')->setObject($sub_customer->getSubAccount())->toHtml() ?>
+            </li>
+           <!-- <li>
+                <label for="email" class="required"><em>*</em><?php /*echo $this->__('Email Address') */?></label>
+                <div class="input-box">
+                    <input type="text" name="email" id="email" value="<?php /*echo $this->escapeHtml($sub_customer->getSubAccount()->getEmail()) */?>" title="<?php /*echo Mage::helper('core')->quoteEscape($this->__('Email Address')) */?>" class="input-text required-entry validate-email" readonly />
+                </div>
+            </li>-->
+            <li class="control">
+                <input type="checkbox" name="change_password" id="change_password" value="1" onclick="setPasswordForm(this.checked)" title="<?php echo Mage::helper('core')->quoteEscape($this->__('Change Password')) ?>"<?php if($this->getCustomer()->getChangePassword()==1): ?> checked="checked"<?php endif; ?> class="checkbox" /><label for="change_password"><?php echo $this->__('Change Password') ?></label>
+            </li>
+        </ul>
+    </div>
+    <div class="fieldset" style="display:none;">
+        <h2 class="legend"><?php echo $this->__('Change Password') ?></h2>
+        <ul class="form-list">
+            <li>
+                <label for="current_password" class="required"><em>*</em><?php echo $this->__('Current Password') ?></label>
+                <div class="input-box">
+                    <!-- This is a dummy hidden field to trick firefox from auto filling the password -->
+                    <input type="text" class="input-text no-display" name="dummy" id="dummy" />
+                    <input type="password" title="<?php echo Mage::helper('core')->quoteEscape($this->__('Current Password')) ?>" class="input-text" name="current_password" id="current_password" />
+                </div>
+            </li>
+            <li class="fields">
+                <div class="field">
+                    <label for="password" class="required"><em>*</em><?php echo $this->__('New Password') ?></label>
+                    <div class="input-box">
+                        <input type="password" title="<?php echo Mage::helper('core')->quoteEscape($this->__('New Password')) ?>" class="input-text validate-password" name="password" id="password" />
+                    </div>
+                </div>
+                <div class="field">
+                    <label for="confirmation" class="required"><em>*</em><?php echo $this->__('Confirm New Password') ?></label>
+                    <div class="input-box">
+                        <input type="password" title="<?php echo Mage::helper('core')->quoteEscape($this->__('Confirm New Password')) ?>" class="input-text validate-cpassword" name="password_confirmation" id="confirmation" />
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+    <div class="buttons-set">
+        <!-- <p class="required"><?php //echo $this->__('* Required Fields') ?></p> -->
+        <!-- <p class="back-link"><a href="<?php //echo $this->escapeUrl($this->getBackUrl()) ?>"><small>&laquo; </small><?php //echo $this->__('Back') ?></a></p> -->
+        <button type="submit" title="<?php echo Mage::helper('core')->quoteEscape($this->__('Save')) ?>" class="button"><span><span><?php echo $this->__('Save') ?></span></span></button>
+    </div>
+</form>
+<script type="text/javascript">
+//<![CDATA[
+    var dataForm = new VarienForm('form-validate', true);
+    function setPasswordForm(arg){
+        if(arg){
+            $('current_password').up(3).show();
+            $('current_password').addClassName('required-entry');
+            $('password').addClassName('required-entry');
+            $('confirmation').addClassName('required-entry');
+
+        }else{
+            $('current_password').up(3).hide();
+            $('current_password').removeClassName('required-entry');
+            $('password').removeClassName('required-entry');
+            $('confirmation').removeClassName('required-entry');
+        }
+    }
+
+    <?php if($this->getCustomer()->getChangePassword()): ?>
+        setPasswordForm(true);
+    <?php endif; ?>
+//]]>
+</script>
+<script type="text/javascript">
+    jQuery(document).ready(function(){
+        jQuery('.company_type').click(function(){
+            var company=jQuery('#company');
+            var s_text = jQuery(this).val();
+            company.val('');
+            if(s_text == 0){
+                jQuery('#li_company').hide();
+                company.val('Individual');
+                //alert(company.val());
+            }else{
+                jQuery('#li_company').show();
+            }
+        });
+    });
+</script>

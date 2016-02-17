@@ -1,0 +1,36 @@
+<?php
+/**
+ * Unirgy LLC
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the EULA
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://www.unirgy.com/LICENSE-M1.txt
+ *
+ * @category   Unirgy
+ * @package    Unirgy_DropshipPo
+ * @copyright  Copyright (c) 2008-2009 Unirgy LLC (http://www.unirgy.com)
+ * @license    http:///www.unirgy.com/LICENSE-M1.txt
+ */
+?>
+<?php
+$hlp = Mage::helper('udropship');
+?>
+<table cellspacing="0" cellpadding="0" border="0" width="100%" style="border:1px solid #bebcb7; background:#f8f7f5;">
+    <thead>
+        <tr>
+            <th align="left" bgcolor="#d9e5ee" style="padding:3px 9px"><?php echo Mage::helper('udropship')->__('Name') ?></th>
+            <th align="left" bgcolor="#d9e5ee" style="padding:3px 9px"><?php echo Mage::helper('udropship')->__('Sku') ?></th>
+        </tr>
+    </thead>
+    <?php $i=0; foreach ($this->getProducts() as $prod): ?>
+    <tbody<?php echo ++$i%2 ? ' bgcolor="#eeeded"' : '' ?>>
+        <tr>
+            <td align="left" valign="top" style="padding:3px 9px"><?php echo $this->htmlEscape($prod->getName()) ?></td>
+            <td align="left" valign="top" style="padding:3px 9px"><?php echo $this->htmlEscape($prod->getSku()) ?></td>
+        </tr>
+    </tbody>
+    <?php endforeach; ?>
+</table>

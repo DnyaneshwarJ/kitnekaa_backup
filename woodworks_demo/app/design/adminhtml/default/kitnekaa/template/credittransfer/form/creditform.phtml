@@ -1,0 +1,88 @@
+
+<?php 
+
+
+if(count($data)){ 
+      foreach($data as $fin)
+          {   ?>          
+          <li>
+              <table width="100%" cellspacing="0">
+            <tbody>
+              <tr>
+                <td class="value" colspan="2">
+                     
+                        <div class="input-box">
+                           <label for="tin_no"><?php echo $fin['doc_name'] ?></label>
+                                <input type="file" name="<?php echo $fin['doc_name']; ?>" id="upload_docs_vat" value="" style="margin-left: 26px;"
+                            title="" class="input-file required-entry required-image-pdf" multiple="multiple"/>
+                        </div> 
+               </td>
+             </tr>
+
+                  <?php if($fin['has_time_period']==1){ ?>
+                                                        
+                
+                   
+                      
+                 
+                  
+                <tr>
+                       <!--  <td class="label"></td> -->
+                        <td class="value">
+                          <label for="from_date">From Date</label>
+                            <input name="<?php echo $fin['doc_name'].'_from_date'; ?>" id="from_date_<?php  echo $fin['doc_name'] ?>" value="" tabindex="1" class=" input-text required-entry validate-date" style="width:110px !important;" type="text"> 
+                            <img src="http://localhost/latte/applications/magneto/woodworks_demo/skin/adminhtml/default/default/images/grid-cal.gif" alt="" class="v-middle" id="from_date_trig_<?php echo $fin['doc_name'] ?>" title="Select Date" style="">
+                                <script type="text/javascript">
+                                //<![CDATA[
+                                    Calendar.setup({
+                                        inputField: "from_date_<?php  echo $fin['doc_name'] ?>",
+                                        ifFormat: "%e/%m/%Y",
+                                        showsTime: false,
+                                        button: "from_date_trig_<?php echo $fin['doc_name'] ?>",
+                                        align: "Bl",
+                                        singleClick : true
+                                    });
+                                //]]>
+                                </script>            
+                        </td>
+                
+                      
+                        <td class="value">
+                          <label for="to_date">To Date</label>
+                            <input name="<?php echo $fin['doc_name'].'_to_date'; ?>" id="to_date_<?php  echo $fin['doc_name'] ?>" value="" tabindex="1" class=" input-text required-entry validate-date" style="width:110px !important;" type="text"> <img src="http://localhost/latte/applications/magneto/woodworks_demo/skin/adminhtml/default/default/images/grid-cal.gif" alt="" class="v-middle" id="to_date_trig_<?php echo $fin['doc_name'] ?>" title="Select Date" style="">
+                                <script type="text/javascript">
+                                //<![CDATA[
+                                    Calendar.setup({
+                                        inputField: "to_date_<?php  echo $fin['doc_name'] ?>",
+                                        ifFormat: "%e/%m/%Y",
+                                        showsTime: false,
+                                        button: "to_date_trig_<?php echo $fin['doc_name'] ?>",
+                                        align: "Bl",
+                                        singleClick : true,
+                                        disableFunc: function(date) {
+var now= new Date();
+if(date.getFullYear() < now.getFullYear()) { return true; }
+if(date.getFullYear() == now.getFullYear()) { if(date.getMonth() < now.getMonth()) { return true; } }
+if(date.getMonth() == now.getMonth()) { if(date.getDate() < now.getDate()) { return true; } }
+},
+                                    });
+                                //]]>
+                                </script>           
+                        </td>
+                </tr>
+      </tbody>
+      </table>           
+                
+            
+              
+                <?php } ?>
+
+                 </li>
+               <?php  } 
+            }else{
+              
+              echo "<li><b style='color:Green;'>You Are Verified Can Continue</b><li>";
+            }
+
+                 ?>
+

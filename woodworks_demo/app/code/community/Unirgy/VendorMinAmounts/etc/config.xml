@@ -1,0 +1,192 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Unirgy LLC
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the EULA
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://www.unirgy.com/LICENSE-M1.txt
+ *
+ * @category   Unirgy
+ * @package    Unirgy_VendorMinAmounts
+ * @copyright  Copyright (c) 2008-2009 Unirgy LLC (http://www.unirgy.com)
+ * @license    http:///www.unirgy.com/LICENSE-M1.txt
+ */
+
+-->
+<config>
+    <modules>
+        <Unirgy_VendorMinAmounts>
+            <version>2.4.0</version>
+        </Unirgy_VendorMinAmounts>
+    </modules>
+
+    <global>
+        <blocks>
+            <udminamount>
+                <class>Unirgy_VendorMinAmounts_Block</class>
+            </udminamount>
+
+        </blocks>
+
+        <helpers>
+            <udminamount>
+                <class>Unirgy_VendorMinAmounts_Helper</class>
+            </udminamount>
+        </helpers>
+
+        <models>
+            <udminamount>
+                <class>Unirgy_VendorMinAmounts_Model</class>
+                <resourceModel>udminamount_mysql4</resourceModel>
+            </udminamount>
+            <udminamount_mysql4>
+                <class>Unirgy_VendorMinAmounts_Model_Mysql4</class>
+            </udminamount_mysql4>
+        </models>
+
+        <resources>
+            <udminamount_setup>
+                <setup>
+                    <class>Mage_Sales_Model_Entity_Setup</class>
+                    <module>Unirgy_VendorMinAmounts</module>
+                </setup>
+                <connection>
+                    <use>core_setup</use>
+                </connection>
+            </udminamount_setup>
+            <udminamount_write>
+                <connection>
+                    <use>core_write</use>
+                </connection>
+            </udminamount_write>
+            <udminamount_read>
+                <connection>
+                    <use>core_read</use>
+                </connection>
+            </udminamount_read>
+        </resources>
+
+        <template>
+            <email>
+            </email>
+        </template>
+
+        <sales>
+            <quote>
+                <item>
+                    <product_attributes>
+                    </product_attributes>
+                </item>
+            </quote>
+        </sales>
+
+        <events>
+            <udropship_process_vendor_carrier_single_rate_result>
+                <observers>
+                    <udminamount>
+                        <class>udminamount/observer</class>
+                        <method>udropship_process_vendor_carrier_single_rate_result</method>
+                    </udminamount>
+                </observers>
+            </udropship_process_vendor_carrier_single_rate_result>
+            <controller_action_predispatch_checkout_cart_add>
+                <observers>
+                    <udminamount>
+                        <type>singleton</type>
+                        <class>udminamount/observer</class>
+                        <method>controller_action_predispatch_checkout_cart_add</method>
+                    </udminamount>
+                </observers>
+            </controller_action_predispatch_checkout_cart_add>
+            <controller_action_predispatch_checkout_cart_updatePost>
+                <observers>
+                    <udminamount>
+                        <type>singleton</type>
+                        <class>udminamount/observer</class>
+                        <method>controller_action_predispatch_checkout_cart_updatePost</method>
+                    </udminamount>
+                </observers>
+            </controller_action_predispatch_checkout_cart_updatePost>
+            <sales_quote_load_after>
+                <observers>
+                    <udminamount>
+                        <type>singleton</type>
+                        <class>udminamount/observer</class>
+                        <method>sales_quote_load_after</method>
+                    </udminamount>
+                </observers>
+            </sales_quote_load_after>
+        </events>
+
+        <fieldsets>
+            <sales_convert_quote_item>
+            </sales_convert_quote_item>
+        </fieldsets>
+
+        <udropship>
+            <vendor>
+                <fields>
+                    <minimum_order_amount>
+                        <modules>udsplit</modules>
+                        <label>Minimum Order Amount</label>
+                        <fieldset>integration</fieldset>
+                        <position>6</position>
+                        <note><![CDATA[Leave empty to use global configuration in "configuration > shipping methods > Drop Shipping  > Default minimum vendor order amount"]]></note>
+                    </minimum_order_amount>
+                    <free_shipping_subtotal>
+                        <label>Minimum Order Amount for Vendor Specific Free Shipping</label>
+                        <fieldset>integration</fieldset>
+                        <position>6.5</position>
+                        <note><![CDATA[Leave empty to use global configuration in "configuration > shipping methods > Drop Shipping > Default Minimum Order Amount for Vendor Specific Free Shipping"]]></note>
+                    </free_shipping_subtotal>
+                </fields>
+            </vendor>
+        </udropship>
+
+    </global>
+
+    <frontend>
+        <layout>
+            <updates>
+                <udminamount>
+                </udminamount>
+            </updates>
+        </layout>
+    </frontend>
+
+    <admin>
+        <routers>
+        </routers>
+    </admin>
+
+    <adminhtml>
+        <events>
+
+        </events>
+        <layout>
+            <updates>
+                <udminamount>
+                </udminamount>
+            </updates>
+        </layout>
+    </adminhtml>
+
+    <default>
+        <carriers>
+            <udropship>
+                <minimum_vendor_order_amount_quote_message><![CDATA[Minimum amount for "%s" vendor part of order is %s]]></minimum_vendor_order_amount_quote_message>
+                <minimum_vendor_order_amount_message><![CDATA[Minimum amount for this vendor part of order is %s]]></minimum_vendor_order_amount_message>
+            </udropship>
+        </carriers>
+    </default>
+
+    <crontab>
+        <jobs>
+        </jobs>
+    </crontab>
+
+</config>

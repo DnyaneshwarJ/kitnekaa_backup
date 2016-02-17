@@ -1,0 +1,18 @@
+===== 2.4.0 =====
+  * CE 1.9.2.2 compatibility
+
+===== 2.1.1 =====
+  * Fixed hidden general fieldset
+  * Fixed "Stop Further Rules Processing" should be No
+
+===== 2.1.0 =====
+  * Central translations file
+
+===== 2.0.0 =====
+  * Major release
+
+===== 1.0.1 =====
+  * Fixed vendor rule check on vendor subtotals instead of cart subtotals
+  * Fixed infinit loop in conditions check
+
+===== 1.0 - Initial release =====

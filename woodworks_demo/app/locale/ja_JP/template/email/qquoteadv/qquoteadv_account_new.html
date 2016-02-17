@@ -1,0 +1,59 @@
+<!--@subject ようこそ、 {{var customer.name}}様! @-->
+
+<!--@styles
+body,td { color:#2f2f2f; font:11px/1.35em Verdana, Arial, Helvetica, sans-serif; }
+@-->
+<div style="font:11px/1.35em Verdana, Arial, Helvetica, sans-serif;">
+    <table cellspacing="0" cellpadding="0" border="0" width="98%"
+           style="margin-top:10px; font:11px/1.35em Verdana, Arial, Helvetica, sans-serif; margin-bottom:10px;">
+        <tr>
+            <td align="center" valign="top">
+                <!-- [ header starts here] -->
+                <table cellspacing="0" cellpadding="0" border="0" width="650">
+                    <tr>
+                        <td valign="top">
+                            <a href="{{store url=''}}"><img src="{{skin url='images/logo_email.png' _area='frontend'}}"
+                            alt="Magtec" style="margin-bottom:10px;" border="0"/></a></td>
+                    </tr>
+                </table>
+
+                <!-- [ middle starts here] -->
+                <table cellspacing="0" cellpadding="0" border="0" width="650">
+                    <tr>
+                        <td valign="top">
+                            <p><strong>こんにちは {{htmlescape var=$customer.name}}様</strong><br/>
+                                お見積依頼を処理するために、お客様のアカウントを作成いたしました。
+                                もうすぐお見積依頼の確認メールがお手元に届きます。
+                                お見積依頼の進捗を確認するには、以下のログイン情報を使用してログインの上、ご確認ください。
+
+                            <p style="border:1px solid #BEBCB7; padding:13px 18px; background:#F8F7F5; ">
+                                ログインするには以下の情報をご利用ください:<br/>
+                                メールアドレス: {{var customer.email}}<br/>
+                                パスワード: {{htmlescape var=$customer.password}}
+
+                            <p>
+
+                            <p>ログインしていただくと、以下のことができます:</p>
+
+                            <ul>
+                                <li>価格の提案に対する承認・拒否・交渉</li>
+                                <li>ご注文とお見積りの進捗確認</li>
+                                <li>過去のご注文履歴の照会と再注文</li>
+                                <li>アカウント情報の編集</li>
+                                <li>パスワードの変更</li>
+                                <li>追加住所の登録</li>
+                            </ul>
+
+                            <p>アカウントに対するご質問やその他問題がありましたら、<a href="mailto:{{config path='trans_email/ident_support/email'}}" style="color:#1E7EC8;">{{config path='trans_email/ident_support/email'}}</a>、または電話番号 {{config path='general/store_information/phone'}} まで、お気軽にお問い合わせください。</p>
+
+                            <p>ありがとうございました。</p>
+
+
+                        </td>
+                    </tr>
+                </table>
+
+            </td>
+        </tr>
+    </table>
+</div>

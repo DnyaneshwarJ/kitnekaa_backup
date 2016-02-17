@@ -1,0 +1,986 @@
+<?php
+echo Mage::getSingleton('eav/config')->getAttribute('customer', 'company_id');
+/*$customerData = Mage::getModel('customer/customer')->getCollection()
+    ->addAttributeToSelect('company_id')
+    ->load($this->getCustomerData()->getId());
+echo "<pre>";
+var_dump($customerData);
+echo "</pre>";*/
+?>
+<div id="ajax-errors" style="display: none;">
+    <ul class="messages">
+        <li class="error-msg">
+            <ul>
+                <li><span>An error occurred, please try again later.</span></li>
+            </ul>
+        </li>
+    </ul>
+</div>
+<div id="loading" class="shopping_list_loader_outer">
+    <img class="v-middle" alt=""
+         src="<?php echo $this->getSkinUrl("images/loader-shopby.gif") ?>">
+    <span class="centered" id="shopping_list_loader">Loading, please wait...</span>
+</div>
+
+<div id="process"></div>
+<div class="std ">
+    <div id="sm_listing_tabs_19679587721443310487" class="sm-listing-deals first-load clearfix">
+        <div class="page-title">
+            <h1>My Shopping List <!--: <span style="color:#f4a137;" class="current_list_name"><?php /*echo $this->getSelectedList()->getListName(); */ ?></span>-->
+            </h1>
+        </div>
+        <input type="hidden" value="<?php echo $this->getSelectedList()->getListId(); ?>" id="current_list_id"/>
+
+        <div class="ltabs-wrap shopp-item-fields">
+            <ul class="messages" id="shopp_list_err_msg" style="display: none">
+                <li class="error-msg">
+                    <ul>
+                        <li><span></span>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+            <ul class="messages" id="shopp_list_msg" style="display: none">
+                <li class="success-msg">
+                    <ul>
+                        <li><span>No Products available in Shopping List! </span>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+            <div class="ltabs-tabs-container" data-delay="500" data-duration="300" data-effect="slideLeft"
+                 data-ajaxurl="http://demo.magentech.com/themes/sm_market/listingdeals/index/ajax"
+                 data-modid="sm_listing_tabs_19679587721443310487">
+                <div class="ltabs-tabs-wrap">
+
+                    <ul class="ltabs-tabs cf">
+                        <!--  <li style="font-size:12px;font-weight: bold;color:#3ab54a;width: 160px;background-color: #fff" >
+                        </li>-->
+                        <li class="shopp_lists_select_outer">
+                            <div id="block_cmb_shopp_lists">
+                                <?php echo $this->getChildHtml('shopp_list_select'); ?>
+                            </div>
+                        </li>
+                        <li id="id_shopp_list" class="ltabs-tab tab-loaded tab-sel"
+                            data-active-content=".items-category-4">
+                            <span class="ltabs-tab-label">Shopping Lists</span>
+                        </li>
+                        <li id="tab_shopp_list_items" class="ltabs-tab" data-active-content=".items-category-5">
+                            <span class="ltabs-tab-label">Shopping List Items</span>
+                        </li>
+                        <li id="tab_add_list_items" class="ltabs-tab" data-active-content=".items-category-6">
+                            <span class="ltabs-tab-label">Add List Item</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="ltabs-items-container"><!--Begin Items-->
+                <div class="ltabs-items  ltabs-items-loaded ltabs-items-selected items-category-4 ">
+                    <div
+                        class="products-grid category-products ltabs-items-inner  ltabs01-4 ltabs02-3 ltabs03-2 ltabs04-1 slideLeft play">
+                        <?php echo $this->getChildHtml('shopp_list_create'); ?>
+                    </div>
+                </div>
+                <div class="ltabs-items ltabs-items-loaded items-category-5 ">
+                    <div
+                        class="products-grid category-products ltabs-items-inner  ltabs01-4 ltabs02-3 ltabs03-2 ltabs04-1 slideLeft play">
+                        <div id="loading_2" class="sm_listing_loader">
+                            <img class="v-middle" alt=""
+                                 src="<?php echo $this->getSkinUrl('sm/cartpro/images/ajax-loader-tr.gif') ?>">
+                            <span><?php echo $this->__('Loading, please wait...'); ?></span>
+                        </div>
+                        <?php echo $this->getChildHtml('shopp_list_items'); ?>
+                    </div>
+                </div>
+                <div class="ltabs-items  ltabs-items-loaded items-category-6 ltabs-items-loaded">
+                    <div class="products-grid category-products ltabs-items-inner ltabs01-4 ltabs02-3 ltabs03-2 ltabs04-1 slideLeft play">
+                        <div id="loading_3" class="sm_listing_loader">
+                            <img class="v-middle" alt="" src="<?php echo $this->getSkinUrl('sm/cartpro/images/ajax-loader-tr.gif') ?>">
+                            <span><?php echo $this->__('Loading, please wait...'); ?></span>
+                        </div>
+                        <div class="">
+                            <?php echo $this->getChildHtml('topSearch1'); ?>
+                            <div id="shopp_result"></div>
+                        </div>
+                    </div>
+                </div>
+                <div id="loading1" class="sm_listing_loader">
+                    <img class="v-middle" alt="" src="<?php echo $this->getSkinUrl('images/loader-shopby.gif'); ?>"> <?php echo $this->__('Loading, please wait...'); ?>
+                </div>
+            </div>
+            <!--End Items-->
+        </div>
+    </div>
+    <?php echo $this->getChildHtml('popupbox'); ?>
+    <script type="text/javascript">
+        var iprocess = '<div id="loadmask"><p class="loader"><img alt="<?php echo Mage::helper('cartpro')->__('Loading...');?>" src="<?php echo $this->getSkinUrl('sm/cartpro/images/ajax-loader-tr.gif')?>"><br><?php echo Mage::helper('cartpro')->__('Please wait...');?></p></div>';
+
+        //<![CDATA[
+        jQuery(document).ready(function ($) {
+            ;
+            (function (element) {
+                var $element = $(element),
+                    $tab = $('.ltabs-tab', $element),
+                    $tab_label = $('.ltabs-tab-label', $tab),
+                    $tabs = $('.ltabs-tabs', $element),
+                    ajax_url = $tabs.parents('.ltabs-tabs-container').attr('data-ajaxurl'),
+                    effect = $tabs.parents('.ltabs-tabs-container').attr('data-effect'),
+                    delay = $tabs.parents('.ltabs-tabs-container').attr('data-delay'),
+                    duration = $tabs.parents('.ltabs-tabs-container').attr('data-duration'),
+                    rl_moduleid = $tabs.parents('.ltabs-tabs-container').attr('data-modid'),
+                    $items_content = $('.ltabs-items', $element),
+                    $items_inner = $('.ltabs-items-inner', $items_content),
+                    $items_first_active = $('.ltabs-items-selected', $element),
+                    $load_more = $('.ltabs-loadmore', $element),
+                    $btn_loadmore = $('.ltabs-loadmore-btn', $load_more),
+                    $select_box = $('.ltabs-selectbox', $element),
+                    $tab_label_select = $('.ltabs-tab-selected', $element);
+
+                enableSelectBoxes();
+                function enableSelectBoxes() {
+                    $tab_wrap = $('.ltabs-tabs-wrap', $element),
+                        $tab_label_select.html($('.ltabs-tab', $element).filter('.tab-sel').children('.ltabs-tab-label').html());
+                    if ($(window).innerWidth() <= 479) {
+                        $tab_wrap.addClass('ltabs-selectbox');
+                    } else {
+                        $tab_wrap.removeClass('ltabs-selectbox');
+                    }
+                }
+
+                $('span.ltabs-tab-selected, span.ltabs-tab-arrow', $element).click(function () {
+                    if ($('.ltabs-tabs', $element).hasClass('ltabs-open')) {
+                        $('.ltabs-tabs', $element).removeClass('ltabs-open');
+                    } else {
+                        $('.ltabs-tabs', $element).addClass('ltabs-open');
+                    }
+                });
+
+                $(window).resize(function () {
+                    if ($(window).innerWidth() <= 479) {
+                        $('.ltabs-tabs-wrap', $element).addClass('ltabs-selectbox');
+                    } else {
+                        $('.ltabs-tabs-wrap', $element).removeClass('ltabs-selectbox');
+                    }
+                });
+
+                function showAnimateItems(el) {
+                    var $_items = $('.new-ltabs-item', el), nub = 0;
+                    $('.ltabs-loadmore-btn', el).fadeOut('fast');
+                    $_items.each(function (i) {
+                        nub++;
+                        switch (effect) {
+                            case 'none' :
+                                $(this).css({'opacity': '1', 'filter': 'alpha(opacity = 100)'});
+                                break;
+                            default:
+                                animatesItems($(this), nub * delay, i, el);
+                        }
+                        if (i == $_items.length - 1) {
+                            $('.ltabs-loadmore-btn', el).fadeIn(delay);
+                        }
+                        $(this).removeClass('new-ltabs-item');
+                    });
+                }
+
+                function animatesItems($this, fdelay, i, el) {
+                    var $_items = $('.ltabs-item', el);
+                    $this.attr("style",
+                        "-webkit-animation:" + effect + " " + duration + "ms;"
+                        + "-moz-animation:" + effect + " " + duration + "ms;"
+                        + "-o-animation:" + effect + " " + duration + "ms;"
+                        + "-moz-animation-delay:" + fdelay + "ms;"
+                        + "-webkit-animation-delay:" + fdelay + "ms;"
+                        + "-o-animation-delay:" + fdelay + "ms;"
+                        + "animation-delay:" + fdelay + "ms;").delay(fdelay).animate({
+                            opacity: 1,
+                            filter: 'alpha(opacity = 100)'
+                        }, {
+                            //delay: 100
+                        });
+                    if (i == ($_items.length - 1)) {
+                        $(".ltabs-items-inner").addClass("play");
+                    }
+                }
+
+                showAnimateItems($items_first_active);
+                $tab.on('click.tab', function () {
+                    var $this = $(this);
+                    if ($this.hasClass('tab-sel')) return false;
+                    if ($this.parents('.ltabs-tabs').hasClass('ltabs-open')) {
+                        $this.parents('.ltabs-tabs').removeClass('ltabs-open');
+                    }
+                    $tab.removeClass('tab-sel');
+                    $this.addClass('tab-sel');
+                    var items_active = $this.attr('data-active-content');
+                    var _items_active = $(items_active, $element);
+                    $items_content.removeClass('ltabs-items-selected');
+                    _items_active.addClass('ltabs-items-selected');
+                    $tab_label_select.html($tab.filter('.tab-sel').children('.ltabs-tab-label').html());
+                    var $loading = $('.ltabs-loading', _items_active);
+                    var loaded = _items_active.hasClass('ltabs-items-loaded');
+                    if (!loaded && !_items_active.hasClass('ltabs-process')) {
+                        _items_active.addClass('ltabs-process');
+                    } else {
+                        $('.ltabs-item', $items_content).removeAttr('style').addClass('new-ltabs-item').css('opacity', 0);
+                        showAnimateItems(_items_active);
+                    }
+                });
+
+
+            })('#sm_listing_tabs_19679587721443310487');
+        });
+
+        jQuery(document).on('click', '.all_list', function () {
+            var list_id = jQuery(this).data('list-id');
+            var list_name = jQuery(this).data('list-name');
+
+            jQuery("#current_list_id").val(list_id);
+            //jQuery(".current_list_name").html(list_name);
+            jQuery("#cmb_shopp_lists").val(list_id);
+            jQuery('.all_list').css({color: ''});
+            jQuery(this).css({color: '#F4A137'});
+            jQuery("#tab_shopp_list_items").click();
+
+            populateItemsInList(list_id);
+        });
+
+        jQuery(document).on('change', '#cmb_shopp_lists', function () {
+            var list_id = jQuery(this).val();
+
+            jQuery("#current_list_id").val(list_id);
+            jQuery('.all_list').css({color: ''});
+            jQuery(".listid" + list_id).css({color: '#F4A137'});
+            jQuery("#tab_shopp_list_items").click();
+
+            populateItemsInList(list_id);
+        });
+
+        jQuery(document).on('click', '.chk_shopp_items', function () {
+            show_buttons();
+            jQuery("#chk_shopp_items").prop('checked', false);
+            jQuery("#btn_chk_shopp_items").find('span').html('Select All');
+
+        });
+
+        jQuery(document).on('submit', '.shopp_form_items', function () {
+
+            var validator = new Validation(jQuery(this).attr('id'));
+            //alert(validator.validate());
+
+            if(validator.validate())
+            {
+                jQuery("#loading").find('span').html('Saving Item, Please Wait.. !');
+                jQuery("#loading").show();
+                var serialize_data = jQuery("form#" + jQuery(this).attr('id')).serialize();
+                //alert(jQuery(this).attr('id'));
+                var url = jQuery("#form_url").val();
+                jQuery.ajax({
+                    url: url,
+                    type: 'post',
+                    data: serialize_data,
+                    success: function (response) {
+                        var data = jQuery.parseJSON(response);
+                        jQuery("#loading").hide();
+                        //alert(data.msg);
+                        showSuccessMsg(data.msg);
+
+                        return false;
+                    }
+                });
+            }
+            return false;
+        });
+
+        jQuery(document).on('submit', '#form_nonexist_item', function () {
+            var list_id = jQuery("#current_list_id").val();
+            jQuery("#non_exist_item_list_id").val(list_id);
+
+            var validator = new Validation('form_nonexist_item');
+            //alert(validator.validate());
+
+            if(validator.validate()){
+                jQuery("#loading").find('span').html('Saving and Creating Quote, Please Wait.. !');
+                jQuery("#loading").show();
+
+                var url = '<?php echo Mage::getBaseUrl() ?>' + jQuery("#non_exist_url").val();
+                jQuery.ajax({
+                    url: url,
+                    type: 'post',
+                    data: jQuery(this).serialize(),
+                    success: function (response) {
+                        var data = jQuery.parseJSON(response);
+                        jQuery("#loading").hide();
+                        //alert(data.msg);
+                        showSuccessMsg(data.msg);
+                        document.getElementById("form_nonexist_item").reset();
+                        jQuery("#tab_shopp_list_items").click();
+                        populateItemsInList(list_id);
+                        return false;
+                    }
+                });
+            }
+            return false;
+        });
+
+
+        jQuery(document).on('click', '.btn_add_shopp_pro', function () {
+            var pro_ids = new Array();
+            jQuery(".chk_shopp_products:checked").map(function () {
+                pro_ids.push(this.value);
+            });
+
+            var list_id = jQuery("#current_list_id").val();
+
+            if(list_id!='') {
+                jQuery.ajax({
+                    url: '<?php echo Mage::getBaseUrl()."shoppinglist/index/addToShoppingList" ?>',
+                    type: 'post',
+                    data: {list_id: list_id, pro_ids: pro_ids},
+                    success: function (response) {
+                        var data = jQuery.parseJSON(response);
+
+                        jQuery("#tab_shopp_list_items").click();
+                        populateItemsInList(list_id);
+                        jQuery(".btn_add_shopp_pro").css('display', 'none');
+                        jQuery(".shopp-inner-item").removeClass('shop-selected-item');
+                        jQuery(".shopp-inner-item").addClass('shop-unselected-item');
+                        jQuery(".chk_shopp_products").prop('checked',false);
+                        showSuccessMsg(data.msg);
+
+                    }
+                });
+            }
+            else
+            {
+                jQuery("#id_shopp_list").click();
+                showErrorMsg('Please create atleast one list!');
+            }
+
+        });
+
+        jQuery(document).on('click', '.shopp-inner-item', function () {
+            selectProductToggle(jQuery(this));
+        });
+
+        jQuery(document).on('click', '.btn_file_popup', function () {
+            var list_item_id=jQuery(this).data('item-id');
+            getListAttachments(list_item_id);
+
+        });
+
+        jQuery(document).on('click', '.chk_shopp_products', function (e) {
+            e.stopPropagation();
+            var el=jQuery(".slistitem"+jQuery(this).val())
+            el.toggleClass('shop-unselected-item');
+            el.toggleClass('shop-selected-item');
+
+            var chks = jQuery('.chk_shopp_products:checked').toArray();
+            if (chks.length > 0) {
+                jQuery(".btn_add_shopp_pro").css('display', 'block');
+            }
+            else {
+                jQuery(".btn_add_shopp_pro").css('display', 'none');
+            }
+
+        });
+
+      /*  jQuery(document).on('submit', '#frm_shop_files', function () {
+            //jQuery("#loading").find('span').html('Saving and Creating Quote, Please Wait.. !');
+            //jQuery("#loading").show();
+
+            var url = jQuery(this).attr('action');
+            alert(url);
+            jQuery.ajax({
+                url: url,
+                type: 'post',
+                data: jQuery(this).serialize(),
+                success: function (response) {
+                    var data = jQuery.parseJSON(response);
+                    //  jQuery("#loading").hide();
+
+                    return false;
+                }
+            });
+
+            return false;
+        });*/
+
+
+        jQuery(function () {
+
+            jQuery(".btn_file_popup").fancybox({
+                //'titleShow'     : true,
+                //'transitionIn'  : 'elastic',
+                'transitionOut': 'elastic',
+                helpers   : {
+                    overlay : {closeClick: false} // prevents closing when clicking OUTSIDE fancybox
+                }
+            });
+
+            jQuery("#chk_shopp_items").on('click', function () {
+
+                if (jQuery(this).is(":checked") == true) {
+                    jQuery(".chk_shopp_items").prop('checked', true);
+                }
+                else {
+                    jQuery(".chk_shopp_items").prop('checked', false);
+                }
+
+                show_buttons();
+            });
+
+
+        });
+
+        function populateItemsInList(list_id) {
+            jQuery("#list_item_content").html('');
+            jQuery("#loading").find('span').html('Loading List, Please Wait.. !');
+            jQuery("#loading").show();
+            jQuery.ajax({
+                url: '<?php echo Mage::getBaseUrl()."shoppinglist/index/getShoppListItems" ?>',
+                type: 'POST',
+                data: {list_id: list_id},
+                success: function (response) {
+                    var data = jQuery.parseJSON(response);
+                    jQuery("#list_item_content").html(data.block);
+                    // alert(data.msg);
+                    jQuery("#loading").hide();
+                    return false;
+                }
+            });
+        }
+
+        function saveListItems(form_id) {
+            jQuery("#form_url").attr('action', "<?php echo Mage::getBaseUrl() . 'shoppinglist/index/saveShoppingItems' ?>");
+            jQuery("#" + form_id).submit();
+        }
+
+        function setSingleQuote(form_id) {
+            jQuery("#loading").find('span').html('Creating Quote, Please Wait.. !');
+            jQuery("#loading").show();
+            jQuery.ajax({
+                url: "<?php echo Mage::getBaseUrl() . 'shoppinglist/index/setSingleQuote' ?>",
+                type: 'post',
+                data: jQuery("#" + form_id).serialize(),
+                success: function (response) {
+                    var data = jQuery.parseJSON(response);
+                    jQuery("#loading").hide();
+                    //alert(data.msg);
+                    showSuccessMsg(data.msg);
+                    return false;
+                }
+            });
+
+            //jQuery("#form-shopp-items")
+            // alert(list_id);
+        }
+
+        function addToCartSelected() {
+            var pro_ids = new Array();
+            var qtys = new Array();
+            jQuery(".chk_shopp_items:checked").map(function () {
+                pro_ids.push(this.value);
+                qtys.push(jQuery(".qty" + this.value).val());
+            });
+            _addToCart(pro_ids, qtys);
+        }
+
+
+        function addToCart(pro_id) {
+            var pro_ids = new Array();
+            var qtys = new Array();
+
+            pro_ids.push(pro_id);
+            qtys.push(jQuery(".qty" + pro_id).val());
+            _addToCart(pro_ids, qtys);
+
+        }
+
+        function _addToCart(pro_ids, qtys) {
+
+            jQuery("#loading").find('span').html('Adding To The Cart, Please Wait.. !');
+            jQuery("#loading").show();
+
+            jQuery.ajax({
+                url: '<?php echo Mage::getBaseUrl()."shoppinglist/index/addToCartShopplist" ?>',
+                type: 'POST',
+                data: {pro_ids: pro_ids, qtys: qtys},
+                success: function (response) {
+                    var data = jQuery.parseJSON(response);
+                    //jQuery("#list_item_content").html(data.block);
+                    jQuery("#loading").find('span').html('Redirecting To The Cart, Please Wait.. !');
+
+                    window.location = "<?php echo Mage::helper('checkout/cart')->getCartUrl(); ?>";
+
+
+                    //jQuery("#options").css({display:"block"});
+                    //return false;
+                }
+            });
+        }
+
+        function removeListItem(item_id) {
+            var list_id = jQuery("#current_list_id").val();
+
+            jQuery("#loading").find('span').html('Removing From the list, Please Wait.. !');
+            jQuery("#loading").show();
+
+            jQuery.ajax({
+                url: '<?php echo Mage::getBaseUrl()."shoppinglist/index/removeItemFromList" ?>',
+                type: 'POST',
+                data: {item_id: item_id, list_id: list_id},
+                success: function (response) {
+                    var data = jQuery.parseJSON(response);
+
+                    jQuery("#loading").hide();
+                    populateItemsInList(list_id);
+                    showSuccessMsg(data.msg);
+                    // alert(data.msg);
+
+                }
+            });
+
+        }
+
+
+        function removeSelectedListItem() {
+            var list_id = jQuery("#current_list_id").val();
+            var item_ids = new Array();
+            jQuery(".chk_shopp_items:checked").map(function () {
+                item_ids.push(jQuery(this).data('item-id'));
+                //qtys.push(jQuery(".qty"+this.value).val());
+            });
+
+            jQuery("#loading").find('span').html('Removing Selected Items From the list, Please Wait.. !');
+            jQuery("#loading").show();
+
+            jQuery.ajax({
+                url: '<?php echo Mage::getBaseUrl()."shoppinglist/index/removeSelectedItemFromList" ?>',
+                type: 'POST',
+                data: {item_ids: item_ids},
+                success: function (response) {
+                    var data = jQuery.parseJSON(response);
+                    jQuery("#chk_shopp_items").prop('checked', false);
+                    jQuery("#loading").hide();
+                    populateItemsInList(list_id);
+                    show_buttons();
+                    jQuery("#btn_chk_shopp_items").find('span').html('Select All');
+                    showSuccessMsg(data.msg);
+                    // alert(data.msg);
+
+                }
+            });
+
+        }
+
+        function getShoppingList() {
+            var list_id = jQuery("#current_list_id").val();
+            jQuery("#shopp_list_data").html('');
+            jQuery("#loading").find('span').html('Loading List, Please Wait.. !');
+            jQuery("#loading").show();
+
+            jQuery.ajax({
+                url: '<?php echo Mage::getBaseUrl()."shoppinglist/index/getShoppingList" ?>',
+                type: 'POST',
+                success: function (response) {
+                    var data = jQuery.parseJSON(response);
+                    jQuery("#block_cmb_shopp_lists").html(data.select);
+
+                    var list_id = jQuery("#cmb_shopp_lists").val();
+                    jQuery("#current_list_id").val(list_id);
+                    populateItemsInList(list_id);
+
+                    jQuery("#shopp_list_data").html(data.block);
+                    jQuery("#loading").hide();
+
+                }
+            });
+        }
+
+        function confirmRemoveShopplist(list_id) {
+            var confirm_action = confirm("Are sure sure want to delete this list?");
+
+            if (confirm_action) {
+                jQuery("#loading").find('span').html('Deleting Selected list, Please Wait.. !');
+                jQuery("#loading").show();
+                jQuery.ajax({
+                    url: '<?php echo Mage::getBaseUrl()."shoppinglist/index/removeSelectedList" ?>',
+                    type: 'POST',
+                    data: {list_id: list_id},
+                    success: function (response) {
+                        var data = jQuery.parseJSON(response);
+
+                        jQuery("#loading").hide();
+                        getShoppingList();
+                        showSuccessMsg(data.msg);
+                        //alert(data.msg);
+                    }
+                });
+            }
+
+        }
+        function addListItem() {
+            jQuery("#tab_add_list_items").click();
+        }
+
+
+        function setSingleQuoteForNonexistItem() {
+
+            var list_id = jQuery("#current_list_id").val();
+            if(list_id=='')
+            {
+                jQuery("#id_shopp_list").click();
+                showErrorMsg('Please create atleast one list!');
+            }
+            else
+            {
+
+                jQuery("#non_exist_url").val('shoppinglist/index/setQuoteNonExistItem');
+                jQuery("#form_nonexist_item").submit();
+            }
+
+
+        }
+
+        function saveNonExistItem() {
+            var list_id = jQuery("#current_list_id").val();
+            if(list_id=='')
+            {
+                jQuery("#id_shopp_list").click();
+                showErrorMsg('Please create atleast one list!');
+            }
+            else
+            {
+                jQuery("#non_exist_url").val('shoppinglist/index/saveNonExistItem');
+                jQuery("#form_nonexist_item").submit();
+            }
+
+        }
+
+        function showSuccessMsg(msg) {
+            jQuery('html, body').animate({scrollTop: 0}, 'slow');
+            jQuery("#shopp_list_msg").show();
+            jQuery("#shopp_list_msg").find('span').html(msg);
+            jQuery("#shopp_list_msg").delay(3000).fadeOut(1000);
+        }
+        function showErrorMsg(msg) {
+            jQuery('html, body').animate({scrollTop: 0}, 'slow');
+            jQuery("#shopp_list_err_msg").show();
+            jQuery("#shopp_list_err_msg").find('span').html(msg);
+            jQuery("#shopp_list_err_msg").delay(3000).fadeOut(1000);
+        }
+
+        function show_buttons()
+        {
+            var is_selected=jQuery('.chk_shopp_items:checked').toArray().length;
+            if(is_selected)
+            {
+                jQuery('.btn_order_select').show();
+                jQuery('.btn_rmv_select').show();
+                jQuery('.btn_get_all_quote').show();
+            }
+            else
+            {
+                jQuery('.btn_order_select').hide();
+                jQuery('.btn_rmv_select').hide();
+                jQuery('.btn_get_all_quote').hide();
+            }
+        }
+        //]]>
+    </script>
+</div>
+
+<script type="text/javascript">
+    //<![CDATA[
+    function pushState(data, link, replace) {
+        var History = window.History;
+        if (!History.enabled) {
+            return false;
+        }
+
+        if (replace) {
+            History.replaceState(data, document.title, link);
+        } else {
+            History.pushState(data, document.title, link);
+        }
+    }
+
+    function handleEvent(el, event) {
+        var url, fullUrl;
+        if (typeof el === 'string') {
+            url = el;
+        } else if (el.tagName.toLowerCase() === 'a') {
+            url = $(el).readAttribute('href');
+        } else if (el.tagName.toLowerCase() === 'select') {
+            url = $(el).getValue();
+        }
+
+        <?php // Add this to query string for full page caching systems ?>
+        if (url.indexOf('?') != -1) {
+            fullUrl = url + '&isLayerAjax=1';
+        } else {
+            fullUrl = url + '?isLayerAjax=1';
+        }
+
+        $('loading').show();
+        $('ajax-errors').hide();
+
+        pushState(null, url, false);
+
+        new Ajax.Request(fullUrl, {
+            method: 'get',
+            onSuccess: function (transport) {
+                if (transport.responseJSON) {
+                    jQuery("#shopp_result").html(transport.responseJSON.listing);
+                    // $('catalog-listing').update(transport.responseJSON.listing);
+                    //$('layered-navigation').update(transport.responseJSON.layer);
+                    pushState({
+                        listing: transport.responseJSON.listing,
+                        // layer: transport.responseJSON.layer
+                    }, url, true);
+                    ajaxListener();
+                } else {
+                    $('ajax-errors').show();
+                }
+                $('loading').hide();
+
+                return false;
+            }
+        });
+
+        if (event) {
+            event.preventDefault();
+        }
+    }
+    function ajaxListener() {
+        var els;
+        els = $$('div.pager-wrapper a').concat(
+            $$('div.sort-by-wrap a'),
+            $$('div.view-mode-wrap a'),
+            // $$('div.pager select'),
+            $$('div.sorter select'),
+            $$('div.block-layered-nav a')
+        );
+        els.each(function (el) {
+            if (el.tagName.toLowerCase() === 'a') {
+                $(el).observe('click', function (event) {
+                    handleEvent(this, event);
+                });
+            } else if (el.tagName.toLowerCase() === 'select') {
+                $(el).setAttribute('onchange', '');
+                $(el).observe('change', function (event) {
+                    handleEvent(this, event);
+                });
+            }
+        });
+
+
+        els = $$('div.limiter-wrap a').concat(
+            $$('div.sort-by-wrap a'),
+            $$('div.view-mode-wrap a'),
+            // $$('div.pager select'),
+            $$('div.sorter select'),
+            $$('div.block-layered-nav a')
+        );
+
+        els.each(function (el) {
+            if (el.tagName.toLowerCase() === 'a') {
+                $(el).observe('click', function (event) {
+                    handleEvent(this, event);
+                });
+            } else if (el.tagName.toLowerCase() === 'select') {
+                $(el).setAttribute('onchange', '');
+                $(el).observe('change', function (event) {
+                    handleEvent(this, event);
+                });
+            }
+        });
+    }
+    /*document.observe("dom:loaded", function() {
+
+     });
+
+     */
+    function initAjax() {
+        ajaxListener();
+
+        (function (History) {
+            if (!History.enabled) {
+                return false;
+            }
+
+            pushState({
+                listing: $('catalog-listing').innerHTML,
+                layer: $('layered-navigation').innerHTML
+            }, document.location.href, true);
+
+            // Bind to StateChange Event
+            History.Adapter.bind(window, 'popstate', function (event) {
+                if (event.type == 'popstate') {
+                    var State = History.getState();
+                    $('catalog-listing').update(State.data.listing);
+                    $('layered-navigation').update(State.data.layer);
+                    ajaxListener();
+                }
+            });
+        })(window.History);
+    }
+
+    function selectProductToggle(el) {
+        el.toggleClass('shop-unselected-item');
+        el.toggleClass('shop-selected-item');
+        var checkbox = el.find('.chk_shopp_products');
+        checkbox.prop("checked", !checkbox.prop("checked"));
+
+        var chks = jQuery('.chk_shopp_products:checked').toArray();
+        if (chks.length > 0) {
+            jQuery(".btn_add_shopp_pro").css('display', 'block');
+        }
+        else {
+            jQuery(".btn_add_shopp_pro").css('display', 'none');
+        }
+    }
+
+    function selectShopItems(el) {
+        var checkbox = jQuery('#chk_shopp_items');
+        //checkbox.prop("checked", !checkbox.prop("checked"));
+        checkbox.click();
+        if (checkbox.prop("checked") == true) {
+            el.find('span').html('Unselect All');
+        }
+        else {
+            el.find('span').html('Select All');
+        }
+
+
+    }
+    function getListAttachments(list_item_id)
+    {
+        //alert(list_item_id);
+        jQuery("#loading_1").find('span').html('Loading, Please Wait...');
+        jQuery("#loading_1").show();
+        jQuery("#kit_file_popup").hide();
+        jQuery.ajax({
+            url:'<?php echo Mage::getBaseUrl()."shoppinglist/index/getShopFiles" ?>',
+            type:'post',
+            data: {list_item_id:list_item_id},
+            success: function (response) {
+                var data=jQuery.parseJSON(response);
+                //alert(data.filesblock);
+                jQuery("#kit_file_popup").show();
+                jQuery("#kit_file_popup").html(data.filesblock);
+                //alert(data);
+                //var pro_count=jQuery("#shop-searched-pro-count").val();
+
+                jQuery("#loading_1").hide();
+
+                //initAjax();
+
+                return false;
+            }
+        });
+    }
+
+    function uploadFiles()
+    {
+        Validation.add('required-image-pdf','Upload only ( .jpg, .jpeg, .png, .gif, .bmp and .pdf ) files only!',function(v,elm){
+            var inputs = $$('input[name="' + elm.name.replace(/([\\"])/g, '\\$1') + '"]');
+            var valid_file=false;
+            for(var i=0;i<inputs.length;i++)
+            {
+                return (/\.(gif|jpg|jpeg|png|pdf)$/i).test(inputs[i].value);
+            }
+
+        });
+        var validator = new Validation('frm_shop_files');
+       //alert(validator.validate());
+
+        if(validator.validate()){
+            jQuery(".validation-advice").css('display','none');
+            jQuery("#file_error_msg").find('span').html("");
+            jQuery("#file_error_msg").hide();
+
+        jQuery('#frm_shop_files').ajaxForm(function(result){
+            var list_item_id=jQuery('#list_item_id').val();
+            getListAttachments(list_item_id);
+            jQuery("#loading_1").hide();
+        });
+        jQuery("#loading_1").find('span').html('Uploading Files, Please Wait...');
+        jQuery("#loading_1").show();
+        jQuery('#frm_shop_files').submit();
+        jQuery("#kit_file_popup").hide();
+        }
+        else
+        {
+            jQuery(".validation-advice").css({'display':'none'});
+            //jQuery("#file_error_msg").find('span').html("Upload only .jpg, .jpeg, .png, .gif, .bmp and .pdf files only!");
+            //jQuery("#file_error_msg").show();
+            //jQuery("#file_error_msg").find('span').html(jQuery("#advice-required-image-pdf-shop_files[]").html());
+        }
+    }
+
+    function removeAttachment(list_item_id,file_id)
+    {
+        jQuery("#loading_1").find('span').html('Removing Attachment, Please Wait...');
+        jQuery("#loading_1").show();
+        jQuery("#kit_file_popup").hide();
+        jQuery.ajax({
+            url:'<?php echo Mage::getBaseUrl()."shoppinglist/index/removeAttachment" ?>',
+            type:'post',
+            data: {file_id:file_id},
+            success: function (response) {
+                jQuery("#loading_1").hide();
+                getListAttachments(list_item_id);
+            }
+        });
+    }
+
+    function getMultiUploadPopup()
+    {
+        jQuery.fancybox.open([{href:'#kit_file_popup_main'}]);
+        jQuery("#loading_1").find('span').html('Loading, Please Wait...');
+        jQuery("#loading_1").show();
+        jQuery("#kit_file_popup").hide();
+        jQuery.ajax({
+            url:'<?php echo Mage::getBaseUrl()."shoppinglist/index/getFieldsForMultiQuote" ?>',
+            type:'post',
+            success: function (response) {
+                var data=jQuery.parseJSON(response);
+                //alert(data.filesblock);
+                jQuery("#kit_file_popup").show();
+                jQuery("#kit_file_popup").html(data.fields);
+                //alert(data);
+                //var pro_count=jQuery("#shop-searched-pro-count").val();
+
+                jQuery("#loading_1").hide();
+
+                //initAjax();
+                return false;
+            }
+        });
+
+    }
+
+    function submitMultiQuote()
+    {
+        jQuery("#loading").find('span').html('Saving Item, Please Wait.. !');
+        jQuery("#loading").show();
+        var serialize_data = jQuery(".shopp_form_items").serialize();
+        //alert(jQuery(this).attr('id'));
+        var url = jQuery("#form_url").val();
+        jQuery.ajax({
+            url: '<?php echo Mage::getBaseUrl()."shoppinglist/index/setMultiQuote" ?>',
+            type: 'post',
+            data: serialize_data,
+            success: function (response) {
+                var data = jQuery.parseJSON(response);
+                jQuery("#loading").hide();
+                //alert(data.msg);
+                showSuccessMsg(data.msg);
+                jQuery.fancybox.close();
+            }
+        });
+    }
+    //]]>
+</script>

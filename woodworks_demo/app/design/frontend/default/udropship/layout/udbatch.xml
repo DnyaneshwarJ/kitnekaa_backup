@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Unirgy LLC
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the EULA
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://www.unirgy.com/LICENSE-M1.txt
+ *
+ * @category   Unirgy
+ * @package    Unirgy_Dropship
+ * @copyright  Copyright (c) 2008-2009 Unirgy LLC (http://www.unirgy.com)
+ * @license    http:///www.unirgy.com/LICENSE-M1.txt
+ */
+-->
+<layout>
+    <udbatch_vendor_batch_importstock>
+        <update handle="udropship_vendor" />
+        <reference name="content">
+            <block type="core/template" template="unirgy/udbatch/vendor/importstock.phtml" name="udbatch_importstock" />
+        </reference>
+    </udbatch_vendor_batch_importstock>
+    <udbatch_vendor_batch_importorders>
+        <update handle="udropship_vendor" />
+        <reference name="content">
+            <block type="core/template" template="unirgy/udbatch/vendor/importorders.phtml" name="udbatch_importstock" />
+        </reference>
+    </udbatch_vendor_batch_importorders>
+</layout>

@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+    <umember_registration_index>
+        <reference name="root">
+            <action method="setTemplate"><template>page/1column.phtml</template></action>
+        </reference>
+        <reference name="head">
+            <action method="setTitle" translate="title" >
+                <title>Seller Registration</title>
+            </action>
+        </reference>
+        <reference name="content">
+            <block type="core/template" name="vendor_registration" template="umember/registration.phtml"/>
+        </reference>
+    </umember_registration_index>
+</layout>

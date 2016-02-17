@@ -1,0 +1,98 @@
+    <div class="dashboard">
+        <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
+        <div class="box-account box-info">
+            <div class="box-head">
+                
+                <?php 
+                				$quote_id = $this->getRequest()->getParam('id');
+                                $vtigercrmHelper = $this->helper('vtigercrm_quotation/data');
+                                $quoteData = $vtigercrmHelper->retrieveData('4x'.$quote_id);
+                                
+                                if($quoteData['error']['code'] == "AUTHENTICATION_REQUIRED"){
+                                	$vtigercrmHelper->getChallenge();
+                                	$vtigercrmHelper->login('admin');
+                                	$quoteData = $vtigercrmHelper->retrieveData('4x'.$quote_id);
+                                }
+                                
+                                if(!$quoteData['success']){
+                                	echo "<h2>"."Invalid Quotation ID"."</h2>";
+                                }
+                                
+                                $quoteProductData = $quoteData['result']['LineItems'];
+                                if($quoteProductData){
+                                	$totalPrice = 0;
+                                	echo "<h2>".$this->__('My Quotation')."</h2>";
+            	?>
+            	
+            		<table class="clean-table linearize-table" id="wishlist-table">
+					    <thead>
+					        <tr class="first last">
+								<th class="customer-wishlist-item-info"></th>
+								<th class="customer-wishlist-item-quantity">Qty</th>
+								<th class="customer-wishlist-item-price">Price</th>
+								<th class="customer-wishlist-item-cart"></th>
+								<th class="customer-wishlist-item-remove"></th>
+					        </tr>
+					    </thead>
+					    <?php foreach($quoteProductData as $quoteProductDataValue): 
+					    		$quoteProductDetails = $vtigercrmHelper->retrieveData($quoteProductDataValue['productid']);
+					    		$quoteProductDetails = $quoteProductDetails['result'];
+					    ?>
+					    <tbody>
+					        <tr class="first last odd" id="item_1">
+					            <td class="wishlist-cell1 customer-wishlist-item-info">
+								<h3 class="product-name">
+								<?php echo $quoteProductDetails['productname']; ?>
+								</h3>
+									
+								
+								</td>
+					            
+								<td class="wishlist-cell2 customer-wishlist-item-quantity" data-rwd-label="Qty">
+									<div class="cart-cell">
+										<div class="add-to-cart-alt">
+											<?php echo $quoteProductDataValue['quantity']; ?>
+										</div>
+									</div>
+								</td>
+					            
+								<td class="wishlist-cell3 customer-wishlist-item-price" data-rwd-label="Price">
+								
+								<div class="cart-cell">            			
+									<div class="price-box">
+										<span class="regular-price" id="product-price-159">
+											<span class="price">₹<?php echo $quoteProductDataValue['listprice']; $totalPrice += $quoteProductDataValue['listprice']; ?></span>
+										</span>
+									</div>
+								</div>
+								
+								</td>
+
+					         </tr>
+					     </tbody>
+					     <?php endforeach; ?>
+					</table>
+					
+					
+					<div class="cart-cell">            			
+						<div class="price-box">
+							<span class="regular-price" id="product-price-159">
+								<span class="price">Total Price : ₹<?php echo $totalPrice; ?></span>
+							</span>
+						</div>
+					</div>
+					
+					<div class="item-manage">
+						<?php if($quoteData['result']['quotestage'] == "Created") { ?>
+						<a class="button btn-update button-secondary" href="<?php echo $this->getUrl('quotation/quotation/accept/').'id/'.$quote_id ?>"><?php echo "ACCEPT" ?></a>
+						<?php } else if($quoteData['result']['quotestage'] == "Accepted"){
+							echo $quoteData['result']['quotestage'];
+					    }?>
+						<button type="submit" name="do" title="Update Wishlist" class="button btn-update button-secondary"><span><span>Contact Us</span></span></button>
+					</div>
+					
+								
+					<?php } ?>
+            </div>
+        </div>
+    </div>

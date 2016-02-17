@@ -1,0 +1,147 @@
+
+
+<?php
+$_hlp = Mage::helper('udropship');
+$_prHlp = Mage::helper('udpromo');
+$_session = Mage::getSingleton('udropship/session');
+$_vendor = Mage::getSingleton('udropship/session')->getVendor();
+$_rule = $this->getRule();
+?>
+
+<div class="page-title">
+<h1>
+<?php echo Mage::helper('udropship')->__('Promotion #%s "%s"', $_rule->getId(), $_rule->getData('name')) ?>
+</h1>
+<span class="required"><?php echo Mage::helper('udropship')->__('* Indicated Required Fields') ?></span>
+</div>
+<?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
+<form action="<?php echo $this->getUrl('udpromo/vendor/rulePost', array('_current'=>true))?>" method="post" id="rule-edit-form">
+<input type="hidden" name="id" value="<?php echo $_rule->getId() ?>" />
+<?php foreach ($this->getForm()->getElements() as $element) {
+    echo $element->toHtml();
+} ?>
+
+<div class="buttons-set">
+    <span class="rule-edit-form-loader" style="display:none" id="rule-edit-form-loader"><?php echo Mage::helper('udropship')->__('Please wait, submitting...')?></span>
+    <button class="form-button" type="button" onclick="udpromoEditFormSubmit(this, false)" name="send"><span><?php echo Mage::helper('udropship')->__('Save') ?></span></button>
+    <div class="clearer"></div><br/>
+    <p><a href="<?php echo $this->getUrl('udpromo/vendor/rules')?>">&laquo; <?php echo Mage::helper('udropship')->__('Return to rules list')?></a></p></p>
+</div>
+</form>
+
+<script type="text/javascript">
+    var udpromoEditForm = new VarienForm('rule-edit-form', true);
+    function udpromoEditFormSubmit(elem) {
+        $(elem).up().select('button').invoke('hide');
+        $('rule-edit-form-loader').show();
+        var res = false;
+        if (udpromoEditForm.validator && udpromoEditForm.validator.validate()) {
+            res = true;
+            udpromoEditForm.form.submit();
+        } else {
+            $(elem).up().select('button').invoke('show');
+            $('rule-edit-form-loader').hide();
+        }
+        return res;
+    }
+</script>
+
+<script type="text/javascript">
+//<![CDATA[
+var couponTypeSpecific = '<?php echo Mage_SalesRule_Model_Rule::COUPON_TYPE_SPECIFIC ?>';
+var tmpButtonsActionsStorage = [];
+
+function disableEnableCouponsTabContent(disable) {
+    var containerId = 'coupons_fieldset';
+    if($(containerId)){
+        var dataFields = $(containerId).select('input', 'select', 'textarea', 'button');
+        for(var i = 0; i < dataFields.length; i++) {
+            disable ? dataFields[i].disable().addClassName('disabled')
+                : dataFields[i].enable().removeClassName('disabled');
+        }
+    }
+    disable ? $('rule_coupon_code').enable() : $('rule_coupon_code').disable();
+}
+
+function handleCouponsTabContentActivity() {
+    disableEnableCouponsTabContent(!$('rule_use_auto_generation').checked);
+}
+
+function handleCouponTypeChange() {
+    $('rule_coupon_type').observe('change', function() {
+        var disable = $('rule_coupon_type').value != couponTypeSpecific;
+        if (!disable) {
+            disable = !$('rule_use_auto_generation').checked;
+        }
+        disableEnableCouponsTabContent(disable);
+    });
+}
+
+function refreshCouponCodesGrid(grid, gridMassAction, transport) {
+    grid.reload();
+    gridMassAction.unselectAll();
+}
+
+function generateCouponCodes(idPrefix, generateUrl, grid) {
+    $(idPrefix + 'information_fieldset').removeClassName('ignore-validate');
+    var validationResult = $(idPrefix + 'information_fieldset').select('input',
+            'select', 'textarea').collect( function(elm) {
+            return Validation.validate(elm, {
+                useTitle :false,
+                onElementValidate : function() {
+                }
+            });
+        }).all();
+    $(idPrefix + 'information_fieldset').addClassName('ignore-validate');
+
+    if (!validationResult) {
+        return;
+    }
+    var elements = $(idPrefix + 'information_fieldset').select('input', 'select', 'textarea');
+
+    elements = elements.concat(
+        $$('#rule_uses_per_coupon'),
+        $$('#rule_uses_per_customer'),
+        $$('#rule_to_date')
+    );
+
+    var params = Form.serializeElements(elements, true);
+    params.form_key = FORM_KEY;
+    $('messages').update();
+    var couponCodesGrid = eval(grid);
+    new Ajax.Request(generateUrl, {
+        parameters :params,
+        method :'post',
+        onComplete : function (transport, param){
+            var response = false;
+            if (transport && transport.responseText) {
+                response = eval('(' + transport.responseText + ')');
+            }
+            if (couponCodesGrid) {
+                couponCodesGrid.reload();
+            }
+            if (response && response.messages) {
+                $('messages').update(response.messages);
+            }
+            if (response && response.error) {
+                alert(response.error);
+            }
+        }
+    });
+}
+
+Ajax.Responders.register({
+    onComplete: function() {
+        if ($('coupons_fieldset')
+            && $('coupons_fieldset').visible()
+            && Ajax.activeRequestCount == 0
+            ) {
+            handleCouponsTabContentActivity();
+        }
+    }
+});
+
+document.observe("dom:loaded", handleCouponsTabContentActivity);
+document.observe("dom:loaded", handleCouponTypeChange);
+//]]>
+</script>

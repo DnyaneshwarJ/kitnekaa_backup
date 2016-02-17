@@ -1,0 +1,129 @@
+<?php
+$fValue = $this->getFieldValue();
+$cfgAttrs = $this->getConfigurableAttributes();
+$_yesnoOpts = Mage::getSingleton('udropship/source')->setPath('yesno')->toOptionHash();
+?>
+
+<div class="grid">
+    <input id="<?php echo $this->getFieldName()?>" type="hidden" />
+    <table cellspacing="0" class="data" id="<?php echo $this->suffixId('cfgTable')?>" style="width:70px">
+        <col width="150" />
+        <col width="100" />
+        <col width="70" />
+        <col width="70" />
+        <thead>
+            <tr class="headings">
+                <th><?php echo Mage::helper('udropship')->__('Attribute') ?></th>
+                <th><?php echo Mage::helper('udropship')->__('Identify Images') ?></th>
+                <th><?php echo Mage::helper('udropship')->__('Sort Order') ?></th>
+                <th><?php echo Mage::helper('udropship')->__('Action') ?></th>
+            </tr>
+            <tr id="<?php echo $this->suffixId('rowTpl')?>" style="display:none">
+                <td>
+                    <select name="<?php echo $this->getFieldName()?>[$ROW][attribute_id]" style="width: 150px">
+                    <?php if (is_array($cfgAttrs)): foreach ($cfgAttrs as $cfgAttrId=>$cfgAttrLbl): ?>
+                        <option alt="attribute_id" value="<?php echo $cfgAttrId?>"><?php echo $this->htmlEscape($cfgAttrLbl)?></option>
+                    <?php endforeach; endif; ?>
+                    </select>
+                </td>
+                <td>
+                    <select name="<?php echo $this->getFieldName()?>[$ROW][identify_image]" style="width:50px">
+                    <?php foreach ($_yesnoOpts as $_id=>$_name): ?>
+                        <option alt="identify_image" value="<?php echo $_id ?>"><?php echo $this->htmlEscape($_name) ?></option>
+                    <?php endforeach ?>
+                    </select>
+                </td>
+                <td>
+                    <input type="text" class="input-text" name="<?php echo $this->getFieldName()?>[$ROW][sort_order]" value="$SORT_ORDER" style="width:50px" />
+                </td>
+                <td>
+                    <button type="button" class="scalable delete"><span>&nbsp;</span></button>
+                </td>
+            </tr>
+        </thead>
+        <tfoot>
+            <tr>
+                <th colspan="4" class="a-left">
+                    <div class="left"><button type="button" class="scalable add" id="<?php echo $this->suffixId('addBtn')?>"><span>+ <?php echo Mage::helper('udropship')->__('Add') ?></span></button></div>
+                </th>
+            </tr>
+        </tfoot>
+        <tbody>
+        </tbody>
+    </table>
+
+</div>
+
+<style type="text/css">
+</style>
+
+<script type="text/javascript">
+//<![CDATA[
+(function ()
+{
+    var lastRowNum = 0;
+    var tbody = $$('#<?php echo $this->suffixId('cfgTable')?> tbody')[0]
+
+    function addRow(inData)
+    {
+        var rowHtml = $('<?php echo $this->suffixId('rowTpl')?>').innerHTML
+        var data = {
+            attribute_id: '0',
+            identify_image: '0',
+            sort_order: '0'
+        }
+        Object.extend(data, inData);
+        data.row = ++lastRowNum;
+
+        var isIE = (/msie [1-8]\./i).test(navigator.userAgent);
+        var numericVars = ['sort_order', 'identify_image', 'attribute_id'];
+        var forcedNumericVars = [];
+        var keys = $H(data).keys().sortBy(function(s){return (''+s).length}).reverse();
+        for (j=0; j<keys.length; j++) {
+            var i=keys[j];
+            value = data[i] || ''
+            if (-1 != numericVars.indexOf(i) && data[i]
+                || -1 != forcedNumericVars.indexOf(i)
+            ) {
+                value *= 1;
+                data[i] = value;
+            }
+            if (i!=='row' && isIE) value = '"'+value+'"';
+            rowHtml = rowHtml.replace(new RegExp('\\$'+i.toUpperCase(), 'g'), value)
+        }
+        var regExTpl = [
+            new Template('<option (([^>]*(alt="?#{key}"?|value="?#{value}"?(?=[\\s>]))){2})'),
+            new Template('<option $1 selected="selected"'),
+            new Template('<input (([^>]*(alt="?#{key}"?|value="?#{value}"?(?=[\\s>])|type="?checkbox"?)){3})'),
+            new Template('<input $1 checked="checked"')
+        ];
+        var selectFields = ['attribute_id', 'identify_image'];
+        selectFields.each(function(key){
+            for (var rxIdx=0; rxIdx<regExTpl.length; rxIdx+=2) {
+                var varForEval = {key: key, value: data[key]};
+                var rxFind = regExTpl[rxIdx].evaluate(varForEval);
+                var rxReplace = regExTpl[rxIdx+1].evaluate(varForEval);
+                rowHtml = rowHtml.replace(new RegExp(rxFind, 'i'), rxReplace);
+            }
+        });
+        tbody.insert('<tr>'+rowHtml+'</tr>')
+        var trs = tbody.childElements()
+        var tr = trs[trs.length-1]
+        tr.addClassName(lastRowNum%2 ? 'odd' : 'even')
+        var del = $(tr).select('button.delete')[0];
+        if (del) {
+            $(del).observe('click', function(e) { e.stop(); $(del.parentNode.parentNode).remove() })
+        }
+    }
+
+    $('<?php echo $this->suffixId('addBtn')?>').observe('click', function(e) { e.stop(); addRow() });
+
+<?php if (is_array($fValue)): foreach ($fValue as $fV): ?>
+    addRow(<?php echo Zend_Json::encode($fV) ?>);
+<?php endforeach; endif; ?>
+})();
+//]]>
+</script>
+
+
+

@@ -1,0 +1,64 @@
+<?php
+$wishlists = $this->getItems();
+/**
+ * @var $this Cminds_MultiUserAccounts_Block_Wishlist
+ */
+?>
+<div class="dashboard">
+    <div class="page-title">
+        <h1><?php echo $this->__('Manage Pick List') ?></h1>
+    </div>
+    <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
+        <?php echo $this->getChildHtml('pager'); ?>
+    <button style="margin-bottom: 2px;" type="button" title="<?php echo $this->__('Mark as Finished') ?>" class="button" onclick="window.location='<?php echo $this->getUrl('wishlist/subaccount/create') ?>';"><span><span><?php echo $this->__('Create New') ?></span></span></button>
+        <?php if (count($wishlists)): ?>
+        <table class="data-table" id="manage-wishlist-subaccounts-table">
+            <col width="1" />
+            <col width="1" />
+            <col width="1" />
+            <col width="1" />
+            <col width="1" />
+            <thead>
+            <tr>
+                <?php if(!$this->isSubAccount()): ?>
+                    <th><?php echo $this->__('Email') ?></th>
+                    <th><?php echo $this->__('Name') ?></th>
+                <?php else: ?>
+                    <th><?php echo $this->__('Name') ?></th>
+                <?php endif; ?>
+                <th><?php echo $this->__('Items') ?></th>
+                <th><?php echo $this->__('Status') ?></th>
+                <th></th>
+                <th></th>
+                <?php if($this->isSubAccount()): ?>
+                <th></th>
+                <?php endif; ?>
+            </tr>
+            </thead>
+            <tbody>
+            <?php $_odd = ''; ?>
+            <?php foreach ($wishlists as $wishlist): ?>
+                <tr>
+                <?php if(!$this->isSubAccount()): ?>
+                    <td><?php echo $this->escapeHtml($wishlist->getSubAccount()->getEmail()) ?></td>
+                    <td><?php echo $this->escapeHtml($wishlist->getSubAccount()->getName()) ?></td>
+                <?php else: ?>
+                    <td><?php echo $this->escapeHtml($wishlist->getName()) ?></td>
+                <?php endif; ?>
+                    <td><?php echo $this->escapeHtml($wishlist->getItemCount()) ?></td>
+                    <td><?php echo $this->escapeHtml($wishlist->getStatusLabel()) ?></td>
+                    <?php if($this->isSubAccount()): ?>
+                    <td><a href="<?php echo $this->getShowWishlist($wishlist->getId()); ?>"><?php echo $this->__('Show Pick List') ?></a></td>
+                    <?php endif; ?>
+                    <td><?php if($wishlist->getStatus() != 4) : ?><a href="<?php echo $this->getEditWishlist($wishlist->getId()); ?>"><?php echo $this->__('Rename') ?></a><?php endif; ?></td>
+                    <td><?php if($wishlist->getStatus() != 4) : ?><a href="<?php echo $this->getUrl('wishlist/subaccount/remove', array('id' => $wishlist->getId())); ?>"><?php echo $this->__('Remove') ?></a><?php endif; ?></td>
+                </tr>
+            <?php endforeach; ?>
+            </tbody>
+        </table>
+        <script type="text/javascript">decorateTable('manage-wishlist-subaccounts-table')</script>
+        <?php else: ?>
+            <p style="padding: 20px;"><?php echo $this->__('No Wishlist Found') ?></p>
+        <?php endif; ?>
+        <?php echo $this->getChildHtml('pager'); ?>
+</div>

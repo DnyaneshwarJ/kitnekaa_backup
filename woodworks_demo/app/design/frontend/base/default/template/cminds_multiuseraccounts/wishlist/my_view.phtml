@@ -1,0 +1,48 @@
+<?php
+$items = $this->getItems();
+/**
+ * @var $this Cminds_MultiUserAccounts_Block_Wihslist
+ */
+?>
+<div class="dashboard">
+    <div class="page-title">
+        <h1><?php echo $this->__('My Wishlist', $this->getUserName()) ?></h1>
+    </div>
+    <?php if($this->getWishlistStatus() == Cminds_MultiUserAccounts_Model_Wishlist::STATUS_FINISHED): ?>
+        <button style="margin-bottom: 2px;" type="button" title="<?php echo $this->__('Mark as Finished') ?>" class="button" onclick="window.location='<?php echo $this->getUrl('wishlist/subaccount/markasfinished') ?>';"><span><span><?php echo $this->__('Mark as Finished') ?></span></span></button>
+    <?php endif; ?>
+    <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
+        <?php echo $this->getChildHtml('pager'); ?>
+
+        <?php if (count($items)): ?>
+        <table class="data-table" id="manage-wishlist-subaccounts-table">
+            <col width="0.2" />
+            <col width="1" />
+            <col width="1" />
+            <thead>
+            <tr>
+                <th><?php echo $this->__('Product') ?></th>
+                <th></th>
+                <th><?php echo $this->__('Price') ?></th>
+                <th><?php echo $this->__('Qty') ?></th>
+            </tr>
+            </thead>
+            <tbody>
+            <?php $_odd = ''; ?>
+            <?php foreach ($items as $item): ?>
+                <?php $product = $item->getProduct(); ?>
+                <tr>
+                    <td><a href="<?php echo $product->getProductUrl(); ?>"><img src="<?php echo (string) Mage::helper('catalog/image')->init($product, 'thumbnail')->resize(150); ?>" alt=""/></a></td>
+                    <td><a href="<?php echo $product->getProductUrl(); ?>"><?php echo $this->escapeHtml($product->getName()) ?></a></td>
+                    <td><?php echo Mage::helper('core')->currency($product->getFinalPrice(), true, false); ?></td>
+                    <td><?php echo (float) $item->getQty(); ?></td>
+                </tr>
+            <?php endforeach; ?>
+            </tbody>
+        </table>
+        <script type="text/javascript">decorateTable('manage-wishlist-subaccounts-table')</script>
+        <?php else: ?>
+            <p style="padding: 20px;"><?php echo $this->__('No Wishlist Found') ?></p>
+        <?php endif; ?>
+        <?php echo $this->getChildHtml('pager'); ?>
+</div>

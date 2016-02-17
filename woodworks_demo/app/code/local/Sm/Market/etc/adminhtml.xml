@@ -1,0 +1,130 @@
+<?xml version="1.0"?>
+	<config>
+		<acl>
+			<resources>
+				<admin>
+					<children>
+						<system>
+							<children>
+								<config>
+									<children>
+										<market_cfg translate="title" module="market">
+											<title>SM Market Section</title>
+											<sort_order>150</sort_order>
+										</market_cfg>
+									</children>
+								</config>
+							</children>
+						</system>
+					</children>
+				</admin>
+			</resources>
+		</acl>
+		<menu>
+			<market translate="title" module="market">
+				<title>SM Market Setting</title>
+				<sort_order>100</sort_order>
+				<depends>
+					<module>Sm_Market</module>
+				</depends>
+				<children>
+					<market translate="title" module="market">
+						<title>SM Market Setting</title>
+						<action>adminhtml/system_config/edit/section/market_cfg</action>
+						<sort_order>0</sort_order>
+					</market>										
+					<basicproducts translate="title" module="market">
+						<title>SM Basic Products</title>
+						<action>adminhtml/system_config/edit/section/basicproducts_cfg</action>
+						<sort_order>1</sort_order>
+					</basicproducts>					
+					<cartpro translate="title" module="market">
+						<title>SM Cart Pro</title>
+						<action>adminhtml/system_config/edit/section/cartpro_cfg</action>
+						<sort_order>2</sort_order>
+					</cartpro>
+					
+					
+				
+					<megamenu translate="title">
+						<title>SM Mega Menu</title>
+						<sort_order>3</sort_order>
+						<children>
+							<menugroup translate="title" module="market">
+								<title>Menu Manager</title>
+								<action>megamenu/adminhtml_menugroup/</action>
+								<sort_order>1</sort_order>
+							</menugroup>	
+							<menuitems translate="title" module="market">
+								<title>Menu Items Manager</title>
+								<action>megamenu/adminhtml_menuitems/</action>
+								<sort_order>2</sort_order>
+							</menuitems>
+							<configurtion translate="title" module="market">
+								<title>Configuration</title>
+								<action>adminhtml/system_config/edit/section/megamenu_cfg</action>
+								<sort_order>3</sort_order>
+							</configurtion>
+						</children>
+					</megamenu>		
+					
+					<cameraslide translate="title" module="market">
+						<title>SM Camera Slide</title>
+						<sort_order>4</sort_order>
+						<action>cameraslide/adminhtml_cameraslide</action>
+					</cameraslide>						
+					<searchboxpro translate="label" module="market">
+						<title>SM Search Box Pro</title>
+						<action>adminhtml/system_config/edit/section/searchboxpro</action>
+						<sort_order>5</sort_order>
+					</searchboxpro>
+					<tablisting translate="label" module="market">
+						<title>SM Tablisting</title>
+						<action>adminhtml/system_config/edit/section/tablisting_cfg</action>
+						<sort_order>6</sort_order>
+					</tablisting>
+					<categories translate="label" module="market">
+						<title>SM Categories</title>
+						<action>adminhtml/system_config/edit/section/categories_cfg</action>
+						<sort_order>7</sort_order>
+					</categories>
+					<quickview translate="title" module="market">
+						<title>SM Quickview</title>
+						<action>adminhtml/system_config/edit/section/quickview</action>
+						<sort_order>8</sort_order>
+					</quickview>					
+					<sm_shopby translate="title" module="market">
+						<title>SM Shop By</title>
+						<action>adminhtml/system_config/edit/section/sm_shopby</action>
+						<sort_order>9</sort_order>
+					</sm_shopby>
+					<listingdeals translate="title" module="market">
+						<title>SM Listing Deals</title>
+						<action>adminhtml/system_config/edit/section/listingdeals_cfg</action>
+						<sort_order>10</sort_order>
+					</listingdeals>
+					<listingextend translate="title" module="market">
+						<title>SM Listing Extend</title>
+						<action>adminhtml/system_config/edit/section/listingextend_cfg</action>
+						<sort_order>11</sort_order>
+					</listingextend>					
+					<deal translate="title" module="market">
+						<title>SM Deals</title>
+						<sort_order>12</sort_order>
+					 	<children>
+							<deal translate="title" module="market">
+								<title>Manage Deals</title>
+								<action>adminhtml/deal_deal</action>
+								<sort_order>0</sort_order>
+							</deal>
+							<Configuration translate="title" module="market">
+								<title>Configuration</title>
+								<action>adminhtml/system_config/edit/section/deal</action>
+								<sort_order>1</sort_order>
+							</Configuration>
+						</children>
+					</deal>					
+				</children>
+			</market>
+		</menu>		
+	</config>

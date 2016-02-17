@@ -1,0 +1,554 @@
+<?php
+/**
+ * Unirgy LLC
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the EULA
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://www.unirgy.com/LICENSE-M1.txt
+ *
+ * @category   Unirgy
+ * @package    Unirgy_Dropship
+ * @copyright  Copyright (c) 2008-2009 Unirgy LLC (http://www.unirgy.com)
+ * @license    http:///www.unirgy.com/LICENSE-M1.txt
+ */
+?>
+
+<?php
+$_hlp = Mage::helper('udropship');
+$_session = Mage::getSingleton('udropship/session');
+$_vendor = $_session->getVendor();
+$_highlight = $_session->getHighlight(true);
+
+$vFieldsXml = Mage::getConfig()->getNode('global/udropship/vendor/fields');
+
+$_shipment = $this->getShipment();
+$_id = $_shipment->getId();
+
+$_order = $_shipment->getOrder();
+$_udpo = $this->getUdpo($_shipment);
+$_address = $_order->getShippingAddress() ? $_order->getShippingAddress() : $_order->getBillingAddress();
+
+$shipping = $_hlp->getShippingMethods();
+$vShipping = $_vendor->getShippingMethods();
+
+$poShippingMethod = $_shipment->getUdropshipMethod();
+if (null == $poShippingMethod) {
+    $poShippingMethod = $_shipment->getOrder()->getShippingMethod();
+}
+
+$uMethod = explode('_', $_shipment->getOrder()->getShippingMethod(), 2);
+if ($uMethod[0]=='udsplit') {
+    $udMethod = Mage::helper('udropship')->mapSystemToUdropshipMethod(
+        $poShippingMethod,
+        $_vendor
+    );
+    $uMethodCode = $udMethod->getShippingCode();
+} else {
+    $uMethodCode = !empty($uMethod[1]) ? $uMethod[1] : '';
+}
+
+$method = explode('_', $poShippingMethod, 2);
+$carrierCode = !empty($method[0]) ? $method[0] : $_vendor->getCarrierCode();
+
+$curShipping = $shipping->getItemByColumnValue('shipping_code', $uMethodCode);
+$methodCode  = !empty($method[1]) ? $method[1] : '';
+
+$labelCarrierAllowAll = Mage::getStoreConfig('udropship/vendor/label_carrier_allow_all', $_order->getStoreId());
+$labelMethodAllowAll = Mage::getStoreConfig('udropship/vendor/label_method_allow_all', $_order->getStoreId());
+
+if ($curShipping && $labelMethodAllowAll) {
+    $curShipping->useProfile($_vendor);
+    $_carriers = array($carrierCode=>0);
+    if ($labelCarrierAllowAll) {
+        $_carriers = array_merge($_carriers, $curShipping->getAllSystemMethods());
+    }
+    $availableMethods = array();
+    foreach ($_carriers as $_carrierCode=>$_dummy) {
+        $_availableMethods = $_hlp->getCarrierMethods($_carrierCode, true);
+        $carrierTitle = Mage::getStoreConfig("carriers/$_carrierCode/title", $_shipment->getOrder()->getStoreId());
+        foreach ($_availableMethods as $mCode => $mLabel) {
+            $_amDesc = $carrierTitle.' - '.$mLabel;
+            $_amCode = $_carrierCode.'_'.$mCode;
+            $availableMethods[$_amCode] = $_amDesc;
+        }
+    }
+    $curShipping->resetProfile();
+} elseif ($curShipping && isset($vShipping[$curShipping->getId()])) {
+    $curShipping->useProfile($_vendor);
+    $methodCode  = !empty($method[1]) ? $method[1] : $curShipping->getSystemMethods($vShipping[$curShipping->getId()]['carrier_code']);
+    $availableMethods = array();
+    if (!$labelCarrierAllowAll || Mage::helper('udropship')->isUdsprofileActive()) {
+        foreach ($vShipping as $_sId => $__vs) {
+            foreach ($__vs as $_vs) {
+                if ($carrierCode != $_vs['carrier_code'] && !$labelCarrierAllowAll || !($_s = $shipping->getItemById($_sId)) || !($_vs['method_code'])) continue;
+                $_amCode = $_vs['carrier_code'].'_'.$_vs['method_code'];
+                $carrierMethods = Mage::helper('udropship')->getCarrierMethods($_vs['carrier_code']);
+                if (!isset($carrierMethods[$_vs['method_code']])) continue;
+                $_amDesc = Mage::getStoreConfig('carriers/'.$_vs['carrier_code'].'/title', $_order->getStoreId())
+                    .' - '.$carrierMethods[$_vs['method_code']];
+                $availableMethods[$_amCode] = $_amDesc;
+            }
+        }
+    } else {
+        foreach ($vShipping as $_sId => $__vs) {
+            if (($_s = $shipping->getItemById($_sId))) {
+                $allSystemMethods = $_s->getAllSystemMethods();
+                foreach ($allSystemMethods as $_smCarrier => $__sm) {
+                    foreach ($__sm as $_smMethod) {
+                        $_amCode = $_smCarrier.'_'.$_smMethod;
+                        $carrierMethods = Mage::helper('udropship')->getCarrierMethods($_smCarrier);
+                        if (!isset($carrierMethods[$_smMethod])) continue;
+                        $_amDesc = Mage::getStoreConfig('carriers/'.$_smCarrier.'/title', $_order->getStoreId())
+                            .' - '.$carrierMethods[$_smMethod];
+                        $availableMethods[$_amCode] = $_amDesc;
+                    }
+                }
+            }
+        }
+    }
+    $curShipping->resetProfile();
+}
+
+$labelCarrierAllowAlways = Mage::getStoreConfig('udropship/vendor/label_carrier_allow_always', $_order->getStoreId());
+if (!is_array($labelCarrierAllowAlways)) {
+    $labelCarrierAllowAlways = array_filter(explode(',', $labelCarrierAllowAlways));
+}
+foreach ($labelCarrierAllowAlways as $lcaaCode) {
+    $lcaaCarrierMethods = Mage::helper('udropship')->getCarrierMethods($lcaaCode, true);
+    foreach ($lcaaCarrierMethods as $lcaaMethodCode=>$lcaaMethodTitle) {
+        $lcaaFullMethodCode = $lcaaCode.'_'.$lcaaMethodCode;
+        $lcaaDesc = Mage::getStoreConfig('carriers/'.$lcaaCode.'/title', $_order->getStoreId())
+            .' - '.$lcaaMethodTitle;
+        $availableMethods[$lcaaFullMethodCode] = $lcaaDesc;
+    }
+}
+
+if (count($method)>1) {
+    $_poCarrierMethods = Mage::helper('udropship')->getCarrierMethods($method[0]);
+    if (isset($_poCarrierMethods[$method[1]])) {
+        $availableMethods[$poShippingMethod] = Mage::getStoreConfig('carriers/'.$method[0].'/title', $_order->getStoreId())
+            .' - '.$_poCarrierMethods[$method[1]];
+    }
+}
+
+$_masterId = $this->getIsInUdpo() ? $_shipment->getUdpoId() : $_shipment->getId();
+
+$_shipmentPostUrl = $this->getIsInUdpo() ? $this->getUrl('udpo/vendor/shipmentPost', array('id'=>$_id)) : $this->getUrl('udropship/vendor/shipmentPost', array('id'=>$_id));
+
+$_items = $_shipment->getAllItems();
+
+$_tracking = $_hlp->getVendorTracksCollection($_shipment);
+$_comments = $_hlp->getVendorShipmentsCommentsCollection($_shipment);
+
+$_statuses = $_hlp->getVendorShipmentStatuses();
+$_statusId = $_shipment->getUdropshipStatus();
+
+if ($this->getIsInUdpo()) {
+    $_poHlp = Mage::helper('udpo');
+    $_poStatuses = Mage::getSingleton('udpo/source')->setPath('po_statuses')->toOptionHash();
+    $_poStatusId = $_udpo->getUdropshipStatus();
+}
+
+$_giftMsg = array();
+$_giftMsgIds = array();
+if ($_order->getGiftMessageId()) {
+    $_giftMsgIds[] = $_order->getGiftMessageId();
+}
+
+$vId = $_vendor->getId();
+$uvendorGiftmessage = $_order->getData('uvendor_giftmessage');
+if (is_string($uvendorGiftmessage)) {
+    $uvendorGiftmessage = @unserialize($uvendorGiftmessage);
+}
+if (!empty($uvendorGiftmessage[$vId])) {
+    $_giftMsgIds[] = $uvendorGiftmessage[$vId];
+}
+
+foreach ($_items as $_item) {
+    if ($_item->getOrderItem()->getGiftMessageId()) {
+        $_giftMsgIds[] = $_item->getOrderItem()->getGiftMessageId();
+    }
+}
+if ($_giftMsgIds) {
+    array_unique($_giftMsgIds);
+    $_giftMsgCollection = Mage::getModel('giftmessage/message')->getCollection()
+        ->addFieldToFilter('gift_message_id', array('in'=>$_giftMsgIds));
+    foreach ($_giftMsgCollection as $_g) {
+        $_giftMsg[$_g->getId()] = $_g->toArray();
+    }
+}
+$fcBlock = Mage::app()->getLayout()->getBlockSingleton('udropship/fieldContainer');
+$fcBlock->setTemplate('unirgy/dropship/vendor/shipment/mps_config.phtml');
+$fcBlock->setFieldValue(array(
+    'default_pkg_width' => $_vendor->getDefaultPkgWidth(),
+    'default_pkg_length' => $_vendor->getDefaultPkgLength(),
+    'default_pkg_height' => $_vendor->getDefaultPkgHeight(),
+    'remaining_weight' => $this->getRemainingWeight(),
+    'remaining_value' => $this->getRemainingValue()
+))->setPo($_shipment)->setMasterId($_masterId)->setFieldName('mps_config_'.$_masterId);
+?>
+<?php if ($this->getRequest()->isPost()): ?>
+    <span id="status-update-<?php echo $_masterId ?>" style="display:none"><?php echo $_hlp->getShipmentStatusName($_shipment) ?></span>
+    <?php if($this->getIsInUdpo()): ?>
+    <span id="udpo-status-update-<?php echo $_masterId ?>" style="display:none"><?php echo $_poHlp->getUdpoStatusName($_udpo) ?></span>
+    <?php endif; ?>
+<?php endif ?>
+<?php if ($this->getDownloadUrl()): ?>
+    <span id="download-url-<?php echo $_masterId ?>" style="display:none"><?php echo $this->getDownloadUrl() ?></span>
+<?php endif ?>
+<form id="shipment-form-<?php echo $_masterId?>" method="post" action="<?php echo $_shipmentPostUrl ?>">
+
+    <?php if($this->getIsInUdpo()): ?>
+    <div class="shipment-info-breadcrumb">
+        <span><?php echo Mage::helper('udropship')->__('Order # ')?> <?php echo $_order->getIncrementId() ?></span>
+        &gt;
+        <a href="javascript:void(0)" onclick="showUdpoInfo('<?php echo $_masterId ?>')"><?php echo Mage::helper('udropship')->__('PO # ')?> <?php echo $_udpo->getIncrementId() ?></a>
+        &gt;
+        <span><?php echo Mage::helper('udropship')->__('Shipment # ')?> <?php echo sprintf('%s (%s)', $_shipment->getIncrementId(), Mage::helper('udropship')->__(isset($_statuses[$_statusId]) ? $_statuses[$_statusId] : 'Unknown')) ?></span>
+    </div>
+    <?php endif; ?>
+
+    <div class="col2-set shipment-items">
+        <div class="col-1">
+            <div class="content">
+                <div class="col2-set">
+                    <div class="col-1">
+                        <strong><?php echo Mage::helper('udropship')->__('Shipping Address')?></strong><br/>
+                        <?php echo Mage::helper('udropship')->formatCustomerAddress($_address, 'html', $_vendor) ?>
+                    </div>
+                    <div class="col-2" <?php if (!empty($_highlight['tracking'])): ?>class="highlight"<?php endif ?>>
+                        <?php if (count($_tracking)): ?>
+                        <h4><?php echo Mage::helper('udropship')->__('Tracking IDs') ?></h4>
+                        <ul class="tracking-numbers">
+                        <?php $_prevTmtId = null; foreach ($_tracking as $_t): $_tId = $_t->getId(); $_tmtId = $_t->getMasterTrackingId(); $_pckCnt = $_t->getPackageCount(); $_tbId = $_t->getBatchId() ?>
+                            <?php if ($_tmtId!=$_prevTmtId && !is_null($_tmtId) && $_pckCnt>1): ?>
+                            <li id="old_tracking_id-<?php echo $_tId?>" <?php if (!empty($_highlight['tracking_'.$_tId])): ?>class="highlight"<?php endif ?> >
+                                 <!--<a class="toggle" href="#" onclick="return false"><span></span></a>-->
+                                 <nobr>
+                                <?php echo $this->htmlEscape($_tmtId) ?>
+                                <?php if ($_t->getLabelFormat()): ?>
+                                <a class="reprint" href="#" onclick="reprintLabelBatch(<?php echo $_masterId ?>, <?php echo $_tbId ?>); return false" title="<?php echo Mage::helper('udropship')->__('Print label')?>"><span></span></a>
+                                <?php endif ?>
+                                <a class="delete" href="#" onclick="<?php if($this->getIsInUdpo()): ?>shipmentDeleteTrack(<?php echo $_masterId ?>, <?php echo $_id ?>, <?php echo $_tId ?>);<?php else: ?>deleteTrack(<?php echo $_masterId ?>, <?php echo $_tId ?>);<?php endif; ?> return false" title="<?php echo !$_t->getLabelFormat() ? Mage::helper('udropship')->__('Delete tracking number') : Mage::helper('udropship')->__('Delete tracking number and void/refund label if possible') ?>"><span></span></a>
+                                </nobr>
+                            </li>
+                            <?php $_prevTmtId = $_tmtId; continue; endif ?>
+
+                            <li <?php if (!is_null($_tmtId) && $_pckCnt>1): ?>style="padding-left: 10px"<?php endif ?> id="old_tracking_id-<?php echo $_tId?>" <?php if (!empty($_highlight['tracking_'.$_tId])): ?>class="highlight"<?php endif ?> >
+                                <!--<a class="toggle" href="#" onclick="return false"><span></span></a>-->
+                                <?php echo $this->htmlEscape($_t->getNumber()) ?>
+                                <?php if (is_null($_tmtId) || $_pckCnt==1): ?>
+                                <?php if ($_t->getLabelFormat()): ?>
+                                <a class="reprint" href="#" onclick="reprintLabel(<?php echo $_masterId ?>, <?php echo $_tId ?>); return false" title="<?php echo Mage::helper('udropship')->__('Print label')?>"><span></span></a>
+                                <?php endif ?>
+                                <a class="delete" href="#" onclick="<?php if($this->getIsInUdpo()): ?>shipmentDeleteTrack(<?php echo $_masterId ?>, <?php echo $_id ?>, <?php echo $_tId ?>);<?php else: ?>deleteTrack(<?php echo $_masterId ?>, <?php echo $_tId ?>);<?php endif; ?> return false" title="<?php echo !$_t->getLabelFormat() ? Mage::helper('udropship')->__('Delete tracking number') : Mage::helper('udropship')->__('Delete tracking number and void/refund label if possible') ?>"><span></span></a>
+                                <?php endif ?>
+                            </li>
+                            <?php $_prevTmtId = $_tmtId ?>
+                        <?php endforeach ?>
+                        </ul>
+                        <?php endif ?>
+                    </div>
+                </div>
+                <div class="clear"></div>
+                <br />
+
+                <?php if (!$this->getIsInUdpo()): ?>
+                <div style="float:right">
+                    <label for="partial_availability-<?php echo $_masterId?>"><?php echo Mage::helper('udropship')->__('Partial Availability: ')?></label>
+                    <select type="checkbox" name="partial_availability" id="partial_availability-<?php echo $_masterId?>" onchange="switchPartialAvailability(this, <?php echo $_masterId?>)">
+                        <option value=""><?php echo Mage::helper('udropship')->__('* Select action') ?></option>
+                        <option value="inform"><?php echo Mage::helper('udropship')->__('Inform retailer') ?></option>
+                        <!--<option value="ship"><?php echo Mage::helper('udropship')->__('Ship partial') ?></option>-->
+                    </select>
+                </div>
+                <?php endif; ?>
+
+                <h4><?php echo Mage::helper('udropship')->__('Order Items') ?></h4>
+                <table cellspacing="0" class="data-table" id="order-items-<?php echo $_masterId ?>">
+                    <col />
+                    <col width="35%" />
+                    <col width="1" />
+                    <thead>
+                        <tr>
+                            <th><?php echo Mage::helper('udropship')->__('Product Name') ?></th>
+                            <th><?php echo Mage::helper('udropship')->__('SKU') ?></th>
+                            <th class="a-center"><span class="nobr"><?php echo Mage::helper('udropship')->__('Qty') ?></span></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    <?php foreach ($_items as $_item): ?>
+                        <?php if ($_item->getOrderItem()->getParentItem()) continue; ?>
+                        <?php echo $this->getItemHtml($_item) ?>
+                        <?php echo $_item->getGiftMessageId() ?>
+<?php if (($_gId = $_item->getOrderItem()->getGiftMessageId()) && !empty($_giftMsg[$_gId])): ?>
+                        <tr><td colspan="3">
+                            <h4><a href="#" class="item-gift-message-trigger"><?php echo Mage::helper('udropship')->__('Show/Hide Gift Message for the item above') ?></a></h4>
+                            <div class="item-gift-message-content" style="display:none">
+                                <strong><?php echo Mage::helper('udropship')->__('From: %s', $this->htmlEscape($_giftMsg[$_gId]['sender'])) ?></strong><br/>
+                                <strong><?php echo Mage::helper('udropship')->__('To: %s', $this->htmlEscape($_giftMsg[$_gId]['recipient'])) ?></strong><br/>
+                                <p><?php echo nl2br($this->htmlEscape($_giftMsg[$_gId]['message'])) ?></p>
+                            </div>
+                        </td></tr>
+<?php endif ?>
+                    <?php if (!$this->getIsInUdpo() && $this->isShowTotals()): ?>
+                        <tr class="udropship-item-totals"><td>
+                            <ul>
+                                <?php foreach ($_item->getUdropshipTotals() as $udTotal): ?>
+                                    <li>
+                                        <nobr>
+                                            <span class="label"><?php echo $this->escapeHtml($udTotal['label']) ?></span>
+                                            <span class="value"><?php echo $udTotal['value'] ?></span>
+                                        </nobr>
+                                    </li>
+                                <?php endforeach ?>
+                            </ul>
+                        </td></tr>
+                    <?php endif ?>
+                    <?php endforeach; ?>
+                    </tbody>
+                    <?php if (!$this->getIsInUdpo() && $this->isShowTotals()): ?>
+                        <tfoot class="udropship-totals">
+                        <?php foreach ($_shipment->getUdropshipTotals() as $udTotal): ?>
+                            <tr>
+                                <td align="left" colspan="2"><b><?php echo $this->escapeHtml($udTotal['label']) ?></b></td>
+                                <td align="right"><?php echo $udTotal['value'] ?></td>
+                            </tr>
+                        <?php endforeach ?>
+                        </tfoot>
+                    <?php endif?>
+                </table>
+
+<?php if (!empty($uvendorGiftmessage[$vId]) && ($_gId = $uvendorGiftmessage[$vId]) && !empty($_giftMsg[$_gId])): ?>
+                <br/>
+                <h4><?php echo Mage::helper('udropship')->__('PO Gift Message:') ?></h4>
+                <strong><?php echo Mage::helper('udropship')->__('From: %s', $this->htmlEscape($_giftMsg[$_gId]['sender'])) ?></strong><br/>
+                <strong><?php echo Mage::helper('udropship')->__('To: %s', $this->htmlEscape($_giftMsg[$_gId]['recipient'])) ?></strong><br/>
+                <p><?php echo nl2br($this->htmlEscape($_giftMsg[$_gId]['message'])) ?></p>
+<?php endif ?>
+<?php if (($_gId = $_order->getGiftMessageId()) && !empty($_giftMsg[$_gId])): ?>
+                <br/>
+                <h4><?php echo Mage::helper('udropship')->__('Order Gift Message:') ?></h4>
+                <strong><?php echo Mage::helper('udropship')->__('From: %s', $this->htmlEscape($_giftMsg[$_gId]['sender'])) ?></strong><br/>
+                <strong><?php echo Mage::helper('udropship')->__('To: %s', $this->htmlEscape($_giftMsg[$_gId]['recipient'])) ?></strong><br/>
+                <p><?php echo nl2br($this->htmlEscape($_giftMsg[$_gId]['message'])) ?></p>
+<?php endif ?>
+            </div>
+        </div>
+        <div class="col-2">
+            <div class="content">
+                <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
+
+                <ul id="form-list-<?php echo $_masterId?>" class="form-list">
+<?php if ($_vendor->getLabelType()): ?>
+                    <li>
+                        <label for="print_label-<?php echo $_masterId?>"><?php echo Mage::helper('udropship')->__('Generate Label') ?></label>
+                        <input id="print_label-<?php echo $_masterId?>" name="print_label" value="1" title="<?php echo Mage::helper('udropship')->__('Generate Label') ?>" type="checkbox" class="input-checkbox" onclick="toggleLabelForm(this, <?php echo $_masterId?>); toggleExtraLabelForm($('show_extra_params-<?php echo $_masterId?>'), '<?php echo $_masterId?>')"/>
+                    </li>
+<?php endif ?>
+                    <?php if (!empty($availableMethods)): ?>
+                    <li id="label_info-7-<?php echo $_masterId?>" style="display:none">
+                        <label for="use_method_code-<?php echo $_masterId?>"><?php echo Mage::helper('udropship')->__('Shipping Method') ?></label>
+                        <select id="use_method_code-<?php echo $_masterId?>" name="use_method_code" title="<?php echo Mage::helper('udropship')->__('Shipping Method') ?>" onchange="syncExtraLabelForm('<?php echo $_masterId?>')">
+                            <?php foreach($availableMethods as $_amCode => $_amDesc): ?>
+                                <option value="<?php echo $_amCode?>" <?php if ($poShippingMethod==$_amCode): ?> selected<?php endif?>><?php echo $_amDesc?></option>
+                            <?php endforeach ?>
+                        </select>
+                        <br />
+                    </li>
+                    <?php endif ?>
+                    <?php if (!Mage::helper('udropship')->isUdpoMpsAvailable($carrierCode)): ?>
+                    <li id="label_info-1-<?php echo $_masterId?>" class="no-mps-specific" style="display:none">
+                        <label for="weight-<?php echo $_masterId?>"><?php echo Mage::helper('udropship')->__('Shipment Info')?></label>
+
+                        <?php echo Mage::helper('udropship')->__('Weight:') ?>
+                        <input id="weight-<?php echo $_masterId?>" name="weight" value="<?php echo $this->getRemainingWeight() ?>" title="<?php echo Mage::helper('udropship')->__('Weight') ?>" type="text" class="input-text" style="width:50px;" /> LB
+                        &nbsp;&nbsp;
+                        <?php echo Mage::helper('udropship')->__('Value:') ?>
+                        <input id="value-<?php echo $_masterId?>" name="value" value="<?php echo $this->getRemainingValue() ?>" title="<?php echo Mage::helper('udropship')->__('Declared Value') ?>" type="text" class="input-text" style="width:50px;"/> <?php echo $_shipment->getOrder()->getStoreCurrencyCode() ?>
+                    </li>
+                    <?php endif ?>
+                    <li id="label_info-2-<?php echo $_masterId?>" class="no-mps-specific" style="display:none">
+                        <label for="length-<?php echo $_masterId?>"><?php echo Mage::helper('udropship')->__('Pkg. Dimensions')?></label>
+                        <?php echo Mage::helper('udropship')->__('Length:') ?>
+                        <input id="length-<?php echo $_masterId?>" name="length" value="<?php echo (float)$_vendor->getDefaultPkgLength()?>" title="<?php echo Mage::helper('udropship')->__('Length') ?>" type="text" class="input-text" style="width:30px;" />
+                        &nbsp;&nbsp;
+                        <?php echo Mage::helper('udropship')->__('Width:') ?>
+                        <input id="width-<?php echo $_masterId?>" name="width" value="<?php echo (float)$_vendor->getDefaultPkgWidth()?>" title="<?php echo Mage::helper('udropship')->__('Width') ?>" type="text" class="input-text" style="width:30px;" />
+                        &nbsp;&nbsp;
+                        <?php echo Mage::helper('udropship')->__('Height:') ?>
+                        <input id="height-<?php echo $_masterId?>" name="height" value="<?php echo (float)$_vendor->getDefaultPkgHeight()?>" title="<?php echo Mage::helper('udropship')->__('Height') ?>" type="text" class="input-text" style="width:30px;" />
+                    </li>
+                    <?php if (!Mage::helper('udropship')->isUdpoMpsAvailable($carrierCode)): ?>
+                    <li id="label_info-6-<?php echo $_masterId?>" class="mps-specific" style="display:none">
+                        <?php
+                        echo $fcBlock->toHtml();
+                    ?>
+                    </li>
+                    <?php endif ?>
+
+                    <li id="label_info-3-<?php echo $_masterId?>" style="display:none">
+                        <label for="reference-<?php echo $_masterId?>"><?php echo Mage::helper('udropship')->__('Reference') ?></label>
+                        <input id="reference-<?php echo $_masterId?>" name="reference" value="<?php echo $_shipment->getUdpoId() ? $_shipment->getUdpoIncrementId() : $_shipment->getOrder()->getIncrementId() ?>" title="<?php echo Mage::helper('udropship')->__('Reference') ?>" type="text" class="input-text" style="width:250px;" />
+                    </li>
+                    <li id="label_info-8-<?php echo $_masterId?>" style="display:none">
+                        <label for="show_extra_params-<?php echo $_masterId?>"><?php echo Mage::helper('udropship')->__('Show Extra Params') ?></label>
+                        <input id="show_extra_params-<?php echo $_masterId?>" name="show_extra_params" value="1" title="<?php echo Mage::helper('udropship')->__('Use Label Shipping Amount') ?>" type="checkbox" class="input-checkbox" onchange="toggleExtraLabelForm(this, '<?php echo $_masterId?>')" />
+                        <br />
+                    </li>
+                    <?php $elIdx = 1; foreach (array(
+                        'endicia_stealth' => $vFieldsXml->descend('endicia_stealth'),
+                        'endicia_label_type' => $vFieldsXml->descend('endicia_label_type'),
+                        'endicia_mail_class' => $vFieldsXml->descend('endicia_mail_class'),
+                        'endicia_mailpiece_shape' => $vFieldsXml->descend('endicia_mailpiece_shape'),
+                        'endicia_delivery_confirmation' => $vFieldsXml->descend('endicia_delivery_confirmation'),
+                        'endicia_signature_confirmation' => $vFieldsXml->descend('endicia_signature_confirmation'),
+                        'endicia_return_receipt' => $vFieldsXml->descend('endicia_return_receipt'),
+                        'endicia_electronic_return_receipt' => $vFieldsXml->descend('endicia_electronic_return_receipt'),
+                        'endicia_insured_mail' => $vFieldsXml->descend('endicia_insured_mail'),
+                        'endicia_restricted_delivery' => $vFieldsXml->descend('endicia_restricted_delivery'),
+                        'endicia_cod' => $vFieldsXml->descend('endicia_cod'),
+                    ) as $extLabelOpt => $extLabelNode): ?>
+                        <?php
+                            $lblSource = Mage::getSingleton(
+                                $extLabelNode->source_model
+                                ? (string)$extLabelNode->source_model
+                                : 'udropship/source'
+                            );
+                            if (is_callable(array($lblSource, 'setPath'))) {
+                                $lblSource->setPath($extLabelNode->source ? (string)$extLabelNode->source : $extLabelOpt);
+                            }
+                            $extLabelLbl = (string)$extLabelNode->label;
+                        ?>
+                        <li id="label_info-ext-<?php echo $elIdx++?>-<?php echo $_masterId?>" class="carrier-specific carrier-specific-usps" style="display:none">
+                        <label for="extra_label_info[<?php echo $extLabelOpt.'-'.$_masterId?>]"><?php echo Mage::helper('udropship')->__($extLabelLbl) ?></label>
+                        <select disabled="disabled" id="extra_label_info[<?php echo $extLabelOpt.'-'.$_masterId?>]" name="extra_label_info[<?php echo $extLabelOpt?>]" title="<?php echo Mage::helper('udropship')->__($extLabelLbl) ?>">
+                            <?php foreach($lblSource->toOptionHash() as $_optId => $_optVal): ?>
+                                <option value="<?php echo $_optId?>" <?php if ($_optId==$_vendor->getData($extLabelOpt)): ?> selected<?php endif?>><?php echo $_optVal?></option>
+                            <?php endforeach ?>
+                        </select>
+                        <div class="clear" style="height: 5px"></div>
+                    </li>
+                    <?php endforeach ?>
+                    <?php foreach (array(
+                        'ups_insurance' => $vFieldsXml->descend('ups_insurance'),
+                        'ups_delivery_confirmation' => $vFieldsXml->descend('ups_delivery_confirmation'),
+                        'ups_verbal_confirmation' => $vFieldsXml->descend('ups_verbal_confirmation'),
+                        'ups_pickup' => $vFieldsXml->descend('ups_pickup'),
+                        'ups_container' => $vFieldsXml->descend('ups_container'),
+                        'ups_dest_type' => $vFieldsXml->descend('ups_dest_type'),
+                    ) as $extLabelOpt => $extLabelNode): ?>
+                        <?php
+                            $lblSource = Mage::getSingleton(
+                                $extLabelNode->source_model
+                                ? (string)$extLabelNode->source_model
+                                : 'udropship/source'
+                            );
+                            if (is_callable(array($lblSource, 'setPath'))) {
+                                $lblSource->setPath($extLabelNode->source ? (string)$extLabelNode->source : $extLabelOpt);
+                            }
+                            $extLabelLbl = (string)$extLabelNode->label;
+                        ?>
+                        <li id="label_info-ext-<?php echo $elIdx++?>-<?php echo $_masterId?>" class="carrier-specific carrier-specific-ups" style="display:none">
+                        <label for="extra_label_info[<?php echo $extLabelOpt.'-'.$_masterId?>]"><?php echo Mage::helper('udropship')->__($extLabelLbl) ?></label>
+                        <select disabled="disabled" id="extra_label_info[<?php echo $extLabelOpt.'-'.$_masterId?>]" name="extra_label_info[<?php echo $extLabelOpt?>]" title="<?php echo Mage::helper('udropship')->__($extLabelLbl) ?>">
+                            <?php foreach($lblSource->toOptionHash() as $_optId => $_optVal): ?>
+                                <option value="<?php echo $_optId?>" <?php if ($_optId==$_vendor->getData($extLabelOpt)): ?> selected<?php endif?>><?php echo $_optVal?></option>
+                            <?php endforeach ?>
+                        </select>
+                        <div class="clear" style="height: 5px"></div>
+                    </li>
+                    <?php endforeach ?>
+                    <?php foreach (array(
+                        'fedex_dropoff_type' => $vFieldsXml->descend('fedex_dropoff_type'),
+                        'fedex_signature_option' => $vFieldsXml->descend('fedex_signature_option'),
+                        'fedex_insurance' => $vFieldsXml->descend('fedex_insurance'),
+                    ) as $extLabelOpt => $extLabelNode): ?>
+                        <?php
+                            $lblSource = Mage::getSingleton(
+                                $extLabelNode->source_model
+                                ? (string)$extLabelNode->source_model
+                                : 'udropship/source'
+                            );
+                            if (is_callable(array($lblSource, 'setPath'))) {
+                                $lblSource->setPath($extLabelNode->source ? (string)$extLabelNode->source : $extLabelOpt);
+                            }
+                            $extLabelLbl = (string)$extLabelNode->label;
+                        ?>
+                        <li id="label_info-ext-<?php echo $elIdx++?>-<?php echo $_masterId?>" class="carrier-specific carrier-specific-fedex carrier-specific-fedexsoap" style="display:none">
+                        <label for="extra_label_info[<?php echo $extLabelOpt.'-'.$_masterId?>]"><?php echo Mage::helper('udropship')->__($extLabelLbl) ?></label>
+                        <select disabled="disabled" id="extra_label_info[<?php echo $extLabelOpt.'-'.$_masterId?>]" name="extra_label_info[<?php echo $extLabelOpt?>]" title="<?php echo Mage::helper('udropship')->__($extLabelLbl) ?>">
+                            <?php foreach($lblSource->toOptionHash() as $_optId => $_optVal): ?>
+                                <option value="<?php echo $_optId?>" <?php if ($_optId==$_vendor->getData($extLabelOpt)): ?> selected<?php endif?>><?php echo $_optVal?></option>
+                            <?php endforeach ?>
+                        </select>
+                        <div class="clear" style="height: 5px"></div>
+                    </li>
+                    <?php endforeach ?>
+
+                    <li id="tracking_id-3-<?php echo $_masterId?>">
+                        <label for="carrier-<?php echo $_masterId?>"><?php echo Mage::helper('udropship')->__('Carrier') ?></label>
+                        <select id="carrier-<?php echo $_masterId?>" name="carrier" class="select" style="width:250px" onchange="selectCarrier(this, 'carrier_title-<?php echo $_masterId?>')">
+                            <?php foreach ($this->getCarriers() as $_code=>$_name): ?>
+                            <option value="<?php echo $_code ?>"><?php echo $_name ?></option>
+                            <?php endforeach; ?>
+                        </select>
+                    </li>
+                    <li id="tracking_id-4-<?php echo $_masterId?>">
+                        <label for="carrier_title-<?php echo $_masterId?>"><?php echo Mage::helper('udropship')->__('Carrier Title') ?></label>
+                        <input id="carrier_title-<?php echo $_masterId?>" name="carrier_title" value="" title="<?php echo Mage::helper('udropship')->__('Carrier Title') ?>" type="text" class="input-text" style="width:250px;" />
+                    </li>
+                    
+                    <li id="tracking_id-1-<?php echo $_masterId?>">
+                        <label for="tracking_id-<?php echo $_masterId?>"><?php echo Mage::helper('udropship')->__('Add Tracking ID') ?></label>
+                        <input id="tracking_id-<?php echo $_masterId?>" name="tracking_id" value="" title="<?php echo Mage::helper('udropship')->__('Add Tracking ID') ?>" type="text" class="input-text" style="width:250px;" />
+                    </li>
+                    <li>
+                        <label for="comment-<?php echo $_masterId?>"><?php echo Mage::helper('udropship')->__('Add Comment<br/>(for retailer)') ?></label>
+                        <textarea id="comment-<?php echo $_masterId?>" name="comment" class="textarea" style="width:250px; height:70px;" title="<?php echo Mage::helper('udropship')->__('Add Comment') ?>" ></textarea>
+                    </li>
+<?php if (Mage::getStoreConfigFlag('udropship/vendor/manual_shipment_status')): ?>
+                    <li id="label_info-4-<?php echo $_masterId?>" style="display:none">
+                        <label for="is_shipped-<?php echo $_masterId?>"><?php echo Mage::helper('udropship')->__('Mark as Shipped') ?></label>
+                        <input id="is_shipped-<?php echo $_masterId?>" name="is_shipped" value="1" title="<?php echo Mage::helper('udropship')->__('Mark as Shipped') ?>" type="checkbox" class="input-checkbox" <?php if (Mage::getStoreConfigFlag('udropship/vendor/auto_shipment_complete')): ?>checked="checked"<?php endif ?>/>
+                    </li>
+
+                    <li id="tracking_id-2-<?php echo $_masterId?>">
+                        <label for="change_status-<?php echo $_masterId?>"><?php echo Mage::helper('udropship')->__('Change Status') ?></label>
+                        <select id="change_status-<?php echo $_masterId?>" name="status" title="<?php echo Mage::helper('udropship')->__('Change Status') ?>" class="select"/>
+                            <option value=""><?php echo Mage::helper('udropship')->__('* Automatic') ?></option>
+                        <?php foreach ($_statuses as $_k=>$_v): ?>
+                            <option value="<?php echo $_k ?>"><?php echo $_v ?></option>
+                        <?php endforeach ?>
+                        </select>
+                    </li>
+<?php endif ?>
+                    <li>
+                        <label>&nbsp;</label>
+                        <button class="form-button" type="button" id="submit-<?php echo $_masterId ?>"><span><?php echo Mage::helper('udropship')->__('Submit') ?></span></button>
+                        <span class="shipment-info-loader" style="display:none" id="submit-loader-<?php echo $_masterId ?>"><?php echo Mage::helper('udropship')->__('Please wait, submitting...')?></span>
+                    </li>
+                </ul>
+
+                <?php if (count($_comments)): ?>
+                <br />
+                <h4><?php echo Mage::helper('udropship')->__('Comments history') ?></h4>
+                <table cellspacing="0" class="data-table" <?php if (!empty($_highlight['comment'])): ?>class="highlight"<?php endif ?>><tbody>
+                    <?php foreach ($_comments as $_c): ?>
+                    <tr <?php if (!empty($_highlight['comment_'.$_c->getId()])): ?>class="highlight"<?php endif ?> >
+                        <td>
+                            <nobr><strong><?php echo Mage::helper('core')->formatDate($_c->getCreatedAt(), 'short', true) ?></strong></nobr><br/>
+                            <nobr><strong><?php echo $_c->getUdropshipStatus()?></strong></nobr><br>
+                        </td>
+                        <td><?php echo nl2br($this->htmlEscape($_c->getComment())) ?></td>
+                    </tr>
+                    <?php endforeach ?>
+                </tbody></table>
+                <?php endif ?>
+            </div>
+        </div>
+    </div>
+</form>

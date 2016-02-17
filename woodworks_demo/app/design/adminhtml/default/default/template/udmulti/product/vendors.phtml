@@ -1,0 +1,581 @@
+<?php
+$_hlp = Mage::helper('udropship');
+$_isMultiPrice = Mage::helper('udropship')->isModuleActive('Unirgy_DropshipMultiPrice');
+$_isVendorProductShipping = Mage::helper('udmulti')->isVendorProductShipping();
+$_allVendors = Mage::getSingleton('udropship/source')->getVendors(true);
+$_urqConfig = Mage::getStoreConfig('udropship/stock/use_reserved_qty');
+$_urqVendors = Mage::getSingleton('udropship/source')->getVendorsColumn('use_reserved_qty');
+$_urqVendorsJson = Mage::helper('core')->jsonEncode($_urqVendors);
+$_bAvailConfig = Mage::getStoreConfig('udropship/stock/backorder_by_availability');
+$_bAvailVendors = Mage::getSingleton('udropship/source')->getVendorsColumn('backorder_by_availability');
+$_bAvailVendorsJson = Mage::helper('core')->jsonEncode($_bAvailVendors);
+$_assocVendors = $this->getAssociatedVendors();
+$_dateFormat = Mage::app()->getLocale()->getDateFormat(Mage_Core_Model_Locale::FORMAT_TYPE_SHORT);
+$_calDateFormat = Varien_Date::convertZendToStrFtime($_dateFormat, true, false);
+foreach ($_assocVendors as $_av) {
+    $_hlp->processDateInternalToLocale($_av, array('avail_date','special_from_date','special_to_date'), $_dateFormat);
+
+}
+$_prodStatuses = Mage::getSingleton('udmulti/source')->setPath('vendor_product_status')->toOptionHash();
+if (Mage::helper('udropship')->isModuleActive('Unirgy_DropshipMultiPrice')) {
+    $_prodStates = Mage::getSingleton('udmultiprice/source')->setPath('vendor_product_state')->toOptionHash();
+}
+$_availStates = Mage::getSingleton('udmulti/source')->setPath('avail_state')->toOptionHash();
+$_yesnoOpts = Mage::getSingleton('udropship/source')->setPath('yesno')->toOptionHash();
+if (Mage::helper('udropship')->isUdmultiAvailable()) {
+    $backorders   = Mage::getSingleton('udmulti/source')->setPath('backorders')->toOptionHash();
+}
+
+$gpSubrowKey = $this->getFieldName()."[\$\$ROW][group_price]";
+$tpSubrowKey = $this->getFieldName()."[\$\$ROW][tier_price]";
+
+$_store = Mage::app()->getStore($this->getProduct()->getStoreId());
+?>
+<div class="entry-edit">
+    <div class="entry-edit-head">
+        <h4 class="icon-head head-edit-form fieldset-legend"><?php echo Mage::helper('udropship')->__('Drop Shipping Vendors') ?></h4>
+        <div class="right"><button type="button" class="scalable add" id="udmulti-vendors-add"><span><?php echo Mage::helper('udropship')->__('Add Vendor') ?></span></button></div>
+    </div>
+    <fieldset>
+        <legend><?php echo Mage::helper('udropship')->__('Drop Shipping Vendor Associations') ?></legend>
+        <div class="grid">
+            <div class="hor-scroll">
+                <table cellspacing="0" class="data" id="table_udmultivendors">
+                    <thead>
+                        <tr class="headings">
+                            <th><?php echo Mage::helper('udropship')->__('Vendor Name') ?></th>
+                            <th><?php echo $_isMultiPrice ? Mage::helper('udropship')->__('Price/Cost') : Mage::helper('udropship')->__('Cost') ?> [<?php echo $_store->getBaseCurrencyCode() ?>]</th>
+                            <th><?php echo Mage::helper('udropship')->__('Stock Qty') ?></th>
+                            <?php if ($_bAvailConfig): ?>
+                            <th><?php echo Mage::helper('udropship')->__('Availability') ?></th>
+                            <?php endif ?>
+                            
+                            <th><?php echo $_isMultiPrice ? Mage::helper('udropship')->__('Status/State(Condition)') : Mage::helper('udropship')->__('Status') ?></th>
+
+                            <th><?php echo Mage::helper('udropship')->__('Vendor SKU') ?></th>
+                            <th><?php echo Mage::helper('udropship')->__('Priority') ?></th>
+
+                            <?php if ($_isMultiPrice): ?>
+                                <th><?php echo Mage::helper('udropship')->__('Vendor Title') ?></th>
+                            <?php endif ?>
+
+                            <th><?php echo Mage::helper('udropship')->__('Action') ?></th>
+                        </tr>
+                        <tr id="udmulti_row_template" style="display:none">
+                            <td>
+                            <?php if (Mage::getStoreConfigFlag('udropship/vendor/autocomplete_htmlselect')): ?>
+                            <input type="text" class="input-text" name="_autocomplete_udmulti_vendors[$$ROW][vendor_id]" id="_autocomplete_udmulti_vendors[$$ROW][vendor_id]" value="$$VENDOR_NAME"/>
+                            <input type="hidden" name="udmulti_vendors[$$ROW][vendor_id]" id="udmulti_vendors[$$ROW][vendor_id]" value="$$VENDOR_ID">
+                            <div class="autocomplete" style="font-weight:bold; display: none;" id="_autocomplete_container_udmulti_vendors[$$ROW][vendor_id]"></div>
+                            <script type="text/javascript">
+                            window['initAutocomplete$$ROW'] = function () {
+                                var acObserve = function(){
+                                    if ($("_autocomplete_udmulti_vendors[$$ROW][vendor_id]").value=="") $("udmulti_vendors[$$ROW][vendor_id]").value = "" 
+                                }
+                                $("_autocomplete_udmulti_vendors[$$ROW][vendor_id]").observe("change", acObserve)
+                                $("_autocomplete_udmulti_vendors[$$ROW][vendor_id]").observe("click", acObserve)
+                                new Ajax.Autocompleter(
+                                    "_autocomplete_udmulti_vendors[$$ROW][vendor_id]",
+                                    "_autocomplete_container_udmulti_vendors[$$ROW][vendor_id]",
+                                    "<?php echo Mage::getModel('core/url')->getUrl('udropship/index/vendorAutocomplete') ?>",
+                                    {
+                                        paramName: "vendor_name",
+                                        method: "get",
+                                        minChars: 2,
+                                        updateElement: function(el) {
+                                            $("udmulti_vendors[$$ROW][vendor_id]").value = el.title;
+                                            processVendorChange('$$ROW', el.title);
+                                            $("_autocomplete_udmulti_vendors[$$ROW][vendor_id]").value = el.innerHTML.stripTags();
+                                        },
+                                        onShow : function(element, update) {
+                                            if(!update.style.position || update.style.position=="absolute") {
+                                                update.style.position = "absolute";
+                                                Position.clone(element, update, {
+                                                    setHeight: false,
+                                                    offsetTop: element.offsetHeight
+                                                });
+                                            }
+                                            Effect.Appear(update,{duration:0});
+                                        }
+                    
+                                    }
+                                )
+                            }
+                            </script> 
+                            <?php else: ?>
+                            <select name="udmulti_vendors[$$ROW][vendor_id]" onchange="processVendorChange('$$ROW', this.value);" style="width:100%">
+                            <?php foreach ($_allVendors as $_id=>$_name): ?>
+                                <option alt="vendor_id" value="<?php echo $_id ?>"><?php echo $this->htmlEscape($_name) ?></option>
+                            <?php endforeach ?>
+                            </select>
+                            <?php endif ?>
+                            </td>
+                            <td>
+                                <?php if (!$_isMultiPrice && !$_isVendorProductShipping): ?>
+                                    <input type="text" class="input-text" name="udmulti_vendors[$$ROW][vendor_cost]" value="$$VENDOR_COST" style="width:70px" />
+                                <?php else: ?>
+                                    <?php if ($_isMultiPrice): ?>
+                                    <nobr>
+                                    <?php echo Mage::helper('udropship')->__('Vendor Price:') ?>
+                                    <input type="text" class="input-text" name="udmulti_vendors[$$ROW][vendor_price]" value="$$VENDOR_PRICE" style="width:70px" />
+                                    </nobr>
+                                    <br/><br/>
+                                    <?php endif ?>
+                                    <nobr>
+                                    <?php echo Mage::helper('udropship')->__('Cost:') ?>
+                                    <input type="text" class="input-text" name="udmulti_vendors[$$ROW][vendor_cost]" value="$$VENDOR_COST" style="width:70px" />
+                                    </nobr>
+                                    <?php if ($_isMultiPrice): ?>
+                                    <br/><nobr>
+
+                                    <?php echo Mage::helper('udropship')->__('Vendor Special Price:') ?>
+                                    <input type="text" class="input-text" name="udmulti_vendors[$$ROW][special_price]" value="$$SPECIAL_PRICE" style="width:70px" />
+                                    </nobr>
+                                    <br/><nobr>
+                                    <label id="udmulti_vendors_$$ROW_special_from_date_lbl" for="udmulti_vendors_$$ROW_special_from_date">
+                                    <?php echo Mage::helper('udropship')->__('Special From Date:') ?>
+                                    </label>
+                                    <input type="text" class="input-text" id="udmulti_vendors_$$ROW_special_from_date" name="udmulti_vendors[$$ROW][special_from_date]" value="$$SPECIAL_FROM_DATE" style="width:110px !important;" />
+                                    <img src="<?php echo Mage::getDesign()->getSkinUrl('images/grid-cal.gif')?>" alt="" class="v-middle" id="udmulti_vendors_$$ROW_special_from_date_trig" title="" style="" />
+                                    </nobr>
+<script type="text/javascript">
+//<![CDATA[
+    Calendar.setup({
+        inputField: "udmulti_vendors_$$ROW_special_from_date",
+        ifFormat: "<?php echo $_calDateFormat?>",
+        showsTime: false,
+        button: "udmulti_vendors_$$ROW_special_from_date_trig",
+        align: "Bl",
+        singleClick : true
+    });
+//]]>
+</script>
+                                    <br/><nobr>
+                                    <label id="udmulti_vendors_$$ROW_special_to_date_lbl" for="udmulti_vendors_$$ROW_special_to_date">
+                                    <?php echo Mage::helper('udropship')->__('Special To Date:') ?>
+                                    </label>
+                                    <input type="text" class="input-text" id="udmulti_vendors_$$ROW_special_to_date" name="udmulti_vendors[$$ROW][special_to_date]" value="$$SPECIAL_TO_DATE" style="width:110px !important;" />
+                                    <img src="<?php echo Mage::getDesign()->getSkinUrl('images/grid-cal.gif')?>" alt="" class="v-middle" id="udmulti_vendors_$$ROW_special_to_date_trig" title="" style="" />
+                                    </nobr>
+<script type="text/javascript">
+//<![CDATA[
+    Calendar.setup({
+        inputField: "udmulti_vendors_$$ROW_special_to_date",
+        ifFormat: "<?php echo $_calDateFormat?>",
+        showsTime: false,
+        button: "udmulti_vendors_$$ROW_special_to_date_trig",
+        align: "Bl",
+        singleClick : true
+    });
+//]]>
+</script>
+                                    <?php endif ?>
+                                    <br/>
+
+                                    <nobr>
+                                    <label id="udmulti_vendors_$$ROW_freeshipping_lbl" for="udmulti_vendors_$$ROW_freeshipping">
+                                    <?php echo Mage::helper('udropship')->__('Free Shipping:') ?>
+                                    </label>
+                                    <select id="udmulti_vendors_$$ROW_freeshipping" name="udmulti_vendors[$$ROW][freeshipping]" style="width:60px">
+                                    <?php foreach ($_yesnoOpts as $_id=>$_name): ?>
+                                        <option alt="freeshipping" value="<?php echo $_id ?>"><?php echo $this->htmlEscape($_name) ?></option>
+                                    <?php endforeach ?>
+                                    </select>
+                                    </nobr>
+                                    <?php if ($_isVendorProductShipping): ?>
+                                    <br/>
+                                    <nobr>
+                                        <?php echo Mage::helper('udropship')->__('Shipping Price:') ?>
+                                        <input type="text" class="input-text" name="udmulti_vendors[$$ROW][shipping_price]" value="$$SHIPPING_PRICE" style="width:70px" />
+                                    </nobr>
+                                    <?php endif ?>
+                                    <?php if ($_isMultiPrice): ?>
+                                    <div class="group_price_fieldset">
+                                        <h6>
+                                            <?php echo Mage::helper('udropship')->__('Group Price:') ?>
+                                        </h6>
+                                        <?php
+                                        $fcBlock = $this->getGroupPriceBlock($gpSubrowKey);
+                                        echo $fcBlock->toHtml();
+                                        ?>
+                                    </div>
+                                    <div class="tier_price_fieldset">
+                                        <h6>
+                                            <?php echo Mage::helper('udropship')->__('Tier Price:') ?>
+                                        </h6>
+                                        <?php
+                                        $fcBlock = $this->getTierPriceBlock($tpSubrowKey);
+                                        echo $fcBlock->toHtml();
+                                        ?>
+                                    </div>
+                                    <?php endif ?>
+                                <?php endif ?>
+                            </td>
+                            <td>
+                                <input type="text" class="input-text" name="udmulti_vendors[$$ROW][stock_qty]" value="$$STOCK_QTY" style="width:70px" />
+                                <?php if ($_urqConfig): ?><nobr><br />
+                                <input type="checkbox" id="udmulti_vendors_$$ROW_use_reserved_qty" name="udmulti_vendors[$$ROW][use_reserved_qty]" value="1"  /> <label id="udmulti_vendors_$$ROW_use_reserved_qty_lbl" for="udmulti_vendors_$$ROW_use_reserved_qty"> <?php echo Mage::helper('udropship')->__('Includes Reserved Qty') ?> ($$RESERVED_QTY)</label>
+                                </nobr><?php endif ?>
+                                <?php if (Mage::helper('udropship')->isUdmultiAvailable()): ?>
+                                <nobr>
+                                <br />
+                                <?php echo Mage::helper('udropship')->__('Backorders:') ?>
+                                <select name="udmulti_vendors[$$ROW][backorders]" style="width:110px">
+                                <?php foreach ($backorders as $_id=>$_name): ?>
+                                    <option alt="backorders" value="<?php echo $_id ?>"><?php echo $this->htmlEscape($_name) ?></option>
+                                <?php endforeach ?>
+                                </select>
+                                </nobr>
+                                <?php endif ?>
+                            </td>
+                            <?php if ($_bAvailConfig): ?>
+                            <td>
+                                <nobr>
+                                <label id="udmulti_vendors_$$ROW_avail_state_lbl" for="udmulti_vendors_$$ROW_avail_state">
+                                <?php echo Mage::helper('udropship')->__('State:') ?>
+                                </label>
+                                <select id="udmulti_vendors_$$ROW_avail_state" name="udmulti_vendors[$$ROW][avail_state]" style="width:110">
+                                <?php foreach ($_availStates as $_id=>$_name): ?>
+                                    <option alt="avail_state" value="<?php echo $_id ?>"><?php echo $this->htmlEscape($_name) ?></option>
+                                <?php endforeach ?>
+                                </select>
+                                </nobr>
+                                <nobr><br/>
+                                <label id="udmulti_vendors_$$ROW_avail_date_lbl" for="udmulti_vendors_$$ROW_avail_date">
+                                <?php echo Mage::helper('udropship')->__('Date:') ?>
+                                </label>
+                                <input type="text" class="input-text" id="udmulti_vendors_$$ROW_avail_date" name="udmulti_vendors[$$ROW][avail_date]" value="$$AVAIL_DATE" style="width:110px !important;" />
+                                <img src="<?php echo Mage::getDesign()->getSkinUrl('images/grid-cal.gif')?>" alt="" class="v-middle" id="udmulti_vendors_$$ROW_avail_date_trig" title="" style="" />
+                                </nobr>
+<script type="text/javascript">
+//<![CDATA[
+    Calendar.setup({
+        inputField: "udmulti_vendors_$$ROW_avail_date",
+        ifFormat: "<?php echo $_calDateFormat?>",
+        showsTime: false,
+        button: "udmulti_vendors_$$ROW_avail_date_trig",
+        align: "Bl",
+        singleClick : true
+    });
+//]]>
+</script>
+                            </td>
+                            <?php endif ?>
+
+                            <td>
+                                <?php if (!$_isMultiPrice): ?>
+                                <select name="udmulti_vendors[$$ROW][status]" style="width:100%">
+                                <?php foreach ($_prodStatuses as $_id=>$_name): ?>
+                                    <option alt="status" value="<?php echo $_id ?>"><?php echo $this->htmlEscape($_name) ?></option>
+                                <?php endforeach ?>
+                                </select>
+                                <?php else: ?>
+                                <nobr>
+                                <?php echo Mage::helper('udropship')->__('Status:') ?>
+                                <select name="udmulti_vendors[$$ROW][status]" style="width:110px">
+                                <?php foreach ($_prodStatuses as $_id=>$_name): ?>
+                                    <option alt="status" value="<?php echo $_id ?>"><?php echo $this->htmlEscape($_name) ?></option>
+                                <?php endforeach ?>
+                                </select>
+                                </nobr>
+                                <nobr>
+                                <br />
+                                <?php echo Mage::helper('udropship')->__('State(Condition):') ?>
+                                <select name="udmulti_vendors[$$ROW][state]" style="width:110px">
+                                <?php foreach ($_prodStates as $_id=>$_name): ?>
+                                    <option alt="state" value="<?php echo $_id ?>"><?php echo $this->htmlEscape($_name) ?></option>
+                                <?php endforeach ?>
+                                </select>
+                                </nobr>
+                                <nobr>
+                                <br />
+                                <?php echo Mage::helper('udropship')->__('State Description:') ?>
+                                <input type="text" class="input-text" name="udmulti_vendors[$$ROW][state_descr]" value="$$STATE_DESCR" style="width:120px" />
+                                </nobr>
+                                <?php endif ?>
+                            </td>
+
+                            <td><input type="text" class="input-text" name="udmulti_vendors[$$ROW][vendor_sku]" value="$$VENDOR_SKU" /></td>
+                            <td><input type="text" class="input-text" name="udmulti_vendors[$$ROW][priority]" value="$$PRIORITY" style="width:70px" /></td>
+                            <?php if ($_isMultiPrice): ?>
+                                <td><input type="text" class="input-text" name="udmulti_vendors[$$ROW][vendor_title]" value="$$VENDOR_TITLE" style="width:120px" /></td>
+                            <?php endif ?>
+
+                            <td><button type="button" class="scalable delete top-delete"><span><?php echo Mage::helper('udropship')->__('Remove') ?></span></td>
+                        </tr>
+                    </thead>
+                    <tbody class="udmulti_vendors_body">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div id="messages"><ul class="messages"><li class="notice-msg"><ul>
+            <li><?php echo Mage::helper('udropship')->__('Tips:') ?></li>
+            <li><?php echo Mage::helper('udropship')->__('If the same vendor is selected multiple times, only the first occurence will be saved') ?></li>
+            <!-- <li><?php echo Mage::helper('udropship')->__('If Vendor SKU is empty, the Product SKU will be used for this vendor.') ?></li> -->
+            <li><?php echo Mage::helper('udropship')->__('If Vendor Cost is empty, the Product Cost will be used for this vendor.') ?></li>
+            <li><?php echo Mage::helper('udropship')->__('If custom stock check is used, stock quantity will be ignored.<br/>If stock quantity is 0, the product is out of stock for this vendor.<br/>If stock quantity is empty and custom stock check is NOT used, the product is always in stock for this vendor.') ?></li>
+        </ul></li></ul></div>
+    </fieldset>
+</div>
+
+<script type="text/javascript">
+//<![CDATA[
+var urqVendors = <?php echo $_urqVendorsJson ?>;
+var bAvailVendors = <?php echo $_bAvailVendorsJson ?>;
+function processVendorChange(id, vId)
+{
+    <?php if ($_bAvailConfig): ?>
+    checkBAvailVendors(id, vId);
+    <?php endif ?>
+    <?php if ($_urqConfig): ?>
+    checkUrqVendors(id, vId);
+    <?php endif ?>
+}
+function checkUrqVendors(id, vId)
+{
+    var hideAction = urqVendors[vId] ? 'show' : 'hide';
+    var disableAction = urqVendors[vId] ? 'enable' : 'disable';
+    try {
+        $('udmulti_vendors_'+id+'_use_reserved_qty')[hideAction]();
+        $('udmulti_vendors_'+id+'_use_reserved_qty')[disableAction]();
+    } catch (e) {}
+    try {
+        $('udmulti_vendors_'+id+'_use_reserved_qty_lbl')[hideAction]();
+    } catch (e) {}
+}
+function checkBAvailVendors(id, vId)
+{
+    var hideAction = bAvailVendors[vId] ? 'show' : 'hide';
+    var disableAction = bAvailVendors[vId] ? 'enable' : 'disable';
+    try {
+        $('udmulti_vendors_'+id+'_avail_date')[hideAction]();
+        $('udmulti_vendors_'+id+'_avail_date')[disableAction]();
+        $('udmulti_vendors_'+id+'_avail_date_trig')[hideAction]();
+        $('udmulti_vendors_'+id+'_avail_date_lbl')[hideAction]();
+    } catch (e) {}
+    try {
+        $('udmulti_vendors_'+id+'_avail_state')[hideAction]();
+        $('udmulti_vendors_'+id+'_avail_state')[disableAction]();
+        $('udmulti_vendors_'+id+'_avail_state_lbl')[hideAction]();
+    } catch (e) {}
+}
+(function ()
+{
+    var lastRowNum = 1;
+    var tbody = $$('#table_udmultivendors tbody.udmulti_vendors_body')[0];
+
+    function addRow(inData)
+    {
+        var rowHtml = $('udmulti_row_template').innerHTML
+        var data = {
+            vendor_sku: '<?php echo $this->jsQuoteEscape($this->htmlEscape($this->getProduct()->getSku())) ?>',
+            vendor_cost: '<?php echo $this->getProduct()->getCost() ?>',
+            <?php if (Mage::helper('udmulti')->isVendorProductShipping()): ?>
+            shipping_price: '',
+            <?php endif ?>
+            freeshipping: 0,
+            stock_qty: '',
+            avail_date: '',
+            avail_state: '',
+            reserved_qty: 0,
+            priority: 9999,
+            <?php if ($_isMultiPrice): ?>
+                special_from_date: '',
+                special_to_date: '',
+                special_price: '',
+                vendor_price: '',
+                vendor_title: '',
+                state_descr: '',
+                state: 'new',
+            <?php endif ?>
+            status: <?php echo (int)Mage::helper('udmulti')->getDefaultMvStatus()?>,
+            vendor_id: '<?php echo Mage::helper('udropship')->getLocalVendorId() ?>',
+            vendor_name: '<?php echo $this->jsQuoteEscape($this->getVendorName(Mage::helper('udropship')->getLocalVendorId())) ?>',
+            backorders: 0
+        }
+        Object.extend(data, inData);
+        data.row = lastRowNum++;
+
+        var isIE = (/msie [1-8]\./i).test(navigator.userAgent);
+        var numericVars = ['vendor_cost', 'stock_qty', 'priority', 'shipping_price', 'vendor_price', 'special_price','backorders'];
+        var forcedNumericVars = ['reserved_qty', 'freeshipping', 'status', 'avail_state'];
+        var keys = $H(data).keys().sortBy(function(s){return (''+s).length}).reverse();
+        for (j=0; j<keys.length; j++) {
+            var i=keys[j];
+            value = data[i] || ''
+            if (-1 != numericVars.indexOf(i) && data[i]
+                || -1 != forcedNumericVars.indexOf(i)
+            ) {
+                value *= 1;
+                data[i] = value;
+            }
+            if (i!=='row' && isIE) value = '"'+value+'"';
+            rowHtml = rowHtml.replace(new RegExp('\\$\\$'+i.toUpperCase(), 'g'), value);
+        }
+
+        var regExTpl = [
+            new Template('<option (([^>]*(alt="?#{key}"?|value="?#{value}"?(?=[\\s>]))){2})'),
+            new Template('<option $1 selected="selected"'),
+            new Template('<input (([^>]*(alt="?#{key}"?|value="?#{value}"?(?=[\\s>])|type="?checkbox"?)){3})'),
+            new Template('<input $1 checked="checked"')
+        ];
+        var selectFields = ['freeshipping', 'status', 'avail_state', 'backorders'];
+        <?php if (Mage::helper('udropship')->isModuleActive('Unirgy_DropshipMultiPrice')): ?>
+            selectFields.push('state');
+        <?php endif ?>
+        <?php if (!Mage::getStoreConfigFlag('udropship/vendor/autocomplete_htmlselect')): ?>
+            selectFields.push('vendor_id');
+        <?php endif ?>
+        selectFields.each(function(key){
+            for (var rxIdx=0; rxIdx<regExTpl.length; rxIdx+=2) {
+                var varForEval = {key: key, value: data[key]};
+                var rxFind = regExTpl[rxIdx].evaluate(varForEval);
+                var rxReplace = regExTpl[rxIdx+1].evaluate(varForEval);
+                rowHtml = rowHtml.replace(new RegExp(rxFind, 'i'), rxReplace);
+            }
+        });
+
+        tbody.insert('<tr>'+rowHtml+'</tr>');
+        processVendorChange(data.row, data.vendor_id);
+        (function () {
+            if (Object.isFunction(window['initAutocomplete'+data.row])) window['initAutocomplete'+data.row]();
+        }).defer();
+        var trs = tbody.childElements();
+        var tr = trs[trs.length-1];
+        var del = $(tr).select('button.top-delete')[0];
+        $(del).observe('click', function(e) { e.stop(); $(del.parentNode.parentNode).remove() });
+
+        <?php if ($_isMultiPrice): ?>
+        var __cfgTable, __suffixIdTpl, __rowTpl, __addBtn;
+
+        <?php $this->resetIdSuffix()->setFieldName($gpSubrowKey);?>
+        __cfgTable = '<?php echo $this->suffixId('cfgTable')?>'.replace('$$ROW', data.row);
+        __suffixIdTpl = '<?php echo $this->suffixId('#{key}') ?>'.replace('$$ROW', data.row);
+        __rowTpl = '<?php echo $this->suffixId('rowTpl')?>'.replace('$$ROW', data.row);
+        __addBtn = '<?php echo $this->suffixId('addBtn')?>'.replace('$$ROW', data.row);
+        initSubrow(__cfgTable, __suffixIdTpl, __rowTpl, __addBtn);
+
+        <?php $this->resetIdSuffix()->setFieldName($tpSubrowKey);?>
+        __cfgTable = '<?php echo $this->suffixId('cfgTable')?>'.replace('$$ROW', data.row);
+        __suffixIdTpl = '<?php echo $this->suffixId('#{key}') ?>'.replace('$$ROW', data.row);
+        __rowTpl = '<?php echo $this->suffixId('rowTpl')?>'.replace('$$ROW', data.row);
+        __addBtn = '<?php echo $this->suffixId('addBtn')?>'.replace('$$ROW', data.row);
+        initSubrow(__cfgTable, __suffixIdTpl, __rowTpl, __addBtn);
+
+        (function () {
+            $A(<?php echo Zend_Json::encode(array('group_price','tier_price'))?>).each(function(colKey){
+                if (Object.isArray(data[colKey]) && data[colKey].length>0) {
+                    var colAddBtnId = tr.down('.'+colKey+'_fieldset button.add').id;
+                    $A(data[colKey]).each(function(colRowData){
+                        window[colAddBtnId+'udpAddRow'](colRowData);
+                    });
+                }
+            });
+        }).defer();
+        <?php endif; ?>
+    }
+
+    $('udmulti-vendors-add').observe('click', function(e) { e.stop(); addRow() });
+
+    <?php $this->resetIdSuffix()->setFieldName(null);?>
+
+    function initSubrow(__cfgTable, __suffixIdTpl, __rowTpl, __addBtn)
+    {
+        var lastRowNum = 0;
+        var tbody = $$('#'+__cfgTable+' tbody')[0]
+        var suffixIdTpl = new Template(__suffixIdTpl)
+
+        var udpAddRow = function (inData)
+        {
+            var rowHtml = $(__rowTpl).innerHTML
+            var data = {
+                customer_group_id: '',
+                website_id: '',
+                qty: '',
+                value: '',
+                value_id: ''
+            }
+            Object.extend(data, inData);
+            data.row = ++lastRowNum;
+
+            var isIE = (/msie [1-8]\./i).test(navigator.userAgent);
+            var numericVars = ['value','qty'];
+            var forcedNumericVars = [];
+            var keys = $H(data).keys().sortBy(function(s){return (''+s).length}).reverse();
+            for (j=0; j<keys.length; j++) {
+                var i=keys[j];
+                value = data[i] || ''
+                if (-1 != numericVars.indexOf(i) && data[i]
+                    || -1 != forcedNumericVars.indexOf(i)
+                    ) {
+                    value *= 1;
+                    data[i] = value;
+                }
+                if (i!=='row' && isIE) value = '"'+value+'"';
+                rowHtml = rowHtml.replace(new RegExp('\\$'+i.toUpperCase(), 'g'), value)
+            }
+            var regExTpl = [
+                new Template('<option (([^>]*(alt="?#{key}"?|value="?#{value}"?(?=[\\s>]))){2})'),
+                new Template('<option $1 selected="selected"'),
+                new Template('<input (([^>]*(alt="?#{key}"?|value="?#{value}"?(?=[\\s>])|type="?checkbox"?)){3})'),
+                new Template('<input $1 checked="checked"')
+            ];
+            var selectFields = $H({customer_group_id:0,website_id:0});
+            selectFields.each(function(pair){
+                var varsForEval, value=data[pair.key], key=pair.key;
+                for (var rxIdx=0; rxIdx<regExTpl.length; rxIdx+=2) {
+                    varsForEval = [];
+                    if (pair.value) {
+                        if (!Object.isArray(value)) {
+                            value = String.interpret(value).split(',');
+                        }
+                        value.each(function(val){
+                            varsForEval.push({key: RegExp.escape(key), value: RegExp.escape(val)});
+                        })
+                    } else {
+                        varsForEval.push({key: RegExp.escape(key), value: RegExp.escape(value)});
+                    }
+                    for (var vfeIdx=0; vfeIdx<varsForEval.length; vfeIdx++) {
+                        var varForEval = varsForEval[vfeIdx];
+                        var rxFind = regExTpl[rxIdx].evaluate(varForEval);
+                        var rxReplace = regExTpl[rxIdx+1].evaluate(varForEval);
+                        rowHtml = rowHtml.replace(new RegExp(rxFind, 'i'), rxReplace);
+                    }
+                }
+            });
+            tbody.insert('<tr>'+rowHtml+'</tr>')
+            var trs = tbody.childElements()
+            var tr = trs[trs.length-1]
+            tr.addClassName(lastRowNum%2 ? 'odd' : 'even')
+
+            var toggleFields = [];
+            toggleFields.each(function(key){
+                var yesKey = suffixIdTpl.evaluate({key: 'yes__'+key+'_'+data.row});
+                var noKey = suffixIdTpl.evaluate({key: 'no__'+key+'_'+data.row});
+                if (!data[key]) {
+                    $$('.'+yesKey).invoke('hide');
+                    $$('.'+noKey).invoke('show');
+                } else {
+                    $$('.'+yesKey).invoke('show');
+                    $$('.'+noKey).invoke('hide');
+                }
+            });
+
+            var del = $(tr).select('button.delete')[0];
+            if (del) {
+                $(del).observe('click', function(e) { e.stop(); $(del.parentNode.parentNode).remove() })
+            }
+        }
+
+        $(__addBtn).observe('click', function(e) { e.stop(); udpAddRow() });
+        window[__addBtn+'udpAddRow'] = udpAddRow;
+
+    }
+
+<?php foreach ($_assocVendors as $_vendor): ?>
+    addRow(<?php echo Zend_Json::encode($_vendor->getData()) ?>);
+<?php endforeach ?>
+})()
+//]]>
+</script>

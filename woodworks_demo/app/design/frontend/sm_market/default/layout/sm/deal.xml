@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<layout version="1.0">
+	<default>
+        <reference name="head">
+        	<!--action method="addCss"><stylesheet>sm/deal/css/sm_deal.css</stylesheet></action-->
+        </reference>			
+	</default>
+	<deal_index_index>
+		<reference name="content">
+			<block type="deal/list" name="deal" template="sm/deal/default.phtml">
+				<action method="setConfig">
+				</action>
+			</block>
+		</reference>
+	</deal_index_index>	
+</layout>

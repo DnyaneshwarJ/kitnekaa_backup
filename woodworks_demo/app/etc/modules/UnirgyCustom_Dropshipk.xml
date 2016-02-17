@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <UnirgyCustom_Dropshipk>
+            <active>true</active>
+            <codePool>local</codePool>
+            <depends>
+                <Unirgy_Dropship />
+            </depends>
+        </UnirgyCustom_Dropshipk>
+    </modules>
+</config>

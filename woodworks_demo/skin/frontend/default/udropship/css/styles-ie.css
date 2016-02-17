@@ -1,0 +1,13 @@
+.clear,
+.main-nav,
+.header,
+.main,
+.footer,
+.col3-set,
+.col2-set,
+.form-list li,
+.pager,
+.generic-box { zoom:1; }
+
+/* Clearer */
+.clear { display:block; clear:both; font-size:0; line-height:0; height:0; overflow:hidden; }

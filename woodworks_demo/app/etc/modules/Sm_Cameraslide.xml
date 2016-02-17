@@ -1,0 +1,11 @@
+<config>
+    <modules>
+        <Sm_Cameraslide>
+            <active>true</active>
+            <codePool>local</codePool>
+            <depends>
+                <Mage_Catalog />
+            </depends>
+        </Sm_Cameraslide>
+    </modules>
+</config>

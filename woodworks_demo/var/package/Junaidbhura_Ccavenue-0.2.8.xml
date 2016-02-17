@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<package>
+    <name>Junaidbhura_Ccavenue</name>
+    <version>0.2.8</version>
+    <stability>stable</stability>
+    <license>Commercial</license>
+    <channel>community</channel>
+    <extends/>
+    <summary>CC Avenue</summary>
+    <description>CC Avenue</description>
+    <notes>Added support for AuthQuery</notes>
+    <authors><author><name>Junaid Bhura</name><user>junaidbhura</user><email>info@junaidbhura.com</email></author></authors>
+    <date>2014-10-17</date>
+    <time>06:49:56</time>
+    <contents><target name="magelocal"><dir name="Junaidbhura"><dir name="Ccavenue"><dir name="Block"><dir name="Redirectlog"><file name="Grid.php" hash="652ceed827d8b03974aaec7607a65e4f"/></dir><file name="Redirectlog.php" hash="07c55b56ae0e979c1eb5a4c98b0a2610"/><dir name="Responselog"><file name="Grid.php" hash="180bf46d67b8004bca457fbf7f9d7da2"/></dir><file name="Responselog.php" hash="ab507d20a60fbc537cefccafb26733d4"/></dir><dir name="Helper"><file name="Data.php" hash="779ec81b97e0bde6e12fca69262dae97"/></dir><dir name="Model"><file name="Ccavenueredirect.php" hash="a3549d600cdfe5835fdae665f88e8665"/><file name="Ccavenueresponse.php" hash="a6930a2bd62c673854437871b83b8e4b"/><dir name="Mysql4"><dir name="Ccavenueredirect"><file name="Collection.php" hash="cb8ee89d648c0d4147fa487f0c60ee7e"/></dir><file name="Ccavenueredirect.php" hash="9f5273246165f27d6e9131143712e3a7"/><dir name="Ccavenueresponse"><file name="Collection.php" hash="ae19f3ec1799979dcf9d075b2a42f3df"/></dir><file name="Ccavenueresponse.php" hash="5bd8d1025ad2e4391d9536c7e7f395fb"/></dir><file name="Standard.php" hash="d177448b33325d91595060041df740cd"/></dir><dir name="controllers"><file name="PaymentController.php" hash="34acfb1e7e41f26f0f517acd173734bd"/><file name="RedirectlogController.php" hash="c4273f1d1b02651b668982a49978d88e"/><file name="ResponselogController.php" hash="294792a200bcda0c5fac54ea2a31f51d"/></dir><dir name="etc"><file name="config.xml" hash="d277ccdee828b37c74546fa8d39b3d32"/><file name="system.xml" hash="9c89ef7559906ec588771f2361789273"/></dir><dir name="sql"><dir name="ccavenue_setup"><file name="mysql4-install-0.2.8.php" hash="f2f2ee26b80f97b0697a835ee9e8101b"/></dir></dir></dir></dir></target><target name="magedesign"><dir name="frontend"><dir name="base"><dir name="default"><dir name="template"><dir name="ccavenue"><file name="redirect.phtml" hash="4b330e1a1a45fff1da6bbcfa6fb160db"/></dir></dir></dir></dir></dir></target><target name="mageetc"><dir name="modules"><file name="Junaidbhura_Ccavenue.xml" hash="5f72269cef0dd70e6c656a0cea8d3081"/></dir></target></contents>
+    <compatible/>
+    <dependencies><required><php><min>5.1.0</min><max>6.0.0</max></php></required></dependencies>
+</package>

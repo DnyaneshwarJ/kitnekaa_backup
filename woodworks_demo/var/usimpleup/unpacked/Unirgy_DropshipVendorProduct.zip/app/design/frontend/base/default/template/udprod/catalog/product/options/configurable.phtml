@@ -1,0 +1,29 @@
+<?php
+
+$lHlp = Mage::helper('udprod');
+$_product    = $this->getProduct();
+$_attributes = Mage::helper('core')->decorateArray($this->getAllowAttributes());
+?>
+<?php if ($_product->isSaleable() && count($_attributes)):?>
+    <dl>
+    <?php foreach($_attributes as $_attribute): ?>
+        <dt><label class="required"><em>*</em><?php echo $_attribute->getLabel() ?></label></dt>
+        <dd<?php if ($_attribute->decoratedIsLast){?> class="last"<?php }?>>
+        <div class="input-box">
+          <select name="super_attribute[<?php echo $_attribute->getAttributeId() ?>]" id="attribute<?php echo $_product->getId()?>-<?php echo $_attribute->getAttributeId() ?>" class="required-entry super-attribute-select-<?php echo $_product->getId()?>" optitle="<?php echo strtolower($_attribute->getLabel()); ?>">
+            <option><?php echo Mage::helper('udropship')->__('Choose an Option...') ?></option>
+          </select>
+          <div class="attribute-item">
+          <dl id="attribute-options-<?php echo $_product->getId()?>-<?php echo $_attribute->getAttributeId()?>"></dl>
+          </div>
+        </div>
+        </dd>
+    <?php endforeach; ?>
+    </dl>
+    <script type="text/javascript">
+        var spConfig, unirgyConfig = <?php echo $this->getJsonConfig() ?>;
+        unirgyDomLoaded(function() {
+            spConfig = new UnirgyProductConfig(unirgyConfig, {skinBaseUrl: '<?php echo $lHlp->getSkinBaseUrl()?>', productId: '<?php echo $_product->getId()?>', saPrefix: '<?php echo $_product->getId()?>-', unirgyProductGallery: 'unirgyProductGallery<?php echo $_product->getId()?>', saSelectClass: 'super-attribute-select-<?php echo $_product->getId()?>', unirgyProductVendors: 'unirgyProductVendors<?php echo $_product->getId()?>'});
+        })
+    </script>
+<?php endif;?>

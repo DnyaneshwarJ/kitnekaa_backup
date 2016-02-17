@@ -1,0 +1,244 @@
+<?xml version="1.0"?>
+ 
+<config>
+    <modules>
+        <Bobcares_Quote2Sales>
+            <version>0.8.17</version>
+        </Bobcares_Quote2Sales>
+    </modules>
+    
+    <frontend>
+        <routers>
+            <quote2sales>
+                <use>standard</use>
+                <args>
+                    <module>Bobcares_Quote2Sales</module>
+                    <frontName>quote2sales</frontName>
+                </args>
+            </quote2sales>
+        </routers>
+        <translate>
+            <modules>
+                <Bobcares_Quote2Sales>
+                    <files>
+                        <default>Bobcares_Quote2Sales.csv</default>
+                    </files>
+                </Bobcares_Quote2Sales>
+            </modules>
+        </translate>
+        <layout>
+            <updates>
+                <quote2sales>
+                    <file>bobcares/quote2sales.xml</file>
+                </quote2sales>
+            </updates>
+        </layout>
+    </frontend>
+     
+    <stores>
+        <admin>
+            <design>
+                <package>
+                    <name>default</name>
+                </package>
+                <theme>
+                    <default>bobcares</default>
+                </theme>
+            </design>
+        </admin>
+    </stores> 
+      
+    <admin>
+        <routers>
+            <quote2sales>
+                <use>admin</use>
+                <args>
+                    <module>Bobcares_Quote2Sales</module>
+                    <frontName>quote2sales</frontName>
+                </args>
+            </quote2sales>
+        </routers> 
+    </admin>
+    <!-- 
+     <admin>
+         <routers>
+             <adminhtml>
+                 <args>
+                     <modules>
+                         <Bobcares_Quote2Sales before="Mage_Adminhtml">Bobcares_Quote2Sales</Bobcares_Quote2Sales>
+                     </modules>
+                 </args>
+             </adminhtml>
+         </routers>
+     </admin>
+    --> 
+    <adminhtml>
+        <menu>
+            <quote2sales translate="title" module="quote2sales">
+                <title>Quote2Sales</title>
+                <sort_order>71</sort_order>               
+                <children>
+                    <quote translate="title" module="quote2sales">
+                        <title>Quotes</title>
+                        <sort_order>0</sort_order>
+                        <action>quote2sales/adminhtml_quote</action>
+                    </quote>
+                    <request translate="title" module="quote2sales">
+                        <title>Requests</title>
+                        <sort_order>1</sort_order>
+                        <action>quote2sales/adminhtml_request</action>
+                    </request>
+                </children>
+            </quote2sales>
+        </menu>
+        <acl>
+            <resources>
+                <admin>
+                    <children>
+                        <quote2sales>
+                            <title>Quote2Sales</title>
+                            <sort_order>30</sort_order>
+                            <children>
+                                <quote translate="title">
+                                    <title>Quotes</title>
+                                </quote>
+                                <!-- Added to include the request menu to the ACL by shebin to fix the Bug #61599 -->
+                                <request translate="title">
+                                    <title>Requests</title>
+                                </request>
+                                <!-- Addition ends -->
+                            </children>
+                        </quote2sales>
+                    </children>
+                </admin>
+            </resources>
+        </acl>
+        <translate>
+            <modules>
+                <Bobcares_Quote2Sales>
+                    <files>
+                        <default>Bobcares_Quote2Sales.csv</default>
+                    </files>
+                </Bobcares_Quote2Sales>
+            </modules>
+        </translate>
+        <layout>
+            <updates>
+                <quote2sales>
+                    <file>bobcares/quote2sales.xml</file>
+                </quote2sales>
+            </updates>
+        </layout>
+    </adminhtml>   
+    
+    <global>    
+        <models>
+            <quote2sales>
+                <class>Bobcares_Quote2Sales_Model</class>
+                <resourceModel>quote2sales_mysql4</resourceModel>
+            </quote2sales>
+            <quote2sales_mysql4>
+                <class>Bobcares_Quote2Sales_Model_Mysql4</class>
+                <entities>
+                    <request>
+                        <table>quote2sales_requests</table>
+                    </request>
+                    <requeststatus>
+                        <table>quote2sales_requests_status</table>
+                    </requeststatus>
+                </entities>
+            </quote2sales_mysql4>
+        </models>
+        
+        <resources>
+            <quote2sales_setup>
+                <setup>
+                    <module>Bobcares_Quote2Sales</module>
+                    <class>Bobcares_Quote2Sales_Model_Resource_Setup</class> 
+                </setup>
+                <connection>
+                    <use>core_setup</use>
+                </connection>
+            </quote2sales_setup>
+            <quote2sales_write>
+                <connection>
+                    <use>core_write</use>
+                </connection>
+            </quote2sales_write>
+            <quote2sales_read>
+                <connection>
+                    <use>core_read</use>
+                </connection>
+            </quote2sales_read>
+        </resources>
+		
+		
+		
+        <blocks>
+            <quote2sales>
+                <class>Bobcares_Quote2Sales_Block</class>
+            </quote2sales>
+            <quote2sales>
+                <rewrite>
+                    <quote_index>Bobcares_Quote2Sales_Block_Quote_Index</quote_index>
+                    <quote_info>Bobcares_Quote2Sales_Block_Quote_Info</quote_info>
+                    <quote_history>Bobcares_Quote2Sales_Block_Quote_History</quote_history>
+                    <quote_view>Bobcares_Quote2Sales_Block_Quote_View</quote_view>
+                    <quote_items>Bobcares_Quote2Sales_Block_Quote_Items</quote_items>
+                    <quote_totals>Bobcares_Quote2Sales_Block_Quote_Totals</quote_totals>
+                    <quote_onepage>Mage_Checkout_Block_Onepage_Link</quote_onepage>
+                    <request_history>Bobcares_Quote2Sales_Block_Request_History</request_history>
+                    <request_edit>Bobcares_Quote2Sales_Block_Request_Edit</request_edit>
+                	
+                    <customer_login>Bobcares_Quote2Sales_Block_Customer_Login</customer_login>
+                </rewrite>
+            </quote2sales>
+        </blocks>
+        <template>
+            <email>
+                <quotes_email_email_template translate="label" module="quote2sales">
+                    <label>Request for Quote Form</label>
+                    <file>quote_form.html</file>
+                    <type>html</type>
+                </quotes_email_email_template>
+                 
+                <!--New email tempalte decalaration-->      
+                <quotes_email_email_quote_template translate="label" module="quote2sales">
+                    <label>Quote Created</label>
+                    <file>quote2sale_email_template.html</file>
+                    <type>html</type>
+                </quotes_email_email_quote_template>
+            </email>
+        </template>
+        <helpers>
+            <quote2sales>
+                <class>Bobcares_Quote2Sales_Helper</class>
+            </quote2sales>
+        </helpers>
+        <events>
+            <customer_login>
+                <observers>
+                    <loginredirect>
+                        <class>quote2sales/observer</class>
+                        <method>customerLogin</method>
+                    </loginredirect>
+                </observers>
+            </customer_login> 
+        </events>
+    </global>
+    <default>
+        <quotes>
+            <quotes>
+                <enabled>1</enabled>
+            </quotes>
+            <email>
+                <recipient_email><![CDATA[example@example.com]]></recipient_email>
+                <sender_email_identity>custom2</sender_email_identity>
+                <email_template>contacts_email_email_template</email_template>
+                <!--<quote_email_template><file>quote2sales_email_template.html</file></quote_email_template>-->
+                <email_quote_template>quotes_email_email_quote_template</email_quote_template>
+            </email>
+        </quotes>
+    </default>
+    
+</config>

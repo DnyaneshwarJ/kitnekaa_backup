@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<config>
+  <modules>
+    <Nest_ExtendDirectory>
+      <active>true</active>
+      <codePool>local</codePool>
+      <version>0.1.0</version>
+    </Nest_ExtendDirectory>
+  </modules>
+</config>

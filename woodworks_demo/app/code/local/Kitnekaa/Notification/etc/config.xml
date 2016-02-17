@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+	<modules>
+		<Kitnekaa_Notification>
+			<version>0.1.0</version>    <!-- Version number of your module -->
+		</Kitnekaa_Notification>
+	</modules>
+	<global>
+		<models>
+			<kitnekaa_notification>
+				<class>Kitnekaa_Notification_Model</class>
+				<resourceModel>kitnekaa_notification_resource</resourceModel>
+			</kitnekaa_notification>
+			<kitnekaa_notification_resource>
+				<class>Kitnekaa_Notification_Model_Resource</class>
+			</kitnekaa_notification_resource>
+		</models>
+		<helpers>
+			<kitnekaa_notification>
+				<class>Kitnekaa_Notification_Helper</class>
+			</kitnekaa_notification>
+		</helpers>
+		 <blocks>
+            <kitnekaa_notification>
+                <class>Kitnekaa_Notification_Block</class>
+            </kitnekaa_notification>
+           </blocks>
+		<resources>
+			<kitnekaa_notification_setup>
+				<setup>
+					<module>kitnekaa_notification</module>
+					<class>Mage_Catalog_Model_Resource_Setup</class>
+				</setup>
+			</kitnekaa_notification_setup>
+		</resources>
+
+	</global>
+	<frontend>
+		<routers>
+			<notification>
+				<use>standard</use>
+				<args>
+					<!-- URL: http://[MAGROOT]/notification/[ACTION]/key/[NONCE]/ -->
+					<module>Kitnekaa_Notification</module>
+					<frontName>notification</frontName>
+				</args>
+			</notification>
+		</routers>
+	</frontend>
+</config>

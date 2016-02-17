@@ -1,0 +1,82 @@
+<?php $_quote = $this->getQuote(); ?>
+<?php
+$requestId = Mage::getModel('quote2sales/requeststatus')->getCollection()
+                ->addFieldToSelect('request_id')
+                ->addFieldToFilter('quote_id', $this->getQuoteId())->getFirstItem()->getData('request_id');
+$sellerComment = Mage::getModel('quote2sales/request')->getCollection()
+                ->addFieldToSelect('seller_comment')
+                ->addFieldToFilter('request_id', $requestId)->getFirstItem()->getData('seller_comment');
+?>
+<div class="col2-set order-info-box">
+    <div class="col-1">
+        <h4><?php echo $this->__('Shipping Address') ?></h4>
+        <?php $_shipping = $_quote->getShippingAddress() ?>
+        <address><?php echo $_shipping->getFirstname() ?> <?php echo $_shipping->getLastname() ?><br />
+            <?php if ($_shipping->getCompany()): echo $_shipping->getCompany(); ?><br /><?php endif; ?>
+            <?php
+            echo $_shipping->getStreet1();
+            echo " " . $_shipping->getStreet2()
+            ?><br />
+            <?php echo $_shipping->getCity() ?>, <?php echo $_shipping->getRegion() ?> <?php echo $_shipping->getPostcode() ?><br />
+            <strong>T</strong> | <?php
+            echo $_shipping->getTelephone();
+            if ($_shipping->getFax()):
+                ?>
+                <br /><strong>F</strong> | <?php echo $_shipping->getFax() ?>
+            <?php endif; ?>
+        </address>
+    </div>
+    <div class="col-2">
+        <h4><?php echo $this->__('Billing Address') ?></h4>
+        <?php $_billing = $_quote->getbillingAddress() ?>
+        <address><?php echo $_billing->getFirstname() ?> <?php echo $_billing->getLastname() ?><br />
+            <?php if ($_shipping->getCompany()): echo $_shipping->getCompany(); ?><br /><?php endif; ?>
+            <?php
+            echo $_shipping->getStreet1();
+            echo " " . $_shipping->getStreet2()
+            ?><br />
+            <?php echo $_billing->getCity() ?>, <?php echo $_billing->getRegion() ?> <?php echo $_billing->getPostcode() ?><br />
+            <strong>T</strong> | <?php
+            echo $_billing->getTelephone();
+            if ($_billing->getFax()):
+                ?>
+                <br /><strong>F</strong> | <?php echo $_billing->getFax() ?>
+            <?php endif; ?>
+        </address>
+    </div>
+</div>
+<br />
+
+<!-- If the shipping method is none not displayed the shipping method -->
+<?php if ($_shipping->getShippingMethod()): ?>
+    <div class="col2-set order-info-box">
+        <div class="col-1">
+            <h4><?php echo $this->__('Shipping Method') ?></h4>
+            <?php // echo $this->escapeHtml($_shipping->getShippingMethod())         ?> <?php echo $this->escapeHtml($_shipping->getShippingDescription()) ?>
+        </div>
+        <!--    <div class="col-2">
+           <h4><?php //echo $this->__('Payment Method')       ?></h4>
+        <?php //$_payment = $_quote->getPayment()    ?>
+        <?php //echo $_payment->getMethod()    ?><?php //echo $_payment->getCcType()    ?> <?php //echo $_payment->getCcLast4()    ?>
+            </div>-->
+
+        <!-- If seller adds comment displaying it -->
+        <?php if ($sellerComment) : ?>
+            <div class="col-2">
+                <h4><?php echo $this->__('Seller comment:') . "<br>" ?></h4>
+                <p><?php echo $sellerComment; ?></p>
+            </div>
+        <?php endif; ?>
+    </div>
+<?php else: ?>
+
+    <!-- If seller adds comment displaying it -->
+    <?php if ($sellerComment) : ?>
+        <div class="col2-set order-info-box">
+            <div class="col-1">
+                <h4><?php echo $this->__('Seller comment:') . "<br>" ?></h4>
+                <p><?php echo $sellerComment; ?></p>
+            </div>
+        </div>
+    <?php endif; ?>
+<?php endif; ?>

@@ -1,0 +1,61 @@
+<!--@subject Welcome, {{var customer.name}}! @-->
+
+<!--@styles
+body,td { color:#2f2f2f; font:11px/1.35em Verdana, Arial, Helvetica, sans-serif; }
+@-->
+<div style="font:11px/1.35em Verdana, Arial, Helvetica, sans-serif;">
+    <table cellspacing="0" cellpadding="0" border="0" width="98%"
+           style="margin-top:10px; font:11px/1.35em Verdana, Arial, Helvetica, sans-serif; margin-bottom:10px;">
+        <tr>
+            <td align="center" valign="top">
+                <!-- [ header starts here] -->
+                <table cellspacing="0" cellpadding="0" border="0" width="650">
+                    <tr>
+                        <td valign="top">
+                            <a href="{{store url=''}}"><img src="{{skin url='images/logo_email.gif' _area='frontend'}}"
+                            alt="Magento" style="margin-bottom:10px;" border="0"/></a></td>
+                    </tr>
+                </table>
+
+                <!-- [ middle starts here] -->
+                <table cellspacing="0" cellpadding="0" border="0" width="650">
+                    <tr>
+                        <td valign="top">
+                            <p><strong>Caro {{htmlescape var=$customer.name}}</strong>,<br/>
+                                Benvenuto su {{var store.getFrontendName()}}. Un account e' stato creato, in modo che si possa
+                                verificare lo stato della richiesta. In breve tempo riceverai una conferma del
+                                preventivo. Puoi usare i dati sottostanti per controllare lo stato del preventivo.
+
+                            <p style="border:1px solid #BEBCB7; padding:13px 18px; background:#F8F7F5; ">
+                                Usa i seguenti dati per effettuare il login:<br/>
+                                E-mail: {{var customer.email}}<br/>
+                                Password: {{htmlescape var=$customer.password}}
+
+                            <p>
+
+                            <p>Effettuato il login sarai in grado di:</p>
+
+                            <ul>
+                                <li>Modificare, rifiutare o accettare il preventivo</li>
+                                <li>Controllare lo stato della richiesta</li>
+                                <li>Vedere ordini passati e riordinarli</li>
+                                <li>Cambiare le informazioni del tuo account</li>
+                                <li>Cambiare la password</li>
+                                <li>Memorizzare altri indirizzi di spedizione</li>
+                            </ul>
+
+                            <p>Per ogni domanda non esitare a contattarci!! <a href="mailto:{{config path='trans_email/ident_support/email'}}"
+                                                                               style="color:#1E7EC8;">{{config path='trans_email/ident_support/email'}}</a>
+                                o chiamaci al <span class="nobr">{{config path='general/store_information/phone'}}</span>.</p>
+
+                            <p>Grazie!</p>
+
+
+                        </td>
+                    </tr>
+                </table>
+
+            </td>
+        </tr>
+    </table>
+</div>

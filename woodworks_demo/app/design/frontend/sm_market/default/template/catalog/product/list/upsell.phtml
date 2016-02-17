@@ -1,0 +1,290 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   Copyright (c) 2013 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+?>
+
+
+<?php 
+if(!defined('SM_SLIDER')){
+	define('SM_SLIDER', 1);
+?>
+	
+<?php
+}
+?>
+<?php 
+global $var_yttheme;
+$_helper = $this->helper('catalog/output'); 
+$limit = (int)$var_yttheme->getParam('upsell_number');
+global $show_rich_snippet;
+$show_rich_snippet = 0;
+?>
+<?php if(count($this->getItemCollection()->getItems())): ?>
+	<link rel="stylesheet" href="<?php echo $this->getSkinUrl('css/cus-slider.css'); ?>" type="text/css" />
+	<script type="text/javascript" src="<?php echo $this->getSkinUrl('js/cus-slider.js') ?>"></script>
+<div class="category-products sm-slider upsell">
+    <div class="block-title">
+       <span><?php echo $this->__('Upsell Products') ?></span>
+    </div>
+    
+	<?php // $this->setColumnCount(5); // uncomment this line if you want to have another number of columns. also can be changed in layout ?>
+	<!--slider upsell-->
+    <?php
+     if(count($this->getItemCollection()->getItems())>4 && $limit>4):?> 
+    <div class="page-button">
+        <ul class="control-button">
+            <li class="prev">Prev</li>
+            <li class="next">Next</li>
+        </ul>		
+    </div>
+    
+    <ol class="products-grid slider cols-6 preset01-4 preset02-4 preset03-2 preset04-1 preset05-1 js-loaded" id="block-upsell">
+        <div class="vpo-wrap">
+            <div class="vp">
+                <div class="vpi-wrap">
+        
+        <?php // $this->setColumnCount(5); // uncomment this line if you want to have another number of columns. also can be changed in layout ?>
+        <?php $this->resetItemsIterator() ?>
+        <?php //for($_i=0;$_i<$this->getRowCount();$_i++): ?>            
+            <?php //for($_j=0;$_j<$this->getColumnCount();$_j++): ?>
+            <?php for($_c=0;$_c<$limit;$_c++):?>
+                <?php if($_link=$this->getIterableItem()): ?>
+	                <?php 
+					$now = date("Y-m-d H:m:s");
+					$newsFrom= $_link->getNewsFromDate();
+					$newsTo=  $_link->getNewsToDate();
+					$specialprice = Mage::getModel('catalog/product')->load($_link->getId())->getSpecialPrice();
+					$price = Mage::getModel('catalog/product')->load($_link->getId())->getPrice();
+					$special_from_date = $_link->getSpecialFromDate();
+					$special_to_date = $_link->getSpecialToDate();
+					?>
+	                <li class="item">
+	                    <div class="item-inner">					
+							<div class="product-image">
+								<a href="<?php echo $_link->getProductUrl() ?>" class="product-img" title="<?php echo $this->htmlEscape($_link->getName(), null, true) ?>">
+								<?php 							
+								if($_link->getThumbnail() != $_link->getSmallImage()) { ?> 
+	                               <img class="small-image" src="<?php echo $this->helper('catalog/image')->init($_link, 'small_image')->resize(270,270); ?>" alt="<?php echo $this->stripTags($this->getImageLabel($_link, 'small_image'), null, true) ?>" />
+	                               <img class="thumnail-image image-hover" src="<?php echo $this->helper('catalog/image')->init($_link, 'thumbnail')->resize(270,270) ?>" alt="<?php echo $this->stripTags($this->getImageLabel($_link, 'thumbnail'), null, true) ?>" />                         	
+	                               <?php } else { ?>
+	                           		<img class="small-image" src="<?php echo $this->helper('catalog/image')->init($_link, 'small_image')->resize(270,270); ?>" alt="<?php echo $this->stripTags($this->getImageLabel($_link, 'small_image'), null, true) ?>" />
+	                           <?php } ?>
+	                           
+								</a>
+								<?php if ( $now>=$newsFrom && $now<=$newsTo ){ ?>
+									<span class="new-product have-ico"><?php echo $this->__('New'); ?></span>
+								<?php }
+	                            if ( $specialprice ){ ?>
+									<span class="sale-product have-ico"><?php echo $this->__('Sale'); ?></span>
+								<?php } ?>							
+							</div>						
+							<div class="product-info">
+								<div class="product-name">
+									<a href="<?php echo $_link->getProductUrl() ?>" title="<?php echo $this->htmlEscape($_link->getName(), null, true) ?>"> <?php echo $this->htmlEscape($_link->getName()) ?></a>
+								</div>
+								<div class="product-review">
+									<?php echo $this->getReviewsSummaryHtml($_link, "short", true); ?>
+								</div>
+								<div class="product-price">
+									<?php echo $this->getPriceHtml($_link, true) ?>
+								</div>
+								
+	                            
+	                            <div class="product-addto-wrap">
+									<div class="product-addcart">
+										<?php if($_link->isSaleable()): ?>
+	                                    
+	                                        <a class="btn-cart" title="<?php echo $this->__('Add to cart') ?>" href="javascript:void(0);" onclick="setLocation('<?php echo $this->getAddToCartUrl($_link) ?>')">
+	                                            <?php echo $this->__('Add to cart') ?>
+	                                        </a>
+	                                
+										<?php else: ?>
+										<p class="availability out-of-stock">
+											<span><?php echo $this->__('Out of stock') ?> </span>
+										</p>
+										<?php endif; ?>								
+									</div>
+									<div class="wishlist-compare">
+										<?php if ( $this->helper('wishlist')->isAllow() ) : ?>
+										<a class="link-wishlist" href="<?php echo $this->helper('wishlist')->getAddUrl($_link) ?>" title="<?php echo $this->__('Add to wishlist') ?>">
+											<?php //echo $this->__('Add to Wishlist') ?>
+										</a>
+										<?php endif; ?>
+						
+										<?php if( $_compareUrl=$this->getAddToCompareUrl($_link) ): ?>
+			
+										<a class="link-compare" href="<?php echo $_compareUrl ?>" title="<?php echo $this->__('Add to compare'); ?>">
+											<?php //echo $this->__('Add to Compare') ?>
+										</a>
+									
+										<?php endif;?>
+	                                </div>
+								</div>							
+							</div>
+							
+						</div>
+	                </li>       
+                <?php endif; ?>
+            <?php endfor; ?> 
+            <?php //endfor; ?>            
+        <?php //endfor; ?>
+        </div>
+            </div>
+        </div>
+    </ol>
+    <script type="text/javascript">decorateTable('upsell-product-table')</script>
+    
+    <script type="text/javascript">
+    //<![CDATA[
+  
+	// Slider for upsell
+	jQuery(document).ready(function($){
+        $('#block-upsell').responsiver({
+            interval: 0,
+			speed: 300,
+			start: 0,
+			step: 1,
+			circular: true,
+			preload: true,
+			fx: 'slide',
+			pause: 'hover',
+			control:{
+			prev: '.control-button li[class="prev"]',
+			next: '.control-button li[class="next"]'
+			},
+			getColumns: function(element){
+			var match = $(element).attr('class').match(/cols-(\d+)/);
+			if (match[1]){
+			var column = parseInt(match[1]);
+			} else {
+			var column = 1;
+			}
+			if (!column) column = 1;
+			return column;
+			}
+        });
+    });
+	
+    //]]>
+    </script>
+<?php  endif; ?> <!-- end slider upsell-->
+
+<!--upsell product-->
+<?php if(count($this->getItemCollection()->getItems())<=4 || $limit<=4):?>
+    <ol class="products-grid slider preset01-4 preset02-4 preset03-2 preset04-1 preset05-1" id="block-upsell">    
+        
+        <?php // $this->setColumnCount(5); // uncomment this line if you want to have another number of columns. also can be changed in layout ?>
+        <?php $this->resetItemsIterator() ?>
+        <?php //for($_i=0;$_i<$this->getRowCount();$_i++): ?>            
+            <?php //for($_j=0;$_j<$this->getColumnCount();$_j++): ?>
+            <?php for($_c=0;$_c<$limit;$_c++):?>
+                <?php if($_link=$this->getIterableItem()): ?>
+	                <?php 
+					$now = date("Y-m-d H:m:s");
+					$newsFrom= $_link->getNewsFromDate();
+					$newsTo=  $_link->getNewsToDate();
+					//$newsFrom= substr($_link->getData('news_from_date'),0,10);
+					//$newsTo=  substr($_link->getData('news_to_date'),0,10);
+					$specialprice = Mage::getModel('catalog/product')->load($_link->getId())->getSpecialPrice();
+					$price = Mage::getModel('catalog/product')->load($_link->getId())->getPrice();
+					//$saleoff= round(($price - $specialprice)/$price*100) ;
+					$special_from_date = $_link->getSpecialFromDate();
+					$special_to_date = $_link->getSpecialToDate();
+					?>
+	                <li class="item">
+	                    <div class="item-inner">					
+							<div class="product-image">
+								<a href="<?php echo $_link->getProductUrl() ?>" class="product-img" title="<?php echo $this->htmlEscape($_link->getName(), null, true) ?>">
+								<?php 							
+								if($_link->getThumbnail() != $_link->getSmallImage()) { ?> 
+	                               <img class="small-image" src="<?php echo $this->helper('catalog/image')->init($_link, 'small_image')->resize(270,270); ?>" alt="<?php echo $this->stripTags($this->getImageLabel($_link, 'small_image'), null, true) ?>" />
+	                               <img class="thumnail-image image-hover" src="<?php echo $this->helper('catalog/image')->init($_link, 'thumbnail')->resize(270,270) ?>" alt="<?php echo $this->stripTags($this->getImageLabel($_link, 'thumbnail'), null, true) ?>" />                         	
+	                               <?php } else { ?>
+	                           		<img class="small-image" src="<?php echo $this->helper('catalog/image')->init($_link, 'small_image')->resize(270,270); ?>" alt="<?php echo $this->stripTags($this->getImageLabel($_link, 'small_image'), null, true) ?>" />
+	                           <?php } ?>
+	                           
+								</a>
+								<?php if ( $now>=$newsFrom && $now<=$newsTo ){ ?>
+									<span class="new-product have-ico"><?php echo $this->__('New'); ?></span>
+								<?php }
+	                            if ( $specialprice ){ ?>
+									<span class="sale-product have-ico"><?php echo $this->__('Sale'); ?></span>
+								<?php } ?>							
+							</div>						
+							<div class="product-info">
+								<div class="product-name">
+									<a href="<?php echo $_link->getProductUrl() ?>" title="<?php echo $this->htmlEscape($_link->getName(), null, true) ?>"> <?php echo $this->htmlEscape($_link->getName()) ?></a>
+								</div>
+								<div class="product-review">
+									<?php echo $this->getReviewsSummaryHtml($_link, "short", true); ?>
+								</div>
+								<div class="product-price">
+									<?php echo $this->getPriceHtml($_link, true) ?>
+								</div>
+								
+	                            <div class="product-addto-wrap">
+									<div class="product-addcart">
+										<?php if($_link->isSaleable()): ?>
+	                                    
+	                                        <a class="btn-cart" title="<?php echo $this->__('Add to cart') ?>" href="javascript:void(0);" onclick="setLocation('<?php echo $this->getAddToCartUrl($_link) ?>')">
+	                                            <?php echo $this->__('Add to cart') ?>
+	                                        </a>
+	                                
+										<?php else: ?>
+										<p class="availability out-of-stock">
+											<span><?php echo $this->__('Out of stock') ?> </span>
+										</p>
+										<?php endif; ?>								
+									</div>
+									<div class="wishlist-compare">
+										<?php if ( $this->helper('wishlist')->isAllow() ) : ?>
+										<a class="link-wishlist" href="<?php echo $this->helper('wishlist')->getAddUrl($_link) ?>" title="<?php echo $this->__('Add to wishlist') ?>">
+											<?php //echo $this->__('Add to Wishlist') ?>
+										</a>
+										<?php endif; ?>
+						
+										<?php if( $_compareUrl=$this->getAddToCompareUrl($_link) ): ?>
+			
+										<a class="link-compare" href="<?php echo $_compareUrl ?>" title="<?php echo $this->__('Add to compare'); ?>">
+											<?php //echo $this->__('Add to Compare') ?>
+										</a>
+									
+										<?php endif;?>
+	                                </div>
+								</div>							
+							</div>
+							
+						</div>
+	                </li>       
+                <?php endif; ?>
+            <?php endfor; ?> 
+            <?php //endfor; ?>            
+        <?php //endfor; ?>     
+    </ol>
+<?php endif ?>
+	<!--end upsell product-->
+  	
+</div>
+<?php endif ?>

@@ -1,0 +1,79 @@
+<?xml version="1.0"?>
+<config>
+  <modules>
+    <Kitnekaa_Ddtransfer>
+      <version>1.0.0.0</version>
+    </Kitnekaa_Ddtransfer>
+  </modules>
+ 
+  <global>
+    <fieldsets>
+      <sales_convert_quote_payment>
+        <cust_dd_number>
+          <to_order_payment>*</to_order_payment>
+        </cust_dd_number>
+        <cust_bank_name>
+          <to_order_payment>*</to_order_payment>
+        </cust_bank_name>
+        <cust_branch_name>
+          <to_order_payment>*</to_order_payment>
+        </cust_branch_name>
+         <cust_trans_date>
+          <to_order_payment>*</to_order_payment>
+        </cust_trans_date>
+      </sales_convert_quote_payment>
+    </fieldsets>
+     
+    <helpers>
+      <ddtransfer>
+        <class>Kitnekaa_Ddtransfer_Helper</class>
+      </ddtransfer>
+    </helpers>
+ 
+    <blocks>
+      <ddtransfer>
+        <class>Kitnekaa_Ddtransfer_Block</class>
+      </ddtransfer>
+    </blocks>
+         
+    <models>
+      <ddtransfer>
+        <class>Kitnekaa_Ddtransfer_Model</class>
+      </ddtransfer>
+    </models>
+ 
+    <resources>
+      <ddtransfer_setup>
+        <setup>
+          <module>Kitnekaa_Ddtransfer</module>
+        </setup>
+      </ddtransfer_setup>
+    </resources>
+    
+  </global>
+ 
+  <default>
+    <payment>
+      <ddtransfer>
+        <active>1</active>
+        <model>ddtransfer/paymentmethod</model>
+        <order_status>pending</order_status>
+        <title>Pay By DD</title>
+        <allowspecific>0</allowspecific>
+        <payment_action>sale</payment_action>
+      </ddtransfer>
+    </payment>
+  </default>
+   
+  <frontend>
+    <routers>
+      <ddtransfer>
+        <use>standard</use>
+        <args>
+          <module>Kitnekaa_Ddtransfer</module>
+          <frontName>ddtransfer</frontName>
+        </args>
+      </ddtransfer>
+    </routers>
+  </frontend>
+</config>

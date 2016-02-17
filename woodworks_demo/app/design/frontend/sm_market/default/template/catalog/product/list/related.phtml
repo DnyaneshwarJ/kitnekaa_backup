@@ -1,0 +1,314 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+?>
+
+<?php 
+global $var_yttheme;
+if($this->getItems()->getSize()): 
+global $show_rich_snippet;
+$show_rich_snippet = 0;
+?>
+<?php 
+if(!defined('SM_SLIDER')){
+	define('SM_SLIDER', 1);
+?>
+	<link rel="stylesheet" href="<?php echo $this->getSkinUrl('css/cus-slider.css'); ?>" type="text/css" />
+    <script type="text/javascript" src="<?php echo $this->getSkinUrl('js/cus-slider.js') ?>"></script>
+<?php
+$limit = (int)$var_yttheme->getParam('related_number');
+$count = count($this->getItems());
+
+$page = ceil($count/2);
+}
+?>
+<div class="category-products sm-slider related">
+    <div class="block-title">
+       <span><?php echo $this->__('Related Products') ?></span>
+    </div>
+    <div class="block-content">
+        <!--<p class="block-subtitle"><?php //echo $this->__('Check items to add to the cart or') ?>&nbsp;<a href="#" onclick="selectAllRelated(this); return false;"><?php //echo $this->__('select all') ?></a></p>-->
+        <?php
+		 if($count>4 && $limit>4):?>
+        <div class="page-button">
+	        <ul class="control-button">
+	            <li class="prev2">Prev</li>
+	            <li class="next2">Next</li>
+	        </ul>		
+	    </div>
+        
+        <ol class="products-grid slider cols-6 preset01-4 preset02-4 preset03-2 preset04-1 preset05-1 js-loaded" id="block-related">
+        <div class="vpo-wrap">
+				<div class="vp">
+					<div class="vpi-wrap">
+        <?php 
+        $i=0;
+        foreach($this->getItems() as $_item): 
+        $i++;
+		$now = date("Y-m-d");
+		$newsFrom= substr($_item->getData('news_from_date'),0,10);
+		$newsTo=  substr($_item->getData('news_to_date'),0,10);
+		$specialprice = Mage::getModel('catalog/product')->load($_item->getId())->getSpecialPrice(); 		
+		?>
+            <li class="item">
+                <?php if(!$_item->isComposite() && $_item->isSaleable()): ?>
+                    <?php if (!$_item->getRequiredOptions()): ?>
+                        <!--<input type="checkbox" class="checkbox related-checkbox" id="related-checkbox<?php echo $_item->getId() ?>" name="related_products[]" value="<?php //echo $_item->getId() ?>" />-->
+                    <?php endif; ?>
+                <?php endif; ?>
+                
+                <div class="item-inner">
+                	<div class="item-box">
+                    	<div class="product-image">
+                        	<a href="<?php echo $_item->getProductUrl() ?>" class="product-img" title="<?php echo $this->htmlEscape($_item->getName(), null, true) ?>">
+                                <?php                           
+                                if($_item->getThumbnail() != $_item->getSmallImage()) { ?> 
+                                   <img class="small-image" src="<?php echo $this->helper('catalog/image')->init($_item, 'small_image')->resize(270,270); ?>" alt="<?php echo $this->stripTags($this->getImageLabel($_item, 'small_image'), null, true) ?>" />
+                                   <img class="thumnail-image image-hover" src="<?php echo $this->helper('catalog/image')->init($_item, 'thumbnail')->resize(270,270) ?>" alt="<?php echo $this->stripTags($this->getImageLabel($_item, 'thumbnail'), null, true) ?>" />                            
+                                   <?php } else { ?>
+                                    <img class="small-image" src="<?php echo $this->helper('catalog/image')->init($_item, 'small_image')->resize(270,270); ?>" alt="<?php echo $this->stripTags($this->getImageLabel($_item, 'small_image'), null, true) ?>" />
+                               <?php } ?>
+                               
+                                </a>
+                                <?php if ( $now>=$newsFrom && $now<=$newsTo ){ ?>
+                                    <span class="new-product have-ico"><?php echo $this->__('New'); ?></span>
+                                <?php }
+                                if ( $specialprice ){ ?>
+                                    <span class="sale-product have-ico"><?php echo $this->__('Sale'); ?></span>
+                                <?php } ?>                      
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <div class="product-name">
+                            <a href="<?php echo $_item->getProductUrl() ?>" title="<?php echo $this->htmlEscape($_item->getName(), null, true) ?>"> <?php echo $this->htmlEscape($_item->getName()) ?></a>
+                        </div>
+                        <div class="product-review">
+                            <?php  echo $this->getReviewsSummaryHtml($_item, "short", true); ?>
+                        </div>
+                        <div class="product-price">
+                            <?php echo $this->getPriceHtml($_item, true) ?>
+                        </div>
+                        
+                        
+                        <div class="product-addto-wrap">
+                            <div class="product-addcart">
+                                <?php if($_item->isSaleable()): ?>
+                                
+                                    <a class="btn-cart" title="<?php echo $this->__('Add to cart') ?>" href="javascript:void(0);" onclick="setLocation('<?php echo $this->getAddToCartUrl($_item) ?>')">
+                                        <?php echo $this->__('Add to cart') ?>
+                                    </a>
+                            
+                                <?php else: ?>
+                                <p class="availability out-of-stock">
+                                    <span><?php echo $this->__('Out of stock') ?> </span>
+                                </p>
+                                <?php endif; ?>                             
+                            </div>
+                            <div class="wishlist-compare">
+                                <?php if ( $this->helper('wishlist')->isAllow() ) : ?>
+                                <a class="link-wishlist" href="<?php echo $this->helper('wishlist')->getAddUrl($_item) ?>" title="<?php echo $this->__('Add to wishlist') ?>">
+                                    <?php //echo $this->__('Add to Wishlist') ?>
+                                </a>
+                                <?php endif; ?>
+                
+                                <?php if( $_compareUrl=$this->getAddToCompareUrl($_item) ): ?>
+    
+                                <a class="link-compare" href="<?php echo $_compareUrl ?>" title="<?php echo $this->__('Add to compare'); ?>">
+                                    <?php //echo $this->__('Add to Compare') ?>
+                                </a>
+                            
+                                <?php endif;?>
+                            </div>
+                        </div>                          
+                    </div>
+                    
+                </div>
+                
+            </li>         
+		<?php if ( $i == $limit ){ break; } ?>         
+        <?php endforeach ?>
+        </div></div></div></ol>
+        <script type="text/javascript">decorateList('block-related', 'none-recursive')</script>
+    </div>
+    <script type="text/javascript">
+    //<![CDATA[
+    $$('.related-checkbox').each(function(elem){
+        Event.observe(elem, 'click', addRelatedToProduct)
+    });
+
+    var relatedProductsCheckFlag = false;
+    function selectAllRelated(txt){
+        if (relatedProductsCheckFlag == false) {
+            $$('.related-checkbox').each(function(elem){
+                elem.checked = true;
+            });
+            relatedProductsCheckFlag = true;
+            txt.innerHTML="<?php echo $this->__('unselect all') ?>";
+        } else {
+            $$('.related-checkbox').each(function(elem){
+                elem.checked = false;
+            });
+            relatedProductsCheckFlag = false;
+            txt.innerHTML="<?php echo $this->__('select all') ?>";
+        }
+        addRelatedToProduct();
+    }
+
+    function addRelatedToProduct(){
+        var checkboxes = $$('.related-checkbox');
+        var values = [];
+        for(var i=0;i<checkboxes.length;i++){
+            if(checkboxes[i].checked) values.push(checkboxes[i].value);
+        }
+        if($('related-products-field')){
+            $('related-products-field').value = values.join(',');
+        }
+    }
+	// Slider for related
+	jQuery(document).ready(function($){
+        $('#block-related').responsiver({
+            interval: 0,
+			speed: 300,
+			start: 0,
+			step: 1,
+			circular: true,
+			preload: true,
+			fx: 'slide',
+			pause: 'hover',
+			control:{
+			prev: '.control-button li[class="prev2"]',
+			next: '.control-button li[class="next2"]'
+			},
+			getColumns: function(element){
+			var match = $(element).attr('class').match(/cols-(\d+)/);
+			if (match[1]){
+			var column = parseInt(match[1]);
+			} else {
+			var column = 1;
+			}
+			if (!column) column = 1;
+			return column;
+			}
+        });
+    });
+	
+    //]]>
+    </script>
+    <?php endif; ?>
+    <?php if($count<=4 || $limit<=4):?>
+        <ol class="products-grid slider cols-6 preset01-4 preset02-4 preset03-2 preset04-1 preset05-1 js-loaded" id="block-related">
+        
+        <?php 
+        $i = 0;
+         foreach($this->getItems() as $_item):
+        $i++; 
+        $now = date("Y-m-d");
+        $newsFrom= substr($_item->getData('news_from_date'),0,10);
+        $newsTo=  substr($_item->getData('news_to_date'),0,10);
+        $specialprice = Mage::getModel('catalog/product')->load($_item->getId())->getSpecialPrice();        
+        ?>
+        
+            <li class="item">
+                <?php if(!$_item->isComposite() && $_item->isSaleable()): ?>
+                    <?php if (!$_item->getRequiredOptions()): ?>
+                        <!--<input type="checkbox" class="checkbox related-checkbox" id="related-checkbox<?php echo $_item->getId() ?>" name="related_products[]" value="<?php //echo $_item->getId() ?>" />-->
+                    <?php endif; ?>
+                <?php endif; ?>
+                
+                <div class="item-inner">
+                    <div class="item-box">
+                        <div class="product-image">
+                            <a href="<?php echo $_item->getProductUrl() ?>" class="product-img" title="<?php echo $this->htmlEscape($_item->getName(), null, true) ?>">
+                                <?php                           
+                                if($_item->getThumbnail() != $_item->getSmallImage()) { ?> 
+                                   <img class="small-image" src="<?php echo $this->helper('catalog/image')->init($_item, 'small_image')->resize(270,270); ?>" alt="<?php echo $this->stripTags($this->getImageLabel($_item, 'small_image'), null, true) ?>" />
+                                   <img class="thumnail-image image-hover" src="<?php echo $this->helper('catalog/image')->init($_item, 'thumbnail')->resize(270,270) ?>" alt="<?php echo $this->stripTags($this->getImageLabel($_item, 'thumbnail'), null, true) ?>" />                            
+                                   <?php } else { ?>
+                                    <img class="small-image" src="<?php echo $this->helper('catalog/image')->init($_item, 'small_image')->resize(270,270); ?>" alt="<?php echo $this->stripTags($this->getImageLabel($_item, 'small_image'), null, true) ?>" />
+                               <?php } ?>
+                               
+                                </a>
+                                <?php if ( $now>=$newsFrom && $now<=$newsTo ){ ?>
+                                    <span class="new-product have-ico"><?php echo $this->__('New'); ?></span>
+                                <?php }
+                                if ( $specialprice ){ ?>
+                                    <span class="sale-product have-ico"><?php echo $this->__('Sale'); ?></span>
+                                <?php } ?>                      
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <div class="product-name">
+                            <a href="<?php echo $_item->getProductUrl() ?>" title="<?php echo $this->htmlEscape($_item->getName(), null, true) ?>"> <?php echo $this->htmlEscape($_item->getName()) ?></a>
+                        </div>
+                        <div class="product-review">
+                            <?php  echo $this->getReviewsSummaryHtml($_item, "short", true); ?>
+                        </div>
+                        <div class="product-price">
+                            <?php echo $this->getPriceHtml($_item, true) ?>
+                        </div>
+                        
+                        
+                        <div class="product-addto-wrap">
+                            <div class="product-addcart">
+                                <?php if($_item->isSaleable()): ?>
+                                
+                                    <a class="btn-cart" title="<?php echo $this->__('Add to cart') ?>" href="javascript:void(0);" onclick="setLocation('<?php echo $this->getAddToCartUrl($_item) ?>')">
+                                        <?php echo $this->__('Add to cart') ?>
+                                    </a>
+                            
+                                <?php else: ?>
+                                <p class="availability out-of-stock">
+                                    <span><?php echo $this->__('Out of stock') ?> </span>
+                                </p>
+                                <?php endif; ?>                             
+                            </div>
+                            <div class="wishlist-compare">
+                                <?php if ( $this->helper('wishlist')->isAllow() ) : ?>
+                                <a class="link-wishlist" href="<?php echo $this->helper('wishlist')->getAddUrl($_item) ?>" title="<?php echo $this->__('Add to wishlist') ?>">
+                                    <?php //echo $this->__('Add to Wishlist') ?>
+                                </a>
+                                <?php endif; ?>
+                
+                                <?php if( $_compareUrl=$this->getAddToCompareUrl($_item) ): ?>
+    
+                                <a class="link-compare" href="<?php echo $_compareUrl ?>" title="<?php echo $this->__('Add to compare'); ?>">
+                                    <?php //echo $this->__('Add to Compare') ?>
+                                </a>
+                            
+                                <?php endif;?>
+                            </div>
+                        </div>                          
+                    </div>
+                    
+                </div>
+                
+            </li>         
+        <?php if ( $i == $limit ){ break; } ?>         
+        <?php endforeach ?>
+        
+        </ol>
+    <?php endif; ?>
+</div>
+<?php endif ?>

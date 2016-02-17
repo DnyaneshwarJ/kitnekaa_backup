@@ -1,0 +1,48 @@
+<?xml version="1.0"?>
+<layout>
+    <udropship_vendor_login>
+        <reference name="login_links">
+            <action method="addLink" translate="label title" module="umicrosite">
+                <label>Register New Account</label>
+                <url helper="umicrosite/getVendorRegisterUrl"/>
+                <title>Register New Account</title><prepare/>
+                <urlParams/>
+                <position>20</position>
+            </action>
+        </reference>
+        <reference name="login-wrapper">
+            <block type="core/template" name="udropship_login_right" as="right" template="unirgy/microsite/vendor/login/register.phtml" />
+        </reference>
+    </udropship_vendor_login>
+
+    <umicrosite_vendor_register>
+        <update handle="udropship_vendor" />
+        <reference name="content">
+            <block type="umicrosite/frontend_registration" template="unirgy/microsite/vendor/register.phtml" name="register">
+                <block type="core/text_list" name="form.additional.info">
+                    <block type="captcha/captcha" name="captcha">
+                        <reference name="head">
+                            <action method="addJs"><file>mage/captcha.js</file></action>
+                        </reference>
+                        <action method="setFormId"><formId>umicrosite_registration_form</formId></action>
+                        <action method="setImgWidth"><width>230</width></action>
+                        <action method="setImgHeight"><width>50</width></action>
+                    </block>
+                </block>
+            </block>
+        </reference>
+    </umicrosite_vendor_register>
+
+    <umicrosite_vendor_registerSuccess>
+        <update handle="udropship_vendor" />
+        <reference name="content">
+            <block type="core/template" template="unirgy/microsite/vendor/regsuccess.phtml" name="registerSuccess" />
+        </reference>
+    </umicrosite_vendor_registerSuccess>
+
+    <umicrosite_index_index>
+        <reference name="content">
+            <block type="core/template" template="unirgy/microsite/home.phtml" name="vendorHome" />
+        </reference>
+    </umicrosite_index_index>
+</layout>

@@ -1,0 +1,49 @@
+<?php
+$subAccounts = $this->getItems();
+/**
+ * @var $this Cminds_MultiUserAccounts_Block_SubAccount
+ */
+?>
+<div class="dashboard">
+    <div class="page-title">
+        <h1><?php echo $this->__('Manage Users') ?></h1>
+    </div>
+    <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
+        <button style="margin-bottom: 2px;" type="button" title="<?php echo $this->__('Add User') ?>" class="button" onclick="window.location='<?php echo $this->getAddSubAccountUrl() ?>';"><span><span><?php echo $this->__('Add User') ?></span></span></button>
+        <?php echo $this->getChildHtml('pager'); ?>
+
+        <?php if (count($subAccounts)): ?>
+        <table class="data-table" id="manage-users-table">
+            <col width="1" />
+            <col width="1" />
+            <col width="1" />
+            <col width="1" />
+            <col width="1" />
+            <thead>
+            <tr>
+                <th><?php echo $this->__('Email') ?></th>
+                <th><?php echo $this->__('Name') ?></th>
+                <th><?php echo $this->__('Permission') ?></th>
+                <th></th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <?php $_odd = ''; ?>
+            <?php foreach ($subAccounts as $subAccount): ?>
+                <tr>
+                    <td><?php echo $this->escapeHtml($subAccount->getEmail()) ?></td>
+                    <td><?php echo $this->escapeHtml($subAccount->getName()) ?></td>
+                    <td><?php echo $this->escapeHtml($subAccount->getPermissionLabel()) ?></td>
+                    <td><a href="<?php echo $this->getEditSubAccountUrl($subAccount->getId()); ?>"><?php echo $this->__('Edit') ?></a></td>
+                    <td><a href="<?php echo $this->getDeleteSubAccountUrl($subAccount->getId()); ?>"><?php echo $this->__('Delete') ?></a></td>
+                </tr>
+            <?php endforeach; ?>
+            </tbody>
+        </table>
+        <script type="text/javascript">decorateTable('manage-users-table')</script>
+        <?php else: ?>
+            <p style="padding: 20px;"><?php echo $this->__('No User Found') ?></p>
+        <?php endif; ?>
+        <?php echo $this->getChildHtml('pager'); ?>
+</div>

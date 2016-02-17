@@ -1,0 +1,39 @@
+<config>
+    <modules>
+        <CommerceExtensions_Productimportexport>
+            <version>0.1.0</version>
+        </CommerceExtensions_Productimportexport>
+    </modules>   
+    <global>
+        <!--<blocks>
+            <commerceextensions_productimportexport>
+                <class>CommerceExtensions_Productimportexport_Block</class>
+            </commerceextensions_productimportexport>
+        </blocks>-->
+        <models>
+            <commerceextensions_productimportexport>
+                <class>CommerceExtensions_Productimportexport_Model</class>
+            </commerceextensions_productimportexport>
+        </models>
+        <resources><!--
+            <productimportexport_setup>
+                <setup>
+                    <module>Intersec_Orderimportexport</module>
+                </setup>
+                <connection>
+                    <use>core_setup</use>
+                </connection>
+            </productimportexport_setup> -->
+            <productimportexport_write>
+                <connection>
+                    <use>core_write</use>
+                </connection>
+            </productimportexport_write>
+            <productimportexport_read>
+                <connection>
+                    <use>core_read</use>
+                </connection>
+            </productimportexport_read>
+        </resources>
+    </global>
+</config>

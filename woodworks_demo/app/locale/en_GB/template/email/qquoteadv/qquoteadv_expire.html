@@ -1,0 +1,53 @@
+<!--@subject {{var quote.getStoreGroupName()}}: Quote # {{var quote.increment_id}} will expire today @-->
+
+<!--@styles
+body,td { color:#2f2f2f; font:11px/1.35em Verdana, Arial, Helvetica, sans-serif; }
+@-->
+<div style="font:11px/1.35em Verdana, Arial, Helvetica, sans-serif;">
+    <table cellspacing="0" cellpadding="0" border="0" width="98%"
+           style="margin-top:10px; font:11px/1.35em Verdana, Arial, Helvetica, sans-serif; margin-bottom:10px;">
+        <tr>
+            <td align="center" valign="top">
+                <!-- [ header starts here] -->
+                <table cellspacing="0" cellpadding="0" border="0" width="650">
+                    <tr>
+                        <td valign="top"><a href="{{store url=''}}"><img src="{{skin url='images/logo_email.gif'
+                            _area='frontend'}}" alt="Magento" style="margin-bottom:10px;" border="0"/></a></td>
+                    </tr>
+                </table>
+                <!-- [ middle starts here] -->
+                <table cellspacing="0" cellpadding="0" border="0" width="650">
+                    <tr>
+                        <td valign="top">
+                            <p>
+                                <strong>Hello {{var customer.name}}</strong>,<br/><br>
+
+                            <h3
+                                    style="font-size: 1.05em; padding-bottom: 1px;">Your
+                                Quote #{{var quote.increment_id}}
+                                <small>(placed on {{var quote.getCreatedAtFormated('long')}})</small>
+                                will expire today
+                            </h3>
+                            <p>
+                                You can <a href="{{store url='customer/account/'}}" style="color:#1E7EC8;">Login</a> to
+                                still accept this quote or edit the quote request
+
+                            </p>
+                            <br>
+
+                            If you have any questions about your quote request please contact us at <a
+                                href="mailto:{{config path='trans_email/ident_support/email'}}" style="color:#1E7EC8;">{{config
+                            path='trans_email/ident_support/email'}}</a> or call us at <span class="nobr">{{config path='general/store_information/phone'}}</span>
+                            Monday - Friday, 8am - 5pm PST.
+                            </p><br>
+
+                            <p>Thank you again for your trust.</p>
+
+                        </td>
+                    </tr>
+                </table>
+
+            </td>
+        </tr>
+    </table>
+</div>

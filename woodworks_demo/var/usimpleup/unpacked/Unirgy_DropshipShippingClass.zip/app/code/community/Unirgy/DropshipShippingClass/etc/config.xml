@@ -1,0 +1,260 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Unirgy LLC
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the EULA
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://www.unirgy.com/LICENSE-M1.txt
+ *
+ * @category   Unirgy
+ * @package    Unirgy_DropshipShippingClass
+ * @copyright  Copyright (c) 2008-2009 Unirgy LLC (http://www.unirgy.com)
+ * @license    http:///www.unirgy.com/LICENSE-M1.txt
+ */
+
+-->
+<config>
+    <modules>
+        <Unirgy_DropshipShippingClass>
+            <version>2.4.0</version>
+        </Unirgy_DropshipShippingClass>
+    </modules>
+
+    <global>
+        <models>
+            <udshipclass>
+                <class>Unirgy_DropshipShippingClass_Model</class>
+                <resourceModel>udshipclass_mysql4</resourceModel>
+            </udshipclass>
+            <udshipclass_mysql4>
+                <class>Unirgy_DropshipShippingClass_Model_Mysql4</class>
+                <entities>
+                    <customer><table>udshipclass_customer</table></customer>
+                    <customer_row><table>udshipclass_customer_row</table></customer_row>
+                    <vendor><table>udshipclass_vendor</table></vendor>
+                    <vendor_row><table>udshipclass_vendor_row</table></vendor_row>
+                </entities>
+            </udshipclass_mysql4>
+        </models>
+
+        <resources>
+            <udshipclass_setup>
+                <setup>
+                    <module>Unirgy_DropshipShippingClass</module>
+                    <class>Mage_Sales_Model_Mysql4_Setup</class>
+                </setup>
+                <connection>
+                    <use>core_setup</use>
+                </connection>
+            </udshipclass_setup>
+            <udshipclass_write>
+                <connection>
+                    <use>core_write</use>
+                </connection>
+            </udshipclass_write>
+            <udshipclass_read>
+                <connection>
+                    <use>core_read</use>
+                </connection>
+            </udshipclass_read>
+        </resources>
+
+        <blocks>
+            <udshipclass>
+                <class>Unirgy_DropshipShippingClass_Block</class>
+            </udshipclass>
+        </blocks>
+
+        <helpers>
+            <udshipclass>
+                <class>Unirgy_DropshipShippingClass_Helper</class>
+            </udshipclass>
+        </helpers>
+
+        <udropship>
+            <vendor>
+                <fields>
+                </fields>
+            </vendor>
+        </udropship>
+
+        <template>
+            <email>
+            </email>
+        </template>
+
+        <events>
+            <udropship_shipping_load_after>
+                <observers>
+                    <udshipclass>
+                        <type>singleton</type>
+                        <class>udshipclass/observer</class>
+                        <method>udropship_shipping_load_after</method>
+                    </udshipclass>
+                </observers>
+            </udropship_shipping_load_after>
+            <udropship_shipping_save_after>
+                <observers>
+                    <udshipclass>
+                        <type>singleton</type>
+                        <class>udshipclass/observer</class>
+                        <method>udropship_shipping_save_after</method>
+                    </udshipclass>
+                </observers>
+            </udropship_shipping_save_after>
+            <udropship_shipping_save_before>
+                <observers>
+                    <udshipclass>
+                        <type>singleton</type>
+                        <class>udshipclass/observer</class>
+                        <method>udropship_shipping_save_before</method>
+                    </udshipclass>
+                </observers>
+            </udropship_shipping_save_before>
+            <udropship_vendor_shipping_check_skipped>
+                <observers>
+                    <udshipclass>
+                        <type>singleton</type>
+                        <class>udshipclass/observer</class>
+                        <method>udropship_vendor_shipping_check_skipped</method>
+                    </udshipclass>
+                </observers>
+            </udropship_vendor_shipping_check_skipped>
+        </events>
+
+    </global>
+
+    <frontend>
+        <routers>
+            <udshipclass>
+                <use>standard</use>
+                <args>
+                    <module>Unirgy_DropshipShippingClass</module>
+                    <frontName>udshipclass</frontName>
+                </args>
+            </udshipclass>
+        </routers>
+        <layout>
+            <updates>
+                <udshipclass>
+                    <file>udshipclass.xml</file>
+                </udshipclass>
+            </updates>
+        </layout>
+        <events>
+        </events>
+    </frontend>
+
+    <admin>
+        <routers>
+            <adminhtml>
+                <args>
+                    <modules>
+                        <udshipclassadmin after="Mage_Adminhtml">Unirgy_DropshipShippingClass</udshipclassadmin>
+                    </modules>
+                </args>
+            </adminhtml>
+        </routers>
+    </admin>
+
+    <adminhtml>
+        <layout>
+            <updates>
+                <udshipclass>
+                </udshipclass>
+            </updates>
+        </layout>
+        <menu>
+            <sales>
+                <children>
+                    <udropship>
+                        <children>
+                            <udshipclass_customer translate="title" module="udropship">
+                                <title>Customer Ship Classes</title>
+                                <sort_order>200</sort_order>
+                                <action>adminhtml/udshipclassadmin_customer</action>
+                            </udshipclass_customer>
+                            <udshipclass_vendor translate="title" module="udropship">
+                                <title>Vendor Ship Classes</title>
+                                <sort_order>205</sort_order>
+                                <action>adminhtml/udshipclassadmin_vendor</action>
+                            </udshipclass_vendor>
+                        </children>
+                    </udropship>
+                </children>
+            </sales>
+        </menu>
+        <acl>
+            <resources>
+                <admin>
+                    <children>
+                        <sales>
+                            <children>
+                                <udropship>
+                                    <children>
+                                        <udshipclass_customer translate="title" module="udropship">
+                                            <title>Customer Ship Classes</title>
+                                            <sort_order>200</sort_order>
+                                        </udshipclass_customer>
+                                        <udshipclass_vendor translate="title" module="udropship">
+                                            <title>Vendor Ship Classes</title>
+                                            <sort_order>205</sort_order>
+                                        </udshipclass_vendor>
+                                    </children>
+                                </udropship>
+                            </children>
+                        </sales>
+                    </children>
+                </admin>
+            </resources>
+        </acl>
+        <events>
+            <udropship_adminhtml_shipping_edit_prepare_form>
+                <observers>
+                    <udshipclass>
+                        <class>udshipclass/observer</class>
+                        <method>udropship_adminhtml_shipping_edit_prepare_form</method>
+                    </udshipclass>
+                </observers>
+            </udropship_adminhtml_shipping_edit_prepare_form>
+            <udropship_adminhtml_vendor_edit_prepare_shipping_grid>
+                <observers>
+                    <udshipclass>
+                        <class>udshipclass/observer</class>
+                        <method>udropship_adminhtml_vendor_edit_prepare_shipping_grid</method>
+                    </udshipclass>
+                </observers>
+            </udropship_adminhtml_vendor_edit_prepare_shipping_grid>
+            <udropship_adminhtml_shipping_grid_prepare_columns>
+                <observers>
+                    <udshipclass>
+                        <class>udshipclass/observer</class>
+                        <method>udropship_adminhtml_shipping_grid_prepare_columns</method>
+                    </udshipclass>
+                </observers>
+            </udropship_adminhtml_shipping_grid_prepare_columns>
+            <udropship_adminhtml_shipping_grid_after_load>
+                <observers>
+                    <udshipclass>
+                        <class>udshipclass/observer</class>
+                        <method>udropship_adminhtml_shipping_grid_after_load</method>
+                    </udshipclass>
+                </observers>
+            </udropship_adminhtml_shipping_grid_after_load>
+        </events>
+    </adminhtml>
+
+    <default>
+        <udropship>
+	    </udropship>
+    </default>
+
+    <crontab>
+        <jobs>
+        </jobs>
+    </crontab>
+</config>

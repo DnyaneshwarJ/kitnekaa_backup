@@ -1,0 +1,121 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+    <default>
+        <reference name="head">
+            <action method="addItem">
+                <type>skin_js</type>
+                <name>js/jquery.form.min.js</name>
+            </action>
+        </reference>
+    </default>
+
+    <customer_account>
+
+        <!-- Mage_Wishlist -->
+        <reference name="customer_account_navigation">
+            <action method="addLink" translate="label" module="shoppinglist">
+                <name>shoppinglist</name>
+                <path>shoppinglist/</path>
+                <label>My Shopping List</label>
+            </action>
+        </reference>
+    </customer_account>
+    <shoppinglist_index_index translate="label">
+        <reference name="head">
+            <action method="setTitle" translate="title" module="shoppinglist">
+                <title>My Shopping List</title>
+            </action>
+        </reference>
+        <update handle="customer_account"/>
+        <reference name="my.account.wrapper">
+
+            <block type="shoppinglist/index" name="customer.shopping" template="shoppinglist/main.phtml">
+                <block type="shoppinglist/index" name="popupbox" template="shoppinglist/popupbox.phtml"/>
+
+                <block type="shoppinglist/index" name="shopp_list_select"
+                       template="shoppinglist/shopp_list_select.phtml"/>
+
+                <block type="shoppinglist/index" name="shopp_list_create"
+                       template="shoppinglist/create_shopplist.phtml">
+                    <block type="shoppinglist/index" name="shopp_list_data" template="shoppinglist/shopp_lists.phtml"/>
+                </block>
+                <block type="shoppinglist/index" name="shopp_list_items" template="shoppinglist/shopp_list_item.phtml">
+                    <block type="shoppinglist/index" name="list_items_inner"
+                           template="shoppinglist/list_items_inner.phtml"/>
+                </block>
+                <block type="core/template" name="top.search2" as="topSearch2"
+                       template="searchautocomplete/topsearch.phtml"/>
+                <!--<block type="customer/address_edit" name="kit_address_edit" template="shoppinglist/address/editaddress.phtml"/>-->
+
+                <!--  <reference name="searchbox">
+                      <action method="setTemplate"><template>shoppinglist/catalogsearch/form.phtml</template></action>
+                  </reference>-->
+
+                <block type="catalogcategorysearch/form" name="top.search1" as="topSearch1"
+                       template="shoppinglist/catalogsearch/form.phtml">
+                    <block type="catalogcategorysearch/form_contents" name="top.search.content1" as="topSearchContent1"
+                           template="shoppinglist/catalogsearch/form/contents.phtml"/>
+                </block>
+
+            </block>
+
+        </reference>
+    </shoppinglist_index_index>
+
+    <shoppinglist_index_test translate="label">
+        <reference name="root">
+            <action method="setTemplate">
+                <template>page/1column_1.phtml</template>
+            </action>
+        </reference>
+        <reference name="content">
+            <block type="shoppinglist/index" name="test" template="shoppinglist/test.phtml"/>
+        </reference>
+
+    </shoppinglist_index_test>
+
+    <!-- <shoppinglist_index_index>
+      <update handle="customer_account" />
+      <reference name="my.account.wrapper">
+        <block type="wishlist/customer_wishlist" name="customer.wishlist" template="wishlist/view.phtml">
+          <action method="setTitle" translate="title">
+            <title>My Wishlist</title>
+          </action>
+          <block type="wishlist/customer_wishlist_items" name="customer.wishlist.items" as="items" template="wishlist/item/list.phtml">
+            <block type="wishlist/customer_wishlist_item_column_image" name="customer.wishlist.item.image" template="wishlist/item/column/image.phtml" />
+            <block type="wishlist/customer_wishlist_item_column_comment" name="customer.wishlist.item.info" template="wishlist/item/column/info.phtml">
+              <action method="setTitle" translate="title">
+                <title>Product Details and Comment</title>
+              </action>
+            </block>
+            <block type="wishlist/customer_wishlist_item_column_cart" name="customer.wishlist.item.cart" template="wishlist/item/column/cart.phtml">
+              <action method="setTitle" translate="title">
+                <title>Add to Cart</title>
+              </action>
+              <block type="wishlist/customer_wishlist_item_options" name="customer.wishlist.item.options" />
+            </block>
+            <block type="wishlist/customer_wishlist_item_column_remove" name="customer.wishlist.item.remove" template="wishlist/item/column/remove.phtml" />
+          </block>
+          <block type="core/text_list" name="customer.wishlist.buttons" as="control_buttons">
+            <block type="wishlist/customer_wishlist_button" name="customer.wishlist.button.share" template="wishlist/button/share.phtml" />
+            <block type="wishlist/customer_wishlist_button" name="customer.wishlist.button.toCart" template="wishlist/button/tocart.phtml" />
+            <block type="wishlist/customer_wishlist_button" name="customer.wishlist.button.update" template="wishlist/button/update.phtml" />
+          </block>
+        </block>
+      </reference>
+    </shoppinglist_index_index>-->
+
+
+    <shoppinglist_index_seller_registration translate="label">
+        <reference name="root">
+            <action method="setTemplate">
+                <template>page/1column_1.phtml</template>
+            </action>
+        </reference>
+        <reference name="content">
+            <block type="shoppinglist/index" name="test" template="shoppinglist/seller_registration.phtml"/>
+        </reference>
+
+    </shoppinglist_index_seller_registration>
+</layout>   
+	

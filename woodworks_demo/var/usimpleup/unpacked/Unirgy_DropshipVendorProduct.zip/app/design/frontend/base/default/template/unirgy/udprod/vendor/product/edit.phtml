@@ -1,0 +1,151 @@
+
+
+<?php
+$_hlp = Mage::helper('udropship');
+$_prHlp = Mage::helper('udprod');
+$_session = Mage::getSingleton('udropship/session');
+$_vendor = Mage::getSingleton('udropship/session')->getVendor();
+$_product = $this->getProduct();
+?>
+
+<div class="page-title">
+<h1>
+<?php if ($_product->getId()): ?>
+<?php echo $_product->getName() ?>
+<?php else: ?>
+<?php echo Mage::helper('udropship')->__('New Product') ?>
+	<?php endif ?> <?php echo Mage::helper('udropship')->__('(Type of product: %s)', $_prHlp->getProdSetIdLabel($_product)) ?></span>
+</h1>
+<span class="required"><?php echo Mage::helper('udropship')->__('* Indicated Required Fields') ?></span>
+</div>
+<?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
+<form action="<?php echo $this->getUrl('udprod/vendor/productPost', array('_current'=>true))?>" method="post" id="product-edit-form">
+<input type="hidden" name="id" value="<?php echo $_product->getId() ?>" />
+<input id="udpef-continue_edit" type="hidden" name="continue_edit" value="" />
+<?php foreach ($this->getForm()->getElements() as $element) {
+    echo $element->toHtml();
+} ?>
+
+<?php /*
+<div class="login-box generic-box">
+<div class="col-1 registered-users">
+<div class="box-head"><h3><?php echo Mage::helper('udropship')->__('Categories') ?></h3></div>
+<table style="width:100%"><tbody><tr><td>
+<?php echo $this->getChildHtml('categories') ?>
+</td></tr></tbody></table>
+</div>
+</div>
+*/?>
+
+<div class="buttons-set">
+    <span class="product-edit-form-loader" style="display:none" id="product-edit-form-loader"><?php echo Mage::helper('udropship')->__('Please wait, submitting...')?></span>
+    <button class="form-button" type="button" onclick="udprodEditFormSubmit(this, false)" name="send"><span><?php echo Mage::helper('udropship')->__('Save') ?></span></button>
+    <button class="form-button" type="button" onclick="udprodEditFormSubmit(this, true)" name="send"><span><?php echo Mage::helper('udropship')->__('Save And Continue Edit') ?></span></button>
+    <div class="clearer"></div><br/>
+    <p><a href="<?php echo $this->getUrl('udprod/vendor/products')?>">&laquo; <?php echo Mage::helper('udropship')->__('Return to product list')?></a></p></p>
+</div>
+</form>
+
+<script type="text/javascript">
+//<![CDATA[
+Validation.addAllThese([
+    ['validate-urlkey', 'Please use only letters (a-z) or numbers (0-9) in this field, first character should be a letter.', function (v) {
+            return Validation.get('IsEmpty').test(v) ||  /^[a-z]+[a-z0-9]+$/.test(v)
+    }],
+    <?php if (Mage::getStoreConfigFlag('udprod/general/gallery_required')): ?>
+    ['udvalidate-images-required', null, function(v, el){
+        var val = [];
+        try {
+            val = el.value.evalJSON();
+        } catch (e) {}
+        return Object.isArray(val) && val.length>0;
+    }],
+    <?php endif ?>
+    ['udvalidate-cfg-required', null, function(v){
+        return $$('.udvalidate-cfg-required-row').length>0;
+    }],
+    ['udvalidate-cfg-required-row', null, function(v){
+        return $$('.cfg-quick-create-qty-'+v).length>0;
+    }],
+    ['udvalidate-special_price', 'Sale Price should be less then Price', function(v, el){
+        var pv = $('price') && $F('price');
+        vv = 1*v;
+        v = (''+v).strip();
+        pv = 1*pv;
+        return v===''||vv<=pv;
+    }],
+    ['udvalidate-special_to_date', 'Sale Price To Date is mandatory with non-empty Sale Price', function(v, el){
+        /*
+        var pv = $('special_price') && $F('special_price');
+        pvv = (''+pv).strip();
+        pv = 1*pv;
+        var adv = Validation.getAdvice('udvalidate-special_price', el);
+        try {
+            Validation.methods['udvalidate-special_price'].error = 'Sale Price should be less then Price'+vv+'<'+pv;
+        } catch () {}
+        if (adv) {
+            adv.update('Sale Price should be less then Price'+vv+'<'+pv);
+        }
+        return v===''||vv<pv;
+        */
+        return true;
+    }],
+    ['required-entry', 'This is a required field.', function(v, el) {
+        return !Validation.get('IsEmpty').test(v, el) && (!el.emptyText || v!=el.emptyText);
+    }]
+]);
+if ($('special_price')) {
+    $('special_price').observe('change', udObserveSP);
+}
+if ($('special_from_date')) {
+    $('special_from_date').observe('change', udObserveSP);
+}
+function udObserveSP() {
+    if ((''+($('special_from_date') && $F('special_from_date') || '')).strip().length>0
+        || (''+($('special_price') && $F('special_price') || '')).strip().length>0
+    ) {
+        ['special_from_date','special_to_date','special_price'].each(function(elId){
+        try {
+            $(elId).addClassName('required-entry');
+            var spfdLbl = $$('label[for="'+elId+'"]')[0];
+            if (spfdLbl.down('.required')) {
+                spfdLbl.down('.required').show();
+            } else {
+                spfdLbl.insert(' <span class="required">*</span>');
+            }
+        } catch (e) {}
+        });
+    } else {
+        ['special_from_date','special_to_date','special_price'].each(function(elId){
+        try {
+            $(elId).removeClassName('required-entry');
+            var spfdLbl = $$('label[for="'+elId+'"]')[0];
+            if (spfdLbl.down('.required')) {
+                spfdLbl.down('.required').remove();
+            }
+        } catch (e) {}
+        });
+    }
+}
+udObserveSP();
+var udprodEditForm = new VarienForm('product-edit-form', true);
+function udprodEditFormSubmit(elem, continueFlag) {
+    if (continueFlag) {
+        $('udpef-continue_edit').value=1;
+    } else {
+        $('udpef-continue_edit').value=0;
+    }
+    $(elem).up().select('button').invoke('hide');
+    $('product-edit-form-loader').show();
+    var res = false;
+    if (udprodEditForm.validator && udprodEditForm.validator.validate()) {
+        res = true;
+        udprodEditForm.form.submit();
+    } else {
+        $(elem).up().select('button').invoke('show');
+        $('product-edit-form-loader').hide();
+    }
+    return res;
+}
+//]]>
+</script>

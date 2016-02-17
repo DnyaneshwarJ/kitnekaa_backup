@@ -1,0 +1,53 @@
+<div class="additem-cont">
+    <p>No Product Found! Request for product.</p>
+    <input type="hidden" class="sku-code" value="shoppinglist/index/saveNonExistItem" id="non_exist_url"/>
+    <div class="item-fields shopp_no_product">
+        <form action="<?php echo Mage::getBaseUrl() . "shoppinglist/index/saveNonExistItem" ?>" id="form_nonexist_item" method="post" name="form_nonexist_item">
+            <div class="left-field">
+                <input type="hidden" class="sku-code"
+                       name="shopp_list_items[list_id][]" id="non_exist_item_list_id"/>
+                <input type="hidden" class="sku-code" name="shopp_list_items[product_id][]" value="0"/>
+                <div class="fieldrow">
+                    <div class="inputfiled iteminput2">
+                        <input type="text" class="sku-code" placeholder="Enter SKU code" name="shopp_list_items[sku][]"/>
+                    </div>
+                    <div class="inputfiled iteminput2">
+                        <input type="text" class="enter-name required-entry" placeholder="Enter Name *" name="shopp_list_items[item_name][]"/>
+                    </div>
+                </div>
+                <div class="inputfiled iteminput">
+                    <input type="text" class="enter-desc required-entry" placeholder="Enter Description *" name="shopp_list_items[comment][]"/>
+                </div>
+                <div class="fieldrow">
+                    <div class="inputfiled iteminput2">
+                        <input type="text" class="sku-code required-entry validate-number" placeholder="Quantity *" name="shopp_list_items[qty][]"/>
+                    </div>
+                    <div class="inputfiled iteminput2">
+                        <input type="text" class="enter-name required-entry validate-number" placeholder="Target Price *" name="shopp_list_items[target_price][]"/>
+                    </div>
+                </div>
+                <div class="fieldrow">
+                <div class="inputfiled iteminput2">
+                    <?php echo Mage::helper('quote2sales')->getFrequencyHtmlSelect('shopp_list_items[frequency][]',TRUE); ?>
+                </div>
+                    <div class="inputfiled iteminput2">
+                        <?php echo Mage::helper('quote2sales')->getWhenNeedHtmlSelect('shopp_list_items[when_need][]',TRUE); ?>
+                    </div>
+                </div>
+                <div class="fieldrow">
+                    <div class="inputfiled iteminput2">
+                        <?php echo Mage::helper('quote2sales')->getAddressesHtmlSelect('request_quote[deliverylocation]',null,'Select Billing Address'); ?>
+                    </div>
+                    <div class="inputfiled iteminput2">
+                        <?php echo Mage::helper('quote2sales')->getAddressesHtmlSelect('request_quote[billing_address_id]',null,'Select Delivery Location'); ?>
+                    </div>
+                </div>
+            </div>
+            <div class="right-field">
+                <input type="button" class="get-quote-btn" value="GET QUOTE" onclick="setSingleQuoteForNonexistItem()"/>
+                <input type="button" class="order-now-btn" value="ADD TO LIST" onclick="saveNonExistItem()"/>
+                <!-- <span class="mandetory"><span class="required-filed">*</span> Indicates mandatory fields</span> -->
+            </div>
+        </form>
+    </div>
+</div>

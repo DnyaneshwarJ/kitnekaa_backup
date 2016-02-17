@@ -1,0 +1,5 @@
+<?php if ($this->hasMaxKey()): ?>
+<input name="<?php echo $this->getName()?>" class="validate-less-then-eq input-text" type="text" value="<?php echo $this->getValue()?>" alt="<?php echo $this->getMaxValue()?>" /> <br /> <strong>[<?php echo $this->getSuffix() ?>]</strong>
+<?php else: ?>
+<?php echo $this->formatedValue() ?>
+<?php endif; ?>

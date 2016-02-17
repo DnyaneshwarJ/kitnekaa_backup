@@ -1,0 +1,62 @@
+<?php
+/*------------------------------------------------------------------------
+ # SM Categories - Version 2.0.0
+ # Copyright (c) 2014 YouTech Company. All Rights Reserved.
+ # @license - Copyrighted Commercial Software
+ # Author: YouTech Company
+ # Websites: http://www.magentech.com
+-------------------------------------------------------------------------*/
+?>
+<div class="cat-wrap theme1">
+	<?php $i = 0;
+	foreach ($list as $key => $items) {
+		$i++;
+		$cat_child = $items->child_cat;?>
+		<div class="content-box">
+			<?php if ($this->_getConfig('cat_title_display', 1)) { ?>
+				<div class="cat-title">
+					<a title="<?php echo $items->title; ?>"
+					   href="<?php echo $items->link; ?>" <?php echo $helper->parseTarget($this->_getConfig('product_links_target')); ?> >
+						<?php echo $helper->truncate($items->title, $this->_getConfig('cat_title_maxcharacs', 25)); ?>
+					</a>
+				</div>
+			<?php } ?>
+			<?php if ($this->_getConfig('cat_sub_title_display', 1)) { ?>
+				<!-- Begin -->
+				<div class="child-cat">
+					<?php
+					if (!empty($items->child_cat)) {
+						foreach ($items->child_cat as $key1 => $item) {
+							?>
+							<div class="child-cat-title">
+								<a href="<?php echo $item->link; ?>"
+								   title="<?php echo $item->title; ?>" <?php echo $helper->parseTarget($this->_getConfig('product_links_target')); ?> >
+									<?php echo $helper->truncate($item->title, $this->_getConfig('cat_sub_title_maxcharacs', 25)); ?>
+								</a>
+								<?php if ($this->_getConfig('cat_all_product', 1)) { ?>
+									<span class="num_items">
+                                        <?php echo '(' . ($item->number_article) . ')'; ?>
+                                    </span>
+								<?php } ?>
+							</div>
+						<?php } ?>
+					<?php } else { ?>
+						<p>
+							<?php echo 'No sub-categories to show!'; ?>
+						</p>
+					<?php } ?>
+				</div><!-- END child-cat -->
+			<?php } ?>
+		</div><!-- END content-box -->
+		<?php
+		$clear = 'clr1';
+		if ($i % 2 == 0) $clear .= ' clr2';
+		if ($i % 3 == 0) $clear .= ' clr3';
+		if ($i % 4 == 0) $clear .= ' clr4';
+		if ($i % 5 == 0) $clear .= ' clr5';
+		if ($i % 6 == 0) $clear .= ' clr6';
+		?>
+		<div class="<?php echo $clear; ?>"></div>
+	<?php } ?>
+</div>
+       

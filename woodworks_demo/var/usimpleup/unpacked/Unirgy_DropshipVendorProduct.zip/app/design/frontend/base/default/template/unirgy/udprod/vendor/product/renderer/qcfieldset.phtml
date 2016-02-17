@@ -1,0 +1,135 @@
+<?php
+$isCfg = $this->getElement()->getId() == 'configurable';
+$childEl = $this->getChildElement('_cfg_quick_create');
+$product = $this->getProduct();
+$cfgAttrs = $this->getFirstAttributes();
+$cfgAttr = current($cfgAttrs);
+$cfgAttrLblHtml = '';
+foreach ($cfgAttrs as $__i => $__ca) {
+    $cfgAttrLblHtml .= $this->htmlEscape($__ca->getFrontend()->getLabel());
+    if ($__i<count($cfgAttrs)-1) {
+        $cfgAttrLblHtml .= ' , ';
+    }
+}
+?>
+
+<div class="generic-box odd">
+<div class="box-head"><h3><?php echo $this->getElement()->getLegend() ?></div>
+<table class="cfg-quick-create-data" style="width:100%"><tbody>
+
+<tr><td colspan="2">
+
+<ul class="form-list" id="cfg-quick-create-wrapper">
+<?php $hasFAValues=false; foreach($this->getFirstAttributesValueTuples() as $valueTuple): $hasFAValues=true; ?>
+<li class="wide cfg-quick-create-item">
+<?php echo $childEl->setCfgAttribute($cfgAttr)
+    ->setCfgAttributes($cfgAttrs)
+    ->setCfgAttributeValueTuple($valueTuple)
+    ->toHtml();
+?>
+</li>
+<?php endforeach ?>
+</ul>
+</td></tr>
+
+<tfoot>
+    <tr>
+        <th colspan="2" class="a-left">
+            <div class="left" id="cfg-quick-create-wrapper-<?php echo $cfgAttr->getAttributeCode() ?>">
+                <?php foreach ($cfgAttrs as $__i => $__ca): ?>
+                <label><?php echo $this->htmlEscape($__ca->getFrontend()->getLabel()) ?> </label>
+                <select id="cfg-quick-create-container-<?php echo $__ca->getAttributeCode() ?>" name="">
+                <?php foreach ($this->getAttributeValues($__ca) as $_option): ?>
+                    <option alt="<?php echo $__ca->getAttributeCode() ?>" value="<?php echo $_option['value'] ?>"><?php echo $this->htmlEscape($_option['label']) ?></option>
+                <?php endforeach ?>
+                </select>
+                <?php endforeach; ?>
+                <button onclick="cfgQcAddFirstAttribute()" type="button" class="scalable add" id="fa_cfg_quick_create_add"><span>+ <?php echo Mage::helper('udropship')->__($hasFAValues ? 'Add Another '.$cfgAttrLblHtml: 'Add') ?></span></button>
+                <span class="cfg-quick-create-loader" style="display:none" id="fa_cfg_quick_create_add-loader"><?php echo Mage::helper('udropship')->__('Please wait, submitting...')?></span>
+                <input type="hidden" id="udvalidate-cfg-required" class="udvalidate-cfg-required" />
+                <br /><div style="display: none;" id="advice-udvalidate-cfg-required" class="validation-advice"><?php echo Mage::helper('udropship')->__('At least one "%s" should be added', $cfgAttrLblHtml) ?></div>
+            </div>
+        </th>
+    </tr>
+</tfoot>
+
+</tbody></table>
+
+<br /><br />
+
+<?php echo $this->renderQcPrices() ?>
+
+<br /><br />
+
+<script type="text/javascript">
+decorateList('cfg-quick-create-wrapper',true);
+function cfgQcAddFirstAttribute() {
+    var allSelected = true;
+    <?php foreach ($cfgAttrs as $__i => $__ca): ?>
+    allSelected = allSelected && $('cfg-quick-create-container-<?php echo $__ca->getAttributeCode() ?>').value;
+    <?php endforeach ?>
+    if (allSelected) {
+        var urlTpl = new Template(
+            '<?php echo $this->getUrl('udprod/vendor/cfgQuickCreateAttribute', array('_current'=>true, 'cfg_attr_values'=>'{{cfg_attr_values}}')) ?>',
+            /(^|.|\r|\n)(\{\{(.*?)\}\})/
+        );
+        $('cfg-quick-create-wrapper-<?php echo $cfgAttr->getAttributeCode() ?>').addClassName('loading');
+        var curOptVal = $('cfg-quick-create-container-<?php echo $cfgAttr->getAttributeCode() ?>').value;
+        $('fa_cfg_quick_create_add').hide();
+        $('fa_cfg_quick_create_add-loader').show();
+        var cfg_attr_values = '';
+        <?php foreach ($cfgAttrs as $__i => $__ca): ?>
+        cfg_attr_values = cfg_attr_values + $('cfg-quick-create-container-<?php echo $__ca->getAttributeCode() ?>').value;
+        <?php if ($__i<count($cfgAttrs)-1): ?>
+        cfg_attr_values = cfg_attr_values + ',';
+        <?php endif; ?>
+        <?php endforeach; ?>
+        new Ajax.Request(urlTpl.evaluate({cfg_attr_values:cfg_attr_values}), {
+            method: 'get',
+            onFailure: function(transport){
+                location.href = '<?php echo $this->getUrl('udprod/vendor/')?>';
+            },
+            onComplete: function (transport) {
+                var responseText = transport.responseText;
+                if (responseText.isJSON()) {
+                    var response = transport.responseText.evalJSON()
+                    if (response.error) {
+                        alert(response.message);
+                    }
+                    if(response.ajaxExpired && response.ajaxRedirect) {
+                        setLocation(response.ajaxRedirect);
+                    }
+                } else {
+                    $('cfg-quick-create-wrapper').insert('<li class="wide cfg-quick-create-item">'+responseText+'</li>')
+                    var lis = $('cfg-quick-create-wrapper').childElements();
+                    var li = lis[lis.length-1];
+                    <?php if (count($cfgAttrs)==1): ?>
+                    var opts = $('cfg-quick-create-container-<?php echo $cfgAttr->getAttributeCode() ?>').options;
+                    $('cfg-quick-create-container-<?php echo $cfgAttr->getAttributeCode() ?>').value='';
+                    for (i=0; i<opts.length; i++) {
+                        if (opts[i].value==curOptVal) {
+                            opts[i].remove();
+                            break;
+                        }
+                    }
+                    <?php endif ?>
+                    $('fa_cfg_quick_create_add').down('span').update('<?php echo Mage::helper('udropship')->__('Add Another '.$cfgAttrLblHtml) ?>');
+                }
+                $('cfg-quick-create-wrapper-<?php echo $cfgAttr->getAttributeCode() ?>').removeClassName('loading');
+                $('cfg-quick-create-wrapper').childElements().invoke('removeClassName', 'first');
+                $('cfg-quick-create-wrapper').childElements().invoke('removeClassName', 'last');
+                $('cfg-quick-create-wrapper').childElements().invoke('removeClassName', 'odd');
+                $('cfg-quick-create-wrapper').childElements().invoke('removeClassName', 'even');
+                decorateList('cfg-quick-create-wrapper',true);
+                $('fa_cfg_quick_create_add').show();
+                $('fa_cfg_quick_create_add-loader').hide();
+                $('advice-udvalidate-cfg-required').hide();
+            }
+        });
+    } else {
+        alert('Please select '+'<?php echo $cfgAttrLblHtml ?>');
+    }
+}
+</script>
+
+</div>

@@ -1,0 +1,39 @@
+<?php $_element = $this->getElement()?>
+<tr>
+    <td class="label"><?php echo trim($_element->getLabelHtml()) ?></td>
+    <td class="grid" colspan=10>
+        <input id="<?php echo $_element->getId()?>" type="hidden" />
+        <table cellspacing="0" class="data" cellpadding="0" id="tiercom_category_rates-grid">
+            <col width="200">
+            <col width="200">
+            <thead>
+                <tr class="headings">
+                    <th class="a-center"><?php echo Mage::helper('udropship')->__('Category') ?></th>
+                    <th class="a-center"><?php echo Mage::helper('udropship')->__('Commission Percent (per item)') ?></th>
+                    <th class="a-center"><?php echo Mage::helper('udropship')->__('Default Commission Percent') ?></th>
+                    <th class="a-center"><?php echo Mage::helper('udropship')->__('Fixed Rate (per item)') ?></th>
+                    <th class="a-center"><?php echo Mage::helper('udropship')->__('Default Fixed Rate') ?></th>
+                </tr>
+            </thead>
+            <tbody id="tiercom_category_rates-table">
+                <?php $_curTS = $this->getTiercomRates(); $_globalTSC = $this->getGlobalTierComConfig(); ?>
+                <?php $i=0; foreach($this->getTopCategories() as $_topCat): ?>
+                <?php $_catId = $_topCat->getId(); ?>
+                <tr class="option-row">
+                    <td class="a-left"><?php echo $_topCat->getName()?></td>
+                    <td class="a-center"><input name="<?php echo $_element->getName()?>[<?php echo $_catId?>][value]" class="input-text" type="text" value="<?php echo @$_curTS[$_catId]['value']?>" /></td>
+                    <td class="a-right"><?php echo isset($_globalTSC[$_catId]['value']) && $_globalTSC[$_catId]['value']!=='' ? $_globalTSC[$_catId]['value']*1 : ''?></td>
+                    <td class="a-center"><input name="<?php echo $_element->getName()?>[<?php echo $_catId?>][fixed]" class="input-text" type="text" value="<?php echo @$_curTS[$_catId]['fixed']?>" /></td>
+                    <td class="a-right"><?php echo isset($_globalTSC[$_catId]['value']) && @$_globalTSC[$_catId]['fixed']!=='' ? @$_globalTSC[$_catId]['fixed']*1 : ''?></td>
+                </tr>
+                <?php endforeach ?>
+            </tbody>
+        </table>
+
+    </td>
+    <td<?php if ($_element->getNote()): ?> class="note"<?php endif ?> id="note_<?php echo $_element->getId()?>"><small><?php echo $_element->getNote()?$_element->getNote():'&nbsp;' ?></small></td>
+</tr>
+
+<style type="text/css">
+#tiercom_category_rates-table input {width: 150px}
+</style>

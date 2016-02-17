@@ -1,0 +1,84 @@
+<?php $_product = Mage::getModel('catalog/product')->load($_GET['product_id']); ?>
+
+<div id="messages_product_view"><?php echo $this->getMessagesBlock()->getGroupedHtml() ?></div>
+<div class="page-title">
+
+    <!-- If the page displayed after rejecting a quote -->
+    <?php if ($_GET['rejectquoteid']): ?>
+        <h1><?php echo Mage::helper('quote2sales')->__('Quote rejected successfully, would you like to add new request') ?></h1>
+    <?php else: ?>
+        <h1><?php echo Mage::helper('quote2sales')->__('Request for Quote') ?></h1>
+    <?php endif; ?>
+</div>
+<form action="<?php echo $this->getFormAction(); ?>" id="contactForm" method="post">
+    <div class="fieldset">
+        <h2 class="legend"><?php echo Mage::helper('quote2sales')->__('Contact Information') ?></h2>
+        <ul class="form-list">
+            <li class="fields">
+                <div class="field">
+                    <label for="name" class="required"><em>*</em><?php echo Mage::helper('quote2sales')->__('Name') ?></label>
+                    <div class="input-box">
+                        <input name="name" id="name" title="<?php echo Mage::helper('quote2sales')->__('Name') ?>" value="<?php echo $this->escapeHtml($this->getUserName()) ?>" class="input-text validate-xss-comment validate-alphanum-with-spaces required-entry" type="text" />
+                    </div>
+                </div>
+                <div class="field">
+                    <label for="email" class="required"><em>*</em><?php echo Mage::helper('quote2sales')->__('Email') ?></label>
+                    <div class="input-box">
+                        <input name="email" id="email" title="<?php echo Mage::helper('quote2sales')->__('Email') ?>" value="<?php echo $this->escapeHtml($this->getUserEmail()) ?>" class="input-text required-entry validate-email" type="text" />
+                    </div>
+                </div>
+            </li>
+            <li>
+                <label for="telephone"><?php echo Mage::helper('quote2sales')->__('Telephone') ?></label>
+                <div class="input-box">
+                    <input name="telephone" id="telephone" title="<?php echo Mage::helper('quote2sales')->__('Telephone') ?>" value="" class="validate-phonenumber validate-telephone validate-length minimum-length-3 maximum-length-15" type="text" maxlength="15" />
+                </div>
+            </li>
+
+            <!-- If the product wise quote request is generated -->
+            <?php if ($_product->getName()) : ?> 
+                <li>
+                    <label><?php echo Mage::helper('quote2sales')->__('Product for Quote:  ' . $_product->getName()) ?></label>
+                </li>
+            <?php endif; ?>
+            <li class="wide">
+                <label for="comment" class="required"><em>*</em><?php echo Mage::helper('quote2sales')->__('Comment') ?></label>
+                <div class="input-box">
+
+                    <!-- Displaying the product name if RFQ is selected from the product -->
+                    <textarea name="comment" id="comment" title="<?php echo Mage::helper('quote2sales')->__('Comment') ?>" class="required-entry input-text validate-xss-comment validate-comment" cols="5" rows="3"></textarea>
+                    <input type="hidden" id="product_id" name="product_id" value="<?php echo $_product->getId(); ?>">
+                </div>
+            </li>
+        </ul>
+    </div>
+    <div class="buttons-set">
+        <p class="required"><?php echo Mage::helper('quote2sales')->__('* Required Fields') ?></p>
+        <input type="text" name="hideit" id="hideit" value="" style="display:none !important;" />
+        <button type="submit" title="<?php echo Mage::helper('quote2sales')->__('Submit') ?>" class="button"><span><span><?php echo Mage::helper('quote2sales')->__('Submit') ?></span></span></button>
+    </div>
+</form>
+<script type="text/javascript">
+
+//<![CDATA[
+    var contactForm = new VarienForm('contactForm', true);
+//]]>
+
+//Validation for comment field 
+    Validation.add('validate-xss-comment', 'Please enter valid data.', function (v) {
+        return Validation.get('IsEmpty').test(v) || /^[a-zA-Z0-9\ \&\;\_\.\,\!\#\-\(\)\$\%\+\=\?\@\:\n\'/\"/\/\*\\]+$/.test(v)
+    })
+
+    Validation.add('validate-comment', 'Please enter valid data.', function (v) {
+        return Validation.get('IsEmpty').test(v) || /^[a-zA-Z0-9\ \@=\-.&$%?)_+*(#!,'\n\;'/\:"]+$/.test(v)
+    })
+
+    Validation.add('validate-telephone', 'Please use numbers only in this field.', function (v) {
+        return Validation.get('IsEmpty').test(v) || !/[^\d]/.test(v);
+    })
+
+    Validation.add('validate-phonenumber', 'Please use numbers only in this field.', function (v) {
+        return Validation.get('IsEmpty').test(v) || (!isNaN(parseNumber(v)) && !/^\s+$/.test(parseNumber(v)));
+    })
+
+</script>

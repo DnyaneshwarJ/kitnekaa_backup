@@ -1,0 +1,32 @@
+<?php
+$prod = $this->getProduct();
+$tpl = $prod->getData('__tpl_product');
+$name = $this->getElement()->getName();
+$id = $this->getElement()->getId();
+$type = $this->getElement()->getType();
+?>
+<?php echo $this->getElement()->getLabelHtml(); ?> <br />
+<?php echo $this->getElementHtml() ?>
+<?php if (in_array($type, array('text','textarea')) && $prod && $tpl && ($tplData = $tpl->getData($id))==$prod->getData($id) && is_scalar($tplData)): ?>
+<script type="text/javascript">
+//<![CDATA[
+unirgyDomLoaded(function(){
+    var tpl = '<?php echo preg_replace("/\r\n|\n\r|\r|\n/", '\\n', $this->jsQuoteEscape($tplData))?>';
+    var el = $('<?php echo $id?>');
+    if (el) {
+        el.emptyText = tpl;
+        el.observe('blur', function() {
+            if(el.value==''){
+                el.value=tpl;
+            }
+        });
+        el.observe('focus', function() {
+            if(el.value==tpl){
+                el.value='';
+            }
+        });
+    }
+});
+//]]>
+</script>
+<?php endif ?>

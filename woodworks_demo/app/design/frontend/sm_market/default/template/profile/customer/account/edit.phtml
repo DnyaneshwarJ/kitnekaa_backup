@@ -1,0 +1,51 @@
+<?php
+
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+?>
+<?php
+
+foreach($this->getAttributeCodes() as $_attributeCode)
+{
+    ?>
+    <li class="fields amar-profile">
+       <?php  echo $this->getAttributeFrontendHtmlControl($_attributeCode); ?>
+    </li>
+    <?php
+}
+?>
+
+<script type="text/javascript">
+    document.observe("dom:loaded",function(){
+       var amarProfileLis = $$('li.amar-profile');
+       
+       $$("div.fieldset").each(function(ele,index){
+           if(ele.down("h2.legend",0).textContent == '<?php echo $this->__('Account Information') ?>')
+           {
+               var ulElement = ele.down("ul.form-list",0);
+               amarProfileLis.each(function(el,ind){
+                   var liElement = new Element("li");
+                   liElement.addClassName("fields");
+                   liElement.innerHTML = el.innerHTML;
+                   
+                   if(ulElement.select("li.control").length > 0)
+                   {
+                        ulElement.select("li.control").each(function(e,i){
+                            if(i == 0)
+                                {
+                                    e.insert({"before":liElement});
+                                }
+                        });
+                   }
+                   else
+                   {
+                        ulElement.insert({"bottom":liElement});
+                   }
+                   el.remove();
+               });
+           }
+       });
+    });
+</script>

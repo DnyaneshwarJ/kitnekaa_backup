@@ -1,0 +1,149 @@
+<?php
+$vendor = Mage::registry('vendor_data');
+$_tsHlp = Mage::helper('udtiership');
+$_element = $this->getElement();
+if ($hasShipClass = Mage::helper('udropship')->isModuleActive('udshipclass')) {
+    $vShipClass = Mage::getSingleton('udshipclass/source')->setPath('vendor_ship_class')->toOptionHash();
+    $cShipClass = Mage::getSingleton('udshipclass/source')->setPath('customer_ship_class')->toOptionHash();
+    $vscId = Mage::helper('udshipclass')->getVendorShipClass($vendor);
+}
+
+$_curTS     = $this->getTiershipRates();
+$_globalTSC = $this->getGlobalTierShipConfig();
+
+$rateBlock = Mage::app()->getLayout()->createBlock('udtiership/adminhtml_vendorEditTab_shippingRates_renderer_rateSingle');
+$rateBlock->setBaseName($_element->getName());
+$rateBlock->setDataObject(new Varien_Object($_curTS));
+$rateBlock->setGlobalDataObject(new Varien_Object($_globalTSC));
+
+$subkeyColumns = array(
+    'cost' => array('a-center', 'cost', 'cost', 'max_cost'),
+    'cost_default' => array('a-right', 'cost', 'cost'),
+    'cost_max' => array('a-right', 'cost', 'max_cost'),
+);
+
+if ($this->isShowAdditionalColumn()) {
+    $subkeyColumns['additional'] = array('a-center', 'additional', 'additional', 'max_additional');
+    $subkeyColumns['additional_default'] = array('a-right', 'additional', 'additional');
+    $subkeyColumns['additional_max'] = array('a-right', 'additional', 'max_additional');
+}
+
+if ($this->isShowHandlingColumn()) {
+    $subkeyColumns['handling'] = array('a-center', 'handling', 'handling', 'max_handling');
+    $subkeyColumns['handling_default'] = array('a-right', 'handling', 'handling');
+    $subkeyColumns['handling_max'] = array('a-right', 'handling', 'max_handling');
+}
+
+$catRowspan = 2+count($cShipClass);
+
+?>
+<tr>
+    <td class="label"><?php echo trim($_element->getLabelHtml()) ?></td>
+    <td class="grid" colspan=10>
+        <input id="<?php echo $_element->getName()?>" type="hidden" />
+        <table cellspacing="0" class="data" cellpadding="0" id="tiership_category_rates-grid">
+            <col width="200">
+            <col width="200">
+            <?php for ($i=0; $i<count($subkeyColumns); $i+=3): ?>
+            <col width="200">
+            <col width="100">
+            <col width="100">
+            <?php endfor ?>
+            <thead>
+                <tr class="headings">
+                    <th class="a-center" rowspan=2 <?php if ($hasShipClass): ?>colspan=2<?php endif?>><?php echo Mage::helper('udropship')->__('Category') ?></th>
+                    <?php for ($i=0; $i<count($subkeyColumns); $i+=3): ?>
+                    <th class="a-center" colspan=3><?php echo $this->getColumnTitle($subkeyColumns, $i) ?></th>
+                    <?php endfor ?>
+                </tr>
+                <tr class="headings">
+                    <?php for ($i=0; $i<count($subkeyColumns); $i+=3): ?>
+                    <th class="a-center"><?php echo Mage::helper('udropship')->__('Value') ?></th>
+                    <th class="a-right"><?php echo Mage::helper('udropship')->__('Default') ?></th>
+                    <th class="a-right"><?php echo Mage::helper('udropship')->__('Maximum') ?></th>
+                    <?php endfor ?>
+                </tr>
+            </thead>
+            <tbody id="tiership_category_rates-table">
+                <?php foreach($this->getTopCategories() as $_topCat): ?>
+                <?php $_catId = $_topCat->getId(); ?>
+
+                <?php if ($hasShipClass): ?>
+                            
+                <tr class="option-row">
+                    <td class="a-left" rowspan="<?php echo $catRowspan ?>"><?php echo $_topCat->getName()?></td>
+                    <td class="a-left"><?php echo Mage::helper('udropship')->__('Default Rate')?></td>
+
+                    <?php $_catId = $_topCat->getId(); $rateBlock->initKey($_catId); $rateBlock->setIsBaseRate(true); ?>
+
+                    <?php foreach ($subkeyColumns as $subKey=>$subKeyType): ?>
+                    <td class="<?php echo $subKeyType[0]?>"><?php echo $rateBlock->initSubkey($subKeyType)->toHtml() ?></td>
+                    <?php endforeach ?>
+
+                </tr>
+
+                <tr class="option-row">
+
+                    <td class="a-left"><?php echo Mage::helper('udropship')->__('Base Rate')?></td>
+                    <?php
+                        $_oldCurClassId = $_tsHlp->getRateId(array($_catId, $vscId, '0'));
+                        $_curClassId = $_tsHlp->getRateId(array($_catId, '0'));
+                        $rateBlock->initKey($_curClassId, $_oldCurClassId)->setIsBaseRate(true);
+                    ?>
+
+                    <?php foreach ($subkeyColumns as $subKey=>$subKeyType): ?>
+                    <td class="<?php echo $subKeyType[0]?>"><?php echo $rateBlock->initSubkey($subKeyType)->toHtml() ?></td>
+                    <?php endforeach ?>
+
+                </tr>
+
+                <?php foreach($cShipClass as $cscId => $cscLabel): ?>
+                <tr class="option-row">
+                    <td class="a-left"><?php echo $cscLabel?></td>
+                    <?php
+                        $_oldCurClassId = $_tsHlp->getRateId(array($_catId, $vscId, $cscId));
+                        $_curClassId = $_tsHlp->getRateId(array($_catId, $cscId));
+                        $rateBlock->initKey($_curClassId, $_oldCurClassId)->setIsBaseRate(false);
+                    ?>
+
+                    <?php foreach ($subkeyColumns as $subKey=>$subKeyType): ?>
+                    <td class="<?php echo $subKeyType[0]?>"><?php echo $rateBlock->initSubkey($subKeyType)->toHtml() ?></td>
+                    <?php endforeach ?>
+
+                </tr>
+                <?php endforeach ?>
+
+                <?php else: ?>
+
+                <tr class="option-row">
+                    <td class="a-left"><?php echo $_topCat->getName()?></td>
+                    <?php $_catId = $_topCat->getId(); $rateBlock->initKey($_catId)->setIsBaseRate(true); ?>
+
+                    <?php foreach ($subkeyColumns as $subKey=>$subKeyType): ?>
+                    <td class="<?php echo $subKeyType[0]?>"><?php echo $rateBlock->initSubkey($subKeyType)->toHtml() ?></td>
+                    <?php endforeach ?>
+                </tr>
+
+                <?php endif ?>
+                        
+                <?php endforeach ?>
+            </tbody>
+        </table>
+
+    </td>
+    <td<?php if ($_element->getNote()): ?> class="note"<?php endif ?> id="note_<?php echo $_element->getId()?>"><small><?php echo $_element->getNote()?$_element->getNote():'&nbsp;' ?></small></td>
+</tr>
+
+<style type="text/css">
+#tiership_category_rates-table input {width: 150px}
+</style>
+
+<script type="text/javascript">
+    Validation.addAllThese([
+    ['validate-less-then-eq', 'Invalid input or value exceed maximum.', function(v, elm) {
+        var val = parseNumber(v);
+        var maxVal = parseNumber(elm.alt);
+        return v=='' || ((!isNaN(val) || v=='') && (elm.alt=='' || val<=maxVal));
+    }]
+    ]);
+</script>

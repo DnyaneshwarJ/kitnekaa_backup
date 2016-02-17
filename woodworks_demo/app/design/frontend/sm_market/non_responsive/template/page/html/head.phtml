@@ -1,0 +1,399 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */ 
+ 
+ 
+include (dirname(dirname(__FILE__)).'/sm/yt_prepar.php');
+global $var_yttheme;
+?>
+<meta http-equiv="Content-Type" content="<?php echo $this->getContentType() ?>" />
+<title><?php echo $this->getTitle() ?></title>
+<meta name="description" content="<?php echo htmlspecialchars($this->getDescription()) ?>" />
+<meta name="keywords" content="<?php echo htmlspecialchars($this->getKeywords()) ?>" />
+<meta name="robots" content="<?php echo htmlspecialchars($this->getRobots()) ?>" />
+
+<link rel="icon" href="<?php echo $this->getFaviconFile(); ?>" type="image/x-icon" />
+<link rel="shortcut icon" href="<?php echo $this->getFaviconFile(); ?>" type="image/x-icon" />
+<?php 
+$rich_snippet     = Mage::getStoreConfig('market_cfg/rich_snippets_setting/use_rich_snippet');
+$google_plus_href = Mage::getStoreConfig('market_cfg/rich_snippets_setting/google_plus_href');
+if ( $rich_snippet == 1 && $google_plus_href !="" ){?>
+<link rel="author" href="<?php echo $google_plus_href;?>" />
+<?php }?>
+<!--[if lt IE 7]>
+<script type="text/javascript">
+//<![CDATA[
+    var BLANK_URL = '<?php echo $this->helper('core/js')->getJsUrl('blank.html') ?>';
+    var BLANK_IMG = '<?php echo $this->helper('core/js')->getJsUrl('spacer.gif') ?>';
+//]]>
+</script>
+<![endif]-->
+<?php echo $this->getCssJsHtml() ?>
+<?php echo $this->getChildHtml() ?>
+<?php echo $this->helper('core/js')->getTranslatorScript() ?>
+<?php echo $this->getIncludes() ;
+
+?>
+
+<script type="text/javascript">
+//<![CDATA[
+	var SKIN_URL = '<?php echo $var_yttheme->skinurl();?>';
+	var TMPL_NAME = '<?php echo $var_yttheme->template;?>';
+	var TMPL_COOKIE = <?php echo json_encode($paramscookie); ?>;
+//]]>
+</script>
+
+<?php 
+if( isset($_SERVER['HTTPS'] )  && $_SERVER['HTTPS'] != 'off' ) {
+    $http = 'https';
+} else {
+    $http = 'http'; 
+}
+$googleWebFont = $var_yttheme->getParam('googleWebFont');
+$googleWebFontTargets = $var_yttheme->getParam('googleWebFontTargets');
+if ( $googleWebFont != "" && $googleWebFont != "" ) {
+	$googleWebFontFamily = str_replace(" ","+",$googleWebFont);
+	$googleWebFontFamily = strpos($googleWebFontFamily, ':')?substr($googleWebFontFamily, 0, strpos($googleWebFontFamily, ':')):$googleWebFontFamily;
+}
+?>
+<link rel="stylesheet" type="text/css" href="<?php echo $http;?>://fonts.googleapis.com/css?family=<?php echo $googleWebFontFamily; ?>" media="all" />
+<style type="text/css">
+<?php
+// Body Font size
+echo 'body{	
+		font-size:'.$var_yttheme->getParam('fontsize').';	
+	}';	
+if( trim($var_yttheme->getParam('font_name'))!='' )
+	echo '
+		body{
+			font-family:'.$var_yttheme->getParam('font_name').';	
+		}';
+if( trim($googleWebFontTargets)!="" )
+	echo $googleWebFontTargets.'{
+			font-family:'.$googleWebFont.', serif !important;
+		}';
+$titlecolorTargets = $var_yttheme->getParam('titlecolorTargets');
+if( trim($titlecolorTargets)!="" )
+	echo $titlecolorTargets.'{
+			color:#'.$var_yttheme->getParam('titlecolor').' ;
+		}';		
+	echo '
+		body.'.$var_yttheme->template.'{	
+			color:#'.$var_yttheme->getParam('textcolor').' ;			
+		}
+		body.'.$var_yttheme->template.'{	
+			background-color:#'.$var_yttheme->getParam('bgcolor').' ;
+		}
+		a{	
+			color:#'.$var_yttheme->getParam('linkcolor').' ;	
+		}
+		a:focus,
+		a:hover{	
+			color:#'.$var_yttheme->getParam('linkcolorhover').' ;	
+		}
+		/*titleColor  hover*/
+		.more-wrap .more-view:hover,
+		.postTitle h2 a:hover,
+		.category-products .item .product-name a:hover,
+		.yt-tab-listing .respl-tabs-wrap ul li.respl-tab .respl-tab-label:hover,
+		.yt-product-detail .tab-product-detail .yt-tab-navi > li > a:hover{	
+			color:#'.$var_yttheme->getParam('linkcolorhover').' ;	
+		}	
+		';
+if ( $var_yttheme->getParam('usebgimage') == 1 && $var_yttheme->getParam('usecustomizeimage') == 1 && $var_yttheme->getParam('bgcustomizeimage') !="" ){
+	$media_base = Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA);
+	echo '
+		body.'.$var_yttheme->template.'{	
+			background-attachment: fixed;
+			background-image: url('.$media_base.'pattern/'.$var_yttheme->getParam('bgcustomizeimage').');
+			background-repeat:'.$var_yttheme->getParam('bgimagerepeat').' ;	
+			background-position:'.$var_yttheme->getParam('bgimageposition').' ;				
+		}		
+		';
+}		
+if ( $var_yttheme->getParam('usebgimage') == 1 ){
+	echo '
+		.pattern1,
+		.pattern2,
+		.pattern3,
+		.pattern4,
+		.pattern5,
+		.pattern6,
+		.pattern7,
+		.pattern8{	
+			background-repeat:'.$var_yttheme->getParam('bgimagerepeat').' ;	
+			background-position:'.$var_yttheme->getParam('bgimageposition').' ;			
+		}		
+		';
+}
+//detail config
+if ( $var_yttheme->getParam('show_imagezoom') == 0 ){
+	echo '
+		.cloud-zoom-big {
+			display: none !important;
+		}
+		.cloud-zoom-lens {
+			cursor: pointer;	
+		}
+		';	
+}
+if ( $var_yttheme->getParam('zoom_mode') == 2 ){
+	echo '
+		.cloud-zoom-lens{	
+			border: 1px solid #ccc;
+			background: #fff;
+						
+		}
+		.cloud-zoom-big {
+			overflow: hidden;
+			border: 2px solid #ccc;
+			top: 0 !important;
+		}		
+		';	
+}else{
+	echo '
+		.cloud-zoom-big {
+			top: 0 !important;
+			left: 0 !important;
+			width: 100% !important;
+			height: 100% !important;
+		}
+		';	
+}
+//Advanved config
+
+if ( $var_yttheme->getParam('show_addtocart') == 0 ){
+	echo '
+		.btn-cart,
+		.category-products .item .product-addcart,
+		.product-addcart,
+		.header-cart,
+		.wrap-qty,
+		.add-to-cart{
+			display: none;
+		}
+		';
+}
+if ( $var_yttheme->getParam('show_wishlist') == 0 ){
+	echo '
+		.category-products .item .wishlist-compare a.link-wishlist,
+		.product-wishlist,
+		.link-wishlist,
+		.add-to-links .wishlist{
+			display: none;
+		}
+		';
+}
+if ( $var_yttheme->getParam('show_compare') == 0 ){
+	echo '
+		.category-products .item .wishlist-compare a.link-compare,
+		.product-compare,
+		.link-compare,
+		.add-to-links .compare{
+			display: none;
+		}
+		';
+}
+if ( $var_yttheme->getParam('custom_css') != '' ){
+	echo $var_yttheme->getParam('custom_css');
+}
+?>
+</style>
+
+<script type="text/javascript">
+//<![CDATA[
+	jQuery(document).ready(function($){
+			$("#narrow-by-list .item-filter .item-filter-title").each(function(){
+				$this = $(this);
+				firt_attr_href = $this.attr('href')
+				console.log(firt_attr_href);
+				if( firt_attr_href == '#collapse1'){
+					$(this).addClass('cl-open');
+				}
+			});	
+			$("#narrow-by-list .item-filter .item-filter-title").click(function(){
+				$this = $(this);
+				if( $this.hasClass('cl-open') ){
+					$this.removeClass('cl-open');
+				}else{
+					$(this).addClass('cl-open');
+				}
+			});
+		// show-hidden login form 
+		$(".header-login .login-quick").hide();
+		$('.header-login a.login').click(function(){
+			$this = $(this);
+			$this.toggleClass("actived");
+			$(".login-quick").slideToggle("fast");
+			$('.mini-cartpro .block-content').css({'display': 'none'});
+		});
+		
+		//show-hidden account user
+		$(".header-user .links").hide();
+		$('.header-user span.icon-user').click(function(){
+			$this = $(this);
+			$this.toggleClass("actived");
+			$(".header-user .links").slideToggle("fast");
+		});
+		
+		$(".sm-searbox-content").jqTransform();
+		
+		//on top header 1
+		<?php if( $var_yttheme->getParam('menuontop') == 1 && $var_yttheme->getParam('headerstyles') == 'header1'){ ?>		
+			$window = $(window);
+			menu_offset_top = 165;
+			function processScroll() {				
+				var scrollTop = $window.scrollTop();
+				if ( scrollTop >= menu_offset_top) {
+					$('.header1-wrap .mega-horizontal-wrap').addClass('menu-on-top');
+				} else if (scrollTop <= menu_offset_top) {
+					$('.header1-wrap .mega-horizontal-wrap').removeClass('menu-on-top');
+				}
+			}
+			if( $('.header1-wrap .mega-horizontal-wrap').length ){
+				// fix sub nav on scroll
+				processScroll();
+				$window.scroll(function(){
+					processScroll();
+				});
+			}				
+		<?php }?>
+		//on top header 2
+		<?php if( $var_yttheme->getParam('menuontop') == 1 && $var_yttheme->getParam('headerstyles') == 'header2'){ ?>		
+			$window = $(window);
+			menu_offset_top = 40;
+			function processScroll() {				
+				var scrollTop = $window.scrollTop();
+				if ( scrollTop >= menu_offset_top) {
+					$('.header2-wrap .yt-header-middle').addClass('menu-on-top');
+				} else if (scrollTop <= menu_offset_top) {
+					$('.header2-wrap .yt-header-middle').removeClass('menu-on-top');
+				}
+			}
+			if( $('.header2-wrap .yt-header-middle').length ){
+				// fix sub nav on scroll
+				processScroll();
+				$window.scroll(function(){
+					processScroll();
+				});
+			}				
+		<?php }?>	
+		
+		//on top header 3
+		<?php if( $var_yttheme->getParam('menuontop') == 1 && $var_yttheme->getParam('headerstyles') == 'header3'){ ?>		
+			$window = $(window);
+			menu_offset_top = 165;
+			function processScroll() {				
+				var scrollTop = $window.scrollTop();
+				if ( scrollTop >= menu_offset_top) {
+					$('.header3-wrap .yt-header-middle2').addClass('menu-on-top');
+				} else if (scrollTop <= menu_offset_top) {
+					$('.header3-wrap .yt-header-middle2').removeClass('menu-on-top');
+				}
+			}
+			if( $('.header3-wrap .yt-header-middle2').length ){
+				// fix sub nav on scroll
+				processScroll();
+				$window.scroll(function(){
+					processScroll();
+				});
+			}				
+		<?php }?>
+		//on top header 4
+		<?php if( $var_yttheme->getParam('menuontop') == 1 && $var_yttheme->getParam('headerstyles') == 'header4'){ ?>		
+			$window = $(window);
+			menu_offset_top = 165;
+			function processScroll() {				
+				var scrollTop = $window.scrollTop();
+				if ( scrollTop >= menu_offset_top) {
+					$('.header4-wrap .yt-header-middle2').addClass('menu-on-top');
+				} else if (scrollTop <= menu_offset_top) {
+					$('.header4-wrap .yt-header-middle2').removeClass('menu-on-top');
+				}
+			}
+			if( $('.header4-wrap .yt-header-middle2').length ){
+				// fix sub nav on scroll
+				processScroll();
+				$window.scroll(function(){
+					processScroll();
+				});
+			}				
+		<?php }?>	
+		
+		//custom js (theme config) 
+		<?php if ( $var_yttheme->getParam('custom_js') != '' ){
+			echo $var_yttheme->getParam('custom_js');
+		}?>	
+		
+		// get content top search of search box pro		
+		if( $('#yt_header .sm-searchbox-popular').length){
+			$('#custom_popular_search').html($('#yt_header .sm-searchbox-popular').html());
+			$('#yt_header .sm-searchbox-popular').remove();
+		}
+		
+		<?php if( $var_yttheme->getParam('device_responsive') == 1 ){?>
+			// toolbar in device
+			if( $(window).width() < 1025){
+				$("#yt_header #yt_menu_short .yt-menu-content").hide();
+				$('#yt_header #yt_menu_short #btn_categories').click(function(){
+					$this = $(this);
+					$this.toggleClass("actived");
+					$("#yt_header #yt_menu_short .yt-menu-content").slideToggle("fast");
+				});
+
+				$(".search-mobile #search_mini_form").hide();
+				$('.search-mobile .btn-search-mobile').click(function(){
+					$this = $(this);
+					$this.toggleClass("actived");
+					$(".search-mobile #search_mini_form").slideToggle("fast");
+				});
+				
+			   $(".toolbar .select-inner ul#limiter").hide();
+				$('.toolbar .select-inner .overwrite-limiter').click(function(){
+					$this = $(this);
+					$this.toggleClass("actived");
+					$(".toolbar .select-inner ul#limiter").slideToggle("fast");
+				});
+				$(".toolbar .select-inner ul#sort_by").hide();
+				$('.toolbar .select-inner .overwrite-sortby').click(function(){
+					$this = $(this);
+					$this.toggleClass("actived");
+					$(".toolbar .select-inner ul#sort_by").slideToggle("fast");
+				});
+
+				$(".language-currency .switcher-wrap .switch-content").hide();
+				$('.language-currency .overwrite-switch').click(function(){
+					$this = $(this);
+					$this.toggleClass("actived");
+					$(".language-currency .switcher-wrap .switch-content").slideToggle("fast");
+				});
+			}
+		<?php } ?>
+
+	});
+//]]>	
+</script>
+
+

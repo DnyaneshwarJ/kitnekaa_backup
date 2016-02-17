@@ -1,0 +1,146 @@
+<?xml version="1.0"?>
+<config>
+   <modules>
+    <Kitnekaa_Credittransfer>
+      <version>1.0.0.7</version>
+    </Kitnekaa_Credittransfer>
+  </modules>
+<!--  <events>
+      <customer_save_after>
+        <observers>
+          <customer_handle_after_save>
+            <class>Company_Users_Model_Observer</class>
+            <method>customer_save_after</method>
+          </customer_handle_after_save>
+        </observers>
+      </customer_save_after>
+    </events> -->
+  <global>
+       
+    <helpers>
+      <credittransfer>
+        <class>Kitnekaa_Credittransfer_Helper</class>
+      </credittransfer>
+    </helpers>
+ 
+    <blocks>
+      <credittransfer>
+        <class>Kitnekaa_Credittransfer_Block</class>
+      </credittransfer>
+    </blocks>
+    <models>
+      <credittransfer>
+        <class>Kitnekaa_Credittransfer_Model</class>
+        <resourceModel>credittransfer_resource</resourceModel>
+      </credittransfer>
+      <credittransfer_resource>
+                <class>Kitnekaa_Credittransfer_Model_Resource</class>
+                <entities>
+                    <docs>
+                        <table>docs</table>
+                    </docs>
+                     <docname>
+                        <table>doc_name</table>
+                    </docname>
+                    <docneeded>
+                        <table>docs_needed</table>
+                    </docneeded>
+                    <verifyingcompany>
+                        <table>verifying_company</table>
+                    </verifyingcompany>
+                </entities>
+      </credittransfer_resource>
+    </models>
+    <resources>
+      <credittransfer_setup>
+        <setup>
+           <module>Kitnekaa_Credittransfer</module>
+        </setup>
+        <connection>
+          <use>core_setup</use>
+        </connection>        
+      </credittransfer_setup>
+      <credittransfer_write>
+        <connection>
+            <use>core_write</use>
+        </connection>
+      </credittransfer_write>
+      <credittransfer_read>
+          <connection>
+            <use>core_read</use>
+          </connection>
+      </credittransfer_read>
+    </resources>
+    <template>
+    <email>
+      <custom_email_template1 module="credittransfer">
+        <label>ActiveCodeline custom email module</label>
+        <file>activecodeline_custom_email1.html</file>
+        <type>html</type>
+      </custom_email_template1>
+    </email>
+  </template>
+  </global>
+ 
+  <default>
+     <payment>
+      <credittransfer>
+        <active>1</active>
+        <admin_active>0</admin_active>
+        <model>credittransfer/paymentmethod</model>
+        <order_status>pending</order_status>
+        <title>Purchase By Credit</title>
+        <allowspecific>0</allowspecific>
+        <payment_action>sale</payment_action>
+      </credittransfer>
+    </payment>
+  </default>
+   
+  <frontend>
+    <routers>
+      <credittransfer>
+        <use>standard</use>
+        <args>
+          <module>Kitnekaa_Credittransfer</module>
+          <frontName>credittransfer</frontName>
+        </args>
+      </credittransfer>
+    </routers>
+  </frontend>
+  <admin>
+        <routers>
+            <adminhtml>
+                <args>
+                    <modules>
+                        <Kitnekaa_Credittransfer before="Mage_Adminhtml">Kitnekaa_Credittransfer_Adminhtml</Kitnekaa_Credittransfer>
+                    </modules>
+                </args>
+            </adminhtml>
+        </routers>
+    </admin>
+   <adminhtml>
+        <layout>
+            <updates>
+                <credittransfer>
+                    <file>credittransfer.xml</file>
+                </credittransfer>
+            </updates>
+        </layout>
+        <events>
+      <payment_method_is_active>
+        <observers>
+          <wc_credittransferenable_observer>
+            <type>singleton</type>
+            <class>credittransfer/observer</class>
+            <method>checkAdminPaymentAllowed</method>
+          </wc_credittransferenable_observer>
+        </observers>
+      </payment_method_is_active>
+    </events>
+    </adminhtml>
+</config>
+
+
+
+
+

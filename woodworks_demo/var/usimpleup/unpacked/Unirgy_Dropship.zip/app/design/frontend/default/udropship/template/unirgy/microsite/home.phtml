@@ -1,0 +1,6 @@
+<?php
+$_vendor = Mage::helper('umicrosite')->getCurrentVendor();
+?>
+<h2><?php echo $_vendor->getVendorName() ?></h2>
+<img src="<?php echo $_vendor->getFileUrl('logo') ?>" />
+<pre><?php print_r($_vendor->debug()) ?></pre>

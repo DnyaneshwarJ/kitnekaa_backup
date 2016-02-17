@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<layout version="1.0">
+	<default>
+		<reference name="head">
+			<!--action method="addItem"  >
+				<type>skin_css</type>
+				<name>sm/listingextend/css/style.css</name>
+			</action-->
+		</reference>
+	</default>
+	<listingextend_index_index>
+		<reference name="content">
+			<block type="listingextend/list" name="listingextend.list.default" template="sm/listingextend/default.phtml">
+			</block>
+		</reference>
+	</listingextend_index_index>
+</layout>

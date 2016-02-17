@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<layout>
+    <!--<checkout_onepage_shippingmethod>
+        <reference name="root">
+            <action method="setTemplate"><template>checkout/onepage/review/info.phtml</template></action>
+        </reference>
+    </checkout_onepage_shippingmethod>-->
+</layout>

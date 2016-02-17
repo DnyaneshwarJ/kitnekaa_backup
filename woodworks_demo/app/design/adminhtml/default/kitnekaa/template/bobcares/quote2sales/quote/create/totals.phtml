@@ -1,0 +1,48 @@
+<table cellspacing="0" cellpadding="8" width="100%">
+    <tbody>
+        <?php echo $this->renderTotals(); ?>
+        <?php echo $this->renderTotals('footer'); ?>
+    </tbody>
+</table>
+<div class="divider"></div>
+<div class="order-totals-bottom">
+    <table cellspacing="0" cellpadding="2" width="100%">
+        <tr>
+            <td align="left"><textarea id="seller_comment" name="seller_comment" form="edit_form" rows="3" cols="45" style="resize:none" alignt="left" placeholder="Leave a comment here.."></textarea></td>
+            <?php /* ?> <p>
+              <label for="notify_customer" class="normal"><?php echo Mage::helper('quote2sales')->__('Append Comments') ?></label>
+              <input type="checkbox" id="notify_customer" name="order[comment][customer_note_notify]" value="1" <?php if($this->getNoteNotify()): ?>checked="true"<?php endif; ?>/>
+              </p>
+              <?php ?>
+              <?php if ($this->canSendNewOrderConfirmationEmail()): ?>
+              <p>
+              <label for="send_confirmation" class="normal"><?php echo Mage::helper('quote2sales')->__('Email Quote') ?></label>
+              <input type="checkbox" id="send_confirmation" name="order[send_confirmation]" value="1" checked="checked"/>
+              </p>
+              <?php endif; */ ?>
+            <td align="right" style="vertical-align:bottom">
+                <label>Email To :</label>
+                <input type="text" name="cc_quote_emails" class="input-text" style="width:400px;"/>
+                <p style="font-size: 10px">Add emails ids with (,) separated.</p>
+                <p style="margin-top:10px"><?php echo $this->getButtonHtml(Mage::helper('quote2sales')->__('Submit Quote'), 'order.submit()', 'save'); ?></p></td>
+        </tr>
+    </table>
+</div>
+
+<script type="text/javascript">
+//<![CDATA[
+    var sendEmailCheckbox = $('send_confirmation');
+    if (sendEmailCheckbox) {
+        Event.observe(sendEmailCheckbox, 'change', notifyCustomerUpdate);
+        notifyCustomerUpdate();
+    }
+
+    function notifyCustomerUpdate() {
+        var sendEmailCheckbox = $('send_confirmation');
+        var notifyCustomerCheckbox = $('notify_customer');
+        if (!sendEmailCheckbox || !notifyCustomerCheckbox)
+            return;
+        notifyCustomerCheckbox.disabled = !sendEmailCheckbox.checked;
+    }
+//]]>
+</script>

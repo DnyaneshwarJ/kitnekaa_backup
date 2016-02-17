@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<layout>
+    <udropship_vendor_index>
+        <reference name="shipment.grid">
+            <action method="setTemplate"><template>unirgy/uvogrid/shipment/grid.phtml</template></action>
+        </reference>
+    </udropship_vendor_index>
+</layout>

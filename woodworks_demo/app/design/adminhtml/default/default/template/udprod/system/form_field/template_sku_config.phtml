@@ -1,0 +1,116 @@
+<?php 
+$_tsHlp = Mage::helper('udprod');
+$_htmlId = $this->getHtmlId() ? $this->getHtmlId() : '_' . uniqid();
+$_element = $this->getElement()
+?>
+<div class="grid">
+<table cellspacing="0" class="data" cellpadding="0" id="global_udprod_template_sku-grid">
+    <col width="150">
+    <col width="120">
+    <col />
+    <col width="170">
+    <col />
+    <thead>
+        <tr class="headings">
+            <th class="a-center"><?php echo Mage::helper('udropship')->__('Attribute Set') ?></th>
+            <th class="a-center"><?php echo Mage::helper('udropship')->__('Default Template SKU') ?></th>
+            <th class="a-center"><?php echo Mage::helper('udropship')->__('Default Configurable Attributes') ?></th>
+            <th class="a-center"><?php echo Mage::helper('udropship')->__('Websites') ?></th>
+            <th class="a-center"><?php echo Mage::helper('udropship')->__('Category') ?></th>
+        </tr>
+    </thead>
+    <tbody id="global_udprod_template_sku-table">
+        <?php $_globalTSC = $_element->getValue(); ?>
+        <?php $i=0; foreach($this->getSetIds() as $sId=>$sName):
+            if (false === strpos($sId, '-')) {
+                $sId = $sId.'-'.$this->getTypeOfProduct();
+            }
+            $sIdEnc = $_tsHlp->urlEncode($sId);
+            list($_sId) = explode('-', $sId);
+            $allowGroupedValue = $this->getCfgValue($_globalTSC, $sId, 'allow_grouped');
+            $allowDwldValue = $this->getCfgValue($_globalTSC, $sId, 'allow_downloadable');
+            $allowVirtualValue = $this->getCfgValue($_globalTSC, $sId, 'allow_virtual');
+            $disallowSimpleValue = $this->getCfgValue($_globalTSC, $sId, 'disallow_simple');
+            $upwValue = $this->getCfgValue($_globalTSC, $sId, 'use_product_website');
+            $upcValue = $this->getCfgValue($_globalTSC, $sId, 'use_product_category');
+            $allowGroupedName = "{$_element->getName()}[$sIdEnc][allow_grouped]";
+            $allowGroupedNameId = preg_replace('/[^a-zA-Z0-9\$]/', '_', $allowGroupedName);
+            $allowDwldName = "{$_element->getName()}[$sIdEnc][allow_downloadable]";
+            $allowDwldNameId = preg_replace('/[^a-zA-Z0-9\$]/', '_', $allowDwldName);
+            $allowVirtualName = "{$_element->getName()}[$sIdEnc][allow_virtual]";
+            $allowVirtualNameId = preg_replace('/[^a-zA-Z0-9\$]/', '_', $allowVirtualName);
+            $disallowSimpleName = "{$_element->getName()}[$sIdEnc][disallow_simple]";
+            $disallowSimpleNameId = preg_replace('/[^a-zA-Z0-9\$]/', '_', $disallowSimpleValue);
+            $upwName = "{$_element->getName()}[$sIdEnc][use_product_website]";
+            $upwNameId = preg_replace('/[^a-zA-Z0-9\$]/', '_', $upwName);
+            $upcName = "{$_element->getName()}[$sIdEnc][use_product_category]";
+            $upcNameId = preg_replace('/[^a-zA-Z0-9\$]/', '_', $upcName);
+            $wName = "{$_element->getName()}[$sIdEnc][website][]";
+            $wNameId = preg_replace('/[^a-zA-Z0-9\$]/', '_', $wName);
+            $wcNameId = $wNameId.'_container';
+            $ccName = "{$_element->getName()}[{$sIdEnc}][category]_container";
+            $ccNameId = preg_replace('/[^a-zA-Z0-9\$]/', '_', $ccName);
+            ?>
+        <tr class="option-row">
+            <td class="a-left">
+                <strong><?php echo $sName?></strong>
+                <br /><br />
+                <input type="checkbox" style="width: auto;" value="1" <?php if ($allowGroupedValue) echo 'checked="checked"'?> id="<?php echo $allowGroupedNameId?>" name="<?php echo $allowGroupedName?>" /> <label for="<?php echo $allowGroupedNameId?>"><?php echo Mage::helper('udropship')->__('Allow grouped') ?></label>
+                <br />
+                <input type="checkbox" style="width: auto;" value="1" <?php if ($allowDwldValue) echo 'checked="checked"'?> id="<?php echo $allowDwldNameId?>" name="<?php echo $allowDwldName?>" /> <label for="<?php echo $allowDwldNameId?>"><?php echo Mage::helper('udropship')->__('Allow downloadables') ?></label>
+                <br />
+                <input type="checkbox" style="width: auto;" value="1" <?php if ($allowVirtualValue) echo 'checked="checked"'?> id="<?php echo $allowVirtualNameId?>" name="<?php echo $allowVirtualName?>" /> <label for="<?php echo $allowVirtualNameId?>"><?php echo Mage::helper('udropship')->__('Allow virtual') ?></label>
+                <br />
+                <input type="checkbox" style="width: auto;" value="1" <?php if ($disallowSimpleValue) echo 'checked="checked"'?> id="<?php echo $disallowSimpleNameId?>" name="<?php echo $disallowSimpleName?>" /> <label for="<?php echo $disallowSimpleNameId?>"><?php echo Mage::helper('udropship')->__('Disallow simple') ?></label>
+            </td>
+            <td class="a-center"><input name="<?php echo $_element->getName()?>[<?php echo $sIdEnc?>][value]" class="input-text" type="text" value="<?php echo $this->getCfgValue($_globalTSC, $sId, 'value')?>"/></td>
+            <td class="a-center">
+                <?php
+                    $cfgAttrValue = $this->getCfgValue($_globalTSC, $sId, 'cfg_attributes_def');
+                    $cfgAttrName = "{$_element->getName()}[{$sIdEnc}][cfg_attributes_def]";
+                    $cfgAttrBlock = Mage::app()->getLayout()->getBlockSingleton('udprod/adminhtml_systemConfigField_cfgAttributesSelector');
+                    $cfgAttrBlock
+                        ->setConfigurableAttributes($this->getConfigurableAttributes($sId))
+                        ->setFieldName($cfgAttrName)
+                        ->setFieldValue($cfgAttrValue);
+                    echo $cfgAttrBlock->toHtml();
+                ?>
+            </td>
+            <td class="a-left">
+                <input type="checkbox" style="width: auto;" value="1" <?php if ($upwValue) echo 'checked="checked"'?> id="<?php echo $upwNameId?>" name="<?php echo $upwName?>" onclick="$('<?php echo $wcNameId?>').toggle()" /> <label for="<?php echo $upwNameId?>"><?php echo Mage::helper('udropship')->__('Use from template product') ?></label>
+                <div id="<?php echo $wcNameId?>" class="tpl-sku-website" style="margin-top: 7px; <?php if ($upwValue) echo 'display: none'?>">
+                <select id="<?php echo $wNameId?>" name="<?php echo $wName?>" style="width:170px" multiple="multiple">
+                    <?php foreach (Mage::app()->getWebsites() as $website): ?>
+                    <option value="<?php echo $website->getId()?>" <?php if (@in_array($website->getId(), (array)$this->getCfgValue($_globalTSC, $sId, 'website'))) echo 'selected="selected"'?>><?php echo $website->getName()?></option>
+                    <?php endforeach ?>
+                </select>
+                </div>
+            </td>
+            <td class="a-left tplsku-tree-container">
+                <input type="checkbox" value="1" <?php if ($upcValue) echo 'checked="checked"'?> id="<?php echo $upcNameId?>" name="<?php echo $upcName?>" onclick="$('<?php echo $ccNameId?>').toggle()" /> <label for="<?php echo $upcNameId?>"><?php echo Mage::helper('udropship')->__('Use from template product') ?></label>
+                <div id="<?php echo $ccNameId?>" class="tpl-sku-category" style="margin-top: 7px; <?php if ($upcValue) echo 'display: none'?>">
+                <?php
+                    $catValue = $this->getCfgValue($_globalTSC, $sId, 'category');
+                    Mage::helper('udropship/catalog')->processCategoriesData($catValue, false);
+                    $catElId = $catElName = "{$_element->getName()}[{$sIdEnc}][category]";
+                    $catElId = str_replace('[', '_', $catElId);
+                    $catElId = str_replace(']', '_', $catElId);
+                    $catBlock = Mage::app()->getLayout()->getBlockSingleton('udropship/categories');
+                    $catBlock->setNameName($catElName)
+                        ->setIdName($catElId)
+                        ->setForcedIdsString($catValue)
+                        ->setUseDeferToBootstrap(true);
+                    echo $catBlock->toHtml();
+                ?>
+                </div>
+            </td>
+        </tr>
+        <?php endforeach ?>
+    </tbody>
+</table>
+</div>
+
+<style type="text/css">
+#global_udprod_template_sku-table input {width: 80px}
+#global_udprod_template_sku-table .tplsku-tree-container input {width: auto}
+</style>

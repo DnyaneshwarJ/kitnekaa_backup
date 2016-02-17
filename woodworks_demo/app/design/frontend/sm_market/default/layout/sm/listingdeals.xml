@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<layout version="1.0">
+	<default>
+		<reference name="head">
+			<!--action method="addItem"  >
+				<type>skin_css</type>
+				<name>sm/listingdeals/css/animate.css</name>
+			</action>
+			<action method="addItem">
+				<type>skin_css</type>
+				<name>sm/listingdeals/css/sm-listing-deals.css</name>
+			</action-->
+		</reference>	
+	</default>
+	<listingdeals_index_index>
+		<reference name="content">
+			<block type="listingdeals/list" name="listingdeals.list.default" template="sm/listingdeals/default.phtml">
+			</block>
+		</reference>
+	</listingdeals_index_index>
+	<listingdeals_index_ajax>
+		<block type="listingdeals/list" name="listingdeals_ajax" as="listingdeals_ajax" template="sm/listingdeals/default_items.php" output="toHtml" />
+	</listingdeals_index_ajax>
+</layout>

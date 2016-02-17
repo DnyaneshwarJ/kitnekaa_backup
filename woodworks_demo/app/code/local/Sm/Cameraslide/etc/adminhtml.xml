@@ -1,0 +1,72 @@
+<config>
+    <menu>
+        <sm_cameraslide>
+            <title>SM Camera Slide</title>
+            <sort_order>80</sort_order>
+            <children>
+                <cameraslide translate="title">
+                    <title>Manager Slide</title>
+                    <sort_order>1</sort_order>
+                    <action>cameraslide/adminhtml_cameraslide</action>
+                    <!-- Submenu of -->
+                </cameraslide>
+                <settings translate="title">
+                    <title>Settings</title>
+                    <sort_order>2</sort_order>
+                    <action>adminhtml/system_config/edit/section/cameraslide</action>
+                </settings>
+                <!-- Other extension menu -->
+            </children>
+        </sm_cameraslide>
+    </menu>
+
+    <acl>
+        <resources>
+            <admin>
+                <children>
+                    <sm_cameraslide>
+                        <title>Magentech.com</title>
+                        <sort_order>200</sort_order>
+                        <children>
+                            <cameraslide>
+                                <title>Manager Slide</title>
+                                <sort_order>1</sort_order>
+                                <action>cameraslide/adminhtml_cameraslide</action>
+                                <!-- Submenu of -->
+                            </cameraslide>
+                        </children>
+                    </sm_cameraslide>
+
+                    <system>
+                        <children>
+                            <config>
+                                <children>
+                                    <cameraslide>
+                                        <title>SM Camera Slide</title>
+                                        <sort_order>10</sort_order>
+                                        <children>
+                                            <camerasliders translate="title">
+                                                <title>Manage Sliders</title>
+                                                <sord_order>0</sord_order>
+                                                <children>
+                                                    <save translate="title">
+                                                        <title>Save Slide</title>
+                                                        <sord_order>0</sord_order>
+                                                    </save>
+                                                    <delete translate="title">
+                                                        <title>Delete Slide</title>
+                                                        <sord_order>10</sord_order>
+                                                    </delete>
+                                                </children>
+                                            </camerasliders>
+                                        </children>
+                                    </cameraslide>
+                                </children>
+                            </config>
+                        </children>
+                    </system>
+                </children>
+            </admin>
+        </resources>
+    </acl>
+</config>

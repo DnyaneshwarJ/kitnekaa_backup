@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<layout>
+    <_udprod_catalog_product_edit>
+        <reference name="content">
+            <block type="core/template" template="udprod/product_edit.phtml" />
+        </reference>
+    </_udprod_catalog_product_edit>
+    <adminhtml_catalog_product_edit>
+        <update handle="_udprod_catalog_product_edit" />
+    </adminhtml_catalog_product_edit>
+    <adminhtml_catalog_product_new>
+        <update handle="_udprod_catalog_product_edit" />
+    </adminhtml_catalog_product_new>
+    <adminhtml_system_config_edit>
+        <reference name="head">
+            <action method="addItem"><type>js</type><name>unirgy/jquery/jquery-1.10.2.js</name><params/><if/><condition>udprod_can_load_select2</condition></action>
+            <action method="addItem"><type>js</type><name>unirgy/jquery/jquery.noConflict.js</name><params/><if/><condition>udprod_can_load_select2</condition></action>
+            <action method="addItem"><type>js</type><name>unirgy/select2/select2.js</name><params/><if/><condition>udprod_can_load_select2</condition></action>
+            <action method="addItem"><type>js_css</type><name>unirgy/select2/select2.css</name><params/><if/><condition>udprod_can_load_select2</condition></action>
+        </reference>
+    </adminhtml_system_config_edit>
+</layout>

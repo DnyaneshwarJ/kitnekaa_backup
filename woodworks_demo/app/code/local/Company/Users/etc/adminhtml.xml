@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<config>
+	<acl>
+		<resources>
+			<admin>
+				<children>
+					<system>
+						<children>
+							<config>
+								<children>
+									<companyusers_sections translate="title" module="users">
+										<title>Notify Vat and Tin No. Verification email address</title>
+										<sort_order>1</sort_order>
+									</companyusers_sections>
+								</children>
+							</config>
+						</children>
+					</system>
+				</children>
+			</admin>
+		</resources>
+	</acl>
+</config>

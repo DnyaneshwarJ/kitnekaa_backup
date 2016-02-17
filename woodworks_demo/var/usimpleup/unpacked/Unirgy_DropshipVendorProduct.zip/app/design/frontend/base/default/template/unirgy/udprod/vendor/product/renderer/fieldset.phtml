@@ -1,0 +1,68 @@
+<?php
+$isCfg = $this->getElement()->getId() == 'configurable';
+$elements = $this->getElement()->getElements()->getIterator();
+$topElements = $this->getElement()->getTopColumn();
+$bottomElements = $this->getElement()->getBottomColumn();
+$lcElements = $this->getElement()->getLeftColumn();
+$rcElements = $this->getElement()->getRightColumn();
+?>
+<div class="generic-box">
+<div class="box-head"><h3><?php echo $this->getElement()->getLegend() ?></h3></div>
+<table style="width:100%" class="col2-table">
+<col width="50%" />
+<col width="50%" />
+<tbody>
+
+<?php if (!empty($topElements)): ?>
+<tr>
+<td colspan="2">
+<ul class="form-list">
+<?php foreach($topElements as $wideElement): ?>
+<li id="<?php echo $wideElement.'-container'?>" class="wide" <?php if ($this->isHidden($wideElement)) echo 'style="display: none;"' ?>>
+<?php echo $this->getChildElementHtml($wideElement); ?>
+</li>
+<?php endforeach ?>
+</ul>
+</td></tr>
+<?php endif ?>
+
+<tr><td>
+<?php if (!empty($lcElements)): ?>
+<ul class="form-list">
+<?php foreach($lcElements as $lcElement): ?>
+<li id="<?php echo $lcElement.'-container'?>">
+<?php echo $this->getChildElementHtml($lcElement); ?>
+</li>
+<?php endforeach ?>
+</ul>
+<?php endif ?>
+</td><td>
+
+<?php if (!empty($rcElements)): ?>
+<ul class="form-list">
+<?php foreach($rcElements as $rcElement): ?>
+<li id="<?php echo $rcElement.'-container'?>">
+<?php echo $this->getChildElementHtml($rcElement); ?>
+</li>
+<?php endforeach ?>
+</ul>
+<?php endif ?>
+</td></tr>
+
+<?php if (!empty($bottomElements)): ?>
+<tr>
+<td colspan="2">
+<ul class="form-list">
+<?php foreach($bottomElements as $wideElement): ?>
+<li id="<?php echo $wideElement.'-container'?>" class="wide" <?php if ($this->isHidden($wideElement)) echo 'style="display: none;"' ?>>
+<?php echo $this->getChildElementHtml($wideElement); ?>
+</li>
+<?php endforeach ?>
+</ul>
+</td></tr>
+<?php endif ?>
+
+
+</tbody></table>
+
+</div>

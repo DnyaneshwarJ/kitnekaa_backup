@@ -1,0 +1,58 @@
+<?php
+       
+     $company = $this->getRequest()->getParam('company');
+     $verifyingname = $this->getRequest()->getParam('verifyingname');
+     
+      $url = Mage::helper("adminhtml")->getUrl("*/customer/edit", array('id' => $company, 'active_tab' => 'credit_verification'));
+  
+?>
+<div class="content-header">
+    <h3 class="icon-head head-customer">Upload Docs- <?php echo $verifyingname; ?></h3>    <p class="form-buttons"><button id="id_19c9d7678a4ed81712588bf7857e8649" title="Back" type="button" class="scalable back" onclick="setLocation('<?php echo $url ?>')" style=""><span><span><span>Back</span></span></span></button></p>
+</div>
+
+
+<?php 
+
+echo $this->getLayout()
+            ->createBlock('credittransfer/adminhtml_customerverification_docupload')
+            ->toHtml();
+
+            ?>
+<script type="text/javascript">
+    //<![CDATA[
+
+
+var dataForm = new varienForm('doc_edit_form', true);
+
+
+    
+    //]]>
+
+    function showhidefield(){  
+                                 var numbersString = jQuery("#doc_id").val();
+                                 var numbersArray = numbersString.split("_");     
+                                 
+                                 if(numbersArray[1]==1)
+                                 {
+                                        jQuery("#from_date").removeClass("required-entry"); 
+                                        jQuery("#from_date").addClass("required-entry"); 
+                                        jQuery("#to_date").removeClass("required-entry"); 
+                                        jQuery("#to_date").addClass("required-entry"); 
+                                        jQuery("#from_date").show();
+                                        jQuery("#to_date").show();
+                                        jQuery("#from_date_trig").show();
+                                        jQuery("#advice-required-entry-from_date").show();
+                                        jQuery("#advice-required-entry-to_date").show();
+                                 }else{
+                                          jQuery("#from_date").removeClass("required-entry"); 
+                                          jQuery("#from_date").hide();
+                                          jQuery("#from_date_trig").hide();
+                                          jQuery("#advice-required-entry-from_date").hide();
+                                          jQuery("#to_date").removeClass("required-entry"); 
+                                          jQuery("#to_date").hide();
+                                          jQuery("#to_date_trig").hide();
+                                          jQuery("#advice-required-entry-to_date").hide();
+                                      }                                 
+                                 
+                            }
+</script>

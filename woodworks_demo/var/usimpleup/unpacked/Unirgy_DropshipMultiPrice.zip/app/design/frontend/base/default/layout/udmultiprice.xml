@@ -1,0 +1,53 @@
+<?xml version="1.0"?>
+<layout>
+    <udmultiprice_catalog_product_view>
+        <reference name="product.info">
+            <block type="udmultiprice/productVendors" name="product.vendors" as="product.vendors" template="udmultiprice/product/vendors.phtml" before="-">
+                <action method="addToParentGroup"><group>detailed_info</group></action>
+                <action method="setTitle" translate="value"><value>Select Vendor</value></action>
+            </block>
+        </reference>
+    </udmultiprice_catalog_product_view>
+    <udmultiprice_catalog_product_view_tabbed>
+        <reference name="product.info.tabs">
+            <action method="addTab" translate="title" module="udmultiprice">
+                <alias>udmultiprice_tabbed</alias>
+                <title>Select Vendor</title>
+                <block>udmultiprice/productTab</block>
+                <template>udmultiprice/product/tab.phtml</template>
+            </action>
+        </reference>
+    </udmultiprice_catalog_product_view_tabbed>
+    <_udmp_change_product_list_tpl>
+        <reference name="product_list">
+            <action method="setTemplate"><template>udmultiprice/product/list.phtml</template></action>
+        </reference>
+    </_udmp_change_product_list_tpl>
+    <_udmp_change_product_list_searchtpl>
+        <reference name="search_result_list">
+            <action method="setTemplate"><template>udmultiprice/product/list.phtml</template></action>
+        </reference>
+    </_udmp_change_product_list_searchtpl>
+    <_udmp_change_product_list_tpl_rwd>
+        <reference name="product_list">
+            <action method="setTemplate"><template>udmultiprice/product/list-rwd.phtml</template></action>
+        </reference>
+    </_udmp_change_product_list_tpl_rwd>
+    <_udmp_change_product_list_searchtpl_rwd>
+        <reference name="search_result_list">
+            <action method="setTemplate"><template>udmultiprice/product/list-rwd.phtml</template></action>
+        </reference>
+    </_udmp_change_product_list_searchtpl_rwd>
+    <!--catalog_category_default>
+        <update handle="_udmp_change_product_list_tpl" />
+    </catalog_category_default>
+    <catalog_category_layered>
+        <update handle="_udmp_change_product_list_tpl" />
+    </catalog_category_layered>
+    <catalogsearch_result_index>
+        <update handle="_udmp_change_product_list_searchtpl" />
+    </catalogsearch_result_index>
+    <catalogsearch_advanced_result>
+        <update handle="_udmp_change_product_list_searchtpl" />
+    </catalogsearch_advanced_result-->
+</layout>

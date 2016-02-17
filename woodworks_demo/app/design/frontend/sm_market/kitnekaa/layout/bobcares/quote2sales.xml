@@ -1,0 +1,218 @@
+<?xml version="1.0"?>
+<layout>
+
+    <default>
+    </default>
+    <!-- Add MyQuote link to the Customer My Account menu -->
+    <customer_account>
+        <reference name="customer_account_navigation">
+            <action method="addLink" translate="label" module="quote2sales">
+                <name>quote2sales_quote_history</name>
+                <path>quote2sales/quote/history/</path>
+                <label>My Quotes</label>
+            </action>
+            <action method="addLink" translate="label" module="quote2sales">
+                <name>quote2sales_request_index</name>
+                <path>quote2sales/request/index/</path>
+                <label>My RFQs</label>
+            </action>
+        </reference> 
+    </customer_account>
+
+    <!-- Customer account rfq Layout -->
+    <quote2sales_request_index>
+        <update handle="customer_account"/>
+        <reference name="content">
+            <!-- <block type="quote2sales/request_view" name="bobcares_request_view" module="quote2sales"  template="bobcares/quote2sales/request/view.phtml"/> -->
+            <block type="quote2sales/request_history" name="bobcares_request_history" module="quote2sales"  template="bobcares/quote2sales/request/history.phtml"/>          
+        </reference>
+	        
+    </quote2sales_request_index>
+
+    <quote2sales_request_add>
+        <update handle="customer_account"/>
+        <reference name="content">
+            <block type="quote2sales/request_edit" name="bobcares_request_add" template="bobcares/quote2sales/request/add.phtml"/>
+        </reference>
+    </quote2sales_request_add>
+      
+    <quote2sales_request_edit>
+        <update handle="customer_account"/>
+        <reference name="content">
+            <block type="quote2sales/request_edit" name="bobcares_request_edit" template="bobcares/quote2sales/request/edit.phtml"/>
+        </reference>
+    </quote2sales_request_edit>
+      
+    <quote2sales_request_delete>
+        <update handle="customer_account"/>
+        <reference name="content">
+            <block type="quote2sales/request_delete" name="bobcares_request_delete" module="quote2sales"  template="bobcares/quote2sales/request/view.phtml"/>          
+        </reference>
+    </quote2sales_request_delete>
+      
+    <!--  Display request for quote -->
+	
+    <default>
+        <reference name="footer_links">
+            <action method="addLink" translate="label title" module="quote2sales" ifconfig="quotes/quotes/enabled">
+                <label>Request for Quote</label>
+                <url>quote2sales</url>
+                <title>Request for Quote</title>
+                <prepare>true</prepare>
+            </action>
+        </reference>
+    </default>
+    <quote2sales_index_index>
+        <label>Request for Quote</label>
+        <reference name="head">
+            <action method="setTitle" translate="title" module="quote2sales">
+                <title>Request for quote</title>
+            </action>
+        </reference>
+        <reference name="root">
+            <action method="setTemplate">
+                <template>page/2columns-right.phtml</template>
+            </action>
+            <action method="setHeaderTitle" translate="title" module="quote2sales">
+                <title>Request for quote</title>
+            </action>
+        </reference>
+        <reference name="content">
+            <block type="quote2sales/quote_index" name="requestForm" template="bobcares/quote2sales/request/form.phtml" module="quote2sales"/>
+        </reference>
+    </quote2sales_index_index>
+	
+    <quote2sales_index_login>
+        <label>Customer Account Login Form</label>
+        <!-- Mage_Customer -->
+        <remove name="right"/>
+        <remove name="left"/>
+
+        <reference name="root">
+            <action method="setTemplate">
+                <template>page/1column.phtml</template>
+            </action>
+        </reference>
+        <reference name="content">
+            <block type="quote2sales/customer_login" name="bobcares_index_login"  template="customer/form/login.phtml"/>          
+        </reference>
+    </quote2sales_index_login>
+      
+
+    <!-- Display list of available quotes -->
+    <quote2sales_quote_history translate="label">
+        <label>Customer My Account Quote History</label>
+        <update handle="customer_account"/>
+        <reference name="content">
+            <block type="quote2sales/quote_history" name="quote2sales.quote.history"
+                   template="bobcares/quote2sales/history.phtml" module="quote2sales">
+                <!-- <block type="core/text_list" name="sales.order.history.info" as="info" translate="label">
+                    <label>Order History Info</label>
+                </block>-->
+            </block>
+        </reference>
+    </quote2sales_quote_history>
+    <!-- View a single quote -->
+     
+    <quote2sales_quote_view translate="label">
+        <label>Customer My Account Quote View</label>
+        <update handle="customer_account"/>
+        <reference name="content">
+     
+            <block type="quote2sales/quote_view" name="quote_view" template="bobcares/quote2sales/view.phtml" module="quote2sales">
+                <block type="quote2sales/quote_view" name="quote_details" template="bobcares/quote2sales/details.phtml"/>
+                <block type="quote2sales/quote_items" name="quote_items" template="bobcares/quote2sales/items.phtml">
+                    <action method="setCartTemplate">
+                        <value>checkout/cart.phtml</value>
+                    </action>
+                   
+                    <action method="addItemRender">
+                        <type>simple</type>
+                        <block>checkout/cart_item_renderer</block>
+                        <template>bobcares/quote2sales/item/default.phtml</template>
+                    </action>
+                    <action method="addItemRender">
+                        <type>default</type>
+                        <block>checkout/cart_item_renderer</block>
+                        <template>bobcares/quote2sales/item/default.phtml</template>
+                    </action>
+                    <!-- <action method="addItemRender"><type>default</type><block>sales/order_item_renderer_default</block><template>sales/order/items/renderer/default.phtml</template></action>
+                    -->
+                    <!--               <action method="addItemRender"><type>grouped</type><block>sales/order_item_renderer_grouped</block><template>sales/order/items/renderer/default.phtml</template></action>
+                    -->           
+                    <action method="addItemRender">
+                        <type>grouped</type>
+                        <block>quote2sales/quote_item_renderer_grouped</block>
+                        <template>bobcares/quote2sales/item/default.phtml</template>
+                    </action>
+                    <action method="addItemRender">
+                        <type>configurable</type>
+                        <block>quote2sales/quote_item_renderer_configurable</block>
+                        <template>bobcares/quote2sales/item/configurable.phtml</template>
+                    </action>
+                    <block type="quote2sales/quote_totals" name="quote_totals" template="bobcares/quote2sales/totals.phtml">
+                        <action method="setLabelProperties">
+                            <value>colspan="3" class="a-right"</value>
+                        </action>
+                        <action method="setValueProperties">
+                            <value>class="last a-right"</value>
+                        </action>
+                        <block type="tax/sales_order_tax" name="tax" template="tax/order/tax.phtml" /> 
+                    </block>
+                </block>               
+               
+                <block type="quote2sales/quote_checkout" name="quote_checkout" template="bobcares/quote2sales/onepage/link.phtml"/>
+            </block>
+            
+        </reference>
+        <!-- <reference name="sales.order.info">
+            <action method="addLink" translate="label" module="sales"><name>view</name><path></path><label>Order Information</label></action>
+            <action method="addLink" translate="label" module="sales"><name>invoice</name><path>*/*/invoice</path><label>Invoices</label></action>
+            <action method="addLink" translate="label" module="sales"><name>shipment</name><path>*/*/shipment</path><label>Shipments</label></action>
+            <action method="addLink" translate="label" module="sales"><name>creditmemo</name><path>*/*/creditmemo</path><label>Refunds</label></action>
+        </reference>
+        <block type="core/text_list" name="additional.product.info" translate="label">
+            <label>Additional Product Info</label>
+        </block>
+        -->
+    </quote2sales_quote_view>
+    <default>
+        <reference name="head">
+            <action method="addCss">
+                <stylesheet>bobcares/quote2sales/style.css</stylesheet>
+            </action>
+        </reference>
+    </default>
+    
+    <!-- Declaring override statements to add 'Add to Quote' link -->
+    <catalog_product_view>
+        <reference name="product.info.addto">
+            <action method="setTemplate">
+                <name>bobcares/quote2sales/product/view/addto.phtml</name>
+            </action>
+        </reference>
+    </catalog_product_view>
+    <catalog_category_default>
+        <reference name="product_list">
+            <action method="setTemplate">
+                <name>bobcares/quote2sales/product/list.phtml</name>
+            </action>
+        </reference>
+    </catalog_category_default>
+    <catalog_category_layered>
+        <reference name="product_list">
+            <action method="setTemplate">
+                <name>bobcares/quote2sales/product/list.phtml</name>
+            </action>
+        </reference>
+    </catalog_category_layered>
+    <catalogsearch_result_index>
+        <reference name="search_result_list">
+            <action method="setTemplate">
+                <name>bobcares/quote2sales/product/list.phtml</name>
+            </action>
+        </reference>
+    </catalogsearch_result_index>
+
+
+</layout>    

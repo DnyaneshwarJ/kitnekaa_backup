@@ -1,0 +1,53 @@
+
+<div class="form-list checkout-payment-innerdddiv" id="payment_form_<?php echo $this->getMethodCode() ?>" style="display:none;">
+
+  <div>
+    <label><?php echo $this->__('DD Number') ?>*</label>
+<!--     <span> -->
+      <input type="text" title="<?php echo $this->__('DD Number') ?>" name="payment[cust_dd_number]"  class="input-text required-entry validate-digits validate-maxlength maximum-length-12 validate-minlength minimum-length-6" style="margin-left: 60px; margin-bottom: 10px; margin-top: 10px;"
+      value="<?php echo $this->htmlEscape($this->getInfoData('cust_dd_number')) ?>" />
+<!--     </span> -->
+  </div>
+  <div>
+    <label><?php echo $this->__('Bank Name') ?>*</label>
+    <span>
+      <input type="text" title="<?php echo $this->__('Bank Name') ?>" name="payment[cust_bank_name]"  id="bank_name_dd" class="input-text required-entry validate-alpha-space validate-minlength minimum-length-3" style="margin-left: 60px; margin-bottom: 10px; margin-top: 10px;" value="<?php echo $this->htmlEscape($this->getInfoData('cust_bank_name')) ?>" />
+    </span>
+  </div>
+  <div>
+    <label><?php echo $this->__('Branch Name') ?>*</label>
+    <span>
+      <input type="text" title="<?php echo $this->__('Branch Name') ?>" name="payment[cust_branch_name]" id="branch_name_dd" class="input-text required-entry validate-alpha-space validate-length minimum-length-3" style="margin-left: 50px; margin-bottom: 10px; margin-top: 10px;" value="<?php echo $this->htmlEscape($this->getInfoData('cust_branch_name')) ?>" />   
+    </span>
+  </div>
+  <div class="value">
+    
+ <label><?php echo $this->__('Date Of Transaction') ?>*</label>
+                          <span>
+                             <input name="payment[cust_trans_date]" id="dd_date" value="<?php echo $this->htmlEscape($this->getInfoData('cust_trans_date'))?>" tabindex="1" class=" input-text required-entry validate-date" style="width:110px !important; margin-left: 17px; margin-bottom: 10px; margin-top: 10px;" type="text"/> 
+                            <img src="http://localhost/latte/applications/magneto/woodworks_demo/skin/adminhtml/default/default/images/grid-cal.gif" alt="" class="v-middle" id="from_date_trig" title="Select Date" style=""/>
+                                <script type="text/javascript">
+                                //<![CDATA[
+                                    Calendar.setup({
+                                        inputField: "dd_date",
+                                        ifFormat: "%e/%m/%Y",
+                                        showsTime: false,
+                                        button: "from_date_trig",
+                                        align: "Bl",
+                                        singleClick : true,
+                                        disableFunc: function(date) {
+var now= new Date();
+if(date.getFullYear() < now.getFullYear()) { return true; }
+if(date.getFullYear() == now.getFullYear()) { if(date.getMonth() < now.getMonth()) { return true; } }
+if(date.getMonth() == now.getMonth()) { if(date.getDate() < now.getDate()) { return true; } }
+},
+                                    });
+                                //]]>
+                                </script>  
+                                </span>          
+   
+  </div>
+</div>
+<div>
+    <?php echo $this->getMethod()->getConfigData('message');?>
+</div>

@@ -1,0 +1,8 @@
+<?php
+$jsBaseUrl = Mage::helper('udropship')->getVendorPortalJsBaseUrl();
+?>
+
+<script type="text/javascript" src="<?php echo $jsBaseUrl?>unirgy/media/flex.js"></script>
+<script type="text/javascript" src="<?php echo $jsBaseUrl?>unirgy/media/flexuploader.js"></script>
+<script type="text/javascript" src="<?php echo $jsBaseUrl?>unirgy/media/FABridge.js"></script>
+<?php echo $this->helper('adminhtml/media_js')->getTranslatorScript() ?>

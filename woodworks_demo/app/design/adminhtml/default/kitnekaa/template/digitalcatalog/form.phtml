@@ -1,0 +1,70 @@
+<!-- Digital Catalogs File Upload Form -->
+<div class="entry-edit">
+	<div class="entry-edit-head">
+		<h4 class="icon-head head-edit-form fieldset-legend">Digital Catalogs</h4>
+	</div>
+	
+	<div class="fieldset fieldset-wide">
+		<div class="hor-scroll">
+			<table class="form-list" cellspacing="0">
+				<tbody>
+					<tr>
+						<td class="label">
+							<label>Product Catalog (Only PDF Files) </label>
+						</td>
+						<td class="value">
+							<input type="file" id="digital_catalog" class="input-file" name="digitalcatalog">
+
+							<?php
+								//Get Current Category ID
+								$categoryID = Mage::registry('current_category')->getID();
+								
+								//Digital Catalog Path For Current Category
+								if($categoryID != '') {
+									$uploadedDigitalCatlogPath = Mage::getBaseDir('media') . DS . 'digital_catalog'. DS . $categoryID. DS;
+								}
+								
+								//Initialise Files Array
+								$files = array();
+								
+								if(file_exists($uploadedDigitalCatlogPath)) {
+									//Check Directory
+									if(is_dir($uploadedDigitalCatlogPath)) {
+										//Open Directory
+										if($dh = opendir($uploadedDigitalCatlogPath)) {
+											while (($file = readdir($dh)) !== false) {
+									            if($file != "." && $file != "..") {
+									            	//Get File Extension
+						            				$ext = pathinfo($file, PATHINFO_EXTENSION);
+
+						            				if($ext == 'pdf') {
+									            		$files[] = $file;
+									            	}
+									            }
+									        }
+									        closedir($dh);
+										}
+									}
+								}
+							?>
+
+							<?php 
+								if(count($files) > 0) {
+									foreach ($files as $uploaded_doc) { ?>
+										<p>
+											<?php echo $uploaded_doc; ?> <a target="_blank" href="<?php echo Mage::getBaseUrl('media') . 'digital_catalog'. DS. $categoryID. DS . $uploaded_doc; ?>">Preview</a>
+										</p>
+										<span class="delete-image">
+											<input class="checkbox" type="checkbox" name="digitalcatalog[]" value="<?php echo $uploaded_doc; ?>">
+											<label>Delete</label>
+										</span>
+									<?php }
+								}
+							?>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>

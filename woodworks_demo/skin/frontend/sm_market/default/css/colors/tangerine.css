@@ -1,0 +1,202 @@
+
+/*title color hover*
+.category-products .item .product-name a:hover,
+.yt-tab-listing .respl-tabs-wrap ul li.respl-tab .respl-tab-label:hover,
+.yt-product-detail .tab-product-detail .yt-tab-navi > li > a:hover,
+*end title color hover*/
+/*--more layout--*/
+.sm-deal-wrap .item-title a:hover,
+#yt_header.header4-wrap .head-quicklink .links li:hover a,
+#yt_wrapper .header3-wrap .sm-serachbox-pro .sm-searbox-content .form-button.button span,
+#yt_wrapper .header2-wrap .sm-serachbox-pro .sm-searbox-content .form-button.button span,
+.header2-wrap .login-regis a:hover,
+/*---*/
+.box-1-contact .store-info .list-info .item-info .info-content > h2 a:hover,
+.toolbar .pagination-wrap .pagination .pages ol li.current a,
+.slideshow-wrap .tp-caption.market-slide1-btn-shopnow:after,
+.yt-tab-listing .respl-tabs-wrap ul li.respl-tab.tab-sel .respl-tab-label,
+.yt-product-detail .tab-product-detail .yt-tab-navi > li.active > a,
+.slideshow-wrap .tp-caption.market-slide1-btn-shopnow a,
+
+.language-currency ul li a.selected,
+.language-currency ul li a:hover,
+
+
+.aboutus-page .client-info-about .name,
+.aboutus-page .our-member .info-member .cl-name > a,
+#yt_footer a:hover,
+.price-box ,
+.mega-product .block-mega-products .item-box-content .product-price .price-box,
+.mega-product .block-mega-products .item-box-content .product-name a:hover,
+.megamenu3 .mega3-content .inner .mega3-col a:hover,
+.mini-cartpro .block-content .mini-products-list li.item .product-name a:hover,
+.sm_megamenu_wrapper_horizontal_menu .mega-home-content ul li:hover:before,
+#nav > li > ul li:hover:before,
+.yt-copyright a,
+a:hover, 
+a:focus{
+	color:#e34931;
+}
+#nav li.active > a,
+#nav li ul li a:hover,
+.yt-menu-nav > #nav > li > a:hover,
+.sm_megamenu_wrapper_vertical_menu .sm_megamenu_menu li.sm_megamenu_lv1 > a.sm_megamenu_head:hover,
+.sm_megamenu_wrapper_vertical_menu .sm_megamenu_menu li.sm_megamenu_lv1 > a.sm_megamenu_head.sm_megamenu_actived{
+	background-color:#e34931 !important;
+}
+#yt_wrapper .header4-wrap .sm-serachbox-pro .sm-searbox-content .form-button.button:hover,
+.header4-wrap .mini-cartpro.block .block-title,
+.header4-wrap .language-currency .overwrite-switch:hover,
+.header4-wrap .wishlist-compare .block .block-title:hover,
+#yt_wrapper .block-tags .actions .button:hover,
+.header2-wrap .block-newsletter #newsletter-validate-detail .input-box button,
+.header3-wrap .sm_megamenu_wrapper_horizontal_menu .sm_megamenu_menu .sm_megamenu_lv1.sm_megamenu_actived > a:after,
+.header3-wrap .sm_megamenu_wrapper_horizontal_menu .sm_megamenu_menu .sm_megamenu_lv1 > a:hover:after,
+.header3-wrap .sm_megamenu_wrapper_horizontal_menu .sm_megamenu_menu .sm_megamenu_lv1.sm_megamenu_actived > a,
+.header3-wrap .sm_megamenu_wrapper_horizontal_menu .sm_megamenu_menu .sm_megamenu_lv1 > a:hover,
+.header2-wrap .sm_megamenu_wrapper_horizontal_menu .sm_megamenu_menu .sm_megamenu_lv1.sm_megamenu_actived > a,
+.header2-wrap .sm_megamenu_wrapper_horizontal_menu .sm_megamenu_menu .sm_megamenu_lv1 > a:hover,
+/*---*/
+
+#yt_wrapper .header1-wrap .sm-serachbox-pro .sm-searbox-content .form-button.button:hover,
+.mini-cartpro .block-title .show-cart-button:before,
+#yt_wrapper .page-title h1:after,
+.yt-product-detail .tab-product-detail .yt-tab-navi > li.active > a:before,
+.yt-product-detail .tab-product-detail .yt-tab-navi > li > a:hover:before,
+#yt_main .sm-slider .page-button .control-button li:hover,
+.quickview-main .add-to-cart .btn-cart,
+#yt_wrapper .add-to-cart .btn-cart,
+.quantity-box .quantity-controls:hover,
+.yt-product-detail .more-views.slide-gallery .prev:hover, 
+.yt-product-detail .more-views.slide-gallery .next:hover,
+.yt-product-detail .popup-btn.hidden-phone > a:hover,
+.hotcate-wrap .btn-viewmore,
+.toolbar .view-mode-wrap .view-mode a:hover,
+.toolbar .view-mode-wrap .view-mode strong,
+.toolbar .pagination-wrap .pagination .pages ol li a.next:hover, 
+.toolbar .pagination-wrap .pagination .pages ol li a.previous:hover,
+.spotlight4 li:hover .ico-contactus,
+.spotlight4 .address:hover:before,
+.hotcate-wrap .block-title span:after,
+.collections-wrap .block-title span:after,
+#yt_main .yt-product-detail .sm-slider .block-title span:after,
+#yt_left .block-title span:after,
+#yt_right .block-title span:after,
+.carousel-control-wrap .carousel-control-tab:hover,
+.sm_quickview_handler:hover,
+.category-products .item .product-addcart .btn-cart:hover,
+.mini-cartpro .block-content .bottom-action .button-wrapper .link-button:hover,
+.mini-cartpro .block-content .mini-products-list .item:hover .product-price .price,
+#yt_header.header1-wrap .head-quicklink .links li.first,
+#yt_header .head-quicklink .links li:hover,
+
+.block-tags .tags-list li a:hover,
+#yt_wrapper .button:hover,
+/*#yt-responsivemenu .btn.btn-navbar:hover,*/
+#checkout-progress-state li.active,
+#checkout-progress-wrapper .block-content dt.complete, 
+#checkout-progress-wrapper .block-content dt.complete a,
+
+.catalog-product-compare-index .button:hover,
+.owl-theme .owl-dots .owl-dot.active span,
+.owl-theme .owl-dots .owl-dot span:hover,
+.toolbar .select-inner ul li a:hover,
+#confirmbox #btcancel:hover,
+#confirmbox .button.btn-cart:hover > span, 
+#btcancel:hover, 
+#btccart span:hover, 
+#btcshop:hover span,
+.pager li > a:hover, .pager li > a:focus, .pager li.current > a
+{
+	background-color:#e34931;
+}
+.block-policy-v3 .policy .policy-inner:hover,
+
+.yt-product-detail .jCarouselLite li .cloud-zoom-gallery:hover,
+.yt-product-detail .jCarouselLite li .cloud-zoom-gallery.actived,
+.yt-product-detail .tab-product-detail .yt-tab-navi > li.active > a,
+.yt-product-detail .tab-product-detail .yt-tab-navi > li > a:hover,
+#yt_main .sm-slider .page-button .control-button li:hover,
+.yt-product-detail .more-views.slide-gallery .prev:hover, 
+.yt-product-detail .more-views.slide-gallery .next:hover,
+.basic-bestsale .bs-item-inner:hover .bs-image,
+#yt_pathway  ul.breadcrumbs li.home:hover,
+#yt_pathway  ul.breadcrumbs li a:hover,
+.toolbar .pagination-wrap .pagination .pages ol li a.next:hover, 
+.toolbar .pagination-wrap .pagination .pages ol li a.previous:hover,
+.collections li a:hover,
+.carousel-control-wrap .carousel-control-tab:hover,
+.yt-tab-listing .respl-tabs-wrap ul li.respl-tab.tab-sel,
+.sm_quickview_handler:hover,
+.category-products .item .product-addcart .btn-cart:hover,
+.yt-product-detail .add-to-links li a:hover,
+.category-products .item .wishlist-compare a:hover{
+	border-color:#e34931;
+}
+
+.mini-cartpro .block-title .show-cart-button:before{
+	background-image:url(../../images/tangerine/ico-minicart.png);
+}
+.mini-cartpro .block-content .mini-products-list li.item a.btn-remove:hover {
+	background:url(../../images/tangerine/del-minicart.png) no-repeat;
+}
+.block-policy-v3 .policy1 .policy-inner:hover span,
+.banner-policy .policy1 a:hover span{
+	background-image: url(../../images/tangerine/ico-money.png);
+}
+.block-policy-v3 .policy2 .policy-inner:hover span,
+.banner-policy .policy2 a:hover span{
+	background: url(../../images/tangerine/ico-freeship.png) no-repeat;
+}
+.block-policy-v3 .policy3 .policy-inner:hover span,
+.banner-policy .policy3 a:hover span{
+	background-image: url(../../images/tangerine/ico-celander.png);
+}
+.block-policy-v3 .policy4 .policy-inner:hover span,
+.banner-policy .policy4 a:hover span{
+	background-image: url(../../images/tangerine/ico-umbrella.png);
+}
+.yt-product-detail .add-to-links li a:hover,
+.category-products .item .wishlist-compare a:hover{ 
+	background-image: url(../../images/tangerine/wishlist-compare.png);
+}
+#yt_footer .yt-payment a:hover{
+	background-image: url(../../images/tangerine/payment-bg.png);
+}
+#yt_pathway  ul.breadcrumbs li a:hover:before,
+#yt_pathway  ul.breadcrumbs li a:hover:after{
+	background: url(../../images/tangerine/breadcrumbs-right.png) no-repeat;
+}
+
+#yt_header .yt-menu-content {
+	border-top:3px solid #e34931;
+}
+#nav > li.level0:hover,
+.sm_megamenu_wrapper_vertical_menu .sm_megamenu_menu li.sm_megamenu_lv1:hover {
+	border-color: #e34931;
+}
+.yt-tab-listing .title-text{
+	border-bottom: 1px solid #e34931;
+}
+.collections .collect a{
+	border-bottom: 3px solid #e34931;
+}
+
+.aboutus-page .why-list li:before {
+    background-image: url("../../images/tangerine/icon-whylist.png");
+}
+
+.sm-categories .cat-wrap.theme3 .content-box .child-cat .child-cat-title:hover:before {
+	background: url(../../images/tangerine/ico-subcate.png) no-repeat top left;
+}
+
+/*listingextend*/
+.owl-theme .owl-buttons .owl-prev:hover,
+.owl-theme .owl-buttons  .owl-next:hover{
+	background-color: #e34931;
+    border: 1px solid #e34931;
+}
+.owl-theme .owl-pagination .owl-page.active .owl-numbers,
+.owl-theme .owl-pagination .owl-page .owl-numbers:hover{
+    color: #e34931;
+}
