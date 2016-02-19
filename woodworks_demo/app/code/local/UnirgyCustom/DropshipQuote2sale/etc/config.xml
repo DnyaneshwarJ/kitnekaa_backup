@@ -24,6 +24,14 @@
                     </custom_data_on_quote_save>
                 </observers>
             </sales_quote_save_before>
+            <kitnekaa_sales_order_save_before_backend>
+                <observers>
+                    <kitnekaa_sales_order_save_before_backend>
+                        <class>UnirgyCustom_DropshipQuote2sale_Model_OrderObserver</class>
+                        <method>kitnekaa_sales_order_save_before_backend</method>
+                    </kitnekaa_sales_order_save_before_backend>
+                </observers>
+            </kitnekaa_sales_order_save_before_backend>
         </events>
     </adminhtml>
     <global>

@@ -127,6 +127,14 @@
           </sales_view_order>
         </observers>
       </controller_action_predispatch_adminhtml_sales_order_view>
+      <sales_order_place_before>
+        <observers>
+          <sales_order_save_before_backend>
+            <class>Company_Users_Model_OrderObserver</class>
+            <method>sales_order_save_before_backend</method>
+          </sales_order_save_before_backend>
+        </observers>
+      </sales_order_place_before>
     </events>
   </global>
   <adminhtml>

@@ -38,4 +38,15 @@ class Company_Users_Model_OrderObserver extends Mage_Core_Model_Abstract
         $select = $collection->getSelect();
         $select->join('sales_flat_order', 'main_table.entity_id=sales_flat_order.entity_id', array('company_name'));
     }
+
+    function sales_order_save_before_backend($observer)
+    {
+        $event = $observer->getEvent();
+        $order = $event->getOrder();
+        $company=Mage::getModel('users/company')->loadByCustomerId($order->getCustomerId());
+        $order->setCompanyId($company->getCompanyId());
+        $order->setCompanyName($company->getCompanyName());
+        Mage::dispatchEvent('kitnekaa_sales_order_save_before_backend',array('order'=>$order));
+        return;
+    }
 }

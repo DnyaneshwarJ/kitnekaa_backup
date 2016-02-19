@@ -17,4 +17,14 @@ class UnirgyCustom_DropshipQuote2sale_Model_OrderObserver
         $order_item->setUdropshipVendor($quote_item->getUdropshipVendor());
         return $order_item;
     }
+
+    public function kitnekaa_sales_order_save_before_backend($observer)
+    {
+        $order = $observer->getOrder();
+        if(Mage::helper('udquote2sale')->getVendorId())
+        {
+            $order->setVendorId(Mage::helper('udquote2sale')->getVendorId());
+        }
+        return;
+    }
 }
