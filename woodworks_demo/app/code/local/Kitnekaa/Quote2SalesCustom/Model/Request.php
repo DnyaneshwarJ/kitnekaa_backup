@@ -69,9 +69,12 @@ class Kitnekaa_Quote2SalesCustom_Model_Request extends Bobcares_Quote2Sales_Mode
         if($data['request_quote'])
         {
             $request_quote_products =$data['shopp_list_items'];
+            $item_option_labels=$_POST['item_option_labels'];
+            $item_option_values=$_POST['item_option_values'];
+            $item_options=array("labels"=>$item_option_labels,"values"=>$item_option_values);
             $upload_files = $data['upload_files'];
             $request_quote = $data['request_quote'];
-
+            //var_dump($item_options);die;
             Mage::dispatchEvent('save_quote_request_before',array('quote_request'=>$request_quote,'quote_items'=>$request_quote_products));
 
             if($request_quote['delivery_location'][0])
@@ -96,7 +99,7 @@ class Kitnekaa_Quote2SalesCustom_Model_Request extends Bobcares_Quote2Sales_Mode
             parent::setData($request_quote);
             $request_id = parent::save()->getId();
             $this->_current_request_id=$request_id;
-            $this->setQuoteRequestProducts($request_quote_products,$request_id,$upload_files);
+            $this->setQuoteRequestProducts($request_quote_products,$item_options,$request_id,$upload_files);
             Mage::dispatchEvent('save_quote_request_after',array('request_id'=>$request_id,'quote_request'=>$request_quote,'quote_items'=>$request_quote_products));
         }
         else
@@ -106,11 +109,12 @@ class Kitnekaa_Quote2SalesCustom_Model_Request extends Bobcares_Quote2Sales_Mode
     }
 
 
-    public function setQuoteRequestProducts($request_quote_products,$request_id,$upload_files=FALSE)
+    public function setQuoteRequestProducts($request_quote_products,$item_options,$request_id,$upload_files=FALSE)
     {
         $shopp_list_attachments=array();
         foreach($request_quote_products['product_id'] as $k=>$qproduct_id)
         {
+
             $data_req_products=array(
                 "request_id"=>$request_id,
                 "item_name"=>$request_quote_products["item_name"][$k],
@@ -131,6 +135,13 @@ class Kitnekaa_Quote2SalesCustom_Model_Request extends Bobcares_Quote2Sales_Mode
             {
                 $data_req_products['status']=self::QUOTE_PRODUCT_STATUS_DOES_NOT_EXIST;
             }
+
+            if(!is_null($item_options['labels']) && !empty($item_options['labels']) && count($item_options['labels'])>0)
+            {
+                $json_item_options=json_encode(array('labels'=>$item_options['labels'][$qproduct_id],'values'=>$item_options['values'][$qproduct_id]));
+                $data_req_products['item_options']=$json_item_options;
+            }
+
 
             $quote_product_list_id=Mage::getModel('quote2salescustom/requestproducts')->setData($data_req_products)->save()->getId();
 

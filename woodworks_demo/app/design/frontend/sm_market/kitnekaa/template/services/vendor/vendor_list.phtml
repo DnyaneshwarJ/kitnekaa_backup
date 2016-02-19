@@ -1,0 +1,55 @@
+
+<div ng-app="QuoteRequest">
+    <div class="curve-contain" ng-controller="VendorController">
+        <div class="sellers-select">
+            <label>
+        <input type="checkbox" ng-click="checkAll()" ng-model="selectedAll"/> Select All </label>
+        </div>
+        <?php
+        $product_vendors = $this->getProduct()->getMultiVendorData();
+        $vendors = array();
+        foreach ($product_vendors as $v) {
+            $vendor = Mage::helper('udropship')->getVendor($v['vendor_id']);
+            $logo = $vendor->getLogo() ? Mage::helper('udropship')->getResizedVendorLogoUrl($vendor, 40, 40) : '';
+            $price = $v['vendor_price'] ? $v['vendor_price'] : $this->getProduct()->getFinalPrice();
+            $_formattedFinalPrice = Mage::helper('core')->currency($price, true, false);
+            ?>
+
+            <div class="sellers-btn">
+                <label>
+                    <div class="left-block">
+                        <input type="checkbox"
+                               class="single-item"
+                               ng-click="removeSelectAll($event)"
+                               name="quote_vendors[]"
+                               value="<?php echo $v['vendor_id']?>"
+                            />
+                        <?php if ($logo) { ?>
+                            <img src="<?php echo $logo ?>"/>
+                        <?php }
+                        ?>
+                        <span><?php echo $vendor->getVendorName() ?></span>
+                    </div>
+                <!--    <div class="right-block">
+                        <span> <?php /*echo $_formattedFinalPrice */?></span>
+                    </div>-->
+                </label>
+            </div>
+            <?php
+        }
+        ?>
+    </div>
+</div>
+
+<script>
+    angular.module("QuoteRequest",[]).controller("VendorController",
+        function VendorController($scope){
+            $scope.checkAll = function () {
+                jQuery(".single-item").prop('checked',$scope.selectedAll);
+            };
+            $scope.removeSelectAll = function (e)
+            {
+                $scope.selectedAll=false;
+            }
+        });
+</script>

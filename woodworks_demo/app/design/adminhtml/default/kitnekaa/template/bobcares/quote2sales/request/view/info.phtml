@@ -121,7 +121,7 @@ $createdDate = $this->formatDate($_request->getCreated_at(), 'medium', true);
       <div class="grid np">
           <table cellspacing="0" >
               <colgroup>
-                  <col width="80">
+                  <col width="100">
                   <col width="1">
                   <col width="100">
                   <col width="1">
@@ -149,9 +149,24 @@ $createdDate = $this->formatDate($_request->getCreated_at(), 'medium', true);
               $req_products=$_request->getRequestProducts();
               foreach($req_products as $item)
               {
+                  $item_options=  Mage::helper('core')->jsonDecode($item->getItemOptions());
                   ?>
                   <tr class="even" >
-                      <td><?php echo $item->getItemName() ?></td>
+                      <td>
+                          <?php echo $item->getItemName() ?>
+                          <p>
+                          <?php if(!is_null($item_options['labels']) && !empty($item_options['labels']) && count($item_options['labels'])>0 ){
+                              foreach($item_options['labels'] as $k=>$label)
+                              {
+                                  ?>
+                                  <span style="font-weight: bold"><?php echo $label?> : </span> <?php echo $item_options['values'][$k] ?> <br/>
+                                  <?php
+                              }
+                              ?>
+
+                          <?php } ?>
+                          </p>
+                      </td>
                       <td><?php echo $item->getSku() ?></td>
                       <td><?php echo $item->getComment() ?></td>
                       <td><?php echo $item->getWhenNeed() ?></td>
