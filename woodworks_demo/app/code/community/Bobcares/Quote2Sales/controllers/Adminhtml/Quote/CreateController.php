@@ -195,7 +195,7 @@ class Bobcares_Quote2Sales_Adminhtml_Quote_CreateController extends Mage_Adminht
              * Send mail on Quote creation
              */
 //            calling the Model file Email.php and activating the  send mail Function  that will send the mail.
-            Mage::getModel('quote2sales/email')->sendEmail($quote, $sellerComment);
+            Mage::getModel('quote2sales/email')->sendEmail($quote, $sellerComment,$requestTable);
 
 
             $customerId = $this->_getSession()->getCustomerId();

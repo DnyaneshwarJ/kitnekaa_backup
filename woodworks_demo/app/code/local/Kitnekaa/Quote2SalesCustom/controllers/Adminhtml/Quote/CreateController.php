@@ -68,7 +68,7 @@ class Kitnekaa_Quote2SalesCustom_Adminhtml_Quote_CreateController extends Bobcar
              */
 //            calling the Model file Email.php and activating the  send mail Function  that will send the mail.
 
-            Mage::getModel('quote2sales/email')->sendEmail($quote, $sellerComment,$requestTable);
+            Mage::getModel('quote2sales/email')->sendEmail($quote, $sellerComment,$requestTable,false);
 
 
             $customerId = $this->_getSession()->getCustomerId();

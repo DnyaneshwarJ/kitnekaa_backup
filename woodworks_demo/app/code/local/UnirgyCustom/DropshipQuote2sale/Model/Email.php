@@ -1,11 +1,10 @@
 <?php
 class UnirgyCustom_DropshipQuote2sale_Model_Email extends Bobcares_Quote2Sales_Model_Email {
 
-    public function sendEmail(Bobcares_Quote2Sales_Model_Adminhtml_Quote_Create $quote, $sellerComment,$quote_request) {
+    public function sendEmail(Bobcares_Quote2Sales_Model_Adminhtml_Quote_Create $quote, $sellerComment,$quote_request,$checkout=false) {
 
 //        Variables or data Extaracted from the quote object about the quote for using in the template email.
         $quoteObj = $quote->getQuote();
-
 //        $subject = "Quote generated #". $quoteObj->getId();
 
         $templateId = Mage::getStoreConfig('quotes/email/email_quote_template');
@@ -85,8 +84,16 @@ class UnirgyCustom_DropshipQuote2sale_Model_Email extends Bobcares_Quote2Sales_M
             'sellerComment' => $sellerComment
         );
 
+        if($checkout){
+            $params['request_type']=false;
+            $params['reject_quote']=false;
+        }
+        else
+        {
+            $params['request_type']=$quote_request->getRequestType()=='Service'?true:false;
+            $params['reject_quote']=true;
+        }
 
-        $params['request_type']=$quote_request->getRequestType()=='Service'?true:false;
 
         $params['vendor_id']=false;
         if (Mage::helper('udquote2sale')->getVendorId())

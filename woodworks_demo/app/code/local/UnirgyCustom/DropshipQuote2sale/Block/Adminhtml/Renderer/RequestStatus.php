@@ -86,13 +86,14 @@ class UnirgyCustom_DropshipQuote2sale_Block_Adminhtml_Renderer_RequestStatus ext
                     } else {
                         return Mage::helper('quote2sales')->__('NO STATUS ASSIGNED');
                     }
+                    if($status=='Quote Accepted')
+                    {
+                        $requestStatus .="<a href='".Mage::helper('adminhtml')->getUrl("quote2sales/adminhtml_request/sendQuoteEmail", array('quote_id' => $quoteId,'request_id'=>$requestId))."'>Send Checkout email</a><br/><br/>";
+                    }
                 }
             }
 
-            if($status=='Quote Accepted')
-            {
-                $requestStatus .="<a href='#'>Send Checkout email</a>";
-            }
+
             return $requestStatus;
         } else {
             return Mage::helper('quote2sales')->__('NO STATUS ASSIGNED');
