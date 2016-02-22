@@ -94,10 +94,95 @@
             
             }
             
-            
+            //Vertical Menu For Catalogs
+            if ($demo == $digi_cat_id) {?>
+               <input type="hidden" value="Catalogs" id="categorynamehead"/>
+
+               <?php
+               //Media URL Path
+               $mediaurl = Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA);
+               foreach ($children as $category) {
+                  #echo "Cat Name:".$category->getName()." ID:".$category->getID()."<br>";
+
+                  //Category ID
+                  $catID = $category->getID();
+
+                  //Category Name
+                  $catName = $category->getName();
+
+                  //Category Active Status
+                  $isCatActive = $category->getIsActive();
+
+                  //Category Request Path
+                  $urlRequest = Mage::getBaseUrl().$category->getRequestPath();
+
+                  //Category Icon Img
+                  $catIconImg = Mage::getModel('catalog/category')->load($catID)->getIconcategory();
+                  
+                  //Category Icon Img URL Path
+                  $iconImgUrl = $mediaurl."catalog/category/".$catIconImg;
+
+                  $fileCount = 0;
+
+                  //Uploaded Catalog Path
+                  $uploadedDigitalCatlogPath = Mage::getBaseDir('media') . DS . 'digital_catalog'. DS . $catID . DS;
+
+                  if(file_exists($uploadedDigitalCatlogPath)) {
+                     //Search For PDF Files In A Directory
+                     $files = glob($uploadedDigitalCatlogPath."*.pdf");
+
+                     if($files) {
+                         $fileCount = count($files);
+                     }
+                 }
+
+                 #echo "Cat ID:".$catID." File Count:".$fileCount. " Cat Active :".$isCatActive. "<br>";
+
+                 if ($isCatActive == 1 && $fileCount > 0) { ?>
+                    <li class=" other-toggle sm_megamenu_lv1 sm_megamenu_drop parent ">
+                        <a id="sm_megamenu_6" href="<?php echo $urlRequest?>" class="sm_megamenu_head sm_megamenu_drop ">
+                           <span class="sm_megamenu_icon sm_megamenu_nodesc" style="background: url('<?php echo $iconImgUrl;?>') no-repeat scroll 0% 50% transparent;">      
+                              <span class="sm_megamenu_title"><?php echo $catName ?></span>
+                           </span>
+                        </a>
+                    
+                        <?php 
+                           //Get Child Category
+                           $childrencat = Mage::getModel('catalog/category')->getCategories($catID); ?>
+
+                           <div class="sm_megamenu_dropdown_1column " style="min-height: 524px;">
+                              <div class="sm_megamenu_col_1 sm_megamenu_firstcolumn  sm_megamenu_id15 ">
+                                 <?php foreach ($childrencat as $categoryname) { 
+                                    $catid = $categoryname->getID();
+                                    $_category = Mage::getModel('catalog/category')->load($catid);
+                                    $caticonimage = $_category->getIconcategory();
+                                    $mediaurl = Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA);
+                                    $imageurl = $mediaurl."catalog/category/".$caticonimage;
+
+                                    $urlRequestinner = Mage::getBaseUrl().$categoryname->getRequestPath();?>
+                                    <div class="sm_megamenu_col_6 sm_megamenu_firstcolumn  sm_megamenu_id79 ">
+                                       <div class="sm_megamenu_head_item ">
+                                          <div class="sm_megamenu_title">
+                                             <a href="<?php echo $urlRequestinner;?>" class="sm_megamenu_nodrop ">
+                                                <span class="sm_megamenu_icon" style="background: url(<?php echo $imageurl;?>) no-repeat scroll 0% 50%  transparent;">
+                                                   <span class="sm_megamenu_title_lv2"><?php echo $categoryname->getName(); ?></span>
+                                                </span>
+                                             </a>
+                                          </div>
+                                       </div>
+                                    </div>
+                                 <?php } ?>
+                              </div>
+                           </div>
+                    </li>
+                 <?php }
+               }
+            } else {
+
             foreach ($children as $category)
             { 
             	//print_r($category->getData());
+               /*echo "Cat Name:".$category->getName()." ID:".$category->getID()."<br>";*/
             	$catid=$category->getID();
             	$_category = Mage::getModel('catalog/category')->load($catid);
             	$caticonimage = $_category->getIconcategory();
@@ -115,8 +200,6 @@
             	$finalcatname = "Services";
             }else if($demo == 87){
             	$finalcatname = "Consultant";
-            }elseif ($demo == $digi_cat_id) {
-               $finalcatname = "Catalogs";
             }else{
             	$finalcatname = "Products";
             }
@@ -152,7 +235,9 @@
             </div>
             <?php  ?>
          </li>
-         <?php }?>
+         <?php }
+         }
+         ?>
       </ul>
    </div>
 </div>

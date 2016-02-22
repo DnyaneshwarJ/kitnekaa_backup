@@ -13,11 +13,17 @@ class Kitnekaa_Quote2SalesCustom_Block_Adminhtml_Request_Grid extends Bobcares_Q
 	  protected function _prepareColumns()
 	  {
 
+		  $this->addColumnAfter('request_type', array(
+			  'header'    => Mage::helper('quote2sales')->__('Request Type'),
+			  'width'     => '100px',
+			  'index'     => 'request_type',
+		  ),'request_id');
+
 		  $this->addColumnAfter('company_name', array(
 			  'header'    => Mage::helper('quote2sales')->__('Company'),
 			  'width'     => '100px',
 			  'index'     => 'company_name',
-		  ),'request_id');
+		  ),'request_type');
 	      return parent::_prepareColumns();
 	  }
 

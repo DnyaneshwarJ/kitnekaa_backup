@@ -46,7 +46,7 @@ global $var_yttheme;
                         <option>India - English</option>
                     </select>-->
                     <ul>
-                        <li class="call-us"><strong>Call Us On :</strong> 1800 3000 2004</li>
+                        <li class="call-us"><strong>Call Us On :</strong> <?php echo Mage::getStoreConfig('general/store_information/phone') ?></li>
                         <li class="sale-kitnekaa"><a href="<?php echo Mage::getBaseUrl(); ?>contacts/"><img src="<?php echo $this->getSkinUrl('images/kitnekaa-tag.png') ?>">Sell on Kitnekaa</a></li>
                         <li class="track-ship"><a href="#"><img src="<?php echo $this->getSkinUrl('images/track-ship-ic.png') ?>">Track My Shipment</a></li>
                         <?php if(!Mage::getSingleton('customer/session')->isLoggedIn()){ ?>

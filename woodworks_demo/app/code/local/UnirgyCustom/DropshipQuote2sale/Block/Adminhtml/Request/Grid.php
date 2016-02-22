@@ -43,11 +43,16 @@ class UnirgyCustom_DropshipQuote2sale_Block_Adminhtml_Request_Grid extends Kitne
             'width' => '40px',
             'index' => 'request_id',
         ));
+        $this->addColumnAfter('request_type', array(
+            'header'    => Mage::helper('quote2sales')->__('Request Type'),
+            'width'     => '100px',
+            'index'     => 'request_type',
+        ),'request_id');
         $this->addColumnAfter('company_name', array(
             'header'    => Mage::helper('quote2sales')->__('Company'),
             'width'     => '100px',
             'index'     => 'company_name',
-        ),'request_id');
+        ),'request_type');
 
         $customers = Mage::helper('quote2sales')->getAllCustomers();
         $this->addColumn('customer', array(
@@ -59,11 +64,11 @@ class UnirgyCustom_DropshipQuote2sale_Block_Adminhtml_Request_Grid extends Kitne
         ));
 
 
-        $this->addColumn('name', array(
+       /* $this->addColumn('name', array(
             'header' => Mage::helper('quote2sales')->__('Name on RFQ'),
             'width' => '100px',
             'index' => 'name',
-        ));
+        ));*/
 
         $this->addColumn('email', array(
             'header' => Mage::helper('quote2sales')->__('Preferred email'),

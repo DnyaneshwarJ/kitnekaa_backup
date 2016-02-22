@@ -66,6 +66,7 @@ class Kitnekaa_Quote2SalesCustom_Model_Request extends Bobcares_Quote2Sales_Mode
     public function save()
     {
         $data=parent::getData();
+
         if($data['request_quote'])
         {
             $request_quote_products =$data['shopp_list_items'];
@@ -74,9 +75,8 @@ class Kitnekaa_Quote2SalesCustom_Model_Request extends Bobcares_Quote2Sales_Mode
             $item_options=array("labels"=>$item_option_labels,"values"=>$item_option_values);
             $upload_files = $data['upload_files'];
             $request_quote = $data['request_quote'];
-            //var_dump($item_options);die;
+            $request_type=$request_quote['request_type'];
             Mage::dispatchEvent('save_quote_request_before',array('quote_request'=>$request_quote,'quote_items'=>$request_quote_products));
-
             if($request_quote['delivery_location'][0])
             {
                 $request_quote = array('deliverylocation'=> $request_quote['delivery_location'][0],
@@ -86,7 +86,6 @@ class Kitnekaa_Quote2SalesCustom_Model_Request extends Bobcares_Quote2Sales_Mode
                 $request_quote = array('deliverylocation'=> $request_quote_products['delivery_location'][0],
                     'billing_address_id'=>$request_quote_products['billing_address_id'][0]);
             }
-
             $parent_customer = Mage::getSingleton('customer/session')->getCustomer();
             $customer = Mage::helper('users')->getCurrentCompanyUser();
             $request_quote['customer_id']=$parent_customer->getId();
@@ -95,6 +94,7 @@ class Kitnekaa_Quote2SalesCustom_Model_Request extends Bobcares_Quote2Sales_Mode
             $request_quote['email']=$customer->getEmail();
             $request_quote['phone']=Mage::helper('shoppinglist')->getAddressContactNo($request_quote['deliverylocation']);
             $request_quote['company_id']=$parent_customer->getCompanyId();
+            $request_quote['request_type']=$request_type;
 
             parent::setData($request_quote);
             $request_id = parent::save()->getId();

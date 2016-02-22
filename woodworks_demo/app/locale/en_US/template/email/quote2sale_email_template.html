@@ -131,9 +131,11 @@ body,td { color:#2f2f2f; font:11px/1.35em Verdana, Arial, Helvetica, sans-serif;
                                             <tr>
                                                 <td align="center" valign="middle"
                                                     style="color:#FFFFFF; font-family:Helvetica, Arial, sans-serif; font-size:14px; font-weight:bold; letter-spacing:.5px; line-height:150%; padding-top:5px; padding-right:5px; padding-bottom:5px; padding-left:5px;">
-                                                    <a href='{{store_url=""}}quote2sales/quote/checkout/quote_id/{{var quoteid}}'
-                                                       target="_blank" style="color:#FFFFFF; text-decoration:none;">Proceed
-                                                        to Checkout</a>
+                                                    {{if request_type}}
+                                                    <a href='{{store_url=""}}quote2sales/index/acceptQuote?acceptquoteid={{var quoteid}}' target="_blank" style="color:#FFFFFF; text-decoration:none;">Accept Quote</a>
+                                                    {{else}}
+                                                    <a href='{{store_url=""}}quote2sales/quote/checkout/quote_id/{{var quoteid}}' target="_blank" style="color:#FFFFFF; text-decoration:none;">Proceed to Checkout</a>
+                                                    {{/if}}
                                                 </td>
                                             </tr>
                                         </table>

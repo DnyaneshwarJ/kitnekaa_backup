@@ -15,6 +15,9 @@
 	$mediaurl = Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA);
 ?>
 <div class="category-products category-list-dy" id="pdfFiles">
+	<?php if($childCatCount == 0) { ?>
+		<a class="back-btn" id="goToParentCatBtn" href="<?php echo $this->getCurrentCategory()->getParentCategory()->getURL();?>" style="display:block;">Back</a>
+	<?php } ?>
 		<ul class="products-grid">
 			<?php if($childCatCount > 0) { ?>
 				<?php
@@ -136,10 +139,7 @@
 						if($catname == 'Catalogs') {
 							echo "<p class='not-msg'>No Catalogs To Display.</p>";
 						} else {
-							$redirectURL = $this->getCurrentCategory()->getParentCategory()->getURL();
-							//echo "URL:".$redirectURL;die();
-							header("Location:$redirectURL");
-							exit(0);
+							echo "<p class='not-msg'>Catalog NOT available currently.</p>";
 						}
 					} elseif ($fileCount == 1) {
 						//PDF File Path
@@ -184,7 +184,7 @@
 </div>
 
 <!-- A PDF Viewer Div -->
-<div id="pdf" style="display:none;">
+<div id="pdf" style="display:none;">	
 	<a class="back-btn" id="backbtn" href="javascript:void(0);" onclick="return false;" style="display:none;">Back</a>
 	<div id="pdfViewer"></div>
 </div>
@@ -209,6 +209,9 @@
 			}).embed("pdfViewer");
 
 			jQuery('#pdf').css("display","block");
+
+			//Show Back Button
+			//jQuery('#goToParentCatBtn').css("display","block");
 		}
 		
 		//PDF File Click Function

@@ -103,7 +103,17 @@ $createdDate = $this->formatDate($_request->getCreated_at(), 'medium', true);
     <!--Shipping Address-->
     <div class="entry-edit">
         <div class="entry-edit-head">
-            <h4 class="icon-head head-shipping-address"><?php echo Mage::helper('sales')->__('Shipping Address') ?></h4>
+            <h4 class="icon-head head-shipping-address">
+                <?php
+                if($_request->getRequestType()=='Service'){
+                    echo Mage::helper('sales')->__('Pickup Address');
+                }
+                else
+                {
+                    echo Mage::helper('sales')->__('Shipping Address');
+                }
+                ?>
+            </h4>
             <div class="tools"><?php //echo $this->getAddressEditLink($_order->getShippingAddress())  ?></div>
         </div>
         <fieldset>
