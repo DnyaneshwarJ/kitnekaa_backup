@@ -1,0 +1,93 @@
+<?php
+$_request= $this->getQuoteRequest()->getFirstItem();
+?>
+<div class="my-account">
+    <div class="page-title">
+        <h1><?php echo $this->__('Quote Request #%s', $this->getRequestId()) ?></h1>
+    </div>
+    <?php $quote2sales=Mage::helper('quote2sales')->getClassObject(); ?>
+    <table class="data-table my-account-table" id="my-request-table">
+        <col width="1" />
+        <col width="1" />
+        <col width="1"/>
+        <col width="1" />
+        <col width="1" />
+        <col width="1" />
+        <thead>
+        <tr>
+            <th  style="width: 200px"><?php echo $this->__("Item Name") ?></th>
+            <th ><?php echo $this->__("Comment") ?></th>
+            <th ><?php echo $this->__("When Needed") ?></th>
+            <th ><?php echo $this->__("Frequency") ?></th>
+            <th ><?php echo $this->__("Attachment") ?></th>
+            <th ><?php echo $this->__("Status") ?></th>
+        </tr>
+        </thead>
+        <tbody>
+        <?php
+        $req_products=$_request->getRequestProducts();
+        foreach($req_products as $item)
+        {
+            $item_options=  Mage::helper('core')->jsonDecode($item->getItemOptions());
+            ?>
+            <tr class="even" >
+                <td>
+                    <div style="text-align: left">
+                        <span style="font-style: italic"><?php echo $item->getItemName() ?></span><br/>
+                    <p>
+                        <?php if(!is_null($item_options['labels']) && !empty($item_options['labels']) && count($item_options['labels'])>0 ){
+                            foreach($item_options['labels'] as $k=>$label)
+                            {
+                                ?>
+                                <span style="font-weight: bold"><?php echo $label?> : </span> <?php echo $item_options['values'][$k] ?> <br/>
+                                <?php
+                            }
+                            ?>
+
+                        <?php } ?>
+                    </p>
+
+                        <span style="font-weight: bold">SKU : </span> <?php echo $item->getSku() ?><br/>
+                        <span style="font-weight: bold">Qty : </span> <?php echo $item->getQty() ?><br/>
+                        <span style="font-weight: bold">Target Price : </span> <?php echo $item->getTargetPrice() ?><br/>
+                        </div>
+                </td>
+                <td><?php echo $item->getComment() ?></td>
+                <td><?php echo $item->getWhenNeed() ?></td>
+                <td><?php echo $item->getFrequency() ?></td>
+                <td>
+                    <?php $attachments=$_request->getRequestQuoteAttachments($item->getId());
+                    if(count($attachments->getData())>0){
+                    foreach($attachments as $attachment)
+                    {
+                        ?>
+                        <a href="<?php echo Mage::helper('quote2sales')->getQuoteAttachmentUrl().$attachment->getFileName() ?>" target="_blank">
+                            <?php echo $attachment->getFileName() ?>
+                        </a><br/>
+                        <?php
+                    }
+                    }
+                    else
+                    {
+                        echo "<span style='font-style: italic'>Not found</span>";
+                    }
+                    ?>
+                </td>
+                <td><?php if($item->getStatus()==$quote2sales::QUOTE_PRODUCT_STATUS_ACTIVE){$color='green';
+                        $status=Mage::helper('quote2sales')->getQuoteProductStatus($quote2sales::QUOTE_PRODUCT_STATUS_ACTIVE);
+                    }else{$color='red';
+                        $status=Mage::helper('quote2sales')->getQuoteProductStatus($quote2sales::QUOTE_PRODUCT_STATUS_DOES_NOT_EXIST);
+                    } ?>
+                    <span style="color:<?php echo $color ?>"><?php echo $status ?></span>
+                </td>
+            </tr>
+            <?php
+        }
+        ?>
+        </tbody>
+    </table>
+    <div class="buttons-set">
+        <p class="back-link"><a href="<?php echo $this->getBackUrl() ?>"><small>&laquo; </small><?php echo $this->__("Back To Request List") ?></a></p>
+    </div>
+</div>
+

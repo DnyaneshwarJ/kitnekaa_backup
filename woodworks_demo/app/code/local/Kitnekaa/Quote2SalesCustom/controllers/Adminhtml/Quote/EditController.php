@@ -146,7 +146,15 @@ class Kitnekaa_Quote2SalesCustom_Adminhtml_Quote_EditController extends Bobcares
         foreach ($itemsData as $itemIds => $itemValue) {
             $products[$itemValue->getProductId()] = array('qty' => $itemValue->getQty());
             $rowTotal = $itemValue->getPrice() * $itemValue->getQty();
-
+            $options =$itemValue->getProduct()->getTypeInstance(true)->getOrderOptions($itemValue->getProduct());
+            $options=$options['options'];
+            $item_options=null;
+            foreach($options as $option)
+            {
+                $item_options['additional_options'][]=array('label'=>$option['label'],'value'=>$option['value'],
+                    'print_value' => $option['value']);
+            }
+            //var_dump($options);die;
             $orderItem = Mage::getModel('sales/order_item');
             Mage::dispatchEvent('set_quote_item_to_order_item',array('order'=>$order,'order_item'=>$orderItem,'quote'=>$quote,'quote_item'=>$itemValue));
                 $orderItem->setStoreId($storeId)
@@ -164,6 +172,9 @@ class Kitnekaa_Quote2SalesCustom_Adminhtml_Quote_EditController extends Bobcares
                 ->setOriginalPrice($itemValue->getPrice())
                 ->setRowTotal($rowTotal)
                 ->setBaseRowTotal($rowTotal);
+            if(!is_null($item_options)){
+                $orderItem ->setProductOptions($item_options);
+            }
             $subTotal += $rowTotal;
             $order->addItem($orderItem);
         }

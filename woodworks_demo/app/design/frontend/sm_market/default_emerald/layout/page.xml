@@ -1,3 +1,4 @@
+
 <?xml version="1.0"?>
 <!--
 /**
@@ -79,8 +80,8 @@ Default layout, loads most of the pages
 				<action method="addItem"><type>skin_js</type><name>js/jquery.session.js</name></action>
 				<action method="addItem"><type>skin_js</type><name>js/ytcpanel.js</name></action>	
 				
-				<action method="addItem"><type>skin_js</type><name>sm/dynamicslideshow/rs-plugin/js/jquery.themepunch.tools.min.js</name></action>
-				<action method="addItem"><type>skin_js</type><name>sm/dynamicslideshow/rs-plugin/js/jquery.themepunch.revolution.min.js</name></action>				
+				<!-- <action method="addItem"><type>skin_js</type><name>sm/dynamicslideshow/rs-plugin/js/jquery.themepunch.tools.min.js</name></action>
+				<action method="addItem"><type>skin_js</type><name>sm/dynamicslideshow/rs-plugin/js/jquery.themepunch.revolution.min.js</name></action> -->				
 				
 				<block type="page/js_cookie" name="js_cookies" template="page/js/cookie.phtml"/>
 				<action method="addItem"><type>skin_css</type><name>bootstrap/css/bootstrap.css</name></action>
@@ -103,7 +104,7 @@ Default layout, loads most of the pages
 				<action method="addCss"><stylesheet>sm/searchboxpro/css/searchboxpro.css</stylesheet></action>	
 				<action method="addItem"><type>skin_css</type><name>sm/shopby/css/style.css</name></action>	
 				<action method="addCss"><stylesheet>sm/tablisting/css/tablisting.css</stylesheet></action>
-				<action method="addCss"><stylesheet>sm/dynamicslideshow/rs-plugin/css/settings.css</stylesheet></action>	
+				<!-- <action method="addCss"><stylesheet>sm/dynamicslideshow/rs-plugin/css/settings.css</stylesheet></action> -->	
 				
 				<action method="addItem"><type>skin_css</type><name>css/jquery.fancybox.css</name></action>
 				<action method="addItem"><type>skin_css</type><name>css/cloudzoom.css</name></action>

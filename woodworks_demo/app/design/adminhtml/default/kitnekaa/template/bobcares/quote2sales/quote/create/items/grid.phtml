@@ -81,10 +81,23 @@
                     <tr>
                         <td class="first">
                             <h5 class="title"><span id="order_item_<?php echo $_item->getId() ?>_title"><?php echo $this->htmlEscape($_item->getName()) ?></span></h5>
+                           <?php
+                                 //if($_item->getProduct()->getTypeInstance(true)->getOrderOptions($_item->getProduct()))
+                                 $options = $_item->getProduct()->getTypeInstance(true)->getOrderOptions($_item->getProduct());
+                                 $options=$options['options'];
+                           ?>
                             <div>
                                 <strong><?php echo $this->helper('sales')->__('SKU') ?>:</strong>
                                 <?php echo implode('<br />', Mage::helper('catalog')->splitSku($this->escapeHtml($_item->getSku()))); ?>
                             </div>
+                            <?php foreach($options as $option){
+                                ?>
+                                <div>
+                                    <strong><?php echo $this->helper('sales')->__($option['label']) ?>:</strong>
+                                    <?php echo $option['value']; ?>
+                                </div>
+                            <?php
+                            } ?>
                             <?php if($_item->getMessage(false)): ?>
                                 <?php foreach ($_item->getMessage(false) as $message): ?>
                                 <div class="<?php if($_item->getHasError()): ?>error<?php else: ?>notice<?php endif; ?>">

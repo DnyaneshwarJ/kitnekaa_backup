@@ -40,9 +40,14 @@ class UnirgyCustom_DropshipQuote2sale_Model_Email extends Bobcares_Quote2Sales_M
 
 //        for each Item in the Quote Items
         foreach ($items as $item) {
-
+            $options =$item->getProduct()->getTypeInstance(true)->getOrderOptions($item->getProduct());
+            $options=$options['options'];
+            $option_text="";
+            foreach($options as $option){
+                $option_text.="<div><strong>".Mage::helper('sales')->__($option['label'])." : </strong>".$option['value']."</div>";
+            }
 //            Quote table rows as string
-            $quoteDetails .= '<tr><td align="left" width="325"  style="font-size:13px; padding:5px 9px 6px 9px; line-height:1em;"><strong>' . $item['name'] . '<br>sku: </strong>' . $item['sku']
+            $quoteDetails .= '<tr><td align="left" width="325"  style="font-size:13px; padding:5px 9px 6px 9px; line-height:1em;"><strong>' . $item['name'] . '<br>sku: </strong>' . $item['sku'].$option_text
                     . '</td><td align="right" width="325"  style="font-size:13px; padding:5px 9px 6px 9px; line-height:1em;">' . Mage::helper('core')->currency($item['price'], true, false)
                     . '</td><td align="right" width="325"  style="font-size:13px; padding:5px 9px 6px 9px; line-height:1em;">' . $item['qty']
                     . '</td><td align="right" width="325"  style="font-size:13px; padding:5px 9px 6px 9px; line-height:1em;">' . Mage::helper('core')->currency($item['row_total'], true, false) . '</td></tr>';

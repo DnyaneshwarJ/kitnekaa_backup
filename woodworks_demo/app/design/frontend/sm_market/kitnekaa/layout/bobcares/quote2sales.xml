@@ -213,6 +213,11 @@
             </action>
         </reference>
     </catalogsearch_result_index>
+    <quote2sales_index_view>
+        <update handle="customer_account"/>
+        <reference name="content">
+            <block type="quote2sales/request_request" name="bobcares_request_view" module="quote2sales"  template="bobcares/quote2sales/request/view.phtml"/>
+        </reference>
 
-
+    </quote2sales_index_view>
 </layout>    

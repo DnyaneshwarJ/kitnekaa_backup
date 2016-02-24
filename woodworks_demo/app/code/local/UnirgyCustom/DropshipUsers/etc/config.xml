@@ -2,7 +2,7 @@
 <config>
     <modules>
         <UnirgyCustom_DropshipUsers>
-            <version>0.1.0</version>
+            <version>0.1.1</version>
         </UnirgyCustom_DropshipUsers>
     </modules>
     <global>
@@ -20,6 +20,31 @@
                 </entities>
             </dropshipusers_mysql4>
         </models>-->
+        <models>
+        <dropshipusers>
+            <class>UnirgyCustom_DropshipUsers_Model</class>
+        </dropshipusers>
+        </models>
+        <events>
+            <udropship_vendor_save_before>
+                <observers>
+                    <save_as_admin_user_before>
+                        <type>singleton</type>
+                        <class>dropshipusers/observer</class>
+                        <method>udropship_vendor_save_before</method>
+                    </save_as_admin_user_before>
+                </observers>
+            </udropship_vendor_save_before>
+            <udropship_vendor_save_after>
+                <observers>
+                    <save_as_admin_user>
+                        <type>singleton</type>
+                        <class>dropshipusers/observer</class>
+                        <method>udropship_vendor_save_after</method>
+                    </save_as_admin_user>
+                </observers>
+            </udropship_vendor_save_after>
+        </events>
         <resources>
             <dropshipusers_setup>
                 <setup>

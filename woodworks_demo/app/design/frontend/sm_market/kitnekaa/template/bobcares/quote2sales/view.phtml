@@ -12,9 +12,9 @@
             <div class="col-lg-6">
                 <?php echo $this->getChildHtml('quote_details') ?>
             </div>
-            <div class="qoute-details-view col-lg-6">
+            <!--<div class="qoute-details-view col-lg-6">
                 <?php
-                $coll = Mage::getModel('quote2sales/request')->getCollection()->getData();
+/*                $coll = Mage::getModel('quote2sales/request')->getCollection()->getData();
                 foreach($coll as $val){
                     $allreq = $val['request_id'];
                     if($request == $allreq){
@@ -26,8 +26,8 @@
                         echo "<strong>Payment Terms: </strong>".$val['paymentterms'];
                     }
                 } 
-                ?>
-            </div>
+                */?>
+            </div>-->
         </div>
     <h2 class="accont-subtitle"><?php echo $this->__('Items Quoted') ?></h2>
     <?php echo $this->getChildHtml('quote_items') ?>

@@ -3,6 +3,30 @@ include_once("Bobcares/Quote2Sales/controllers/IndexController.php");
 
 class Kitnekaa_Quote2SalesCustom_IndexController extends Bobcares_Quote2Sales_IndexController {
 
+
+    public function preDispatch(){
+        parent::preDispatch();
+        if (! $this->_getSession()->authenticate($this)) {
+            $this->setFlag('', 'no-dispatch', true);
+        }
+    }
+
+    public function indexAction() {
+
+        /* If request has quote Id */
+        if ($_GET['rejectquoteid']) {
+            $this->rejectQuote($_GET['rejectquoteid']);
+        }
+
+        Mage::getSingleton('core/session')->addSuccess($this->__('Quote rejected successfully!'));
+        $this->_redirect('*/*/rejectedQuote');
+    }
+
+    public function rejectedQuoteAction()
+    {
+        $this->loadLayout();
+        $this->renderLayout();
+    }
     /**
      * @desc Rejects current quote and redirects to RFQ page
      * @param $quoteId quote Id to reject
@@ -28,12 +52,18 @@ class Kitnekaa_Quote2SalesCustom_IndexController extends Bobcares_Quote2Sales_In
             $requestTable->setData('status', 'Quote Accepted');
             $requestTable->save();
         }
-        Mage::getSingleton('core/session')->addSuccess($this->__('Quote Accepted Successfully!'));
+        Mage::getSingleton('core/session')->addSuccess($this->__('Quote accepted successfully!'));
         $this->_redirect('*/*/acceptedQuote');
 
     }
 
     public function acceptedQuoteAction()
+    {
+        $this->loadLayout();
+        $this->renderLayout();
+    }
+
+    public function viewAction()
     {
         $this->loadLayout();
         $this->renderLayout();

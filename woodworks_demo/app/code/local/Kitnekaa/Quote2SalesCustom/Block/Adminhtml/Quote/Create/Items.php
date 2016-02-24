@@ -16,6 +16,18 @@ class Kitnekaa_Quote2SalesCustom_Block_Adminhtml_Quote_Create_Items extends Bobc
             foreach ($products as $item) {
                 if ($item->getProductId()) {
                     $product = Mage::getModel('catalog/product')->load($item->getProductId());
+                  /* $additionalOptions = array();
+                    if ($additionalOption = $product->getCustomOption('additional_options'))
+	                {
+                        $additionalOptions = (array)
+                        $additionalOptions = (array) unserialize($additionalOption->getValue());
+                    }
+                    $additionalOptions[]=array('label'=>'Demo','value'=>1);
+                    $product->addCustomOption('additional_options', serialize($additionalOptions));*/
+
+                    /*$option = array('udropship_vendor'=>Mage::helper('udquote2sale')->getVendorId());
+                    $request = new Varien_Object();
+                    $request->setData($option);*/
                     $this->getQuote()->addProduct($product,new Varien_Object(array('udropship_vendor'=>Mage::helper('udquote2sale')->getVendorId())));
                 }
 

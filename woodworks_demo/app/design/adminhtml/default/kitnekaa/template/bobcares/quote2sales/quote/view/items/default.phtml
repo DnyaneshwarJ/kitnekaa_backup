@@ -7,6 +7,18 @@
         <div class="item-text">
             <?php echo $this->getColumnHtml($_item, 'name') ?>
         </div>
+            <?php
+            $options =$_item->getProduct()->getTypeInstance(true)->getOrderOptions($_item->getProduct());
+            $options=$options['options'];
+            ?>
+            <?php foreach($options as $option){
+                ?>
+                <div>
+                    <strong><?php echo $this->helper('sales')->__($option['label']) ?>:</strong>
+                    <?php echo $option['value']; ?>
+                </div>
+                <?php
+            } ?>
         <?php if ($this->canDisplayContainer()): ?>
         </div>
         <?php endif ?>

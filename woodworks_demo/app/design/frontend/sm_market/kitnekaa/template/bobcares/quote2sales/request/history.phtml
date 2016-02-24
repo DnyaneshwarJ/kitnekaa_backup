@@ -27,11 +27,14 @@ $isRequestForQuoteformEnabledinConfig = Mage::getStoreConfig('quotes/quotes/enab
 
         <thead>
             <tr>
+                <th class="rfq-pr"><?php echo $this->__('#') ?></th>
                 <th class="rfq-pr"><?php echo $this->__('Date') ?></th>
-                <th class="rfq-co"><?php echo $this->__("Contact") ?></th>
-                <th class="rfq-te"><?php echo $this->__("Terms") ?></th>
-                <th class="rfq-cm"><?php echo $this->__("Comment") ?></th>
+                <th class="rfq-pr"><?php echo $this->__('Request Type') ?></th>
+             <!--   <th class="rfq-co"><?php /*echo $this->__("Contact") */?></th>-->
+               <!-- <th class="rfq-te"><?php /*echo $this->__("Terms") */?></th>-->
+                <!--<th class="rfq-cm"><?php /*echo $this->__("Comment") */?></th>-->
                 <th class="rfq-st"><?php echo $this->__("Status") ?></th>
+                <th class="rfq-st"><?php echo $this->__("Action") ?></th>
             </tr>
         </thead>
         <tbody>
@@ -59,23 +62,25 @@ $isRequestForQuoteformEnabledinConfig = Mage::getStoreConfig('quotes/quotes/enab
                 $requestStatus = $_item["status"];
                 ?>
                 <tr>
+                    <td data-label="#"><?php echo $id ?></td>
                     <td data-label="date"><span class="nobr"><?php echo $this->formatDate($created_at) ?></span></td>
-                    <td data-label="contact"><?php echo $email."</br>".$name ?></td>
+                    <td data-label="#"><?php echo $_item->getRequestType() ?></td>
+                <!--    <td data-label="contact"><?php /*echo $email."</br>".$name */?></td>-->
 
-                    <td data-label="Terms"><?php echo "Delivery Date: " . $deliverydate."</br> Payment Terms: ".$paymentterms."</br> Shipping Method: " . $shippingmethod; ?></td>
-                    <td data-label="Comment"><?php if (strlen($comment) > $comment_length): ?>
-                            <?php echo $comment_visible ?> <a href="#" id="more<?php echo $id ?>-show" class="showLink" onclick="showHide('more<?php echo $id ?>');
+                    <!--<td data-label="Terms"><?php /*echo "Delivery Date: " . $deliverydate."</br> Payment Terms: ".$paymentterms."</br> Shipping Method: " . $shippingmethod; */?></td>-->
+                   <!-- <td data-label="Comment"><?php /*if (strlen($comment) > $comment_length): */?>
+                            <?php /*echo $comment_visible */?> <a href="#" id="more<?php /*echo $id */?>-show" class="showLink" onclick="showHide('more<?php /*echo $id */?>');
                                                 return false;">See more.</a>
-                            <div id="more<?php echo $id ?>" class="more">
-                                <?php echo $comment_invisible ?>
-                                <p><a href="#" id="more<?php echo $id ?>-hide" class="hideLink" onclick="showHide('more<?php echo $id ?>');
+                            <div id="more<?php /*echo $id */?>" class="more">
+                                <?php /*echo $comment_invisible */?>
+                                <p><a href="#" id="more<?php /*echo $id */?>-hide" class="hideLink" onclick="showHide('more<?php /*echo $id */?>');
                                                     return false;">Hide</a></p>
                             </div>
-                        <?php else: ?>
-                            <?php echo $comment; ?>
-                        <?php endif; ?>
-                    </td>
-                    <td  data-label="Status" style="width: 230px;">
+                        <?php /*else: */?>
+                            <?php /*echo $comment; */?>
+                        <?php /*endif; */?>
+                    </td>-->
+                    <td  data-label="Status" style="width:400px;">
                         <?php
                         //Update status of the request in DB
                         $requestModel = Mage::getModel('quote2sales/request');
@@ -86,6 +91,7 @@ $isRequestForQuoteformEnabledinConfig = Mage::getStoreConfig('quotes/quotes/enab
                         if ($requestData == NULL) {
                             echo $requestStatus;
                         } else {
+                            $quote_vendors=Mage::helper('udquote2sale')->getAllQuotesVendors();
                             //Fetch each quote/order data
                             foreach ($requestData as $value) {
                                 $quoteId = $value['quote_id'];
@@ -97,7 +103,9 @@ $isRequestForQuoteformEnabledinConfig = Mage::getStoreConfig('quotes/quotes/enab
                                 //If there is an order then display the status as converted to order and the link to that order
                                 //Else display the status as converted to quote and link to that quote
                                 if ($orderId != NULL && $orderId != 0) {
-                                    echo $status . " : ";
+                                    $order= Mage::getModel('sales/order')->load($orderId);
+                                    $vendor=Mage::helper('udropship')->getVendor($order->getVendorId());
+                                    echo "<span style='font-weight: bold;color: green'>" .$vendor->getVendorName(). "</span> - " .$status . " : ";
                                     ?>
                                     <a href="<?php echo $this->getUrl("sales/order/view", array('order_id' => $orderId)) ?>"><?php echo $this->__('View Order') ?></a>
                                     <br/>
@@ -107,7 +115,8 @@ $isRequestForQuoteformEnabledinConfig = Mage::getStoreConfig('quotes/quotes/enab
                                     $quote = Mage::getModel('sales/quote')->load($quoteId);
                                     $quoteStatus = $quote->getIsActive();
                                     $orderIncrementalId = $quote->getReservedOrderId();
-
+                                    $vendor_name=$quote_vendors[$quoteId]->getVendorName();
+                                    $vendor_id=$quote_vendors[$quoteId]->getVendorId();
                                     //if the quote is converted to an order then the quote status will be 0, so fetch the order details and update the table
                                     //Else set status from DB and also set link to the quote
                                     if ($quoteStatus == 0) {
@@ -122,20 +131,20 @@ $isRequestForQuoteformEnabledinConfig = Mage::getStoreConfig('quotes/quotes/enab
                                             $requestModel = Mage::getModel('quote2sales/request');
                                             $requestModel->addOrderId("Converted To Order", $quoteId, $orderId);
                                             $requestModel->updateRequestStatus("Converted To Order", $id);
-                                            echo 'Converted To Order' . " : ";
+                                            echo "<span style='font-weight: bold;color: green'>" . $vendor_name . "</span> - "."Converted To Order" . " : ";
                                             ?>
                                             <a href="<?php echo $this->getUrl("sales/order/view", array('order_id' => $orderId)) ?>"><?php echo $this->__('View Order') ?></a>
                                             <br/>
                                             <?php
                                         } else {
-                                            echo $status . " : ";
+                                            echo "<span style='font-weight: bold;color: green'>" . $vendor_name . "</span> - ".$status . " : ";
                                             ?>
                                             <a href="<?php echo $this->getUrl("*/quote/view", array('quote_id' => $quoteId)) ?>"><?php echo $this->__('View Quote') ?></a>
                                             <br/>
                                             <?php
                                         }
                                     } else {
-                                        echo $status . " : ";
+                                        echo "<span style='font-weight: bold;color: green'>" . $vendor_name . "</span> - ".$status . " : ";
                                         ?>
                                         <a href="<?php echo $this->getUrl("*/quote/view", array('quote_id' => $quoteId,)) ?>?request=<?php echo $request_idss;?>"><?php echo $this->__('View Quote') ?></a>
                                         <br/>
@@ -147,7 +156,7 @@ $isRequestForQuoteformEnabledinConfig = Mage::getStoreConfig('quotes/quotes/enab
                         ?>
 
                     </td>        
-
+                    <td><a href="<?php echo $this->getUrl("*/index/view", array('request_id' => $request_idss,)) ?>"><?php echo $this->__('View Request') ?></a></td>
                 </tr>
             <?php endforeach; ?>
         </tbody>

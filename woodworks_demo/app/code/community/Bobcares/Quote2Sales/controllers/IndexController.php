@@ -3,7 +3,7 @@
 require_once 'Mage/Customer/controllers/AccountController.php';
 
 class Bobcares_Quote2Sales_IndexController extends Mage_Core_Controller_Front_Action {
-
+    
     const XML_PATH_ENABLED = 'quotes/quotes/enabled';
 
     public function preDispatch() {

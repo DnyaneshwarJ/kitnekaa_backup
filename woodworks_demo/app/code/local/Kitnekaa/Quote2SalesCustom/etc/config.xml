@@ -40,6 +40,7 @@
         <blocks>
             <quote2sales>
                 <rewrite>
+                    <request_request>Kitnekaa_Quote2SalesCustom_Block_Request_Request</request_request>
                     <quote_totals>Kitnekaa_Quote2SalesCustom_Block_Quote_Totals</quote_totals>
                     <adminhtml_request_grid>Kitnekaa_Quote2SalesCustom_Block_Adminhtml_Request_Grid</adminhtml_request_grid>
                     <adminhtml_quote_grid>Kitnekaa_Quote2SalesCustom_Block_Adminhtml_Quote_Grid</adminhtml_quote_grid>
