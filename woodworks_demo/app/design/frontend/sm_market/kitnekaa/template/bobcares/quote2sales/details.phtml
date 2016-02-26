@@ -3,14 +3,18 @@
 $requestId = Mage::getModel('quote2sales/requeststatus')->getCollection()
     ->addFieldToSelect('request_id')
     ->addFieldToFilter('quote_id', $this->getQuoteId())->getFirstItem()->getData('request_id');
-$sellerComment = Mage::getModel('quote2sales/request')->getCollection()
-    ->addFieldToSelect('seller_comment')
-    ->addFieldToFilter('request_id', $requestId)->getFirstItem()->getData('seller_comment');
+$quote_request = Mage::getModel('quote2sales/request')->getCollection()
+    ->addFieldToFilter('request_id', $requestId)->getFirstItem();
+$request_type=$quote_request->getRequestType();
+$sellerComment=$quote_request->getData('seller_comment')
 ?>
 <div class="col2-set order-info-box addresses-list">
+    <?php $_shipping = $_quote->getShippingAddress() ?>
+    <?php if($request_type!='Service')
+    { ?>
     <div class="col-1">
         <h3><?php echo $this->__('Shipping Address') ?></h3>
-        <?php $_shipping = $_quote->getShippingAddress() ?>
+
         <address><?php echo $_shipping->getFirstname() ?> <?php echo $_shipping->getLastname() ?><br/>
             <?php if ($_shipping->getCompany()): echo $_shipping->getCompany(); ?><br/><?php endif; ?>
             <?php
@@ -26,8 +30,10 @@ $sellerComment = Mage::getModel('quote2sales/request')->getCollection()
                 <br/><strong>F</strong> | <?php echo $_shipping->getFax() ?>
             <?php endif; ?>
         </address>
+
     </div>
-    <div class="col-2">
+    <?php } ?>
+    <div class="<?php echo $request_type!='Service'?'col-2':'col-1' ?>">
         <h3><?php echo $this->__('Billing Address') ?></h3>
         <?php $_billing = $_quote->getbillingAddress() ?>
         <address><?php echo $_billing->getFirstname() ?> <?php echo $_billing->getLastname() ?><br/>

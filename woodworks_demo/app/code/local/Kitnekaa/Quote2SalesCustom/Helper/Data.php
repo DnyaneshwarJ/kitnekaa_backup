@@ -55,7 +55,12 @@ class Kitnekaa_Quote2SalesCustom_Helper_Data extends Bobcares_Quote2Sales_Helper
 		return $select->getHtml();
 	}
 
-	public function getAddressesHtmlSelect($name,$value=NULL,$label=NULL)
+	public function getCustomerAddress($_address_id)
+	{
+		$address=Mage::getModel('customer/address')->load($_address_id);
+		return "<option value='".$address->getId()."'>".$address->format('oneline')."</option>";
+	}
+	public function getAddressesHtmlSelect($name,$value=NULL,$label=NULL,$class=NULL)
 	{
 		$session=Mage::getSingleton('customer/session');
 		$customer=$session->getCustomer();
@@ -81,6 +86,10 @@ class Kitnekaa_Quote2SalesCustom_Helper_Data extends Bobcares_Quote2Sales_Helper
 
 			$select = Mage::app()->getLayout()->createBlock('core/html_select');
 			$select->setName($name);
+			if(!is_null($class))
+			{
+				$select->setClass($class);
+			}
 			if(!is_null($value)){$select->setValue($value);}
 			$select->setOptions($options);
 

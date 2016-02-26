@@ -27,7 +27,7 @@ $isRequestForQuoteformEnabledinConfig = Mage::getStoreConfig('quotes/quotes/enab
 
         <thead>
             <tr>
-                <th class="rfq-pr"><?php echo $this->__('#') ?></th>
+                <th class="rfq-pr"><?php echo $this->__('Request #') ?></th>
                 <th class="rfq-pr"><?php echo $this->__('Date') ?></th>
                 <th class="rfq-pr"><?php echo $this->__('Request Type') ?></th>
              <!--   <th class="rfq-co"><?php /*echo $this->__("Contact") */?></th>-->
@@ -115,8 +115,16 @@ $isRequestForQuoteformEnabledinConfig = Mage::getStoreConfig('quotes/quotes/enab
                                     $quote = Mage::getModel('sales/quote')->load($quoteId);
                                     $quoteStatus = $quote->getIsActive();
                                     $orderIncrementalId = $quote->getReservedOrderId();
-                                    $vendor_name=$quote_vendors[$quoteId]->getVendorName();
-                                    $vendor_id=$quote_vendors[$quoteId]->getVendorId();
+                                    if(isset($quote_vendors[$quoteId]))
+                                    {
+                                        $vendor_name=$quote_vendors[$quoteId]->getVendorName();
+                                        $vendor_id=$quote_vendors[$quoteId]->getVendorId();
+                                    }
+                                    else
+                                    {
+                                        $vendor_name="";
+                                        $vendor_id=0;
+                                    }
                                     //if the quote is converted to an order then the quote status will be 0, so fetch the order details and update the table
                                     //Else set status from DB and also set link to the quote
                                     if ($quoteStatus == 0) {

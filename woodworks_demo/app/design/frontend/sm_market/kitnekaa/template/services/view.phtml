@@ -1,4 +1,12 @@
 <?php
+if (!Mage::getSingleton('customer/session')->isLoggedIn()) {
+    $session = Mage::getSingleton("customer/session"); // Store The Current Page Url Where User will be redirected once loggedin
+    $session->setBeforeAuthUrl(Mage::helper("core/url")->getCurrentUrl());
+    $customerLoginURL =Mage::getBaseUrl() . "customer/account/login";
+    Mage::getSingleton('core/session')->addError($this->__('<span style="color:#990000">Please login to access this service!</span>'));
+    Mage::app()->getFrontController()->getResponse()->setRedirect($customerLoginURL)->sendResponse();
+}
+
 global $var_yttheme;
 global $show_rich_snippet;
 $show_rich_snippet = 1;

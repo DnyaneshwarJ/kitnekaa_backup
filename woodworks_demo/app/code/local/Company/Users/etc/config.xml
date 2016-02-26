@@ -9,11 +9,18 @@
     <routers>
       <users>
         <use>standard</use>
-          <args>
-            <module>Company_Users</module>
-            <frontName>users</frontName>
-          </args>
+        <args>
+          <module>Company_Users</module>
+          <frontName>users</frontName>
+        </args>
       </users>
+      <customer>
+        <args>
+          <modules>
+            <company_users_customer_address before="Cminds_MultiUserAccounts_Customer_Address_AddressController">Company_Users_Customer_Address</company_users_customer_address>
+          </modules>
+        </args>
+      </customer>
     </routers>
 		<layout>
 		  <updates>

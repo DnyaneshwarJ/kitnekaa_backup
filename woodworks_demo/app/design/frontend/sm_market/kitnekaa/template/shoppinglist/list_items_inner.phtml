@@ -89,11 +89,25 @@
             </ul>
             <ul class="addsLabel">
                 <li><label><strong>Billing Address : </strong></label></li>
-                <li><?php echo Mage::helper('quote2sales')->getAddressesHtmlSelect('shopp_list_items[billing_address_id][]',$_item->getBillingAddressId()); ?></li>
+                <li>
+
+                    <?php echo Mage::helper('quote2sales')->getAddressesHtmlSelect('request_quote[billing_address_id][]',$_item->getBillingAddressId(),null,'pop-address pop-bill-address-list'.$key); ?>
+                    <span class="" >
+                                        <button class="browse btn-sm btn-success new_address_popup" href="<?php echo Mage::getUrl('users/index/newAddress/class/pop-bill-address-list'.$key) ?>" type="button" >Add New</button>
+                    </span>
+
+                </li>
             </ul>
             <ul class="addsLabel">
                 <li><label><strong>Delivery Location : </strong></label></li>
-                <li><?php echo Mage::helper('quote2sales')->getAddressesHtmlSelect('shopp_list_items[delivery_location][]',$_item->getDeliveryLocation()); ?></li>
+                <li>
+
+                    <?php echo Mage::helper('quote2sales')->getAddressesHtmlSelect('request_quote[delivery_location][]',$_item->getDeliveryLocation(),null,'pop-address pop-ship-address-list'.$key); ?>
+                    <span class="">
+                                        <button class="browse btn-sm btn-success new_address_popup" href="<?php echo Mage::getUrl('users/index/newAddress/class/pop-ship-address-list'.$key) ?>" type="button" >Add New</button>
+                                    </span>
+
+                </li>
             </ul>
              <textarea rows="10" cols="22"  class="shop-comment" name="shopp_list_items[comment][] "><?php echo $_item->getComment() ?></textarea>
         </div>

@@ -19,4 +19,10 @@ class Company_Users_IndexController extends Mage_Core_Controller_Front_Action{
       $this->renderLayout(); 
 	  
     }
+
+    public function newAddressAction()
+    {
+        $this->loadLayout();
+        $this->renderLayout();
+    }
 }

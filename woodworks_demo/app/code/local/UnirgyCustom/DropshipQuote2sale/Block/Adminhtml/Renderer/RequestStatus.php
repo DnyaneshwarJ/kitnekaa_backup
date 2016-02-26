@@ -50,8 +50,17 @@ class UnirgyCustom_DropshipQuote2sale_Block_Adminhtml_Renderer_RequestStatus ext
                         $quote = Mage::getModel('sales/quote')->load($quoteId);
                         $quoteStatus = $quote->getIsActive();
                         $orderIncrementalId = $quote->getReservedOrderId();
-                        $vendor_name=$quote_vendors[$quoteId]->getVendorName();
-                        $vendor_id=$quote_vendors[$quoteId]->getVendorId();
+                        if(isset($quote_vendors[$quoteId]))
+                        {
+                            $vendor_name=$quote_vendors[$quoteId]->getVendorName();
+                            $vendor_id=$quote_vendors[$quoteId]->getVendorId();
+                        }
+                        else
+                        {
+                            $vendor_name="";
+                            $vendor_id=0;
+                        }
+
                         //if the quote is converted to an order then the quote status will be 0, so fetch the order details and update the table
                         //Else set status from DB and also set link to the quote
                         if ($quoteStatus == 0) {
@@ -86,7 +95,11 @@ class UnirgyCustom_DropshipQuote2sale_Block_Adminhtml_Renderer_RequestStatus ext
                     } else {
                         return Mage::helper('quote2sales')->__('NO STATUS ASSIGNED');
                     }
-                    if($status=='Quote Accepted')
+                    if($status=='Quote Accepted' && !Mage::helper('udquote2sale')->isSeller())
+                    {
+                        $requestStatus .="<a href='".Mage::helper('adminhtml')->getUrl("quote2sales/adminhtml_request/sendQuoteEmail", array('quote_id' => $quoteId,'request_id'=>$requestId))."'>Send Checkout email</a><br/><br/>";
+                    }
+                    elseif($status=='Quote Accepted' && Mage::helper('udquote2sale')->getVendorId() == $vendor_id)
                     {
                         $requestStatus .="<a href='".Mage::helper('adminhtml')->getUrl("quote2sales/adminhtml_request/sendQuoteEmail", array('quote_id' => $quoteId,'request_id'=>$requestId))."'>Send Checkout email</a><br/><br/>";
                     }

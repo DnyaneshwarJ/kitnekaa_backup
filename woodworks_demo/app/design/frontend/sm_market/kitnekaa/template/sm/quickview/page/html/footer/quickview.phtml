@@ -33,11 +33,13 @@
 				//_base_url = '<?php echo str_replace("index.php/","",$this->getUrl()) ?>',
 				_base_url = '<?php echo $this->getUrl(); ?>',
 				pathbase = 'quickview/index/view';
+
 			var baseUrl = _base_url + pathbase;
 			if(_item_cls.length > 0){
 				_item_cls.each(function(index, el) {
 					var $this = $(this)
-					if($this.find("a.sm_quickview_handler").length <= 0){
+					if($this.find("a.sm_quickview_handler").length <= 0 ){
+						if($this.hasClass('no-quickview')){  return false; }
 						if( $this.find('a').length > 0 ){
 							var _href =	$($this.find('a')[0]);				
 							var	producturlpath = _href.attr('href').replace(_base_url,"");
@@ -48,7 +50,9 @@
 						}
 					}
 				});
+				a:{}
 			}
+
 		}
 		var _object  = '';
 		$('.sm_quickview_handler').fancybox({
@@ -176,7 +180,8 @@
 				}
 					
 			}
-		})
+		});
+
 		setInterval(function(){ _SmQuickView(); } ,1000);
 	});
 	//]]>

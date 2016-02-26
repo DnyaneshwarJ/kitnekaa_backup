@@ -168,7 +168,7 @@
 							<li class="item col-lg-3 col-md-3 col-sm-6 col-xs-12">
 								<div class="item-inner">
 									<div class="product-image">
-										<a class="pdfDoc" href="javascript:void(0);" data-url="<?php echo $mediaurl.'digital_catalog'. DS . $categoryID. DS. $uploaded_doc;?>" title="<?php echo $pdfFileName; ?>" onclick="return false;">
+										<a class="pdfDoc" href="javascript:void(0);" id="<?php echo preg_replace('/[^A-Za-z0-9\-]/', '',$uploaded_doc) ?>" data-url="<?php echo $mediaurl.'digital_catalog'. DS . $categoryID. DS. $uploaded_doc;?>" title="<?php echo $pdfFileName; ?>" onclick="return false;">
 											<img src="<?php echo $categoryImagePath; ?>">
 										</a>
 									</div>
@@ -199,6 +199,11 @@
 
 		//Get PDF File Count
 		var pdfCount = jQuery('#cnt').val();
+		if(getParameterByName('pdfid')!=null)
+		{
+			var pdf=jQuery("#"+getParameterByName('pdfid'));
+			viewPdf(pdf);
+		}
 
 		//View PDF File
 		if(pdfCount == 1) {
@@ -216,27 +221,15 @@
 		
 		//PDF File Click Function
 		jQuery('.pdfDoc').on('click',function(){
-			//PDf URL
-			var pdfPath = jQuery(this).attr('data-url');
-
-			var myPDF = new PDFObject({
-				url: pdfPath,
-				width: "900px",
-				height: "1100px"
-			}).embed("pdfViewer");
-
-			//Show PDF Viewer
-			jQuery('#pdf').css("display","block");
-
-			//Show Back Button
-			jQuery('#backbtn').css("display","block");
-
-			//Hide PDF File List
-			jQuery('#pdfFiles').css("display","none");
+			var pdf=jQuery(this);
+			changeUrlParam ('pdfid',pdf.attr('id'));
+			viewPdf(pdf);
 		});
 
 		//Back Button Click Function
 		jQuery('#backbtn').on('click',function(){
+			var newURL=removeParam('pdfid',window.location.href);
+			window.history.replaceState('', '', newURL);
 			//Hide PDF Viewer
 			jQuery('#pdf').css("display","none");
 
@@ -247,4 +240,78 @@
 			jQuery('#pdfFiles').css("display","block");
 		});
 	});
+
+	function viewPdf(pdf)
+	{
+		var pdfPath = pdf.attr('data-url');
+		var myPDF = new PDFObject({
+			url: pdfPath,
+			width: "900px",
+			height: "1100px"
+		}).embed("pdfViewer");
+
+		//Show PDF Viewer
+		jQuery('#pdf').css("display","block");
+
+		//Show Back Button
+		jQuery('#backbtn').css("display","block");
+
+		//Hide PDF File List
+		jQuery('#pdfFiles').css("display","none");
+	}
+
+	function getURLParameter(name) {
+		return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.search)||[,""])[1].replace(/\+/g, '%20'))||null;
+	}
+
+	function changeUrlParam (param, value) {
+		var currentURL = window.location.href+'&';
+		var change = new RegExp('('+param+')=(.*)&', 'g');
+		var newURL = currentURL.replace(change, '$1='+value+'&');
+
+		if (getURLParameter(param) !== null){
+			try {
+				window.history.replaceState('', '', newURL.slice(0, - 1) );
+			} catch (e) {
+				console.log(e);
+			}
+		} else {
+			var currURL = window.location.href;
+			if (currURL.indexOf("?") !== -1){
+				window.history.replaceState('', '', currentURL.slice(0, - 1) + '&' + param + '=' + value);
+			} else {
+				window.history.replaceState('', '', currentURL.slice(0, - 1) + '?' + param + '=' + value);
+			}
+		}
+	}
+
+	function getParameterByName(name, url) {
+		if (!url) url = window.location.href;
+		name = name.replace(/[\[\]]/g, "\\$&");
+		var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+			results = regex.exec(url);
+		if (!results) return null;
+		if (!results[2]) return '';
+		return decodeURIComponent(results[2].replace(/\+/g, " "));
+	}
+
+	function removeParam(key, sourceURL) {
+		var rtn = sourceURL.split("?")[0],
+			param,
+			params_arr = [],
+			queryString = (sourceURL.indexOf("?") !== -1) ? sourceURL.split("?")[1] : "";
+		if (queryString !== "") {
+			params_arr = queryString.split("&");
+			for (var i = params_arr.length - 1; i >= 0; i -= 1) {
+				param = params_arr[i].split("=")[0];
+				if (param === key) {
+					params_arr.splice(i, 1);
+				}
+			}
+			if(params_arr!='')
+			rtn = rtn + "?" + params_arr.join("&");
+
+		}
+		return rtn;
+	}
 </script>

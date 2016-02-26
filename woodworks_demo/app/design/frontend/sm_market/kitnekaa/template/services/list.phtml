@@ -48,7 +48,7 @@ $_helper = $this->helper('catalog/output');
                         <li class="item <?php if( ++$_iterator == sizeof($_productCollection) ): ?> last<?php endif; ?>">
                             <div class="item-inner">
                                 <div class="product-list-left col-lg-4 col-md-4 col-sm-5 col-xs-12">
-                                    <div class="product-image">
+                                    <div class="product-image no-quickview">
                                         <a href="<?php echo $_product->getProductUrl() ?>" class="product-img" title="<?php echo $this->stripTags($this->getImageLabel($_product, 'small_image'), null, true) ?>">
                                             <img id="product-collection-image-<?php echo $_product->getId(); ?>"
                                                  src="<?php echo $this->helper('catalog/image')->init($_product, 'small_image')->resize(300,300); ?>"
@@ -207,7 +207,7 @@ $_helper = $this->helper('catalog/output');
                 <div class="item col-lg-4 col-md-4 col-sm-6 col-xs-12">
                     <div class="item-inner">
 
-                        <div class="product-image">
+                        <div class="product-image no-quickview">
                             <a href="<?php echo $_product->getProductUrl() ?>" title="<?php echo $this->stripTags($this->getImageLabel($_product, 'small_image'), null, true) ?>" class="product-image">
                                 <img id="product-collection-image-<?php echo $_product->getId(); ?>"
                                      src="<?php echo $this->helper('catalog/image')->init($_product, 'small_image')->resize(300,300); ?>"

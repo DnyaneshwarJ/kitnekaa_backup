@@ -124,6 +124,22 @@ array_filter($allow_countries[0]);
             utilsScript: "<?php echo Mage::getBaseUrl('skin').'/frontend/sm_market/kitnekaa/libphonenumber/build/utils.js' ?>"
         });
     });
+
+    //Address Popup
+       jQuery(function () {
+           jQuery('.new_address_popup').fancybox({
+               'width': '60%',
+               'fitToView' : false,
+               'autoScale': false,
+               'transitionIn': 'none',
+               'transitionOut': 'none',
+               'type': 'iframe',
+               'autoSize': false,
+               helpers   : {
+                   overlay : {closeClick: false} // prevents closing when clicking OUTSIDE fancybox
+               }
+           });
+       });
 </script>
 
 

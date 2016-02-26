@@ -34,15 +34,15 @@ if ($zopimoptions["code"] != "" && $zopimoptions["code"] != "zopim") {
       }
    }
    */
-   
+
    echo '
       <script type="text/javascript">';
    if (count($theoptions) > 0) {
       echo '$zopim.livechat.set({';
-      echo implode(", ", $theoptions);      
+      echo implode(", ", $theoptions);
       echo "      });";
    }
-  
+
    if ($zopimoptions['position'] != "") {
       echo "\n\$zopim.livechat.button.setPosition('".$zopimoptions['position']."');";
    }
@@ -78,4 +78,4 @@ if ($zopimoptions["code"] != "" && $zopimoptions["code"] != "zopim") {
 }
 }
 
-?> 
+?>

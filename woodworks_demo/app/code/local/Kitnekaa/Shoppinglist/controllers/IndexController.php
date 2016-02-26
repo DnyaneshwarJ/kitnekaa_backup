@@ -307,25 +307,22 @@ class Kitnekaa_Shoppinglist_IndexController extends Mage_Core_Controller_Front_A
 
     public function _setMultiQuote()
     {
-        $request_quote_products =Mage::app()->getRequest()->getPost('shopp_list_items');
-        if(Mage::app()->getRequest()->getPost('request_quote'))
-        {
-            $request_quote =Mage::app()->getRequest()->getPost('request_quote');
-        }
-        else
-        {
-            $request_quote = array('deliverylocation'=> $request_quote_products['delivery_location'][0],
-                'billing_address_id'=>$request_quote_products['billing_address_id'][0]);
-        }
+        $data = Mage::app()->getRequest()->getPost();
+        $data['upload_files']=TRUE;
+
 
         try {
-            $id = Mage::helper('quote2sales')->setQuoteRequest($request_quote);
+            $request_model=Mage::getModel('quote2sales/request');
+            $request_model->setData($data)->save();
+            $request_model->sendEmail();
+            $result["msg"]=Mage::helper('quote2sales')->__('Your request was submitted and will be responded to as soon as possible. Thank you for contacting us.');
+            /*$id = Mage::helper('quote2sales')->setQuoteRequest($request_quote);
             try {
                 Mage::helper('quote2sales')->setQuoteRequestProducts($request_quote_products, $id);
-                $result["msg"]=Mage::helper('quote2sales')->__('Your request was submitted and will be responded to as soon as possible. Thank you for contacting us.');
+
             } catch (Exception $e) {
                 echo $e->getMessage();
-            }
+            }*/
         } catch (Mage_Core_Exception $e) {
 
             $result["msg"]=Mage::helper('quote2sales')->__('Unable to submit your request. Please, try again later');

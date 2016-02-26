@@ -3,6 +3,7 @@
     <input type="hidden" class="sku-code" value="shoppinglist/index/saveNonExistItem" id="non_exist_url"/>
     <div class="item-fields shopp_no_product">
         <form action="<?php echo Mage::getBaseUrl() . "shoppinglist/index/saveNonExistItem" ?>" id="form_nonexist_item" method="post" name="form_nonexist_item">
+            <input type="hidden" name="request_quote[request_type]" value="Service"/>
             <div class="left-field">
                 <input type="hidden" class="sku-code"
                        name="shopp_list_items[list_id][]" id="non_exist_item_list_id"/>
@@ -35,11 +36,17 @@
                     </div>
                 </div>
                 <div class="fieldrow">
-                    <div class="inputfiled iteminput2">
-                        <?php echo Mage::helper('quote2sales')->getAddressesHtmlSelect('request_quote[deliverylocation]',null,'Select Billing Address'); ?>
+                    <div class="inputfiled iteminput2 input-group">
+                        <?php echo Mage::helper('quote2sales')->getAddressesHtmlSelect('request_quote[delivery_location][]',null,'Select Billing Address','pop-bill-address1 pop-address'); ?>
+                        <span class="input-group-btn">
+                                        <button class="browse btn btn-success new_address_popup" href="<?php echo Mage::getUrl('users/index/newAddress/class/pop-bill-address1') ?>" type="button" style="height: 40px;">Add New</button>
+                                    </span>
                     </div>
-                    <div class="inputfiled iteminput2">
-                        <?php echo Mage::helper('quote2sales')->getAddressesHtmlSelect('request_quote[billing_address_id]',null,'Select Delivery Location'); ?>
+                    <div class="inputfiled iteminput2 input-group">
+                        <?php echo Mage::helper('quote2sales')->getAddressesHtmlSelect('request_quote[billing_address_id][]',null,'Select Delivery Location','pop-ship-address1 pop-address'); ?>
+                        <span class="input-group-btn">
+                                        <button class="browse btn btn-success new_address_popup" href="<?php echo Mage::getUrl('users/index/newAddress/class/pop-ship-address1') ?>" type="button" style="height: 40px;">Add New</button>
+                                    </span>
                     </div>
                 </div>
             </div>

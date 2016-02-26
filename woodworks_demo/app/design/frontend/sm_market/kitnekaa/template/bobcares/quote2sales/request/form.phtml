@@ -31,6 +31,7 @@ $min = $_product->getMinimumOrderQuantity(); ?>
         <div class="clearfix">
             <form action="<?php echo Mage::getUrl('quote2sales/index/post'); ?>" id="contactForm" method="post"
                   enctype="multipart/form-data">
+                <input type="hidden" name="request_quote[request_type]" value="Product"/>
                 <div class="col-sm-12 pad0">
                     <div class="fieldset">
                         <!--<h2 class="legend"><?php /*echo Mage::helper('quote2sales')->__('Contact Information') */ ?></h2>-->
@@ -49,7 +50,7 @@ $min = $_product->getMinimumOrderQuantity(); ?>
                                 <div class="input-box inputfiled">
                                     <input name="shopp_list_items[qty][]" id="qty"
                                            title="<?php echo Mage::helper('quote2sales')->__('Quantity') ?>"
-                                           value="<?php echo $min; ?>" class="required-entry" type="text"
+                                           value="<?php echo $min; ?>" class="required-entry validate-number" type="text"
                                            maxlength="15"/>
                                 </div>
                             </li>
@@ -61,7 +62,7 @@ $min = $_product->getMinimumOrderQuantity(); ?>
                                 <div class="input-box inputfiled">
                                     <input name="shopp_list_items[target_price][]" id="target_price"
                                            title="<?php echo Mage::helper('quote2sales')->__('Target Price') ?>"
-                                           value="" class=" required-entry" type="text" maxlength="15"/>
+                                           value="" class="required-entry validate-number" type="text" maxlength="15"/>
                                 </div>
                             </li>
 
@@ -85,16 +86,22 @@ $min = $_product->getMinimumOrderQuantity(); ?>
                                 <label
                                     for="telephone"><?php echo Mage::helper('quote2sales')->__('Billing Address') ?></label>
 
-                                <div class="input-box inputfiled">
-                                    <?php echo Mage::helper('quote2sales')->getAddressesHtmlSelect('request_quote[billing_address_id][]'); ?>
+                                <div class="input-box inputfiled input-group">
+                                    <?php echo Mage::helper('quote2sales')->getAddressesHtmlSelect('request_quote[billing_address_id][]',null,null,'pop-bill-address pop-address'); ?>
+                                    <span class="input-group-btn">
+                                        <button class="browse btn btn-success new_address_popup" href="<?php echo Mage::getUrl('users/index/newAddress/class/pop-bill-address') ?>" type="button" style="height: 40px;">Add New</button>
+                                    </span>
                                 </div>
                             </li>
                             <li class="row-part">
                                 <label
                                     for="telephone"><?php echo Mage::helper('quote2sales')->__('Delivery Location') ?></label>
 
-                                <div class="input-box inputfiled">
-                                    <?php echo Mage::helper('quote2sales')->getAddressesHtmlSelect('request_quote[delivery_location][]'); ?>
+                                <div class="input-box inputfiled input-group">
+                                    <?php echo Mage::helper('quote2sales')->getAddressesHtmlSelect('request_quote[delivery_location][]',null,null,'pop-ship-address pop-address'); ?>
+                                    <span class="input-group-btn">
+                                        <button class="browse btn btn-success new_address_popup" href="<?php echo Mage::getUrl('users/index/newAddress/class/pop-ship-address') ?>" type="button" style="height: 40px;">Add New</button>
+                                    </span>
                                 </div>
                             </li>
                             <!-- If the product wise quote request is generated -->

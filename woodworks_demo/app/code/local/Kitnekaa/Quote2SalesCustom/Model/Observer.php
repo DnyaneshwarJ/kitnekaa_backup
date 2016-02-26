@@ -34,7 +34,7 @@ class Kitnekaa_Quote2SalesCustom_Model_Observer extends Mage_Core_Model_Abstract
                     }
                 }
 
-                if (!Zend_Validate::is(trim($request_quote['billing_address_id'][0]), 'NotEmpty')) {
+              /*  if (!Zend_Validate::is(trim($request_quote['billing_address_id'][0]), 'NotEmpty')) {
                     $msg = "Please select Billing Address!";
                     $error = TRUE;
                     goto error;
@@ -44,7 +44,7 @@ class Kitnekaa_Quote2SalesCustom_Model_Observer extends Mage_Core_Model_Abstract
                     $msg = "Please select Delivery Location!";
                     $error = TRUE;
                     goto error;
-                }
+                }*/
 
                 error:
                 {

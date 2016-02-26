@@ -40,7 +40,7 @@ class Bobcares_Quote2Sales_Block_Adminhtml_Quote_View extends Mage_Adminhtml_Blo
             ));
         }
 
-        if ($this->_isAllowedAction('edit')) {
+      /*  if ($this->_isAllowedAction('edit')) {
         	$onclickJs = 'deleteConfirm(\''
         			. Mage::helper('quote2sales')->__('Are you sure? This quote will be canceled and a new one will be created instead')
         			. '\', \'' . $this->getEditUrl() . '\');';
@@ -48,14 +48,14 @@ class Bobcares_Quote2Sales_Block_Adminhtml_Quote_View extends Mage_Adminhtml_Blo
         			'label'    => Mage::helper('quote2sales')->__('Edit'),
         			'onclick'  => $onclickJs,
         	));
-        }
-        if ($this->_isAllowedAction('duplicate')) {
+        }*/
+      /*  if ($this->_isAllowedAction('duplicate')) {
         	
         	$this->_addButton('quote_duplicate', array(
         			'label'    => Mage::helper('quote2sales')->__('Reuse Quote'),
         			'onclick'  => 'setLocation(\'' . $this->getDuplicateUrl() . '\')',
         	));
-        }
+        }*/
 	}
   
 	public function getHeaderText()

@@ -106,7 +106,9 @@ else {
 
                             <?php echo $this->getChildHtml('content'); ?>
 
-                            <?php if (Mage::getSingleton('customer/session')->isLoggedIn()) { ?>
+                            <?php
+                            $a=false;
+                            if (Mage::getSingleton('customer/session')->isLoggedIn() && $a) { ?>
                                 <div class="login-myaccount tab-section">
                                     <?php if (Mage::getSingleton('customer/session')->isLoggedIn()) { ?>
                                         <div class="banner-policy">

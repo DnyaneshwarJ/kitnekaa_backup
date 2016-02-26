@@ -75,7 +75,15 @@ class Kitnekaa_Quote2SalesCustom_Model_Request extends Bobcares_Quote2Sales_Mode
             $item_options=array("labels"=>$item_option_labels,"values"=>$item_option_values);
             $upload_files = $data['upload_files'];
             $request_quote = $data['request_quote'];
-            $request_type=$request_quote['request_type'];
+            if(isset($request_quote['request_type']) && $request_quote['request_type']=='Service')
+            {
+                $request_type=$request_quote['request_type'];
+            }
+            else
+            {
+                $request_type='Product';
+            }
+
             Mage::dispatchEvent('save_quote_request_before',array('quote_request'=>$request_quote,'quote_items'=>$request_quote_products));
             if($request_quote['delivery_location'][0])
             {
@@ -106,6 +114,7 @@ class Kitnekaa_Quote2SalesCustom_Model_Request extends Bobcares_Quote2Sales_Mode
         {
             parent::save();
         }
+        return;
     }
 
 
@@ -187,6 +196,8 @@ class Kitnekaa_Quote2SalesCustom_Model_Request extends Bobcares_Quote2Sales_Mode
         {
             $this->mapShoppingFilesWithQuoteFiles($shopp_list_attachments);
         }
+
+        return;
     }
 
     public function mapShoppingFilesWithQuoteFiles($shopp_list_attachments)
@@ -213,6 +224,7 @@ class Kitnekaa_Quote2SalesCustom_Model_Request extends Bobcares_Quote2Sales_Mode
                 }
             }
         }
+        return;
     }
     public  function getQuoteAttachmentUrl()
     {
@@ -261,6 +273,8 @@ class Kitnekaa_Quote2SalesCustom_Model_Request extends Bobcares_Quote2Sales_Mode
             throw new Exception();
         }
         $translate->setTranslateInline(true);
+
+        return;
     }
 
     public function setBccEmails($bcc_emails)

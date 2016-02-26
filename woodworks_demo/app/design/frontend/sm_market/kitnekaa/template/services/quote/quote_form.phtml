@@ -16,7 +16,7 @@ $_product = Mage::registry('this_product');
 $min = $_product->getMinimumOrderQuantity(); ?>
 
 <div id="messages_product_view"><?php echo $this->getMessagesBlock()->getGroupedHtml() ?></div>
-<div class="item-fields quote2sales_page">
+<div class="item-fields quote2sales_page ">
     <div class="page-title">
 
         <!-- If the page displayed after rejecting a quote -->
@@ -32,6 +32,7 @@ $min = $_product->getMinimumOrderQuantity(); ?>
             <form action="<?php echo Mage::getUrl('quote2sales/index/post'); ?>" id="contactForm" method="post"
                   enctype="multipart/form-data">
                 <input type="hidden" name="request_quote[request_type]" value="Service"/>
+
                 <div class="col-sm-12 pad0">
                     <div class="fieldset">
                         <!--<h2 class="legend"><?php /*echo Mage::helper('quote2sales')->__('Contact Information') */ ?></h2>-->
@@ -47,7 +48,7 @@ $min = $_product->getMinimumOrderQuantity(); ?>
                             <?php $attributeGroupCollection = Mage::getResourceModel('eav/entity_attribute_group_collection');
 
                             foreach ($attributeGroupCollection as $attributeGroup) {
-                                if($attributeGroup->getAttributeGroupName()=='Service'){
+                                if ($attributeGroup->getAttributeGroupName() == 'Service') {
                                     /*echo "\n\nGroup Name: " . $attributeGroup->getAttributeGroupName();
                                     echo "\nGroup ID: " . $attributeGroup->getAttributeGroupId();*/
 
@@ -55,24 +56,27 @@ $min = $_product->getMinimumOrderQuantity(); ?>
                                         ->setAttributeGroupFilter($attributeGroup->getAttributeGroupId());
 
                                     foreach ($attributeCollection as $attribute) {
-                                        $validation_classes=$attribute->getIsRequired()?'required-entry':'';
-                                        $validation_classes.=" ".$attribute->getFrontendClass()
+                                        $validation_classes = $attribute->getIsRequired() ? 'required-entry' : '';
+                                        $validation_classes .= " " . $attribute->getFrontendClass()
                                         ?>
                                         <li class="row-part">
                                             <label for="qty"
                                                    class="required">
-                                                <?php if($attribute->getIsRequired()){?>
+                                                <?php if ($attribute->getIsRequired()) { ?>
                                                     <em>*</em>
                                                 <?php } ?>
                                                 <?php echo Mage::helper('quote2sales')->__($attribute->getFrontendLabel()) ?>
                                             </label>
 
                                             <div class="input-box inputfiled">
-                                                <input type="hidden" name="item_option_labels[<?php echo $_product->getId(); ?>][<?php echo $attribute->getName() ?>]" value="<?php echo Mage::helper('quote2sales')->__($attribute->getFrontendLabel()) ?>"/>
-                                                <?php if($attribute->getFrontendInput()=='text'){ ?>
-                                                    <input name="item_option_values[<?php echo $_product->getId(); ?>][<?php echo $attribute->getName() ?>]"
-                                                           title="<?php echo Mage::helper('quote2sales')->__($attribute->getFrontendLabel()) ?>"
-                                                           value="" class="<?php echo $validation_classes ?>" type="text"/>
+                                                <input type="hidden"
+                                                       name="item_option_labels[<?php echo $_product->getId(); ?>][<?php echo $attribute->getName() ?>]"
+                                                       value="<?php echo Mage::helper('quote2sales')->__($attribute->getFrontendLabel()) ?>"/>
+                                                <?php if ($attribute->getFrontendInput() == 'text') { ?>
+                                                    <input
+                                                        name="item_option_values[<?php echo $_product->getId(); ?>][<?php echo $attribute->getName() ?>]"
+                                                        title="<?php echo Mage::helper('quote2sales')->__($attribute->getFrontendLabel()) ?>"
+                                                        value="" class="<?php echo $validation_classes ?>" type="text"/>
                                                 <?php } ?>
                                             </div>
                                         </li>
@@ -90,7 +94,8 @@ $min = $_product->getMinimumOrderQuantity(); ?>
                                 <div class="input-box inputfiled">
                                     <input name="shopp_list_items[qty][]" id="qty"
                                            title="<?php echo Mage::helper('quote2sales')->__('Quantity') ?>"
-                                           value="<?php echo $min; ?>" class="required-entry" type="text"
+                                           value="<?php echo $min; ?>" class="required-entry validate-number"
+                                           type="text"
                                            maxlength="15"/>
                                 </div>
                             </li>
@@ -102,7 +107,7 @@ $min = $_product->getMinimumOrderQuantity(); ?>
                                 <div class="input-box inputfiled">
                                     <input name="shopp_list_items[target_price][]" id="target_price"
                                            title="<?php echo Mage::helper('quote2sales')->__('Target Price') ?>"
-                                           value="" class=" required-entry" type="text" maxlength="15"/>
+                                           value="" class=" required-entry validate-number" type="text" maxlength="15"/>
                                 </div>
                             </li>
 
@@ -126,16 +131,22 @@ $min = $_product->getMinimumOrderQuantity(); ?>
                                 <label
                                     for="telephone"><?php echo Mage::helper('quote2sales')->__('Billing Address') ?></label>
 
-                                <div class="input-box inputfiled">
-                                    <?php echo Mage::helper('quote2sales')->getAddressesHtmlSelect('request_quote[billing_address_id][]'); ?>
+                                <div class="input-box inputfiled input-group">
+                                    <?php echo Mage::helper('quote2sales')->getAddressesHtmlSelect('request_quote[billing_address_id][]',null,null,'pop-bill-address pop-address'); ?>
+                                    <span class="input-group-btn">
+                                        <button class="browse btn btn-success new_address_popup" href="<?php echo Mage::getUrl('users/index/newAddress/class/pop-bill-address') ?>" type="button" style="height: 40px;">Add New</button>
+                                    </span>
                                 </div>
                             </li>
                             <li class="row-part">
                                 <label
                                     for="telephone"><?php echo Mage::helper('quote2sales')->__('Pickup Location') ?></label>
 
-                                <div class="input-box inputfiled">
-                                    <?php echo Mage::helper('quote2sales')->getAddressesHtmlSelect('request_quote[delivery_location][]'); ?>
+                                <div class="input-box inputfiled input-group">
+                                    <?php echo Mage::helper('quote2sales')->getAddressesHtmlSelect('request_quote[delivery_location][]',null,null,'pop-ship-address pop-address'); ?>
+                                    <span class="input-group-btn">
+                                        <button class="browse btn btn-success new_address_popup" href="<?php echo Mage::getUrl('users/index/newAddress/class/pop-ship-address') ?>" type="button" style="height: 40px;">Add New</button>
+                                    </span>
                                 </div>
                             </li>
                             <!-- If the product wise quote request is generated -->
@@ -202,7 +213,8 @@ $min = $_product->getMinimumOrderQuantity(); ?>
         return Validation.get('IsEmpty').test(v) || (!isNaN(parseNumber(v)) && !/^\s+$/.test(parseNumber(v)));
     });
 
-    jQuery(window).load(function() {
-        jQuery('html, body').animate({ scrollTop: jQuery('#quote_form').offset().top-100 }, 2000);
+    jQuery(window).load(function () {
+        jQuery('html, body').animate({scrollTop: jQuery('#quote_form').offset().top - 100}, 2000);
+
     });
 </script>

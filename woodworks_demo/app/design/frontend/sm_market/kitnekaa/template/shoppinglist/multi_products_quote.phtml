@@ -1,15 +1,16 @@
 <div>
     <span>Mention the addresses for selected products quote! </span>
     <form method="post" class="shopp_form_items" >
+        <input type="hidden" name="request_quote[request_type]" value="Product"/>
         <label for="billing_address_id"><?php echo Mage::helper('quote2sales')->__('Billing Address') ?></label>
-        <div class="input-box">
-            <?php echo Mage::helper('quote2sales')->getAddressesHtmlSelect('request_quote[billing_address_id]'); ?>
+        <div class="input-box input-group">
+            <?php echo Mage::helper('quote2sales')->getAddressesHtmlSelect('request_quote[billing_address_id][]'); ?>
         </div>
 
 
         <label for="deliverylocation"><?php echo Mage::helper('quote2sales')->__('Delivery Location') ?></label>
-        <div class="input-box">
-            <?php echo Mage::helper('quote2sales')->getAddressesHtmlSelect('request_quote[deliverylocation]'); ?>
+        <div class="input-box input-group">
+            <?php echo Mage::helper('quote2sales')->getAddressesHtmlSelect('request_quote[delivery_location][]'); ?>
         </div>
         <button type="button" onclick="submitMultiQuote()" class="shop-quote kit_popup_btn">Submit Quote Request</button>
     </form>
